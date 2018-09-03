@@ -349,6 +349,8 @@
 
 import '../../assets/css/App.css';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
+
 import '../../assets/styles/main.css'
 // import '../assets/styles/main.scss'
 class App extends React.Component {
@@ -357,6 +359,7 @@ class App extends React.Component {
       <div>
         <h1>Hello, Electron!</h1>
         <p>this is first electron project of innow8Apps</p>
+        <Link to='/secondPage'>Roster</Link>
       </div>
     );
   }
