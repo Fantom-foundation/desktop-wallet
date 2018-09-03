@@ -1,29 +1,55 @@
-# Modern and Minimal Electron + React Starter Kit
-_Electron, React, Webpack -- Modern and up-to-date, with a handful of quality of life features included_
+# create-react-app React Project with Node Express Backend
 
-I made this starter kit as most boilerplates were either out-of-date, heavy handed, or enforced a structure on me that I just didnt like.
-With a very select assortment of modules, this starter kit is designed to get you up and running very quickly, and to let you easily drop in your own structure and tools on top of it.
-The basic structure of `src/` is intentionally minimal to make it easier to allow you to put your own twist on how you like things laid out.
+> Example on using create-react-app with a Node Express Backend
 
-Production builds babel-minify is used, and ES2015/ES6 transpilation is provided -- As modern node and chromium versions support 99%+ of the ES6 feature set, I feel those steps are unnecessary.
+## Usage
 
-If you like this project, check out [enhanced-electron-react-boilerplate](https://github.com/pbarbiero/enhanced-electron-react-boilerplate) which is this project with my take on additional modules (photon, redux, less, css modules etc) and my personal project structure (based on the redux ducks proposal) I suggest you give it a look if you want less of a minimalistic take on my starter kit.
+Install [nodemon](https://github.com/remy/nodemon) globally
 
-### To get started:
-* Run `npm install`
+```
+npm i nodemon -g
+```
 
-##### Development
-* Run `npm run dev` to start webpack-dev-server. Electron will launch automatically after compilation.
+Install server and client dependencies
 
-##### Production
-_You have two options, an automatic build or two manual steps_
+```
+yarn
+cd client
+yarn
+```
 
-###### One Shot
-* Run `npm run package` to have webpack compile your application into `dist/bundle.js` and `dist/index.html`, and then an electron-packager run will be triggered for the current platform/arch, outputting to `builds/`
+To start the server and client at the same time (from the root of the project)
 
-###### Manual
-_Recommendation: Update the "postpackage" script call in package.json to specify parameters as you choose and use the `npm run package` command instead of running these steps manually_
-* Run `npm run build` to have webpack compile and output your bundle to `dist/bundle.js`
-* Then you can call electron-packager directly with any commands you choose
+```
+yarn dev
+```
 
-If you want to test the production build (In case you think Babili might be breaking something) after running `npm run build` you can then call `npm run prod`. This will cause electron to load off of the `dist/` build instead of looking for the webpack-dev-server instance. Electron will launch automatically after compilation.
+Running the production build on localhost. This will create a production build, then Node will serve the app on http://localhost:5000
+
+```
+NODE_ENV=production yarn dev:server
+```
+
+## How this works
+
+The key to use an Express backend with a project created with `create-react-app` is on using a **proxy**. We have a _proxy_ entry in `client/package.json`
+
+```
+"proxy": "http://localhost:5000/"
+```
+
+This tells Webpack development server to proxy our API requests to our API server, given that our Express server is running on **localhost:5000**
+
+## Tutorial
+
+Visit my [blog post](https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0) entry for a detailed step-by-step guide.
+
+[Deployed app](https://cra-express.herokuapp.com/)
+
+## Giving Back
+
+If you would like to support my work and the time I put in making tutorials, you can click the image below to get me a coffee. I would really appreciate it (but is not required).
+
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/black_img.png)](https://www.buymeacoffee.com/esausilva)
+
+-Esau
