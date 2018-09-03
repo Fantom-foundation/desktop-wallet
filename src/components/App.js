@@ -1,6 +1,7 @@
 import '../assets/css/App.css';
 import React, { Component } from 'react';
 import '../assets/styles/main.css'
+// import '../assets/styles/main.scss'
 class App extends React.Component {
   render() {
     return (
