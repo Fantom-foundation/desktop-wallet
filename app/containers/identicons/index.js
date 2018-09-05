@@ -8,7 +8,6 @@ import refreshIcon from '../../images/icons/refresh-icon.svg';
 
 export default class DisplayIdenticons extends React.Component {
   render() {
-      console.log('DisplayIdenticons called : ', this.props);
     let items = [];
     for(let i = 0; i < 6; i++) {
       const item = <IdenticonsIcon {...this.props} index={i} />;
@@ -21,7 +20,7 @@ export default class DisplayIdenticons extends React.Component {
             {items}
           </ul>
         </Col>
-        <Col className="identicon-refresh"> <img aria-hidden src={refreshIcon} alt="Refresh" /> </Col>
+        <Col className="identicon-refresh"> <img aria-hidden src={refreshIcon} alt="Refresh" onClick={() => this.props.refreshData()}/> </Col>
       </Row>
     );
   }

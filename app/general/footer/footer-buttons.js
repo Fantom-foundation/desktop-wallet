@@ -31,23 +31,45 @@ import arrowRight from '../../images/icons/arrow-right.svg';
 import cross from '../../images/icons/cross.svg';
 
 export default class FooterButtons extends React.Component {
+
   onNext(event, isActive){
-    if(this.props.onNext && isActive){
-      this.props.onNext();
+    const { onNext } = this.props;
+    if(onNext && isActive){
+      onNext();
     }
   }
+
+  onBack(event, isActive){
+    const { onBack } = this.props;
+    if(onBack &&  isActive){
+      onBack();
+    }
+  }
+  
+  onClose(event, isActive){
+    const { onClose } = this.props;
+    if(onClose &&  isActive){
+      onClose();
+    }
+  }
+
  render() {
-   console.log('pppp', this.props);
    return (
      <ul className="form-footer-buttons">
        <li>
-         <span style={{ backgroundImage: `url(${cross})`, backgroundRepeat: 'no-repeat' }}>CANCEL</span>
+         <span className={`${this.props.isCloseActive ? '' : 'disabled'}`}
+          style={{ backgroundImage: `url(${cross})`, backgroundRepeat: 'no-repeat' }}
+          onClick={(event) => this.onClose(event, this.props.isCloseActive)}>Close</span>
        </li>
        <li>
-         <span style={{ backgroundImage: `url(${arrowLeft})`, backgroundRepeat: 'no-repeat' }}>BACK</span>
+         <span className={`${this.props.isBackActive ? '' : 'disabled'}`}
+          style={{ backgroundImage: `url(${arrowLeft})`, backgroundRepeat: 'no-repeat' }}
+          onClick={(event) => this.onBack(event, this.props.isBackActive)}>Back</span>
        </li>
        <li>
-         <span aria-hidden className={`${this.props.isActive ? '' : 'disabled'}`} style={{ backgroundImage: `url(${arrowRight})`, backgroundRepeat: 'no-repeat' }} onClick={(event) => this.onNext(event, this.props.isActive)}>NEXT</span>
+         <span aria-hidden className={`${this.props.isNextActive ? '' : 'disabled'}`}
+          style={{ backgroundImage: `url(${arrowRight})`, backgroundRepeat: 'no-repeat' }}
+           onClick={(event) => this.onNext(event, this.props.isNextActive)}>Next</span>
        </li>
      </ul>
 

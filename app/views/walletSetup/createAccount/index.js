@@ -17,7 +17,7 @@ class CreateAccount extends Component {
 
     constructor(props) {
         super(props);
-        // this.state = { mnemonicWords: [], loading: true };
+        this.state = { mnemonicWords: [], loading: true, date: new Date() };
     };
 
       onNext(){
@@ -25,13 +25,10 @@ class CreateAccount extends Component {
             this.props.toggle('2');
         }
       }
-      getRadioIconData(){
-          if(this.props.getRadioIconData){
-              this.props.getRadioIconData();
-          }
-      }
+      
       
     render() {
+        console.log('1 list of icons  :: ', this.state)
         return (
             <Row>
                 <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
@@ -45,12 +42,7 @@ class CreateAccount extends Component {
                                         <label className="form-element-label" for="AccountName">Account Name</label>
                                         <small className="form-element-hint">You need to specify a valid account name</small>
                                     </div>
-                                    <div className="form-element form-input">
-                                        <input id="PasswordHint" className="form-element-field" placeholder="(optional) a hint to help with remembering the password " type="text" required="" />
-                                        <div className="form-element-bar"></div>
-                                        <label className="form-element-label" for="PasswordHint">Password hint</label>
-                                        <small className="form-element-hint">You need to specify a valid account name</small>
-                                    </div>
+                                    
 
                                     <Row>
                                         <Col sm={6}>
@@ -65,15 +57,19 @@ class CreateAccount extends Component {
                                             <div className="form-element form-input">
                                                 <input id="Re-enterPassword" className="form-element-field" placeholder=" " type="text" required="" />
                                                 <div className="form-element-bar"></div>
-                                                <label className="form-element-label" for="Re-enterPassword">password(repeat)</label>
+                                                <label className="form-element-label" for="Re-enterPassword">Re-enter Password</label>
                                                 <small className="form-element-hint">You need to specify a valid account name</small>
                                             </div>
                                         </Col>
                                     </Row>
-                                   
+                                    <div className="form-element form-input">
+                                        <input id="PasswordHint" className="form-element-field" placeholder="(optional) a hint to remebering the password " type="text" required="" />
+                                        <div className="form-element-bar"></div>
+                                        <label className="form-element-label" for="PasswordHint">Password hint</label>
+                                        <small className="form-element-hint">You need to specify a valid account name</small>
+                                    </div>
                                     <Row className="mt-3">
                                         <Col>
-                                        <p className="text text-gray" >password strength</p>
                                             <Progress type="theme-red-Yellow-green" value={40} />
                                         </Col>
                                     </Row>
@@ -85,12 +81,16 @@ class CreateAccount extends Component {
                                 </Form>
                             </Col>
                         </Row>
-                        <DisplayIdenticons date={new Date()} identiconsId={1} getRadioIconData={this.props.getRadioIconData}/>
-                        {/* <DisplayIdenticons date={this.props.date} 
+                        <DisplayIdenticons 
+                        date={this.props.date} 
                         identiconsId={this.props.identiconsId} 
-                        refreshData={this.props.refreshData} getRadioData={this.props.getRadioData} /> */}
+                        refreshData={this.props.refreshData}
+                        getRadioIconData={this.props.getRadioIconData} />
 
-                        <FooterButtons onNext={this.onNext.bind(this)} isActive={true}/>
+                        <FooterButtons 
+                        onNext={this.onNext.bind(this)} 
+                        isNextActive={true}
+                       />
                     </div>
                     <AccountFooter />
                 </Col>

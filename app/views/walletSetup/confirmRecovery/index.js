@@ -9,6 +9,30 @@ import FooterButtons from '../../../general/footer/footer-buttons';
 
 
 class ConfirmRecovery extends Component {
+  // onBack(){
+  //   if(this.props.toggle){
+  //       this.props.toggle('2');
+  //   }
+  // }
+  constructor(props){
+    super(props);
+    this.state = ({
+      mnemonicPhrase: '',
+    })
+  }
+
+  onUnlock(){
+    const {mnemonic} = this.props; 
+    const {mnemonicPhrase} = this.state;
+    console.log('mnemonicPhrase : ', mnemonicPhrase);
+    console.log('mnemonic : ', mnemonic);
+    // if(mnemonic === mnemonicPhrase){
+    //   console.log('Matched')
+    // }else{
+    //   console.log('not matched')
+    // }
+  }
+
     render(){
         return(
             <Row>
@@ -41,16 +65,17 @@ class ConfirmRecovery extends Component {
                         <Col>
                           <Form>
                             <FormGroup>
-                              <Input type="textarea" name="text" id="exampleText" placeholder="Enter Mnemonic Phrase" />
+                              <Input type="textarea" name="text" id="exampleText" placeholder="Enter Mnemonic Phrase" onChange={(text) => this.setState({mnemonicPhrase: text})}/>
                             </FormGroup>
-                            <center><Button color="primary">Unlock</Button></center>
+                            <center><Button color="primary" onClick={this.onUnlock.bind(this)}>Unlock</Button></center>
                           </Form>
                         </Col>
                       </Row>
                     </div>
                   </Col>
                 </Row>
-                <FooterButtons />
+                {/* <FooterButtons onBack={this.onBack.bind(this)}  
+                        isBackActive={true} /> */}
               </div>
               <AccountFooter />
             </Col>

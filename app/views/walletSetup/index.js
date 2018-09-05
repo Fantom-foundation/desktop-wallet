@@ -35,17 +35,13 @@ export default class Home extends React.Component {
             // passErrorText: '',
             // repassErrorText: '',
             // data: [],
-            // date: new Date().getTime(),
+            date: new Date().getTime(),
             // isUpdated: false,
             // mnemonic: '',
             identiconsId: '',
         };
         this.toggle = this.toggle.bind(this);
     }
-
-   
-
-
 
     componentDidMount() {
         const mnemonic = Bip39.generateMnemonic();
@@ -133,10 +129,10 @@ export default class Home extends React.Component {
         });
     }
 
-    getRadioData = (event, identiconsId) => {
-        event.preventDefault();
-        this.setState({ identiconsId });
-    }
+    // getRadioData = (event, identiconsId) => {
+    //     event.preventDefault();
+    //     this.setState({ identiconsId });
+    // }
 
     validateData = (event, name) => {
         event.preventDefault();
@@ -221,6 +217,7 @@ export default class Home extends React.Component {
     }
 
     getRadioIconData(identiconsId){
+        console.log('on identicon select : ', identiconsId)
         this.setState({
             identiconsId
         })
@@ -247,7 +244,7 @@ export default class Home extends React.Component {
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '1' })}
-                                            onClick={() => { this.toggle('1'); }}
+                                            // onClick={() => { this.toggle('1'); }}
                                         >
                                             Create account
                                         </NavLink>
@@ -256,7 +253,7 @@ export default class Home extends React.Component {
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '2' })}
-                                            onClick={() => { this.toggle('2'); }}
+                                            // onClick={() => { this.toggle('2'); }}
                                         >
                                             Account information
                                         </NavLink>
@@ -265,7 +262,7 @@ export default class Home extends React.Component {
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '3' })}
-                                            onClick={() => { this.toggle('3'); }}
+                                            // onClick={() => { this.toggle('3'); }}
                                         >
                                             Confirm
                                         </NavLink>
@@ -278,15 +275,21 @@ export default class Home extends React.Component {
                             <Col>
                                 <TabContent activeTab={this.state.activeTab}>
                                     <TabPane tabId="1">
-                                        <CreateAccount toggle={this.toggle.bind(this)} getRadioIconData={this.getRadioIconData.bind(this)}/>
+                                        <CreateAccount 
+                                        identiconsId={this.state.identiconsId}
+                                        date={this.state.date}
+                                        toggle={this.toggle.bind(this)} 
+                                        getRadioIconData={this.getRadioIconData.bind(this)}
+                                        refreshData={this.refreshData.bind(this)}/>
                                     </TabPane>
                                     {/* =============================================================================================================== */}
                                     <TabPane tabId="2">
-                                        <AccountInfo mnemonic={this.state.mnemonic} address={this.state.address} identiconsId={this.state.identiconsId}/>
+                                        <AccountInfo mnemonic={this.state.mnemonic} address={this.state.address} identiconsId={this.state.identiconsId} toggle={this.toggle.bind(this)}/>
                                     </TabPane>
                                     {/* =============================================================================================================== */}
                                     <TabPane tabId="3">
-                                        <ConfirmRecovery />
+                                        <ConfirmRecovery toggle={this.toggle.bind(this)}
+                                        mnemonic={this.state.mnemonic} />
                                     </TabPane>
                                     {/* =============================================================================================================== */}
                                 </TabContent>
