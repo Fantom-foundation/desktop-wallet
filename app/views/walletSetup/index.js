@@ -7,6 +7,9 @@ import {
     TabContent, TabPane, Nav, NavItem, NavLink,
     Form, FormGroup, Input, Button,
 } from 'reactstrap';
+import Hdkey from 'hdkey';
+import EthUtil from 'ethereumjs-util';
+import Bip39 from 'bip39';
 
 import classnames from 'classnames';
 import { Progress } from '../../components/Core/Core';
@@ -27,6 +30,7 @@ export default class Home extends React.Component {
             password: '',
             passwordHint: '',
             repassword: '',
+            progressValue: 33.33,
             // emailErrorText: '',
             // passErrorText: '',
             // repassErrorText: '',
@@ -39,41 +43,85 @@ export default class Home extends React.Component {
         this.toggle = this.toggle.bind(this);
     }
 
-    onUpdate = (key, value) => {
+   
+
+
+
+    componentDidMount() {
+        const mnemonic = Bip39.generateMnemonic();
+            const seed = Bip39.mnemonicToSeed(mnemonic); //creates seed buffer
+            const mnemonicWords = mnemonic.split(' ');
+            this.setState({
+                mnemonic,
+                mnemonicWords,
+                seed,
+                loading: false,
+            });
+            this.walletSetup(seed, mnemonic);
+            
+    }
+
+    walletSetup(seed, mnemonic) {
+        const root = Hdkey.fromMasterSeed(seed);
+        const masterPrivateKey = root.privateKey.toString('hex');
+        const addrNode = root.derive("m/44'/60'/0'/0/0");
+        const pubKey = EthUtil.privateToPublic(addrNode._privateKey);
+        const addr = EthUtil.publicToAddress(pubKey).toString('hex');
+        const address = EthUtil.toChecksumAddress(addr);
+        const hexPrivateKey = EthUtil.bufferToHex(addrNode._privateKey);
+        this.setState({
+            address,
+        });
+        // const object = {
+        //  // user: this.props.userDetails.user,
+        //  // icon: this.props.userDetails.icon,
+        //   seed,
+        //   address,
+        //   mnemonic,
+        //   pubKey,
+        //   hexPrivateKey,
+        //   masterPrivateKey,
+        // };
+        // this.props.updateUserDetails(object);
+        console.log('pubKey',pubKey,'address',address,'hexPrivateKey', hexPrivateKey);
+      }
+
+      onUpdate = (key, value) => {
         this.setState({
             [key]: value,
         });
     }
 
-    handleClick = (event) => {
-        event.preventDefault();
-        const { email, password, repassword, passwordHint, identiconsId } = this.state;
-        const payload = {
-            email,
-            password,
-            repassword,
-            passwordHint,
-            icon: identiconsId,
-        };
-        const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
-        const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
+    // handleClick = (event) => {
 
-        fetch(`${hyperText}://${window.location.hostname}${hostname}/api/create-account`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-        }).then((res) => res.json())
-            .then((res) => {
-                if (res.status === 200) {
-                    console.log('res!!', res);
-                    this.resetFields();
-                } else {
-                    console.log('error', res);
-                }
-            }).catch((err) => console.log(err));
-    }
+        // event.preventDefault();
+        // const { email, password, repassword, passwordHint, identiconsId } = this.state;
+        // const payload = {
+        //     email,
+        //     password,
+        //     repassword,
+        //     passwordHint,
+        //     icon: identiconsId,
+        // };
+        // const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
+        // const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
+
+        // fetch(`${hyperText}://${window.location.hostname}${hostname}/api/create-account`, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(payload),
+        // }).then((res) => res.json())
+        //     .then((res) => {
+        //         if (res.status === 200) {
+        //             console.log('res!!', res);
+        //             this.resetFields();
+        //         } else {
+        //             console.log('error', res);
+        //         }
+        //     }).catch((err) => console.log(err));
+    // }
 
     resetFields = () => {
         this.setState({
@@ -142,13 +190,23 @@ export default class Home extends React.Component {
 
     toggle(tab) {
         if (this.state.activeTab !== tab) {
+
+            let progressValue = 33.33;
+            if(tab === '1'){
+                progressValue = 33.33;
+            }else if(tab === '2') {
+                progressValue = 66.66;
+            } else if(tab === '3'){
+                progressValue = 100;   
+            }
             this.setState({
                 activeTab: tab,
+                progressValue,
             });
         }
-        if (tab === '2') {
-            this.getMnemonic();
-        }
+        // if (tab === '2') {
+        //     this.getMnemonic();
+        // }
     }
 
     refreshData = () => {
@@ -160,6 +218,12 @@ export default class Home extends React.Component {
         const mnemonic = bip39.generateMnemonic();
         bip39.mnemonicToSeedHex(mnemonic);
         this.setState({ mnemonic });
+    }
+
+    getRadioIconData(identiconsId){
+        this.setState({
+            identiconsId
+        })
     }
 
     render() {
@@ -207,18 +271,18 @@ export default class Home extends React.Component {
                                         </NavLink>
                                     </NavItem>
                                 </Nav>
-                                <Progress type="theme-blue" value={33.33} />
+                                <Progress type="theme-blue" value={this.state.progressValue} />
                             </Col>
                         </Row>
                         <Row>
                             <Col>
                                 <TabContent activeTab={this.state.activeTab}>
                                     <TabPane tabId="1">
-                                        <CreateAccount handleClick={this.handleClick.bind(this)} />
+                                        <CreateAccount toggle={this.toggle.bind(this)} getRadioIconData={this.getRadioIconData.bind(this)}/>
                                     </TabPane>
                                     {/* =============================================================================================================== */}
                                     <TabPane tabId="2">
-                                        <AccountInfo />
+                                        <AccountInfo mnemonic={this.state.mnemonic} address={this.state.address} identiconsId={this.state.identiconsId}/>
                                     </TabPane>
                                     {/* =============================================================================================================== */}
                                     <TabPane tabId="3">

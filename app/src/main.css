@@ -62,13 +62,38 @@
   src: url('../fonts/SFCompactDisplay/SF-Compact-Display-Ultralight.otf');
 }
 
+/** Bold */
+@font-face {
+  font-family: 'Helvetica';
+  font-weight: 700;
+  src: url('../fonts//Helvetica/Helvetica-Bold.ttf');
+}
+
+/** Regular */
+@font-face {
+  font-family: 'Helvetica';
+  font-weight: 400;
+  src: url('../fonts/Helvetica/Helvetica-Regular.ttf');
+}
+
 .black-text {
   color: #000;
+}
+
+.text-gray {
+  color: #9b9b9b;
+}
+
+.text-primary {
+  color: #00b1ff !important;
 }
 
 .title {
   font-family: SFCompactDisplay;
   font-weight: 500;
+}
+.title.roboto {
+  font-family: Roboto;
 }
 .title.large {
   font-size: 28px;
@@ -86,8 +111,33 @@
 .text.small {
   font-size: 9px;
 }
+.text.large {
+  font-size: 18px;
+}
 .text.w-thin {
   font-weight: 300;
+}
+
+.r-title {
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+.text-ellipsis.w-148 {
+  max-width: 148px;
+}
+.text-ellipsis.w-185 {
+  max-width: 185px;
+}
+.text-ellipsis.w-208 {
+  max-width: 208px;
 }
 
 nav.navbar {
@@ -174,6 +224,14 @@ body {
   background-color: #f5f8fa;
 }
 
+.bg-primary {
+  background-color: #00b1ff !important;
+}
+
+.bg-gray {
+  background-color: #f5f8fa !important;
+}
+
 .logo {
   max-height: 35px;
 }
@@ -226,6 +284,12 @@ body {
 .progress-theme.r-y-g .progress-bar {
   z-index: 99;
   background-image: linear-gradient(91deg, #ff0000, #e6ff00 53%, #00ff24);
+}
+
+@media (max-width: 991px) {
+  .hide-at-991 {
+    display: none;
+  }
 }
 
 .form-footer-buttons {
@@ -973,14 +1037,45 @@ select.form-element-field {
   font-size: 19.04px;
 }
 
+.person-info.large {
+  /*--Account section--*/
+}
 .person-info.large .person-image {
   width: 67px;
   height: 67px;
   margin-right: 21px;
 }
-
 .person-info.large .person-name {
   font-size: 19.04px;
+}
+@media (max-width: 991px) {
+  .person-info.large .person-basic-info {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+  .person-info.large .person-basic-info .block {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
+  }
+  .person-info.large .person-basic-info .block:nth-child(1) {
+    -ms-flex: 88px !important;
+    flex: 0 0 88px !important;
+    max-width: 88px !important;
+  }
+}
+.person-info.large .person-copy-info div.info-description-box {
+  font-family: SFCompactDisplay;
+  font-size: 20px;
+}
+.person-info.large .person-copy-info div.info-description-box:before {
+  display: none;
 }
 
 .person-copy-info div {
@@ -1034,6 +1129,161 @@ select.form-element-field {
   background-color: #d8d8d8;
   opacity: 0.17;
   z-index: 0;
+}
+
+.account-management-header {
+  font-family: Roboto;
+  font-size: 18px;
+}
+@media (max-width: 532px) {
+  .account-management-header {
+    font-size: 14px;
+  }
+}
+@media (max-width: 420px) {
+  .account-management-header {
+    font-size: 12px;
+  }
+  .account-management-header .col {
+    padding: 0px;
+  }
+}
+@media (max-width: 330px) {
+  .account-management-header {
+    font-size: 11px;
+  }
+}
+
+.ftm-block {
+  min-height: 83px;
+  max-width: 288px;
+  font-family: Helvetica;
+}
+.ftm-block h2 {
+  font-size: 23px;
+  margin-bottom: 9px;
+}
+.ftm-block h3 {
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+.ftm-block .medium-text {
+  font-size: 15px;
+}
+
+.gray-column.large {
+  padding-top: 30px;
+  padding-left: 32px;
+  padding-right: 40px;
+  padding-bottom: 42px;
+}
+@media (max-width: 991px) {
+  .gray-column.large.qr {
+    text-align: center !important;
+    padding-top: 0px !important;
+  }
+}
+
+.gray-column.small {
+  padding-top: 14px;
+  padding-left: 32px;
+  padding-right: 62.9px;
+  padding-bottom: 14px;
+}
+@media (max-width: 991px) {
+  .gray-column.small {
+    padding-right: 32px;
+  }
+}
+
+.blank-88 {
+  -ms-flex: 88px !important;
+  flex: 0 0 88px !important;
+  max-width: 88px !important;
+}
+
+.blank-184 {
+  -ms-flex: 184px !important;
+  flex: 0 0 184px !important;
+  max-width: 184px !important;
+}
+
+.transactions-details {
+  font-family: Roboto;
+  font-size: 12px;
+}
+.transactions-details h4 {
+  font-family: Roboto;
+  font-size: 12px;
+}
+@media (max-width: 576px) {
+  .transactions-details .col {
+    -ms-flex: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .accounts .accounts-column {
+    -ms-flex: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+.accounts .account-logo {
+  -ms-flex: 87px !important;
+  flex: 0 0 87px !important;
+  max-width: 87px !important;
+  text-align: center;
+}
+@media (max-width: 576px) {
+  .accounts .account-logo {
+    -ms-flex: 65px !important;
+    flex: 0 0 65px !important;
+    max-width: 65px !important;
+  }
+}
+.accounts .account-logo img {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+@media (max-width: 576px) {
+  .accounts .account-logo img {
+    height: 70%;
+    width: auto;
+  }
+}
+
+.accounts .account-number {
+  max-width: 267px;
+}
+@media (max-width: 576px) {
+  .accounts .account-number {
+    max-width: 204px;
+    font-size: 14px !important;
+  }
+  .accounts .account-number img {
+    height: 14px !important;
+  }
+}
+.accounts .account-number img {
+  height: 17.4px;
+  vertical-align: baseline;
+}
+
+.accounts h2 {
+  font-family: Roboto;
+  font-size: 20px;
+}
+@media (max-width: 576px) {
+  .accounts h2 {
+    font-size: 16px;
+  }
 }
 
 .form-btn,

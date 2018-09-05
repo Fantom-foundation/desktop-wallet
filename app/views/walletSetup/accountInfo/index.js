@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import {
     Row,
     Col,
+    Button
 } from 'reactstrap';
+import ReactToPrint from 'react-to-print';
 import AccountFooter from '../../../general/footer/account-footer';
+import AccountInfoCard from '../../../containers/HomePage/account-info';
 
 class AccountInfo extends Component {
     render() {
+        console.log(`account info mnemonic=${this.props.mnemonic} address=${this.props.address}`);
         return (
             <Row>
                 <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
@@ -14,13 +18,17 @@ class AccountInfo extends Component {
                         <Row className="mx-0">
                             <Col style={{ paddingTop: '46px', paddingBottom: '46px', paddingLeft: '66px', paddingRight: '69px' }}>
 
-                                {/* <AccountInfo mnemonic={this.state.mnemonic} ref={el => (this.componentRef = el)} /> */}
+                                <AccountInfoCard 
+                                mnemonic={this.props.mnemonic}  
+                                address={this.props.address} 
+                                identiconsId={this.props.identiconsId} 
+                                ref={el => (this.accountInfoRef = el)}/>
                                 <Row className="my-3 ">
                                     <Col className="text-center">
-                                        {/* <ReactToPrint
+                                        <ReactToPrint
                                     trigger={() => <Button color="primary">Print Phrase</Button>}
-                                    content={() => this.componentRef}
-                                  /> */}
+                                    content={() => this.accountInfoRef}
+                                  />
                                         {/* <Button color="primary">Print Phrase</Button> */}
                                     </Col>
                                 </Row>
