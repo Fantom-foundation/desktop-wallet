@@ -1,9 +1,9 @@
 
 
 import React from 'react';
-import arrowLeft from 'images/icons/arrow-left.svg';
-import arrowRight from 'images/icons/arrow-right.svg';
-import cross from 'images/icons/cross.svg';
+import arrowLeft from '../../images/icons/arrow-left.svg';
+import arrowRight from '../../images/icons/arrow-right.svg';
+import cross from '../../images/icons/cross.svg';
 
 export default class FooterButtons extends React.Component{
     render()
