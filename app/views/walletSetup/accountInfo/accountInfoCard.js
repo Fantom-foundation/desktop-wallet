@@ -36,7 +36,8 @@ export default class AccountInfo extends React.Component {
             </div>
             <div className="info-description-box">
               <span className="mr-3" >
-                <img src={copyImage} className="copy mr-3" alt={copyImage} onClick={this.props.copyAddress(this.props.address)}/>
+                <img src={copyImage} className="copy mr-3" alt={copyImage} 
+                onClick={() => this.props.copyAddress(this.props.address)}/>
               </span>
               <span id='address'>{this.props.address}</span>
             </div>
@@ -45,7 +46,7 @@ export default class AccountInfo extends React.Component {
             </div>
             <div className="info-description-box ">
               <span className="mr-3" >
-                <img src={copyImage} className="copy" onClick={this.props.copyMnemonic(this.props.mnemonic)}/>
+                <img src={copyImage} className="copy" onClick={() => this.props.copyMnemonic(this.props.mnemonic)}/>
               </span>
               <span id='mnemonic'> {this.props.mnemonic} </span>
             </div>

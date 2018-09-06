@@ -61,30 +61,16 @@ class AccountInfo extends Component {
             }
       }
 
-      copyToClipboard(id) {
-        //   console.log('in side copy to clipboard')
-        //     clipboard.writeText(id);
+      copyToClipboard(copyText) {
+            clipboard.writeText(copyText);            
+      }
 
-        //     alert("Copied the text: " + clipboard.readText());
-            
-            // let copyText = document.getElementById(id);
-            // copyText.select();
-            // document.execCommand("copy");
-            // alert("Copied the text: " + copyText.value);
-
-        // const string = this.state.mnemonicWords.join(',');
-        // await Clipboard.setString(string);
-        // // const clipboardContent = await Clipboard.getString();
+    copyMnemonic(copyText){
+        this.copyToClipboard(copyText)
     }
 
-    copyMnemonic(id){
-        console.log('copyMnemonic in side copy to clipboard')
-        this.copyToClipboard(id)
-    }
-
-    copyAddress(id){
-        console.log(' copyAddress in side copy to clipboard')
-        this.copyToClipboard(id);
+    copyAddress(copyText){
+        this.copyToClipboard(copyText);
     }
 
     render() {
