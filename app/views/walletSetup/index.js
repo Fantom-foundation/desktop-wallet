@@ -26,6 +26,7 @@ export default class Home extends React.Component {
         super(props);
         this.state = {
             activeTab: '1',
+            accountName: '',
             email: '',
             password: '',
             passwordHint: '',
@@ -162,8 +163,14 @@ export default class Home extends React.Component {
         })
     }
 
+    setAccountName(accountName){
+        this.setState({
+            accountName
+        })
+    }
+
     render() {
-       
+       const {accountName, mnemonic, address, identiconsId}  =this.state;
         return (
             <div>
                 <Header />
@@ -219,10 +226,12 @@ export default class Home extends React.Component {
                                         date={this.state.date}
                                         toggle={this.toggle.bind(this)} 
                                         getRadioIconData={this.getRadioIconData.bind(this)}
-                                        onRefresh={this.onRefresh.bind(this)}/>
+                                        onRefresh={this.onRefresh.bind(this)}
+                                        setAccountName={this.setAccountName.bind(this)}/>
                                     </TabPane>
                                     <TabPane tabId="2">
-                                        <AccountInfo mnemonic={this.state.mnemonic} address={this.state.address} identiconsId={this.state.identiconsId} toggle={this.toggle.bind(this)}/>
+                                        <AccountInfo accountName={accountName} mnemonic={mnemonic}
+                                         address={address} identiconsId={identiconsId} toggle={this.toggle.bind(this)}/>
                                     </TabPane>
                                     <TabPane tabId="3">
                                         <ConfirmRecovery toggle={this.toggle.bind(this)}

@@ -34,9 +34,13 @@ class CreateAccount extends Component {
     };
 
       onNext(){
-          const { toggle } = this.props;
+          const { toggle, setAccountName } = this.props;
+          const {accountName} = this.state;
          if(this.isCreateAccount()){
             console.log('account created');
+            if(setAccountName){
+                setAccountName(accountName);
+            }
             if(toggle){
                 toggle('2');
             }

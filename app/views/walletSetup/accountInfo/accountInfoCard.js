@@ -7,26 +7,53 @@ import {
 import QRCode from 'qrcode.react';
 
 import copyImage from '../../../images/icons/copy.svg';
+import fantomIcon from '../../../images/icons/fantom_Icon.png';
 import  Identicons  from '../../../general/identicons/identicons';
 
 export default class AccountInfo extends React.Component {
+
+  renderLogo() {
+    if (this.props.address !== undefined && this.props.address !== '') {
+     return (
+                 <p style={{
+                  backgroundImage: `url(${fantomIcon})`,
+                  padding: '5px',
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  fontSize: '14px',
+                  paddingLeft: '25px',
+                  backgroundPosition: 'center left',
+                  backgroundSize: '28px auto',
+                  backgroundRepeat: 'no-repeat',
+                  fontWeight: '900',
+                  backgroundColor: 'white',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)'}}>FANTOM</p>
+      )
+    }
+  }
+
+
   render() {
-      console.log('this.props. in jghsfjkashfgajksf : ', this.props)
     return (
       <span>
         <Row>
           <Col>
             <div className="person-info small">
-              <div className="d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}>
-                {/* <img src={identicon1} className="person-image theme-blue-shadow" /> */}
+              <div className="theme-blue-shadow d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}>
                 <Identicons id={this.props.identiconsId} className="person-image theme-blue-shadow" width={40} size={3} />
               </div>
-              <div className="d-inline-block align-top"><h2 className="person-name">John Doe</h2>
+              <div className="d-inline-block align-top" style={{paddingLeft: 20}}><h2 className="person-name">{this.props.accountName}</h2>
               </div>
             </div>
           </Col>
           <Col className="text-right">
-            <QRCode value={`${this.props.address} `} />
+            <div style={{  position: 'relative', display: 'inline-block' }}>
+              {this.renderLogo()}
+              <QRCode value={`${this.props.address} `} />
+            </div>
           </Col>
         </Row>
         <Row>

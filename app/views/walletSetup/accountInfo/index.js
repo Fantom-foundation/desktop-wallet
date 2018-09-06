@@ -82,10 +82,10 @@ class AccountInfo extends Component {
                             <Col style={{ paddingTop: '46px', paddingBottom: '46px', paddingLeft: '66px', paddingRight: '69px' }}>
 
                                 <AccountInfoCard 
+                                accountName={this.props.accountName}
                                 mnemonic={this.props.mnemonic}  
                                 address={this.props.address} 
                                 identiconsId={this.props.identiconsId} 
-                                // identiconsId={1} 
                                 ref={el => (this.accountInfoRef = el)}
                                 copyAddress={this.copyAddress.bind(this)}
                                 copyMnemonic={this.copyMnemonic.bind(this)}
