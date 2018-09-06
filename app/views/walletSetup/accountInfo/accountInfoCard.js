@@ -6,12 +6,8 @@ import {
 } from 'reactstrap';
 import QRCode from 'qrcode.react';
 
-
-//import identicon1 from 'images/identicon/ident-con-1.png';
-// import TempQR from 'views/components/temp-components/qr';
-
-import copyImage from '../../images/icons/copy.svg';
-import  Identicons  from '../identicons/identicons';
+import copyImage from '../../../images/icons/copy.svg';
+import  Identicons  from '../../../general/identicons/identicons';
 
 export default class AccountInfo extends React.Component {
   render() {
@@ -39,19 +35,19 @@ export default class AccountInfo extends React.Component {
               <h2 className="info-title mb-0">Your Address</h2>
             </div>
             <div className="info-description-box">
-              <span className="mr-3">
-                <img src={copyImage} className="copy mr-3" alt={copyImage} />
+              <span className="mr-3" >
+                <img src={copyImage} className="copy mr-3" alt={copyImage} onClick={this.props.copyAddress(this.props.address)}/>
               </span>
-              <span >{this.props.address}</span>
+              <span id='address'>{this.props.address}</span>
             </div>
             <div>
               <h2 className="info-title mb-0">Owner Recovery Phrase</h2>
             </div>
             <div className="info-description-box ">
-              <span className="mr-3">
-                <img src={copyImage} className="copy" />
+              <span className="mr-3" >
+                <img src={copyImage} className="copy" onClick={this.props.copyMnemonic(this.props.mnemonic)}/>
               </span>
-              <span> {this.props.mnemonic} </span>
+              <span id='mnemonic'> {this.props.mnemonic} </span>
             </div>
           </Col>
         </Row>

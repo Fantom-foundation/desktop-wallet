@@ -3,6 +3,7 @@ import refreshImage from '../../images/icons/refresh.svg';
 
 export const Progress = (props) => {
     let barWidth = 0;
+    if (props.type === 'strong-password-bar') { barWidth = props.value + '%'; }
     if (props.type === 'theme-blue') { barWidth = props.value + '%'; }
     if (props.type === 'theme-red-Yellow-green') {
         barWidth = 100 - props.value;

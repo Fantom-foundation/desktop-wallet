@@ -2,9 +2,11 @@ import React from 'react';
 import  Identicons  from './identicons';
 
 export default class IdenticonsIcon extends React.Component {
+
   getRadioIconData(identiconsId){
-    if(this.props.getRadioIconData){
-      this.props.getRadioIconData(identiconsId);
+    const {getRadioIconData} = this.props;
+    if(getRadioIconData){
+      getRadioIconData(identiconsId);
     }
   }
   

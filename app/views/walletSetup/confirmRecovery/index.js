@@ -21,16 +21,22 @@ class ConfirmRecovery extends Component {
     })
   }
 
+  inputHandler = (e) => {
+    this.setState({
+      mnemonicPhrase: e.target.value
+    });
+  }
+
   onUnlock(){
     const {mnemonic} = this.props; 
     const {mnemonicPhrase} = this.state;
     console.log('mnemonicPhrase : ', mnemonicPhrase);
     console.log('mnemonic : ', mnemonic);
-    // if(mnemonic === mnemonicPhrase){
-    //   console.log('Matched')
-    // }else{
-    //   console.log('not matched')
-    // }
+    if(mnemonic === mnemonicPhrase){
+      console.log('Unlocked')
+    }else{
+      console.log('not matched')
+    }
   }
 
     render(){
@@ -38,11 +44,8 @@ class ConfirmRecovery extends Component {
             <Row>
             <Col sm="12" style={{ paddingTop: '52px', paddingBottom: '52px' }}>
               <div className="cs-container forms-container theme-blue-shadow inner mb-4">
-
-
                 <Row className="mx-0">
                   <Col style={{ paddingTop: '46px', paddingBottom: '46px' }}>
-
                     <div className="m-auto" style={{ maxWidth: '488px' }}>
                       <Row>
                         <Col>
@@ -65,7 +68,8 @@ class ConfirmRecovery extends Component {
                         <Col>
                           <Form>
                             <FormGroup>
-                              <Input type="textarea" name="text" id="exampleText" placeholder="Enter Mnemonic Phrase" onChange={(text) => this.setState({mnemonicPhrase: text})}/>
+                              <Input type="textarea" name="text" id="exampleText" placeholder="Enter Mnemonic Phrase" 
+                              onChange={(e) => this.inputHandler(e)}/>
                             </FormGroup>
                             <center><Button color="primary" onClick={this.onUnlock.bind(this)}>Unlock</Button></center>
                           </Form>

@@ -12,7 +12,7 @@ import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 
 import classnames from 'classnames';
-import { Progress } from '../../components/Core/Core';
+import { Progress } from '../../general/core/index';
 import Header from '../../general/header/index';
 
 import AccountFooter from '../../general/footer/account-footer';
@@ -31,13 +31,7 @@ export default class Home extends React.Component {
             passwordHint: '',
             repassword: '',
             progressValue: 33.33,
-            // emailErrorText: '',
-            // passErrorText: '',
-            // repassErrorText: '',
-            // data: [],
             date: new Date().getTime(),
-            // isUpdated: false,
-            // mnemonic: '',
             identiconsId: '',
         };
         this.toggle = this.toggle.bind(this);
@@ -82,11 +76,11 @@ export default class Home extends React.Component {
         console.log('pubKey',pubKey,'address',address,'hexPrivateKey', hexPrivateKey);
       }
 
-      onUpdate = (key, value) => {
-        this.setState({
-            [key]: value,
-        });
-    }
+    //   onUpdate = (key, value) => {
+    //     this.setState({
+    //         [key]: value,
+    //     });
+    // }
 
     // handleClick = (event) => {
 
@@ -119,71 +113,20 @@ export default class Home extends React.Component {
         //     }).catch((err) => console.log(err));
     // }
 
-    resetFields = () => {
-        this.setState({
-            email: '',
-            password: '',
-            repassword: '',
-            passwordHint: '',
-            identiconsId: '',
-        });
-    }
+    // resetFields = () => {
+    //     this.setState({
+    //         email: '',
+    //         password: '',
+    //         repassword: '',
+    //         passwordHint: '',
+    //         identiconsId: '',
+    //     });
+    // }
 
     // getRadioData = (event, identiconsId) => {
     //     event.preventDefault();
     //     this.setState({ identiconsId });
     // }
-
-    validateData = (event, name) => {
-        event.preventDefault();
-        if (name === 'email') {
-            if (this.state.email.includes('@')) {
-                this.validEmail();
-            }
-        } else if (name === 'password') {
-            this.validPass();
-        } else if (name === 'repassword') {
-            this.validRepass();
-        }
-    }
-
-    validPass = () => {
-        const passObj = {};
-        if (this.state.password === '') {
-            passObj.passErrorText = 'Password field can\'t be empty';
-        } else if (this.state.password.length < 8) {
-            passObj.passErrorText = 'Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.';
-        } else {
-            passObj.passErrorText = '';
-        }
-        this.setState(passObj);
-    }
-
-    validEmail = () => {
-        const obj = {};
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (this.state.email === '') {
-            obj.emailErrorText = 'Account Name field can\'t be empty';
-        } else if (re.test(String(this.state.email).toLowerCase())) {
-            obj.emailErrorText = '';
-        } else {
-            obj.emailErrorText = 'You need to specify a valid account name';
-        }
-        this.setState(obj);
-    }
-
-    validRepass = () => {
-        const obj = {};
-        if (this.state.repassword === '') {
-            obj.repassErrorText = 'Re-enter password field can\'t be empty';
-        } else if (this.state.repassword !== this.state.password) {
-            obj.repassErrorText = 'Password and Re-enter password must be same';
-        } else {
-            obj.repassErrorText = '';
-        }
-        this.setState(obj);
-    }
-
     toggle(tab) {
         if (this.state.activeTab !== tab) {
 
@@ -200,31 +143,27 @@ export default class Home extends React.Component {
                 progressValue,
             });
         }
-        // if (tab === '2') {
-        //     this.getMnemonic();
-        // }
     }
 
-    refreshData = () => {
+    onRefresh = () => {
         const newDate = new Date().getTime();
         this.setState({ date: newDate });
     }
 
-    getMnemonic = () => {
-        const mnemonic = bip39.generateMnemonic();
-        bip39.mnemonicToSeedHex(mnemonic);
-        this.setState({ mnemonic });
-    }
+    // getMnemonic = () => {
+    //     const mnemonic = bip39.generateMnemonic();
+    //     bip39.mnemonicToSeedHex(mnemonic);
+    //     this.setState({ mnemonic });
+    // }
 
     getRadioIconData(identiconsId){
-        console.log('on identicon select : ', identiconsId)
         this.setState({
             identiconsId
         })
     }
 
     render() {
-
+       
         return (
             <div>
                 <Header />
@@ -280,21 +219,17 @@ export default class Home extends React.Component {
                                         date={this.state.date}
                                         toggle={this.toggle.bind(this)} 
                                         getRadioIconData={this.getRadioIconData.bind(this)}
-                                        refreshData={this.refreshData.bind(this)}/>
+                                        onRefresh={this.onRefresh.bind(this)}/>
                                     </TabPane>
-                                    {/* =============================================================================================================== */}
                                     <TabPane tabId="2">
                                         <AccountInfo mnemonic={this.state.mnemonic} address={this.state.address} identiconsId={this.state.identiconsId} toggle={this.toggle.bind(this)}/>
                                     </TabPane>
-                                    {/* =============================================================================================================== */}
                                     <TabPane tabId="3">
                                         <ConfirmRecovery toggle={this.toggle.bind(this)}
                                         mnemonic={this.state.mnemonic} />
                                     </TabPane>
-                                    {/* =============================================================================================================== */}
                                 </TabContent>
                             </Col>
-                            {/* <AccountFooter /> */}
                         </Row>
                     </Container>
                 </section>

@@ -133,6 +133,20 @@ $formTextColor: #979797;
       height: 0px !important;
     }
   }
+  .form-text-line {
+    width: 631px;
+    // height: 3px;
+    border: solid 1px #ff0000;
+    // height: 1.68px !important;
+    // background: {
+    //   color: map-get($color, blue);
+    // }
+    // &:before,
+    // &:after {
+    //   display: none !important;
+    //   height: 0px !important;
+    // }
+  }
   .form-element-hint {
     margin-top: 11.9px;
     color: #ff0000;

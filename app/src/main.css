@@ -293,6 +293,9 @@ body {
     .form-element .form-element-bar:before, .form-element .form-element-bar:after {
       display: none !important;
       height: 0px !important; }
+  .form-element .form-text-line {
+    width: 631px;
+    border: solid 1px #ff0000; }
   .form-element .form-element-hint {
     margin-top: 11.9px;
     color: #ff0000; }
@@ -328,6 +331,19 @@ body {
       height: 100%;
       width: 100%;
       background: rgba(255, 255, 255, 0.9); }
+  .cs-progress.strong-password-bar {
+    background-color: #c5f7d7; }
+    .cs-progress.strong-password-bar .bar {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -ms-flex-pack: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      background-color: #64fa9a; }
 
 .rotation {
   -webkit-animation: rotation 2s infinite linear; }
