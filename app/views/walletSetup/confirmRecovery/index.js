@@ -6,7 +6,7 @@ import {
   } from 'reactstrap';
 import AccountFooter from '../../../general/footer/account-footer';
 import FooterButtons from '../../../general/footer/footer-buttons';
-
+import AccountManagement from '../../accountManagement/index';
 
 class ConfirmRecovery extends Component {
   // onBack(){
@@ -18,6 +18,7 @@ class ConfirmRecovery extends Component {
     super(props);
     this.state = ({
       mnemonicPhrase: '',
+      isLocked : true
     })
   }
 
@@ -33,10 +34,14 @@ class ConfirmRecovery extends Component {
     console.log('mnemonicPhrase : ', mnemonicPhrase);
     console.log('mnemonic : ', mnemonic);
     if(mnemonic === mnemonicPhrase){
-      console.log('Unlocked')
+      this.props.onUnlockAccount(true);
+      this.setState({
+        isLocked:false
+      });
     }else{
       console.log('not matched')
     }
+    
   }
 
     render(){
@@ -83,6 +88,7 @@ class ConfirmRecovery extends Component {
               </div>
               <AccountFooter />
             </Col>
+            
           </Row>
         );
     }

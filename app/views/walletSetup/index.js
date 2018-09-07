@@ -20,6 +20,7 @@ import FooterButtons from '../../general/footer/footer-buttons';
 import CreateAccount from './createAccount/index';
 import AccountInfo from './accountInfo/index';
 import ConfirmRecovery from './confirmRecovery/index';
+import AccountManagement from '../accountManagement/index';
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -39,16 +40,16 @@ export default class Home extends React.Component {
 
     componentDidMount() {
         const mnemonic = Bip39.generateMnemonic();
-            const seed = Bip39.mnemonicToSeed(mnemonic); //creates seed buffer
-            const mnemonicWords = mnemonic.split(' ');
-            this.setState({
-                mnemonic,
-                mnemonicWords,
-                seed,
-                loading: false,
-            });
-            this.walletSetup(seed, mnemonic);
-            
+        const seed = Bip39.mnemonicToSeed(mnemonic); //creates seed buffer
+        const mnemonicWords = mnemonic.split(' ');
+        this.setState({
+            mnemonic,
+            mnemonicWords,
+            seed,
+            loading: false,
+        });
+        this.walletSetup(seed, mnemonic);
+
     }
 
     walletSetup(seed, mnemonic) {
@@ -73,8 +74,8 @@ export default class Home extends React.Component {
         //   masterPrivateKey,
         // };
         // this.props.updateUserDetails(object);
-        console.log('pubKey',pubKey,'address',address,'hexPrivateKey', hexPrivateKey);
-      }
+        console.log('pubKey', pubKey, 'address', address, 'hexPrivateKey', hexPrivateKey);
+    }
 
     //   onUpdate = (key, value) => {
     //     this.setState({
@@ -84,33 +85,33 @@ export default class Home extends React.Component {
 
     // handleClick = (event) => {
 
-        // event.preventDefault();
-        // const { email, password, repassword, passwordHint, identiconsId } = this.state;
-        // const payload = {
-        //     email,
-        //     password,
-        //     repassword,
-        //     passwordHint,
-        //     icon: identiconsId,
-        // };
-        // const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
-        // const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
+    // event.preventDefault();
+    // const { email, password, repassword, passwordHint, identiconsId } = this.state;
+    // const payload = {
+    //     email,
+    //     password,
+    //     repassword,
+    //     passwordHint,
+    //     icon: identiconsId,
+    // };
+    // const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
+    // const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
 
-        // fetch(`${hyperText}://${window.location.hostname}${hostname}/api/create-account`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(payload),
-        // }).then((res) => res.json())
-        //     .then((res) => {
-        //         if (res.status === 200) {
-        //             console.log('res!!', res);
-        //             this.resetFields();
-        //         } else {
-        //             console.log('error', res);
-        //         }
-        //     }).catch((err) => console.log(err));
+    // fetch(`${hyperText}://${window.location.hostname}${hostname}/api/create-account`, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(payload),
+    // }).then((res) => res.json())
+    //     .then((res) => {
+    //         if (res.status === 200) {
+    //             console.log('res!!', res);
+    //             this.resetFields();
+    //         } else {
+    //             console.log('error', res);
+    //         }
+    //     }).catch((err) => console.log(err));
     // }
 
     // resetFields = () => {
@@ -131,12 +132,13 @@ export default class Home extends React.Component {
         if (this.state.activeTab !== tab) {
 
             let progressValue = 33.33;
-            if(tab === '1'){
+            if (tab === '1') {
                 progressValue = 33.33;
-            }else if(tab === '2') {
+            } else if (tab === '2') {
                 progressValue = 66.66;
-            } else if(tab === '3'){
-                progressValue = 100;   
+            } else if (tab === '3') {
+
+                progressValue = 100;
             }
             this.setState({
                 activeTab: tab,
@@ -156,14 +158,14 @@ export default class Home extends React.Component {
     //     this.setState({ mnemonic });
     // }
 
-    getRadioIconData(identiconsId){
+    getRadioIconData(identiconsId) {
         this.setState({
             identiconsId
         })
     }
 
     render() {
-       
+
         return (
             <div>
                 <Header />
@@ -183,7 +185,7 @@ export default class Home extends React.Component {
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '1' })}
-                                            // onClick={() => { this.toggle('1'); }}
+                                        // onClick={() => { this.toggle('1'); }}
                                         >
                                             Create account
                                         </NavLink>
@@ -192,7 +194,7 @@ export default class Home extends React.Component {
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '2' })}
-                                            // onClick={() => { this.toggle('2'); }}
+                                        // onClick={() => { this.toggle('2'); }}
                                         >
                                             Account information
                                         </NavLink>
@@ -201,7 +203,7 @@ export default class Home extends React.Component {
                                     <NavItem>
                                         <NavLink
                                             className={classnames({ active: this.state.activeTab === '3' })}
-                                            // onClick={() => { this.toggle('3'); }}
+                                        // onClick={() => { this.toggle('3'); }}
                                         >
                                             Confirm
                                         </NavLink>
@@ -214,19 +216,19 @@ export default class Home extends React.Component {
                             <Col>
                                 <TabContent activeTab={this.state.activeTab}>
                                     <TabPane tabId="1">
-                                        <CreateAccount 
-                                        identiconsId={this.state.identiconsId}
-                                        date={this.state.date}
-                                        toggle={this.toggle.bind(this)} 
-                                        getRadioIconData={this.getRadioIconData.bind(this)}
-                                        onRefresh={this.onRefresh.bind(this)}/>
+                                        <CreateAccount
+                                            identiconsId={this.state.identiconsId}
+                                            date={this.state.date}
+                                            toggle={this.toggle.bind(this)}
+                                            getRadioIconData={this.getRadioIconData.bind(this)}
+                                            onRefresh={this.onRefresh.bind(this)} />
                                     </TabPane>
                                     <TabPane tabId="2">
-                                        <AccountInfo mnemonic={this.state.mnemonic} address={this.state.address} identiconsId={this.state.identiconsId} toggle={this.toggle.bind(this)}/>
+                                        <AccountInfo mnemonic={this.state.mnemonic} address={this.state.address} identiconsId={this.state.identiconsId} toggle={this.toggle.bind(this)} />
                                     </TabPane>
                                     <TabPane tabId="3">
-                                        <ConfirmRecovery toggle={this.toggle.bind(this)}
-                                        mnemonic={this.state.mnemonic} />
+                                        <ConfirmRecovery toggle={this.toggle.bind(this)} onUnlockAccount={this.props.onUnlockAccount}
+                                            mnemonic={this.state.mnemonic} />
                                     </TabPane>
                                 </TabContent>
                             </Col>
