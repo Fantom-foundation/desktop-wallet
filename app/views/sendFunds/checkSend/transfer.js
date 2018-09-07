@@ -14,7 +14,6 @@ const web3 = new Web3(
 );
 
 function transferMoneyViaEthereum(from, to, value, memo, privateKey) {
-    debugger;
   return new Promise((resolve, reject) => {
     console.log('Promise : ')
     web3.eth.getTransactionCount(from).then((count) => {

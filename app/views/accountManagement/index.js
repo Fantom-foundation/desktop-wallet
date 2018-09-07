@@ -186,7 +186,7 @@ export default class AccountManagement extends React.Component {
           <Container className="bg-white ">
             <Row className="bg-primary py-1 account-management-header">
               <Col md={5} className="col text-white pl-4 text-uppercase">Account Management</Col>
-              <Col className="col text-white text-uppercase"><img src={arrowLeftRight} className="mr-1" /> Transfer</Col>
+              <Col className="col text-white text-uppercase" onClick={() => this.props.handleSendFunds()}><img src={arrowLeftRight} className="mr-1" /> Transfer</Col>
             </Row>
             <Row >
               <Col className="px-5 py-4">
@@ -263,7 +263,7 @@ export default class AccountManagement extends React.Component {
                   <Col>
                     <Row className="accounts">
                       <Col className="bg-gray mr-2 mb-3 accounts-column">
-                        <Row className="py-4" onClick={() => this.props.handleSendFunds()}>
+                        <Row className="py-4" >
                           <Col className="account-logo px-0" ><img src={ethereumLogo} /></Col>
                           <Col className="pl-0">
                           <h2 className="black-text"><span >Ethereum Account</span></h2>
