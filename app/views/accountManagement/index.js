@@ -6,6 +6,7 @@ import {
   TabContent, TabPane, Nav, NavItem, NavLink,
   Form, FormGroup, Input, Button,
 } from 'reactstrap';
+import moment from 'moment';
 import identicon1 from '../../images/identicon/ident-con-1.png';
 import copyImage from '../../images/icons/copy.svg';
 import arrowLeftRight from '../../images/icons/arrows-left-right.svg';
@@ -16,9 +17,10 @@ import ethereumLogo from '../../images/logo/ethereum-logo.svg';
 import bitcoinLogo from '../../images/logo/bitcoin-logo.svg';
 import litecoinBlackLogo from '../../images/logo/litecoin-black-logo.svg';
 import litecoinLogo from '../../images/logo/litecoin-logo.svg';
-import TempQR from '../../components/temp-components/qr';
+// import TempQR from '../../components/temp-components/qr';
+import QRCode from 'qrcode.react';
 
-export default class FirstPage extends React.Component {
+export default class AccountManagement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -141,8 +143,42 @@ export default class FirstPage extends React.Component {
     bip39.mnemonicToSeedHex(mnemonic);
     this.setState({ mnemonic });
   }
-  render() {
 
+  transactionLoop(){
+    let allTransaction = null;
+    if(this.props.transactionData){
+      allTransaction = this.props.transactionData.map((data)=>(
+        <Row className="bg-gray mt-2">
+                  <Col className="gray-column transactions-details small">
+                    <Row>
+                      <Col className="blank-88 hide-at-991"></Col>
+                      <Col className="">
+                        <Row>
+                          <Col ><h4 className="text-ellipsis  w-208"><span>TX# <a href="#">{data.hash}</a></span></h4></Col>
+                          <Col><h4 className=" text-right text-primary"><span>{moment(data.time,'X').fromNow()}</span></h4></Col>
+                        </Row>
+                        <Row>
+                          <Col className="blank-184"><h4 className="text-gray text-ellipsis  w-148"><span >From <a href="#">{data.from}</a></span></h4></Col>
+                          <Col ><h4 className="text-gray text-ellipsis  w-185"><span>to <a href="#">{data.to}</a></span></h4></Col>
+                        </Row>
+                        <Row>
+                          <Col><h4 className="text-gray"><span>Amount {data.amount} <a href="#"><strong>Fantom</strong></a></span></h4></Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+
+      ));
+    }
+    return allTransaction;
+  }
+
+  render() {
+    let transactionLength = 0;
+    if(this.props.transactionData){
+      transactionLength = this.props.transactionData.length;
+    }
     return (
       <div>
         <Header />
@@ -163,14 +199,14 @@ export default class FirstPage extends React.Component {
                           <img src={identicon1} className="person-image theme-blue-shadow" />
                         </div>
                         <div className="d-inline-block align-top block">
-                          <h2 className="person-name">John Doe</h2>
+                          <h2 className="person-name">{ this.props.name }</h2>
 
                           <div className="person-copy-info">
                             <div className="info-description-box pl-0">
                               <span className="mr-3">
                                 <img src={copyImage} className="copy mr-3" />
                               </span>
-                              <span className="">0x59d50B3XXXXXXXXXXXXXXXXXXXCBE154D</span>
+                              <span className="">{ this.props.address }</span>
                             </div>
                           </div>
 
@@ -181,14 +217,14 @@ export default class FirstPage extends React.Component {
                         <Col>
                           <div className="">
 
-                            <p className="text large text-gray mb-0">Ledger John Doe</p>
-                            <p className="text large text-gray mb-5">0 Outgoing transactions</p>
+                            <p className="text large text-gray mb-0"></p>
+                            <p className="text large text-gray mb-5">{transactionLength} Outgoing transactions</p>
 
                           </div>
 
                           <div className="bg-white ftm-block theme-blue-shadow text-center p-2 m-auto ml-lg-0">
                             <h3 className="text-right pr-4"><span>(1,000\ = 1.00002312FTM)</span></h3>
-                            <h2><span><strong>00.00000000 <span className="medium-text">FTM</span></strong></span></h2>
+                            <h2><span><strong>{this.props.balance ? `${this.props.balance}`: '00,0000'} <span className="medium-text">FTM</span></strong></span></h2>
                             <h3><span>0,0000\</span></h3>
                           </div>
 
@@ -201,7 +237,7 @@ export default class FirstPage extends React.Component {
 
 
                   <Col className="text-right gray-column large qr">
-                    <TempQR large />
+                  <QRCode value={`${this.props.address} `} />
                   </Col>
                 </Row>
 
@@ -214,26 +250,7 @@ export default class FirstPage extends React.Component {
 
                 {/*===============Transactions Loop Start=======================*/}
 
-                <Row className="bg-gray mt-2">
-                  <Col className="gray-column transactions-details small">
-                    <Row>
-                      <Col className="blank-88 hide-at-991"></Col>
-                      <Col className="">
-                        <Row>
-                          <Col ><h4 className="text-ellipsis  w-208"><span>TX# <a href="#">0X42BB307E4C04F0BF13B7952</a></span></h4></Col>
-                          <Col><h4 className=" text-right text-primary"><span>23 mins 42 secs ago</span></h4></Col>
-                        </Row>
-                        <Row>
-                          <Col className="blank-184"><h4 className="text-gray text-ellipsis  w-148"><span >From <a href="#">0x04041d6a6bbbc2</a></span></h4></Col>
-                          <Col ><h4 className="text-gray text-ellipsis  w-185"><span>to <a href="#">0xf4a2eff88a408ff4c4550148</a></span></h4></Col>
-                        </Row>
-                        <Row>
-                          <Col><h4 className="text-gray"><span>Amount 2.9999 <a href="#"><strong>Fantom</strong></a></span></h4></Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
+                {this.transactionLoop()}
 
                 {/*===============Transactions Loop End=======================*/}
 
