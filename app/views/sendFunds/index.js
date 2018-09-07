@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Button } from 'reactstrap'
+import { Button, Alert } from 'reactstrap';
+import Web3 from 'web3';
 
 import CheckSend from './checkSend/index';
 
@@ -12,7 +13,10 @@ export default class SendFunds extends Component {
             ftmAmount: '',
             usdAmount:'',
             optionalMessage: '',
+            networkFees: 0.000226,
+            totalFees: 0.402926,
             isCheckSend: false,
+            
         }
     }
 
@@ -52,9 +56,7 @@ export default class SendFunds extends Component {
     }
 
     handleCheckSend(){
-        this.setState({
-            isCheckSend: true
-        })
+        this.handleSendMoney()
     }
 
     handleGoBack(){
@@ -63,8 +65,33 @@ export default class SendFunds extends Component {
         })
     }
 
+    /**
+   *  handleSendMoney()  : This function is meant for handling input box validations ,
+   *  and navigate to CheckSend screen if all fields are filled.
+   */
+  handleSendMoney() {
+    const { address, ftmAmount,} = this.state;
+
+    let message = '';
+    if (address === '') {
+      message = 'Please enter address.';
+    } else if (!Web3.utils.isAddress(address)) {
+      message = 'Please enter valid address.';
+    } else if (ftmAmount === '') {
+      message = 'Please enter valid amount';
+    }
+
+    if (message !== '') {
+        return;
+    }
+    this.setState({
+        isCheckSend: true
+    })
+  }
+
     render(){
-        const {address, accountType, ftmAmount, usdAmount, optionalMessage, isCheckSend} = this.state;
+        const {address, accountType, ftmAmount, usdAmount, optionalMessage, networkFees, totalFees, isCheckSend} = this.state;
+        const {publicKey, privateKey} = this.props;
         return(
             <div style={{width: 500, backgroundColor: '#fff' ,
              alignSelf: 'center', marginLeft: '100px', marginTop: '100px', border: '2px solid black', padding: '20px' }}>
@@ -103,14 +130,24 @@ export default class SendFunds extends Component {
                 onChange={this.setMessage.bind(this)} />
 
                 <p>Network fee</p>
-                <p>0.000226 USD ($0.06)</p>
+                <p>{networkFees} USD ($0.06)</p>
 
                 <p>Total</p>
-                <p>0.402926 USD ($100.06)</p>
+                <p>{totalFees} USD ($100.06)</p>
                 <Button color="primary" onClick={this.handleCheckSend.bind(this)}>CONTINUE</Button>
                 <Button color ="primary" onClick={() => this.props.onClose()} >CLOSE</Button>
             </div> :
-                <CheckSend handleGoBack={this.handleGoBack.bind(this)}/>
+                <CheckSend 
+                handleGoBack={this.handleGoBack.bind(this)}
+                address={address}
+                amount={ftmAmount} 
+                coin={accountType}
+                memo={optionalMessage}
+                fees= {networkFees}
+                publicKey={publicKey}
+                privateKey={privateKey}
+                // reload={ this.reload.bind(this)}
+                />
             }
             </div>
         )

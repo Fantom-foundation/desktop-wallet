@@ -297,7 +297,7 @@ loadTransactionData(responseJson) {
         //   masterPrivateKey,
         // };
         // this.props.updateUserDetails(object);
-        console.log('pubKey',pubKey,'address',address,'hexPrivateKey', hexPrivateKey);
+        console.log('pubKey',pubKey,'public key address',address,'Private Key', hexPrivateKey);
 
         if (address) {
             this.getWalletBalance(address);

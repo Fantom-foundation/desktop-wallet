@@ -28,10 +28,12 @@ class MainPage extends Component{
     }
 
     render(){
+        const publicKey = '';
+        const privateKey = '';
         return(
                 <div>
                    { !this.state.isUnlock ? <WalletSetup onUnlockAccount={this.onUnlockAccount.bind(this)}/>:<AccountManagement handleSendFunds={this.handleSendFunds.bind(this)}/>}
-                    {this.state.isSendFund &&  <SendFunds onClose={this.onClose.bind(this)}/>}
+                    {this.state.isSendFund &&  <SendFunds onClose={this.onClose.bind(this)} privateKey={privateKey} publicKey={publicKey}/>}
                     </div>
         );
     }
