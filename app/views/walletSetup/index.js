@@ -35,6 +35,7 @@ export default class Home extends Component {
             progressValue: 33.33,
             date: new Date().getTime(),
             identiconsId: '',
+            address:''
         };
         this.toggle = this.toggle.bind(this);
 
@@ -397,9 +398,17 @@ loadTransactionData(responseJson) {
             accountName
         })
     }
-
+    
+    onUnlockAccount(){
+        if(this.props.onUnlockAccount){
+            this.props.onUnlockAccount();
+        }
+        if(this.props.setAmountData){
+            this.props.setAmountData(this.state.accountName,this.state.identiconsId,this.state.address)
+        }
+    }
     render() {
-       const {accountName, mnemonic, address, identiconsId}  =this.state;
+       const {accountName, mnemonic, address, identiconsId} = this.state;
         return (
             <div>
                 <Header />
@@ -463,7 +472,7 @@ loadTransactionData(responseJson) {
                                          address={address} identiconsId={identiconsId} toggle={this.toggle.bind(this)}/>
                                     </TabPane>
                                     <TabPane tabId="3">
-                                        <ConfirmRecovery toggle={this.toggle.bind(this)} onUnlockAccount={this.props.onUnlockAccount}
+                                        <ConfirmRecovery toggle={this.toggle.bind(this)} onUnlockAccount={this.onUnlockAccount.bind(this)}
                                             mnemonic={this.state.mnemonic} />
                                     </TabPane>
                                 </TabContent>

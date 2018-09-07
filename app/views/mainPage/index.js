@@ -11,11 +11,17 @@ class MainPage extends Component{
             isUnlock:true
         })
     }
-
+    setAmountData(name,id,address){
+        this.setState({
+            name:name,
+            id:id,
+            address:address
+        })
+    }
     render(){
         return(
                 <div>
-                   { !this.state.isUnlock ? <WalletSetup onUnlockAccount={this.onUnlockAccount.bind(this)}/>:<AccountManagement/>}
+                   { !this.state.isUnlock ? <WalletSetup onUnlockAccount={this.onUnlockAccount.bind(this)} setAmountData={this.setAmountData.bind(this)}/>:<AccountManagement name={this.state.name} id={this.state.id} address={this.state.address}/>}
                     </div>
         );
     }

@@ -16,9 +16,10 @@ import ethereumLogo from '../../images/logo/ethereum-logo.svg';
 import bitcoinLogo from '../../images/logo/bitcoin-logo.svg';
 import litecoinBlackLogo from '../../images/logo/litecoin-black-logo.svg';
 import litecoinLogo from '../../images/logo/litecoin-logo.svg';
-import TempQR from '../../components/temp-components/qr';
+// import TempQR from '../../components/temp-components/qr';
+import QRCode from 'qrcode.react';
 
-export default class FirstPage extends React.Component {
+export default class AccountManagement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -142,7 +143,7 @@ export default class FirstPage extends React.Component {
     this.setState({ mnemonic });
   }
   render() {
-
+    
     return (
       <div>
         <Header />
@@ -163,14 +164,14 @@ export default class FirstPage extends React.Component {
                           <img src={identicon1} className="person-image theme-blue-shadow" />
                         </div>
                         <div className="d-inline-block align-top block">
-                          <h2 className="person-name">John Doe</h2>
+                          <h2 className="person-name">{ this.props.name }</h2>
 
                           <div className="person-copy-info">
                             <div className="info-description-box pl-0">
                               <span className="mr-3">
                                 <img src={copyImage} className="copy mr-3" />
                               </span>
-                              <span className="">0x59d50B3XXXXXXXXXXXXXXXXXXXCBE154D</span>
+                              <span className="">{ this.props.address }</span>
                             </div>
                           </div>
 
@@ -181,7 +182,7 @@ export default class FirstPage extends React.Component {
                         <Col>
                           <div className="">
 
-                            <p className="text large text-gray mb-0">Ledger John Doe</p>
+                            <p className="text large text-gray mb-0"></p>
                             <p className="text large text-gray mb-5">0 Outgoing transactions</p>
 
                           </div>
@@ -201,7 +202,7 @@ export default class FirstPage extends React.Component {
 
 
                   <Col className="text-right gray-column large qr">
-                    <TempQR large />
+                  <QRCode value={`${this.props.address} `} />
                   </Col>
                 </Row>
 
