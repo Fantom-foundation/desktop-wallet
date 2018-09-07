@@ -246,10 +246,10 @@ export default class FirstPage extends React.Component {
                   <Col>
                     <Row className="accounts">
                       <Col className="bg-gray mr-2 mb-3 accounts-column">
-                        <Row className="py-4">
+                        <Row className="py-4" onClick={() => this.props.handleSendFunds()}>
                           <Col className="account-logo px-0" ><img src={ethereumLogo} /></Col>
                           <Col className="pl-0">
-                          <h2 className="black-text"><span>Ethereum Account</span></h2>
+                          <h2 className="black-text"><span >Ethereum Account</span></h2>
                           <p className="account-number text text-primary large mb-0 text-ellipsis"><img src={copyImage} /> 0x59d50B3XXXXXXXXXXXXXXXXX</p>
                           </Col>
                         </Row>
