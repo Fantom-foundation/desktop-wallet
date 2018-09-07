@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
-import WalletSetup from '../views/walletSetup/index';
+import MainPage from '../views/mainPage/index';
 
 export default class Home extends Component{
   render(){
     return(
-      <WalletSetup />
+      <MainPage />
     )
   }
 }
