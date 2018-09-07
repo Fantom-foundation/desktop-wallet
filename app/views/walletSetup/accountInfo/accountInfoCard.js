@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 
 import {
     Row,
@@ -10,7 +10,7 @@ import copyImage from '../../../images/icons/copy.svg';
 import fantomIcon from '../../../images/icons/fantom_Icon.png';
 import  Identicons  from '../../../general/identicons/identicons';
 
-export default class AccountInfo extends React.Component {
+export default class AccountInfo extends Component {
 
   renderLogo() {
     if (this.props.address !== undefined && this.props.address !== '') {

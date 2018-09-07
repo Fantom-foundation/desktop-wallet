@@ -1,7 +1,7 @@
-import React from 'react';
+import React,{Component} from 'react';
 import { Row, Col } from 'reactstrap';
 
-export default class accountFooter extends React.Component{
+export default class accountFooter extends Component{
     render()
     {
         return (

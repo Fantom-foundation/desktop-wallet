@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 import {
     Row,
     Col,
@@ -6,7 +6,7 @@ import {
 import IdenticonsIcon from './identicons-list';
 import refreshIcon from '../../images/icons/refresh-icon.svg';
 
-export default class DisplayIdenticons extends React.Component {
+export default class DisplayIdenticons extends Component {
   render() {
     const {animateRefreshIcon, onRefresh } = this.props;
     let items = [];

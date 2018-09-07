@@ -25,12 +25,12 @@
 //     }
 // }
 
-import React from 'react';
+import React,{Component} from 'react';
 import arrowLeft from '../../images/icons/arrow-left.svg';
 import arrowRight from '../../images/icons/arrow-right.svg';
 import cross from '../../images/icons/cross.svg';
 
-export default class FooterButtons extends React.Component {
+export default class FooterButtons extends Component {
 
   onNext(event, isActive){
     const { onNext } = this.props;

@@ -1,7 +1,7 @@
-import React from 'react';
+import React,{Component} from 'react';
 import  Identicons  from './identicons';
 
-export default class IdenticonsIcon extends React.Component {
+export default class IdenticonsIcon extends Component {
 
   getRadioIconData(identiconsId){
     const {getRadioIconData} = this.props;

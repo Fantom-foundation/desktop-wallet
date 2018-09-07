@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 
 import {
   Collapse,
@@ -20,7 +20,7 @@ import SettingIcon from '../../images/icons/setting.svg';
 
 
 
-export default class Header extends React.Component {
+export default class Header extends Component {
   constructor(props) {
     super(props);
 
