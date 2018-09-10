@@ -50,7 +50,6 @@ export default class SendMoney extends Component {
         <div >
           <div >
             <TextField
-              textinputStyle={{ width: 300 }}
               isTextPresent={true}
               rightTextValue={this.state.coin}
               placeHolderText={'Coin'}
@@ -80,22 +79,24 @@ export default class SendMoney extends Component {
           <div >
             <TextField
               placeHolderText={'Memo'}
-              textinputStyle={{ width: 300 }}
               isTextPresent={true}
               rightTextValue={memo}
             />
           </div>
-          <p >
+          <br/>
+          <Button color="primary" onClick={() => this.confirmSendFunds()}>CONTINUE</Button>
+            {errorMessage !== '' && <p style={{color: 'red'}}>Funds transfer unsuccessful!</p>}
+
+<br/>   <br/>         <Button color="primary" onClick={() => this.props.handleGoBack()}>BACK</Button>
+            <hr/>
+          <p style={{color: 'red'}}>
             Please check if the above information is correct.
           </p>
           <div  />
         </div>
         <div >
 
-            <Button color="primary" onClick={() => this.confirmSendFunds()}>CONTINUE</Button>
-            {errorMessage !== '' && <p style={{color: 'red'}}>Funds transfer unsuccessful!</p>}
-            <div style={{margin: '10px'}}/>
-            <Button color="primary" onClick={() => this.props.handleGoBack()}>BACK</Button>
+            
         </div>
       </div>
     );

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Alert } from 'reactstrap';
+import { Button, Alert, Modal } from 'reactstrap';
 import Web3 from 'web3';
 
 import CheckSend from './checkSend/index';
@@ -93,8 +93,9 @@ export default class SendFunds extends Component {
         const {address, accountType, ftmAmount, usdAmount, optionalMessage, networkFees, totalFees, isCheckSend} = this.state;
         const {publicKey, privateKey} = this.props;
         return(
-            <div style={{width: 500, backgroundColor: '#fff' ,
-             alignSelf: 'center', marginLeft: '100px', marginTop: '100px', border: '2px solid black', padding: '20px' }}>
+            <Modal isOpen={true}>
+            <div style={{backgroundColor: '#fff' ,
+             alignSelf: 'center', border: '2px solid black',  }}>
             {!isCheckSend ?  <div>
                 <h1>Send Funds</h1>
                 <p>To Address</p>
@@ -109,6 +110,7 @@ export default class SendFunds extends Component {
                 type='text'
                 placeholder='Fantom Wallet'
                 value={accountType}
+                disabled
                 onChange={this.setAccountType.bind(this)} />
 
                 <p>Amount</p>
@@ -142,7 +144,7 @@ export default class SendFunds extends Component {
                 address={address}
                 amount={ftmAmount} 
                 coin={accountType}
-                memo={optionalMessage}
+                memo={optionalMessage || 'none'}
                 fees= {networkFees}
                 publicKey={publicKey}
                 privateKey={privateKey}
@@ -150,6 +152,7 @@ export default class SendFunds extends Component {
                 />
             }
             </div>
+            </Modal>
         )
     }
 }
