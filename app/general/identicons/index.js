@@ -11,7 +11,7 @@ export default class DisplayIdenticons extends Component {
     const {animateRefreshIcon, onRefresh } = this.props;
     let items = [];
     for(let i = 0; i < 6; i++) {
-      const item = <IdenticonsIcon {...this.props} index={i} />;
+      const item = <IdenticonsIcon key={i} {...this.props} index={i} />;
       items.push(item);
     }
 

@@ -50,7 +50,6 @@ class CreateAccount extends Component {
       }
 
       isCreateAccount(){
-          console.log(' hide next')
         const {accountName, password, confirmPassword, emailErrorText, passwordErrorText, confirmPasswordErrorText, identiconsId } = this.state;
 
         let isConfirmed = true;
@@ -247,7 +246,7 @@ renderPasswordStrengthBar(){
                                         <input id="AccountName" className="form-element-field" placeholder=" " type="text" required="" 
                                         onChange={this.setAccountName.bind(this)}/>
                                         <div className="form-element-bar"></div>
-                                        <label className="form-element-label" for="AccountName">Account Name</label>
+                                        <label className="form-element-label" htmlFor="AccountName">Account Name</label>
                                         <small className="form-element-hint">{emailErrorText}</small>
                                     </div>
                                     
@@ -258,7 +257,7 @@ renderPasswordStrengthBar(){
                                                 <input id="Password" className="form-element-field" placeholder=" " type="password" required="" 
                                                 onChange={this.setPassword.bind(this)}/>
                                                 <div className="form-element-bar"></div>
-                                                <label className="form-element-label" for="Password">Password</label>
+                                                <label className="form-element-label" htmlFor="Password">Password</label>
                                                 <small className="form-element-hint">{passwordErrorText}</small>
                                             </div>
                                         </Col>
@@ -267,7 +266,7 @@ renderPasswordStrengthBar(){
                                                 <input id="Re-enterPassword" className="form-element-field" placeholder=" " type="password" required="" 
                                                 onChange={this.setConfirmPassword.bind(this)}/>
                                                 <div className="form-element-bar"></div>
-                                                <label className="form-element-label" for="Re-enterPassword">Re- enter Password</label>
+                                                <label className="form-element-label" htmlFor="Re-enterPassword">Re- enter Password</label>
                                                 <small className="form-element-hint">{confirmPasswordErrorText}</small>
                                             </div>
                                         </Col>
@@ -276,7 +275,7 @@ renderPasswordStrengthBar(){
                                         <input id="PasswordHint" className="form-element-field" placeholder="(optional) a hint to remebering the password " type="text" required="" 
                                         onChange={this.setPasswordHint.bind(this)}/>
                                         <div className="form-element-bar"></div>
-                                        <label className="form-element-label" for="PasswordHint">Password hint</label>
+                                        <label className="form-element-label" htmlFor="PasswordHint">Password hint</label>
                                     </div>
                                     <Row className="mt-3">
                                         <Col>
