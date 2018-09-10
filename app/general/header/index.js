@@ -51,7 +51,7 @@ export default class Header extends Component {
               <NavItem>
                 <NavLink href="#"><img src={NotificationIcon} alt="Setting" style={{height:'16.6px'}} /></NavLink>
               </NavItem>
-              <NavItem>
+              <NavItem onClick={() => this.props.handleUserSettings()}>
                 <NavLink href="#"><img src={SettingIcon} alt="Setting" style={{height:'16.6px'}} /></NavLink>
               </NavItem>
 

@@ -174,6 +174,12 @@ export default class AccountManagement extends React.Component {
     return allTransaction;
   }
 
+  handleUserSettings(){
+    if(this.props.handleUserSettings){
+      this.props.handleUserSettings();
+    }
+  }
+
   render() {
     let transactionLength = 0;
     if(this.props.transactionData){
@@ -181,7 +187,7 @@ export default class AccountManagement extends React.Component {
     }
     return (
       <div>
-        <Header />
+        <Header handleUserSettings={this.handleUserSettings.bind(this)}/>
         <section style={{ padding: '118px 0' }}>
           <Container className="bg-white ">
             <Row className="bg-primary py-1 account-management-header">

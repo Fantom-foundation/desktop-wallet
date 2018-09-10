@@ -6,13 +6,18 @@ import SendFunds from '../sendFunds/index';
 import Web3 from 'web3';
 
 class MainPage extends Component{
-    state={
-        isUnlock: Store.has('address'),
-        isSendFund: false,
-        privateKey: '',
-        name:Store.has('name') ? Store.get('name') : '',
-        address:Store.has('name') ? Store.get('name') : ''
+    constructor(props){
+        super(props);
+
+        this.state={
+            isUnlock: !!Store.size,
+            isSendFund: false,
+            privateKey: '',
+            name: Store.size ? Store.get(Object.keys(Store.store)[0])['name']:'',
+            address:Store.size ? Store.get(Object.keys(Store.store)[0])['address']:''
+        }
     }
+    
     
     onUnlockAccount(){
         this.setState({
@@ -41,16 +46,31 @@ class MainPage extends Component{
         if(address){
             this.getWalletBalance(address);
             this.getWalletTransaction(address);
-            Store.set('address',address);
-            Store.set('privateKey',privateKey);
-            Store.set('name',name);
+            const userStoreData = {
+                'address': address,
+                'privateKey': privateKey,
+                'name':name,
+            };
+
+            Store.set(address, userStoreData );   
+
+            // Store.set('address',address);
+            // Store.set('privateKey',privateKey);
+            // Store.set('name',name);
             Store.openInEditor();
         }
         
     }
     componentDidMount(){
-        if(Store.has('address')){
-            const address = Store.get('address');
+        console.log('store  = ', (Store.size));
+        
+        
+        const storeSize = (Store.size);
+        // console.log('size of store  = ', storeSize);
+
+        if(storeSize > 0){
+            const keys = Object.keys(Store.store);
+            const address = Store.get(keys[0]);
             this.getWalletBalance(address);
             this.getWalletTransaction(address);
         }
@@ -270,12 +290,26 @@ class MainPage extends Component{
             isLoading: false,
         });
     }
+
+    handleUserSettings(){
+        this.setState({
+            isUnlock: false,
+        })
+    }
+
     render(){
         const publicKey = this.state.address;
         const privateKey = this.state.privateKey;
+
+        console.log('this.state.address : ', this.state.address);
+
         return(
                 <div>
-                    { !this.state.isUnlock ? <WalletSetup onUnlockAccount={this.onUnlockAccount.bind(this)} setAmountData={this.setAmountData.bind(this)}/>:<AccountManagement handleSendFunds={this.handleSendFunds.bind(this)} balance={this.state.balance} transactionData={this.state.transactionData}name={this.state.name} id={this.state.id} address={this.state.address}/>}
+                    { !this.state.isUnlock ? <WalletSetup onUnlockAccount={this.onUnlockAccount.bind(this)} setAmountData={this.setAmountData.bind(this)}/>
+                    :
+                    <AccountManagement handleSendFunds={this.handleSendFunds.bind(this)} balance={this.state.balance} 
+                    transactionData={this.state.transactionData}name={this.state.name} id={this.state.id} address={this.state.address}
+                    handleUserSettings={this.handleUserSettings.bind(this)}/>}
                    {this.state.isSendFund &&  <SendFunds onClose={this.onClose.bind(this)} privateKey={privateKey} publicKey={publicKey}/>}
                 </div>
         );
