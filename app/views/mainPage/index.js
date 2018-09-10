@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import WalletSetup from '../walletSetup/index';
 import AccountManagement from '../accountManagement/index';
-
+import Store from '../../store/userInfoStore/index';
 import SendFunds from '../sendFunds/index';
 import Web3 from 'web3';
 
 class MainPage extends Component{
     state={
-        isUnlock:false,
+        isUnlock: Store.has('address'),
         isSendFund: false,
         privateKey: '',
+        name:Store.has('name') ? Store.get('name') : '',
+        address:Store.has('name') ? Store.get('name') : ''
     }
-
+    
     onUnlockAccount(){
         this.setState({
             isUnlock:true
@@ -39,10 +41,20 @@ class MainPage extends Component{
         if(address){
             this.getWalletBalance(address);
             this.getWalletTransaction(address);
+            Store.set('address',address);
+            Store.set('privateKey',privateKey);
+            Store.set('name',name);
+            Store.openInEditor();
         }
         
     }
-
+    componentDidMount(){
+        if(Store.has('address')){
+            const address = Store.get('address');
+            this.getWalletBalance(address);
+            this.getWalletTransaction(address);
+        }
+    }
     getWalletBalance(address) {
         console.log('api called');
         // if (configHelper.isEthereumMode) {

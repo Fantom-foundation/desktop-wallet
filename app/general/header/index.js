@@ -16,7 +16,7 @@ import {
 } from 'reactstrap';
 import Logo from '../../images/Logo/logo.png';
 import SettingIcon from '../../images/icons/setting.svg';
-
+import NotificationIcon from '../../images/icons/notification_red.png'
 
 
 
@@ -49,7 +49,7 @@ export default class Header extends Component {
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="#"><img src={SettingIcon} alt="Setting" style={{height:'16.6px'}} /></NavLink>
+                <NavLink href="#"><img src={NotificationIcon} alt="Setting" style={{height:'16.6px'}} /></NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="#"><img src={SettingIcon} alt="Setting" style={{height:'16.6px'}} /></NavLink>

@@ -76,12 +76,19 @@ class CreateAccount extends Component {
         event.preventDefault();
         let validationResult = '';
         if (name === 'accountName') {
-            if (value.includes('@')) {
-                validationResult = this.validEmail(value);
-            }
-            else{
+            const regex = /^[a-zA-Z ]{2,30}$/;
+            const result = regex.test(value);
+            if(result){
                 validationResult = {errorText: ''}
+            } else {
+                validationResult = {errorText:'Enter a valid name'}
             }
+            // if (value.includes('@')) {
+            //     validationResult = this.validEmail(value);
+            // }
+            // else{
+            //     validationResult = {errorText: ''}
+            // }
         } else if (name === 'password') {
             validationResult = this.validPass(value);
             this.passwordStrengthChecker(value);
@@ -112,7 +119,7 @@ class CreateAccount extends Component {
             this.setState({
                 passwordStrength: 0
             })
-        } else if (false === enoughRegex.test(value)) {
+        } else if (enoughRegex.test(value) === false ) {
             this.setState({
                 passwordStrength: 10
             })
