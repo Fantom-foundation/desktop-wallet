@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import WalletSetup from '../walletSetup/index';
 import AccountManagement from '../accountManagement/index';
-
+import Store from '../../store/userInfoStore/index';
 import SendFunds from '../sendFunds/index';
 import Web3 from 'web3';
 
@@ -39,6 +39,10 @@ class MainPage extends Component{
         if(address){
             this.getWalletBalance(address);
             this.getWalletTransaction(address);
+            Store.set('address',address);
+            Store.set('privateKey',privateKey);
+            Store.set('name',name);
+            
         }
         
     }
