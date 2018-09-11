@@ -1,154 +1,26 @@
 import React from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  TabContent, TabPane, Nav, NavItem, NavLink,
-  Form, FormGroup, Input, Button,
-} from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
+import {clipboard} from 'electron';
 import moment from 'moment';
-import identicon1 from '../../images/identicon/ident-con-1.png';
+
 import copyImage from '../../images/icons/copy.svg';
 import arrowLeftRight from '../../images/icons/arrows-left-right.svg';
 import Header from '../../general/header/index';
-import bip39 from 'bip39';
+import  Identicons  from '../../general/identicons/identicons';
+import fantomIcon from '../../images/icons/fantom_Icon.png';
 
-import ethereumLogo from '../../images/logo/ethereum-logo.svg';
-import bitcoinLogo from '../../images/logo/bitcoin-logo.svg';
-import litecoinBlackLogo from '../../images/logo/litecoin-black-logo.svg';
-import litecoinLogo from '../../images/logo/litecoin-logo.svg';
-// import TempQR from '../../components/temp-components/qr';
-import QRCode from 'qrcode.react';
+
+import UserAccount from './userAccounts/index';
+import QRCodeIcon from '../../general/qr/index';
+import Store from '../../store/userInfoStore/index';
 
 export default class AccountManagement extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeTab: '1',
-      email: '',
-      password: '',
-      password_hint: '',
-      repassword: '',
-      emailErrorText: '',
-      passErrorText: '',
-      repassErrorText: '',
-      data: [],
-      date: new Date().getTime(),
-      isUpdated: false,
-      mnemonic: '',
-    };
-    this.toggle = this.toggle.bind(this);
-  }
-  onUpdate = (key, value) => {
-    this.setState({
-      [key]: value,
-    });
-  }
-  handleClick = (event) => {
-    event.preventDefault();
-    const payload = {
-      email: this.state.email,
-      password: this.state.password,
-      repassword: this.state.repassword,
-      password_hint: this.state.password_hint,
-    };
-    const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
-    const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
-    fetch(`${hyperText}://${window.location.hostname}${hostname}/api/create-account`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }).then((res) => res.json())
-      .then((res) => {
-        if (res) {
-          console.log('res!!', res);
-          this.resetFields();
-        } else {
-          console.log('error', res);
-        }
-      });
-  }
-  resetFields = () => {
-    this.setState({
-      email: '',
-      password: '',
-      repassword: '',
-      password_hint: '',
-    });
-  }
-  validateData = (event, name) => {
-    event.preventDefault();
-    if (name === 'email') {
-      this.validEmail();
-    } else if (name === 'password') {
-      this.validPass();
-    } else if (name === 'repassword') {
-      this.validRepass();
-    } else if (name === 'password_hint') {
-      this.validPasswordHint();
-    }
-  }
-  validPass = () => {
-    const passObj = {};
-    if (this.state.password === '') {
-      passObj.passErrorText = 'Password field can\'t be empty';
-    } else if (this.state.password.length < 8) {
-      passObj.passErrorText = 'Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.';
-    } else {
-      passObj.passErrorText = '';
-    }
-    this.setState(passObj);
-  }
-  validEmail = () => {
-    const obj = {};
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (this.state.email === '') {
-      obj.emailErrorText = 'Account Name field can\'t be empty';
-    } else if (re.test(String(this.state.email).toLowerCase())) {
-      obj.emailErrorText = '';
-    } else {
-      obj.emailErrorText = 'You need to specify a valid account name';
-    }
-    this.setState(obj);
-  }
-  validRepass = () => {
-    const obj = {};
-    if (this.state.repassword === '') {
-      obj.repassErrorText = 'Re-enter password field can\'t be empty';
-    } else if (this.state.repassword !== this.state.password) {
-      obj.repassErrorText = 'Password and Re-enter password must be same';
-    } else {
-      obj.repassErrorText = '';
-    }
-    this.setState(obj);
-  }
-  toggle(tab) {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab,
-      });
-    }
-    if (tab === '2') {
-      this.getMnemonic();
-    }
-  }
-  refreshData = () => {
-    const newDate = new Date().getTime();
-    this.setState({ date: newDate });
-  }
-  getMnemonic = () => {
-    const mnemonic = bip39.generateMnemonic();
-    bip39.mnemonicToSeedHex(mnemonic);
-    this.setState({ mnemonic });
-  }
-
+  
   transactionLoop(){
     let allTransaction = null;
     if(this.props.transactionData){
-      allTransaction = this.props.transactionData.map((data)=>(
-        <Row className="bg-gray mt-2">
+      allTransaction = this.props.transactionData.map((data, index)=>(
+        <Row key={index} className="bg-gray mt-2">
                   <Col className="gray-column transactions-details small">
                     <Row>
                       <Col className="blank-88 hide-at-991"></Col>
@@ -174,6 +46,10 @@ export default class AccountManagement extends React.Component {
     return allTransaction;
   }
 
+  copyToClipboard(copyText) {
+    clipboard.writeText(copyText);            
+}
+
   handleUserSettings(){
     if(this.props.handleUserSettings){
       this.props.handleUserSettings();
@@ -189,7 +65,7 @@ export default class AccountManagement extends React.Component {
       <div>
         <Header handleUserSettings={this.handleUserSettings.bind(this)}/>
         <section style={{ padding: '118px 0' }}>
-          <Container className="bg-white ">
+          <Container className="bg-white">
             <Row className="bg-primary py-1 account-management-header">
               <Col md={5} className="col text-white pl-4 text-uppercase">Account Management</Col>
               <Col className="col text-white text-uppercase" onClick={() => this.props.handleSendFunds()}><img src={arrowLeftRight} className="mr-1" /> Transfer</Col>
@@ -202,14 +78,16 @@ export default class AccountManagement extends React.Component {
                     <div className="person-info large">
                       <span className="person-basic-info">
                         <div className="d-inline-block align-top block">
-                          <img src={identicon1} className="person-image theme-blue-shadow" />
+                              <Identicons id={this.props.identiconsId} className="person-image theme-blue-shadow" 
+                        width={40} size={3} />
+                          {/* <img src={identicon1} className="person-image theme-blue-shadow" /> */}
                         </div>
                         <div className="d-inline-block align-top block">
                           <h2 className="person-name">{ this.props.name }</h2>
 
                           <div className="person-copy-info">
                             <div className="info-description-box pl-0">
-                              <span className="mr-3">
+                              <span className="mr-3" onClick={() => this.copyToClipboard(this.props.address)}>
                                 <img src={copyImage} className="copy mr-3" />
                               </span>
                               <span className="">{ this.props.address }</span>
@@ -233,18 +111,17 @@ export default class AccountManagement extends React.Component {
                             <h2><span><strong>{this.props.balance ? `${this.props.balance}`: '00,0000'} <span className="medium-text">FTM</span></strong></span></h2>
                             <h3><span>0,0000\</span></h3>
                           </div>
-
                         </Col>
                       </Row>
                     </div>
-
                   </Col>
-
-
-
-                  <Col className="text-right gray-column large qr">
-                  <QRCode value={`${this.props.address} `} />
-                  </Col>
+                  <QRCodeIcon 
+                    className='text-right gray-column large qr'
+                    address={this.props.address}
+                    icon={fantomIcon}
+                    text='FANTOM'
+                  />
+                   
                 </Row>
 
 
@@ -253,63 +130,10 @@ export default class AccountManagement extends React.Component {
                     <h2 className="r-title text-gray mb-0"><span>Transactions</span></h2>
                   </Col>
                 </Row>
-
-                {/*===============Transactions Loop Start=======================*/}
-
                 {this.transactionLoop()}
-
-                {/*===============Transactions Loop End=======================*/}
-
-                <Row className="mt-5">
-                  <Col>
-                    <h2 className="title large roboto"><span>Accounts</span></h2>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Row className="accounts">
-                      <Col className="bg-gray mr-2 mb-3 accounts-column">
-                        <Row className="py-4" >
-                          <Col className="account-logo px-0" ><img src={ethereumLogo} /></Col>
-                          <Col className="pl-0">
-                          <h2 className="black-text"><span >Ethereum Account</span></h2>
-                          <p className="account-number text text-primary large mb-0 text-ellipsis"><img src={copyImage} /> 0x59d50B3XXXXXXXXXXXXXXXXX</p>
-                          </Col>
-                        </Row>
-                      </Col>
-                      <Col className="bg-gray ml-2 mb-3 accounts-column">
-                        <Row className="py-4">
-                          <Col className="account-logo px-0" ><img src={bitcoinLogo} /></Col>
-                          <Col className="pl-0">
-                          <h2 className="black-text"><span>Bitcoin Account</span></h2>
-                          <p className="account-number text text-primary  large mb-0 text-ellipsis"><img src={copyImage}/> 0x59d50B3XXXXXXXXXXXXXX</p>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                    <Row className="accounts">
-                      <Col className="bg-gray mr-2 mb-3 accounts-column">
-                        <Row className="py-4">
-                          <Col className="account-logo px-0" ><img src={litecoinBlackLogo} /></Col>
-                          <Col className="pl-0">
-                          <h2 className="black-text"><span>Another Account</span></h2>
-                          <p className="account-number text text-primary  large mb-0 text-ellipsis"><img src={copyImage} /> 0x59d50B3XXXXXXXXXXXXXX</p>
-                          </Col>
-                        </Row>
-                      </Col>
-                      <Col className="bg-gray ml-2 mb-3 accounts-column">
-                        <Row className="py-4">
-                          <Col className="account-logo px-0" ><img src={litecoinLogo} /></Col>
-                          <Col className="pl-0">
-                          <h2 className="black-text"><span>Litecoin Account</span></h2>
-                          <p className="account-number text text-primary large mb-0 text-ellipsis"><img src={copyImage} /> 0x59d50B3XXXXXXXXXXXXXX</p>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-
+                {Store.size > 1 && <UserAccount 
+                  address={this.props.address}
+                  copyToClipboard={this.copyToClipboard.bind(this)}/>}
               </Col>
             </Row>
           </Container>

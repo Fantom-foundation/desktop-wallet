@@ -1,23 +1,86 @@
 import React, { Component } from 'react';
+import Web3 from 'web3';
+
+
 import WalletSetup from '../walletSetup/index';
 import AccountManagement from '../accountManagement/index';
 import Store from '../../store/userInfoStore/index';
 import SendFunds from '../sendFunds/index';
-import Web3 from 'web3';
+
+import config from '../../store/config/index';
+
+const configHelper = config();
+
+function scientificToDecimal(num) {
+    const sign = Math.sign(num);
+    //if the number is in scientific notation remove it
+    if(/\d+\.?\d*e[\+\-]*\d+/i.test(num)) {
+        const zero = '0';
+        const parts = String(num).toLowerCase().split('e'); //split into coeff and exponent
+        const e = parts.pop(); //store the exponential part
+        let l = Math.abs(e); //get the number of zeros
+        const direction = e/l; // use to determine the zeroes on the left or right
+        const coeff_array = parts[0].split('.');
+        
+        if (direction === -1) {
+            coeff_array[0] = Math.abs(coeff_array[0]);
+            num = zero + '.' + new Array(l).join(zero) + coeff_array.join('');
+        }
+        else {
+            const dec = coeff_array[1];
+            if (dec) l = l - dec.length;
+            num = coeff_array.join('') + new Array(l+1).join(zero);
+        }
+    }
+    
+    if (sign < 0) {
+        num = -num;
+    }
+
+    return num;
+}
 
 class MainPage extends Component{
     constructor(props){
         super(props);
 
+        const userAccountDetail = this.getUserAccountDetail();
+        console.log('userAccountDetail', userAccountDetail)
         this.state={
+            identiconsId: userAccountDetail.accountIcon,
             isUnlock: !!Store.size,
             isSendFund: false,
-            privateKey: '',
-            name: Store.size ? Store.get(Object.keys(Store.store)[0])['name']:'',
-            address:Store.size ? Store.get(Object.keys(Store.store)[0])['address']:''
+            privateKey: userAccountDetail.privateKey,
+            name: userAccountDetail.name,
+            address: userAccountDetail.address
         }
     }
     
+    componentDidMount(){
+       const storeSize = (Store.size);
+        if(storeSize > 0){
+           const userAccountDetail =  this.getUserAccountDetail();
+           console.log('from didmount Api call for userAccountDetail  : ', userAccountDetail);
+            this.getWalletBalance(userAccountDetail.address);
+            this.getWalletTransaction(userAccountDetail.address);
+        }
+    }
+
+    getUserAccountDetail(){
+        const storeSize = (Store.size);
+        let userAccountDetail = '';
+        if(storeSize > 0){
+            const keys = Object.keys(Store.store);
+            let accountDetail = '';
+            for(let key of keys){
+                 accountDetail = Store.get(key);
+                if(accountDetail.primaryAccount === true){
+                   return  accountDetail;
+                }
+            }
+        }
+        return userAccountDetail;
+    }
     
     onUnlockAccount(){
         this.setState({
@@ -36,83 +99,96 @@ class MainPage extends Component{
             isSendFund: false,
         })
     }
-    setAmountData(name,id,address, privateKey){
+
+    setAmountData(name,identiconsId,address, privateKey){
         this.setState({
-            name:name,
-            id:id,
-            address:address,
+            name,
+            identiconsId,
+            address,
             privateKey,
         });
+
         if(address){
+            console.log('from setAmountData api call for address  :', address);
             this.getWalletBalance(address);
             this.getWalletTransaction(address);
+
+            const storeSize = (Store.size);
+            if(storeSize > 0){
+                const keys = Object.keys(Store.store);             
+                keys.forEach((key) => {
+                    const newObj = Store.get(key);
+                    newObj.primaryAccount = false;
+                    Store.set(key,newObj); 
+                })
+            }
+
+
             const userStoreData = {
                 'address': address,
                 'privateKey': privateKey,
                 'name':name,
+                'primaryAccount': true,
+                'accountIcon': identiconsId,
             };
-
-            Store.set(address, userStoreData );   
-
-            // Store.set('address',address);
-            // Store.set('privateKey',privateKey);
-            // Store.set('name',name);
-            Store.openInEditor();
+            Store.set(address, userStoreData );
+            // Store.openInEditor();
         }
         
     }
-    componentDidMount(){
-        console.log('store  = ', (Store.size));
-        
-        
-        const storeSize = (Store.size);
-        // console.log('size of store  = ', storeSize);
 
-        if(storeSize > 0){
-            const keys = Object.keys(Store.store);
-            const address = Store.get(keys[0]);
-            this.getWalletBalance(address);
-            this.getWalletTransaction(address);
-        }
-    }
     getWalletBalance(address) {
-        console.log('api called');
-        // if (configHelper.isEthereumMode) {
+        if (configHelper.isEthereumMode) {
             this.getEtherBalanceFromApiAsync(address);
-        // } else {
-        //     this.getFantomBalanceFromApiAsync(address);
-        // }
+        } else {
+            this.getFantomBalanceFromApiAsync(address);
+        }
     }
     
     getWalletTransaction(address) {
         // if (configHelper.isEthereumMode) {
-            this.getEtherTransactionsFromApiAsync(address);
+        //     this.getEtherTransactionsFromApiAsync(address);
         // } else {
         //     this.getFantomTransactionsFromApiAsync(address);
         // }
     }
     
-    ///////////////////////////////////////////   FOR FANTOM OWN END POINT  ////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////   FOR FANTOM OWN END POINT  ///////////////////////////////////////////////////////////////  
+
     /**
      * getFantomBalanceFromApiAsync() :  Api to fetch wallet balance for given address of Fantom own endpoint.
      * @param { String } address : address to fetch wallet balance.
      */
+
     getFantomBalanceFromApiAsync(address) {
-        let dummyAddress = 0xFD00A5fE03CB4672e4380046938cFe5A18456Df4;
-        return fetch(configHelper.apiUrl + '/account/' + dummyAddress)
+        let dummyAddress = '0xFD00A5fE03CB4672e4380046938cFe5A18456Df4';
+        console.log('test net balance for address :  ', address)
+        return fetch(configHelper.apiUrl + '/account/' + address)
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson && responseJson.balance) {
-                    const balance = responseJson.balance;
+                    console.log('test net from address : ', address)
+                    console.log('test net responseJson : ', responseJson)
+                    const balance = scientificToDecimal(responseJson.balance);
+                    console.log('test net balance : ', balance)
                     const valInEther = Web3.utils.fromWei('' + balance, 'ether');
+                    console.log('test net valInEther : ', valInEther)
                     this.setState({
                         balance: valInEther,
                     })
+                }else{
+                    this.setState({
+                        balance: '',
+                    })
                 }
+
                 return responseJson;
             })
             .catch((error) => {
                 console.error(error);
+                this.setState({
+                    balance: '',
+                })
             });
     }
     
@@ -192,8 +268,8 @@ class MainPage extends Component{
         });
     }
     
-    ///////////////////////////////////////////   FOR ETHER END POINT  ////////////////////////////////////////////////////////////////
-    
+    ///////////////////////////////////////////   FOR ETHER END POINT  ////////////////////////////////////////////////////////////////     
+        
     /**
      * getEtherBalanceFromApiAsync() :  Api to fetch Ether wallet balance for given address.
      * @param { String } address : address to fetch wallet balance.
@@ -297,20 +373,35 @@ class MainPage extends Component{
         })
     }
 
+    handleSelectedAccount(address){
+        console.log('selected account address : ', address);
+        const selectedAccount = Store.get(address);
+        console.log('selected account : ', selectedAccount);
+        const { privateKey, name, primaryAccount, accountIcon} = selectedAccount;
+        this.setAmountData(name,accountIcon,address, privateKey);
+
+
+    }
+
     render(){
         const publicKey = this.state.address;
         const privateKey = this.state.privateKey;
-
-        console.log('this.state.address : ', this.state.address);
 
         return(
                 <div>
                     { !this.state.isUnlock ? <WalletSetup onUnlockAccount={this.onUnlockAccount.bind(this)} setAmountData={this.setAmountData.bind(this)}/>
                     :
-                    <AccountManagement handleSendFunds={this.handleSendFunds.bind(this)} balance={this.state.balance} 
-                    transactionData={this.state.transactionData}name={this.state.name} id={this.state.id} address={this.state.address}
-                    handleUserSettings={this.handleUserSettings.bind(this)}/>}
-                   {this.state.isSendFund &&  <SendFunds onClose={this.onClose.bind(this)} privateKey={privateKey} publicKey={publicKey}/>}
+                    <AccountManagement 
+                    handleSendFunds={this.handleSendFunds.bind(this)} 
+                    balance={this.state.balance} 
+                    transactionData={this.state.transactionData} 
+                    name={this.state.name} 
+                    identiconsId={this.state.identiconsId} 
+                    address={this.state.address}
+                    handleUserSettings={this.handleUserSettings.bind(this)} 
+                    handleSelectedAccount={this.handleSelectedAccount.bind(this)}/>}
+                   {this.state.isSendFund &&  
+                   <SendFunds onClose={this.onClose.bind(this)} privateKey={privateKey} publicKey={publicKey}/>}
                 </div>
         );
     }

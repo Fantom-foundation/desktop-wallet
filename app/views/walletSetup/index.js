@@ -89,57 +89,6 @@ export default class Home extends Component {
         
       }
 
-    //   onUpdate = (key, value) => {
-    //     this.setState({
-    //         [key]: value,
-    //     });
-    // }
-
-    // handleClick = (event) => {
-
-    // event.preventDefault();
-    // const { email, password, repassword, passwordHint, identiconsId } = this.state;
-    // const payload = {
-    //     email,
-    //     password,
-    //     repassword,
-    //     passwordHint,
-    //     icon: identiconsId,
-    // };
-    // const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
-    // const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
-
-    // fetch(`${hyperText}://${window.location.hostname}${hostname}/api/create-account`, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(payload),
-    // }).then((res) => res.json())
-    //     .then((res) => {
-    //         if (res.status === 200) {
-    //             console.log('res!!', res);
-    //             this.resetFields();
-    //         } else {
-    //             console.log('error', res);
-    //         }
-    //     }).catch((err) => console.log(err));
-    // }
-
-    // resetFields = () => {
-    //     this.setState({
-    //         email: '',
-    //         password: '',
-    //         repassword: '',
-    //         passwordHint: '',
-    //         identiconsId: '',
-    //     });
-    // }
-
-    // getRadioData = (event, identiconsId) => {
-    //     event.preventDefault();
-    //     this.setState({ identiconsId });
-    // }
     toggle(tab) {
         if (this.state.activeTab !== tab) {
 
@@ -164,12 +113,6 @@ export default class Home extends Component {
         this.setState({ date: newDate });
     }
 
-    // getMnemonic = () => {
-    //     const mnemonic = bip39.generateMnemonic();
-    //     bip39.mnemonicToSeedHex(mnemonic);
-    //     this.setState({ mnemonic });
-    // }
-
     getRadioIconData(identiconsId) {
         this.setState({
             identiconsId
@@ -190,6 +133,7 @@ export default class Home extends Component {
             this.props.setAmountData(this.state.accountName,this.state.identiconsId,this.state.address, this.state.privateKey)
         }
     }
+    
     render() {
        const {accountName, mnemonic, address, identiconsId} = this.state;
         return (
