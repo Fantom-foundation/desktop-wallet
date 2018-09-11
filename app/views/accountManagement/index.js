@@ -133,6 +133,7 @@ export default class AccountManagement extends React.Component {
                 {this.transactionLoop()}
                 {Store.size > 1 && <UserAccount 
                   address={this.props.address}
+                  handleSelectedAccount={this.props.handleSelectedAccount}
                   copyToClipboard={this.copyToClipboard.bind(this)}/>}
               </Col>
             </Row>
