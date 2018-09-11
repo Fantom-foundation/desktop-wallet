@@ -83,18 +83,20 @@ export default class SendMoney extends Component {
               rightTextValue={memo}
             />
           </div>
-          <br/>
-          <Button color="primary" onClick={() => this.confirmSendFunds()}>CONTINUE</Button>
+      
+          <Button color="primary" className="text-uppercase w-100" style={{marginTop:'18px'}} onClick={() => this.confirmSendFunds()}>Continue</Button>
             {errorMessage !== '' && <p style={{color: 'red'}}>Funds transfer unsuccessful!</p>}
 
-<br/>   <br/>         <Button color="primary" onClick={() => this.props.handleGoBack()}>BACK</Button>
-            <hr/>
-          <p style={{color: 'red'}}>
+    {/* <Button color="primary" onClick={() => this.props.handleGoBack()}>BACK</Button> */}
+
+    
+            <hr style={{borderStyle:'dashed', borderColor:"#707070", opacity:.33,marginBottom:'14px'}} />
+          <p className="error-msg">
             Please check if the above information is correct.
           </p>
           <div  />
         </div>
-        <div >
+        <div>
 
             
         </div>
