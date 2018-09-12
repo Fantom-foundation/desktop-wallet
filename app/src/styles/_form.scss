@@ -92,11 +92,10 @@ $formTextColor: #979797;
 }
 .form-group{
   textarea.form-control{
-    height: 41px;
-    // color: rgba(0,0,0,0.21);
+    height: 61px;
     font-family: SFCompactDisplay;
-  font-size: 11px;
-  font-weight: 500;
+    font-size: 16px;
+    font-weight: 500;
   }
   
 }
@@ -145,17 +144,9 @@ $formTextColor: #979797;
   }
   .form-text-line {
     width: 631px;
-    // height: 3px;
-    border: solid 1px #ff0000;
-    // height: 1.68px !important;
-    // background: {
-    //   color: map-get($color, blue);
-    // }
-    // &:before,
-    // &:after {
-    //   display: none !important;
-    //   height: 0px !important;
-    // }
+    height: 1.68px !important;
+    background-color: #ff0000;
+    // border: solid 1px #ff0000;
   }
   .form-element-hint {
     margin-top: 11.9px;

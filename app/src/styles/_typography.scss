@@ -4,6 +4,7 @@ $title-font-size-large-576: 24px;
 $text-font-size: 11px;
 $text-font-size-large: 18px;
 $text-font-size-small: 9px;
+$text-font-size-medium: 16px;
 .black-text {
   color: #000;
 }
@@ -11,12 +12,12 @@ $text-font-size-small: 9px;
   color: #9b9b9b;
 }
 .text-primary {
-  color: map-get($color, blue) !important;
+  color: map-get($color, #0000ff) !important;
 }
 .title {
   font: {
     family: $font-family;
-    weight: 500;
+    weight: bold;
   }
   &.roboto {
     font: {
@@ -37,7 +38,7 @@ $text-font-size-small: 9px;
 .text {
   font: {
     family: $font-family;
-    size: $text-font-size;
+    size: $text-font-size-medium;
   }
   &.small {
     font: {

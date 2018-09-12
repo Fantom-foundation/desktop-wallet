@@ -75,7 +75,7 @@
 
 .title {
   font-family: SFCompactDisplay;
-  font-weight: 500; }
+  font-weight: bold; }
   .title.roboto {
     font-family: Roboto; }
   .title.large {
@@ -86,7 +86,7 @@
 
 .text {
   font-family: SFCompactDisplay;
-  font-size: 11px; }
+  font-size: 16px; }
   .text.small {
     font-size: 9px; }
   .text.large {
@@ -418,9 +418,9 @@ strong {
   padding-right: 10.7px; }
 
 .form-group textarea.form-control {
-  height: 41px;
+  height: 61px;
   font-family: SFCompactDisplay;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 500; }
 
 .form-element {
@@ -450,7 +450,8 @@ strong {
       height: 0px !important; }
   .form-element .form-text-line {
     width: 631px;
-    border: solid 1px #ff0000; }
+    height: 1.68px !important;
+    background-color: #ff0000; }
   .form-element .form-element-hint {
     margin-top: 11.9px;
     color: #ff0000; }

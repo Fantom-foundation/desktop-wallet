@@ -257,7 +257,6 @@ renderPasswordStrengthBar(){
                                         <small className="form-element-hint">{emailErrorText}</small>
                                     </div>
                                     
-
                                     <Row>
                                         <Col sm={6}>
                                             <div className="form-element form-input">

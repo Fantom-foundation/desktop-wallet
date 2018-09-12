@@ -110,7 +110,7 @@ export default class Home extends Component {
 
     onRefresh = () => {
         const newDate = new Date().getTime();
-        this.setState({ date: newDate });
+        this.setState({ date: newDate, });
     }
 
     getRadioIconData(identiconsId) {

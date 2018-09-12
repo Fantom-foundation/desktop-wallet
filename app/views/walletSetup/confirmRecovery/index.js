@@ -26,25 +26,42 @@ class ConfirmRecovery extends Component {
     this.setState({
       mnemonicPhrase: e.target.value
     });
-  }
-
-  onUnlock(){
     const {mnemonic} = this.props; 
-    const {mnemonicPhrase} = this.state;
-    console.log('mnemonicPhrase : ', mnemonicPhrase);
-    console.log('mnemonic : ', mnemonic);
-    if(mnemonic === mnemonicPhrase){
-      this.props.onUnlockAccount(true);
+    if(mnemonic === e.target.value){
       this.setState({
         isLocked:false
       });
     }else{
+      this.setState({
+        isLocked:true
+      });
       console.log('not matched')
     }
+
+  }
+
+  onUnlock(){
+    const {mnemonic, onUnlockAccount} = this.props; 
+    const {mnemonicPhrase, isLocked} = this.state;
+    if(isLocked){
+      return;
+    }
+    // console.log('mnemonicPhrase : ', mnemonicPhrase);
+    // console.log('mnemonic : ', mnemonic);
+    // if(mnemonic === mnemonicPhrase){
+      onUnlockAccount(true);
+      // this.setState({
+      //   isLocked:false
+      // });
+    // }else{
+    //   console.log('not matched')
+    // }
     
   }
 
     render(){
+      let createWalletColor = 'secondary';
+       createWalletColor = this.state.isLocked ? 'gray' : '#00b1ff';
         return(
             <Row>
             <Col sm="12" style={{ paddingTop: '52px', paddingBottom: '52px' }}>
@@ -57,7 +74,9 @@ class ConfirmRecovery extends Component {
 
                           <h2 className="title large text-center black-text">Enter Your Mnemonic</h2>
 
-                          <p className="text text-center black-text">Entering your Mnemonic phrase on a website is dangerous. If our website is compromised or you accidentally visit a different website, your funds will be stolen. Please consider:</p>
+                          <p className="text text-center black-text">Enter your mnemonic to create your account below.</p>
+                          <p className="text text-center black-text">Be sure to take into out spacings and note that it is case sensitive.</p>
+                          {/* <p className="text text-center black-text">Entering your Mnemonic phrase on a website is dangerous. If our website is compromised or you accidentally visit a different website, your funds will be stolen. Please consider:</p>
                           <div className="text-center">
                             <ul className="text w-thin text-left d-inline-block pl-4 px-sm-0">
                               <li ><a href="#">MetaMask</a> or <a href="#">A Hardware Wallet</a> or <a href="#">Running MEW Offline & Locally</a></li>
@@ -65,7 +84,7 @@ class ConfirmRecovery extends Component {
                             </ul>
                           </div>
 
-                          <p className="text text-center black-text">If you must, please double-check the URL & SSL cert. It should say <a href="https://fantom.foundation/" target="_blank">https://fantom.foundation/</a> & MYFANTOMWALLET INC in your URL bar.</p>
+                          <p className="text text-center black-text">If you must, please double-check the URL & SSL cert. It should say <a href="https://fantom.foundation/" target="_blank">https://fantom.foundation/</a> & MYFANTOMWALLET INC in your URL bar.</p> */}
                         </Col>
                       </Row>
 
@@ -76,7 +95,22 @@ class ConfirmRecovery extends Component {
                               <Input type="textarea" name="text" id="exampleText" placeholder="Enter Mnemonic Phrase" 
                               onChange={(e) => this.inputHandler(e)}/>
                             </FormGroup>
-                            <center><Button color="primary" onClick={this.onUnlock.bind(this)}>Unlock</Button></center>
+                            <center>
+                              <button type='button' style={{ 
+                                  height:'25px',
+                                  padding:'0px 32px',
+                                  fontFamily:'SFCompactDisplay',
+                                  fontSize:'15px',
+                                  backgroundColor:`${createWalletColor}`,
+                                  border:'0px',
+                                  boxShadow:'none !important',
+                                  color:'#fff',
+                                  borderColor:`${createWalletColor}`,
+                                  textAlign: 'center',
+                                  cursor: 'pointer',
+                                }} onClick={this.onUnlock.bind(this)}>Create Wallet</button>
+                              {/* <Button style={{backgroundColor: `${createWalletColor}`}} onClick={this.onUnlock.bind(this)}>Create Wallet</Button> */}
+                              </center>
                           </Form>
                         </Col>
                       </Row>

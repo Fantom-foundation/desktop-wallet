@@ -58,17 +58,17 @@ export default class FooterButtons extends Component {
      <ul className="form-footer-buttons">
        <li>
          <span className={`${this.props.isCloseActive ? '' : 'disabled'}`}
-          style={{ backgroundImage: `url(${cross})`, backgroundRepeat: 'no-repeat' }}
+          style={{ backgroundImage: `url(${cross})`, backgroundRepeat: 'no-repeat', cursor: 'pointer' }}
           onClick={(event) => this.onClose(event, this.props.isCloseActive)}>Close</span>
        </li>
        <li>
          <span className={`${this.props.isBackActive ? '' : 'disabled'}`}
-          style={{ backgroundImage: `url(${arrowLeft})`, backgroundRepeat: 'no-repeat' }}
+          style={{ backgroundImage: `url(${arrowLeft})`, backgroundRepeat: 'no-repeat', cursor: 'pointer' }}
           onClick={(event) => this.onBack(event, this.props.isBackActive)}>Back</span>
        </li>
        <li>
          <span aria-hidden className={`${this.props.isNextActive ? '' : 'disabled'}`}
-          style={{ backgroundImage: `url(${arrowRight})`, backgroundRepeat: 'no-repeat' }}
+          style={{ backgroundImage: `url(${arrowRight})`, backgroundRepeat: 'no-repeat', cursor: 'pointer' }}
            onClick={(event) => this.onNext(event, this.props.isNextActive)}>Next</span>
        </li>
      </ul>
