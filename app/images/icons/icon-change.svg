@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.4 10.525" width="11.4" height="10.525">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: rgba(0,0,0,0);
+      }
+
+      .cls-2 {
+        fill: #8d9bae;
+      }
+    </style>
+  </defs>
+  <g id="icon_change" data-name="icon/change" transform="translate(0 0)">
+    <rect id="icon_change_background" data-name="icon/change background" class="cls-1" width="11.4" height="10.525" transform="translate(0 0)"/>
+    <g id="sort_copy" data-name="sort copy" transform="translate(11.4 0) rotate(90)">
+      <path id="Shape_Copy_2" data-name="Shape Copy 2" class="cls-2" d="M3.458,8.718a.453.453,0,0,0,.459-.445V.447a.447.447,0,0,0-.252-.4.471.471,0,0,0-.482.044l-3,2.179a.432.432,0,0,0-.092.623.464.464,0,0,0,.642.089L3,1.336V8.273A.453.453,0,0,0,3.458,8.718Z" transform="translate(0 0)"/>
+      <path id="Shape_Copy_3" data-name="Shape Copy 3" class="cls-2" d="M.459,0A.453.453,0,0,0,0,.445V8.2a.455.455,0,0,0,.252.4.518.518,0,0,0,.206.044.468.468,0,0,0,.275-.089l3-2.142a.439.439,0,0,0,.1-.623.472.472,0,0,0-.642-.1L.918,7.315V.445A.453.453,0,0,0,.459,0Z" transform="translate(6.191 2.4)"/>
+    </g>
+  </g>
+</svg>

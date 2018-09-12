@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
-import { Button, Alert, Modal } from 'reactstrap';
+import { Button, Alert, Modal,ModalBody, FormGroup, Label, Input, Row,Col} from 'reactstrap';
 import Web3 from 'web3';
 
+import successCheck from '../../images/icons/icon-success.svg';
+import smallLogo from '../../images/Logo/small-logo.svg';
+import logo from '../../images/Logo/fantom-black-logo.png';
 import CheckSend from './checkSend/index';
 
 export default class SendFunds extends Component {
@@ -15,7 +18,9 @@ export default class SendFunds extends Component {
             optionalMessage: '',
             networkFees: 0.000226,
             totalFees: 0.402926,
-            isCheckSend: false,
+            // isCheckSend: false,
+
+            isCheckSend: true,
             
         }
     }
@@ -93,27 +98,69 @@ export default class SendFunds extends Component {
         const {address, accountType, ftmAmount, usdAmount, optionalMessage, networkFees, totalFees, isCheckSend} = this.state;
         const {publicKey, privateKey} = this.props;
         return(
-            <Modal isOpen={true}>
-            <div style={{backgroundColor: '#fff' ,
-             alignSelf: 'center', border: '2px solid black',  }}>
+            <Modal isOpen={true} className={`${!isCheckSend ? 'send-funds' :'send-check'}`} >
+             <ModalBody className="p-4">
+            <div >
             {!isCheckSend ?  <div>
-                <h1>Send Funds</h1>
-                <p>To Address</p>
+                <h2 className="text-primary title" style={{marginBottom: '20px'}}><span><strong>Send Funds</strong></span></h2>  
+                {/* <p>To Address</p>
                 <input 
                 type='text'
                 placeholder='Enter Address'
                 value={address}
-                onChange={this.setAddress.bind(this)} />
+                onChange={this.setAddress.bind(this)} /> */}
 
-                <p>Withdraw from</p>
+
+                <FormGroup>
+          <Label for="to-address"><strong>To Address</strong></Label>
+          <div className="success-check success">  {/* add or remove --- success --- class */}
+              <Input type="text"  id="to-address" placeholder="Enter Address" />
+                <img src={successCheck} />
+          </div>
+        </FormGroup>
+
+   <FormGroup>
+          <Label for="withdraw-from"><strong>Withdraw from</strong></Label>
+          <div className="withdraw-holder">
+          <Input type="text"  id="withdraw-from" placeholder="Fantom Wallet" />
+          <span className="value-1">0.58273450 FTM</span>
+          <span className="value-2">≈$144.68</span>
+          </div>
+        </FormGroup>
+
+                {/* <p>Withdraw from</p>
                 <input 
                 type='text'
                 placeholder='Fantom Wallet'
                 value={accountType}
                 disabled
-                onChange={this.setAccountType.bind(this)} />
+                onChange={this.setAccountType.bind(this)} /> */}
 
-                <p>Amount</p>
+
+
+
+<Row className="change">
+    <Col>
+        <FormGroup>
+        <Label for="Amount"><strong>Amount</strong></Label>
+        <div className="input-holder"><Input type="text"  id="to-address" className="text-right" />
+        <span>FTM</span>
+        <img src={smallLogo} className="logo" />
+        </div>
+
+        </FormGroup>
+        </Col>
+        <Col>
+   <FormGroup>
+          <Label for="Amount"><strong>&nbsp;</strong></Label>
+          <div className="input-holder"><Input type="text"  id="Amount" className="text-right" />
+          <span>USD</span></div>
+        </FormGroup>
+
+        </Col>
+
+        </Row>
+                {/* <p>Amount</p>
                 <input 
                 type='text'
                 value={ftmAmount}
@@ -122,23 +169,41 @@ export default class SendFunds extends Component {
                 <input 
                 type='text'
                 value={usdAmount}
-                onChange={this.setUSDAmount.bind(this)} />
+                onChange={this.setUSDAmount.bind(this)} /> */}
 
-                <p>Note</p>
-                <input 
-                type='text'
-                placeholder='Optional Message'
-                value={optionalMessage}
-                onChange={this.setMessage.bind(this)} />
+                <p className="note m-0"><strong>Note</strong></p>
+                <FormGroup className="mb-1">
+          <Input type="textarea" name="text" id="exampleText" placeholder="Optional Message" />
+        </FormGroup>
 
-                <p>Network fee</p>
-                <p>{networkFees} USD ($0.06)</p>
 
-                <p>Total</p>
-                <p>{totalFees} USD ($100.06)</p>
-                <Button color="primary" onClick={this.handleCheckSend.bind(this)}>CONTINUE</Button>
-                <Button color ="primary" onClick={() => this.props.onClose()} >CLOSE</Button>
+
+<div className="result mt-2" style={{maxWidth: '175px',margin:'auto',marginRight:0}}>
+<Row className="m-0">
+    <Col className="p-0"><p><strong>Network fee</strong></p></Col>
+    <Col className="text-right p-0"><p>{networkFees} USD <span>($0.06)</span></p></Col>
+</Row>
+<Row className="m-0">
+    <Col className="p-0"><p><strong>Total</strong></p></Col>
+    <Col className="text-right p-0"><p>{totalFees} USD <span>($100.06)</span></p></Col>
+</Row>
+
+</div>
+
+                <center><Button color="primary" className="text-uppercase" onClick={this.handleCheckSend.bind(this)}>Continue</Button></center>
+                
+<span className="pointer" style={{ position: 'absolute', top: '20px', right: '42px',    fontSize: '25px',
+    lineHeight: '55%',
+    fontWeight: 100,
+    fontFamily: 'Robotos',
+    color:'#8D9BAE'}} onClick={() => this.props.onClose()} >&times;</span>
             </div> :
+
+
+
+<div>
+<img src={logo} height="25.05" />
+
                 <CheckSend 
                 handleGoBack={this.handleGoBack.bind(this)}
                 address={address}
@@ -150,8 +215,10 @@ export default class SendFunds extends Component {
                 privateKey={privateKey}
                 // reload={ this.reload.bind(this)}
                 />
+                </div>
             }
             </div>
+            </ModalBody>
             </Modal>
         )
     }

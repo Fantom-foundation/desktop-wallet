@@ -389,7 +389,7 @@ class MainPage extends Component{
 
         return(
                 <div>
-                    { !this.state.isUnlock ? <WalletSetup onUnlockAccount={this.onUnlockAccount.bind(this)} setAmountData={this.setAmountData.bind(this)}/>
+                    { this.state.isUnlock ? <WalletSetup onUnlockAccount={this.onUnlockAccount.bind(this)} setAmountData={this.setAmountData.bind(this)}/>
                     :
                     <AccountManagement 
                     handleSendFunds={this.handleSendFunds.bind(this)} 

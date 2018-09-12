@@ -2,6 +2,8 @@
 
 //--Header
 nav {
+  position: sticky !important;
+  top: 0;
   &.navbar {
     min-height: 64px;
     &.bg-dark {
