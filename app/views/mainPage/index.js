@@ -94,7 +94,7 @@ class MainPage extends Component{
         })
     }
 
-    onClose(){
+    onCloseSendFunds(){
         this.setState({
             isSendFund: false,
         })
@@ -392,7 +392,7 @@ class MainPage extends Component{
                     { !this.state.isUnlock ? <WalletSetup onUnlockAccount={this.onUnlockAccount.bind(this)} setAmountData={this.setAmountData.bind(this)}/>
                     :
                     <AccountManagement 
-                    handleSendFunds={this.handleSendFunds.bind(this)} 
+                    handleSendFunds={this.handleSendFunds.bind(this)}
                     balance={this.state.balance} 
                     transactionData={this.state.transactionData} 
                     name={this.state.name} 
@@ -401,7 +401,7 @@ class MainPage extends Component{
                     handleUserSettings={this.handleUserSettings.bind(this)} 
                     handleSelectedAccount={this.handleSelectedAccount.bind(this)}/>}
                    {this.state.isSendFund &&  
-                   <SendFunds onClose={this.onClose.bind(this)} privateKey={privateKey} publicKey={publicKey}/>}
+                   <SendFunds isSendFund={this.state.isSendFund} onClose={this.onCloseSendFunds.bind(this)} privateKey={privateKey} publicKey={publicKey}/>}
                 </div>
         );
     }
