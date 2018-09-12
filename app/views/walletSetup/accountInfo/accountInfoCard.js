@@ -19,7 +19,6 @@ export default class AccountInfo extends Component {
             <div className="person-info small">
               <div className="theme-blue-shadow d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}>
                 <Identicons id={this.props.identiconsId} className="theme-blue-shadow" width={40} size={3} />
-                
               </div>
               <div className="d-inline-block align-top" style={{paddingLeft: 20}}><h2 className="person-name">{this.props.accountName}</h2>
               </div>

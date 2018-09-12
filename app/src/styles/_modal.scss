@@ -131,15 +131,21 @@
       }
     }
   }
+  .note{font: {
+    size: 14px !important;
+  }}
   .note,
   textarea {
     color: #283d4a;
+
+
     font: {
       size: 16px;
       family: Helvetica;
     }
   }
   textarea {
+    height: 48.91px;
     &::-webkit-input-placeholder {
       color: rgba(40, 61, 74, 0.3);
     }

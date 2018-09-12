@@ -55,7 +55,8 @@ class UserAccounts extends Component {
                 </Row>
                 <Row>
                   <Col>
-                  {this.renderAccountCard()}
+                  <Row>  {this.renderAccountCard()}</Row>
+                
                   </Col>
                 </Row>
             </div>

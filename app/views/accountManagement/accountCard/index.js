@@ -23,11 +23,15 @@ class AccountCard extends Component {
     render(){
         const {accountInfo} = this.props;
         return(
-            <Col className="bg-gray mr-2 mb-3 accounts accounts-column" >
-                        <Row className="py-4" >
-                          <Col className="account-logo px-0" onClick={this.handleSelectedAccount.bind(this)}>
-                            <Identicons id={accountInfo.accountIcon} 
-                            className="person-image theme-blue-shadow" width={40} size={3} />
+            <Col xs={12} md={6} className="mb-3 accounts accounts-column" >
+
+
+                <div className="h-100 bg-gray py-4">
+                        <Row >
+                          <Col className="account-logo px-0 pl-3" onClick={this.handleSelectedAccount.bind(this)}>
+                          <div className="theme-blue-shadow d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}>
+                            <Identicons id={accountInfo.accountIcon} className="person-image theme-blue-shadow" width={40} size={3} />
+                            </div>
                           </Col>
                           <Col className="pl-0">
                           <h2 className="black-text"><span >{accountInfo.name}</span></h2>
@@ -35,6 +39,9 @@ class AccountCard extends Component {
                             <img src={copyImage} /> {accountInfo.address}</p>
                           </Col>
                         </Row>
+                </div>
+
+
                       </Col>
         )
     }
