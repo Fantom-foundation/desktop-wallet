@@ -173,12 +173,14 @@ export default class SendFunds extends Component {
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
-                                            <p className="note m-0"><strong>Note</strong></p>
+
+                                            {/* <p className="note m-0"><strong>Note</strong></p> */}
+                                            <Label for="OptionalMessage" ><strong>Note</strong></Label>
                                             <FormGroup className="mb-1">
                                                 <Input type="textarea" name="text" id="exampleText" placeholder="Optional Message" value={optionalMessage} onChange={this.setMessage.bind(this)} />
                                             </FormGroup>
 
-                                            <div className="result mt-2" style={{ maxWidth: '175px', margin: 'auto', marginRight: 0 }}>
+                                            <div className="result mt-2" style={{ maxWidth: '235px', margin: 'auto', marginRight: 0 }}>
                                                 <Row className="m-0">
                                                     <Col className="p-0"><p><strong>Network fee</strong></p></Col>
                                                     <Col className="text-right p-0"><p>{networkFees} USD <span>($0.06)</span></p></Col>
