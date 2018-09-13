@@ -4,7 +4,7 @@ import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Co
 import Logo from '../../images/Logo/logo.png';
 import SettingIcon from '../../images/icons/setting.svg';
 import NotificationIcon from '../../images/icons/notification_red.png';
-import downArrowIcon from '../../images/icons/downArrowButton.svg';
+import downArrowIcon from '../../images/icons/downArrowWhite.svg';
 import Identicons from '../identicons/identicons';
 
 
@@ -49,7 +49,7 @@ export default class Header extends Component {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="#"><img src={downArrowIcon} alt="Down Arrow " style={{ height: '16.6px', backgroundColor: '#fff' }} /></NavLink>
+                                <NavLink href="#"><img src={downArrowIcon} alt="Down Arrow " style={{ height: '16.6px' }} /></NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink href="#"><img src={NotificationIcon} alt="Notification" style={{ height: '16.6px' }} /></NavLink>
