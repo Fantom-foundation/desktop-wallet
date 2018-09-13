@@ -25,12 +25,14 @@ export default class AccountInfo extends Component {
             </div>
           </Col>
           
+          <Col className='text-right'>
           <QRCodeIcon 
              className='text-right'
              address={this.props.address}
              icon={fantomIcon}
              text='FANTOM'
           />
+          </Col>
 
         </Row>
         <Row>

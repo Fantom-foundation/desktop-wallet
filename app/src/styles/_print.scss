@@ -1,0 +1,111 @@
+.print-screen
+{
+    $min-block-height:225px;
+    max-width: 541px;
+    width: 100%;
+    margin: auto;
+    background: #fff;
+    min-height: $min-block-height;
+    transform: scale(2);
+    // margin-top: 53px;
+    // margin-top: 175px;
+    margin-top: 300px;
+    box-shadow: 8px 8px 20px 0px rgba(0, 0, 0, 0.06);
+
+    .brand
+    {
+        min-height: $min-block-height;
+        @include responsive-width(83px);
+        &.blue
+        {
+            background: {color: map-get($color, blue);}
+            color:white;
+            .link
+            {
+                opacity: .75;
+            }
+        }
+        .brand-body
+        {
+            // transform: rotate(-90deg);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: rotate(-90deg) translate(-50%, -50%);
+            transform-origin: 0 0;
+            .logo
+            {
+                img
+                {
+                    // height:19.75px;
+                    height: 27.75px;
+                    margin-right: 6px;
+                }
+                font-weight: bold;
+                font-size: 32px;
+                margin-bottom: 0px;
+            }
+            .link
+            {
+                font: {
+                    family:SFCompactDisplay;
+                    size:12px;
+                    weight:500;
+                }
+                padding-left: 23px;
+            }
+        }
+    }
+    p
+    {
+        font-size: 10px;
+        &.address
+        {
+            font: {
+                font-family: SFCompactDisplay;
+                size:10px;
+                weight: 500;            }
+            &.large
+            {
+                font: {
+                    size:12px;
+                    weight: 400;
+                }
+            }
+        }
+        &.account-no
+        {
+            font-family: SFCompactDisplay;
+            font-weight: 300;
+            &.roboto{font-family: Roboto;}
+        }
+    }
+    .light-text
+    {
+        p
+        {
+            color: #9B9B9B;
+            margin-bottom: 0px;
+            font: {family: Roboto; size: 8px;}
+        }
+    }
+    .qr-with-rotated-text
+    {
+        .col { @include responsive-width(157px); }
+        canvas{
+            height: 110px !important;
+            width: 110px !important;
+        }
+    }
+    .rotate-anti
+    {
+        // transform: rotate(-90deg);
+        // transform-origin: left;
+        transform: rotate(-90deg) translateY(-44%);
+        position: absolute;
+        top: 44%;
+        right: -33px;
+        margin-bottom: 0;
+        
+    }
+}

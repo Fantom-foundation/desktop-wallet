@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Col} from 'reactstrap';
 
+import icon from '../../images/Logo/small-logo.svg';
 import QRCode from 'qrcode.react';
 
 
@@ -8,7 +9,8 @@ import QRCode from 'qrcode.react';
 class QRCodeIcon extends Component {
 
     renderLogo() {
-        const {address, icon, text} = this.props;
+
+        const {address, text} = this.props;
         if (address !== undefined && address !== '') {
          return (
                      <p style={{
@@ -18,11 +20,12 @@ class QRCodeIcon extends Component {
                       justifyContent: 'center',
                       fontSize: '14px',
                       paddingLeft: '25px',
-                      backgroundPosition: 'center left',
-                      backgroundSize: '28px auto',
+                      backgroundPosition: 'left 10px center',
+                      backgroundSize: 'auto 21px',
                       backgroundRepeat: 'no-repeat',
                       fontWeight: '900',
                       backgroundColor: 'white',
+                      
                       position: 'absolute',
                       top: '50%',
                       left: '50%',
@@ -34,12 +37,12 @@ class QRCodeIcon extends Component {
     render(){
         const {address, className} = this.props;
         return(
-            <Col className={`${className}`}>
+            // <Col className={`${className}`}>
             <div style={{  position: 'relative', display: 'inline-block' }}>
               {this.renderLogo()}
               <QRCode value={`${address} `} />
             </div>
-          </Col>
+          // </Col>
         )
     }
 }

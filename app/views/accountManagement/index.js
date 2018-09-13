@@ -108,12 +108,14 @@ export default class AccountManagement extends React.Component {
                                             </Row>
                                         </div>
                                     </Col>
+                                    <Col className='text-right gray-column large qr'>
                                     <QRCodeIcon
                                         className='text-right gray-column large qr'
                                         address={this.props.address}
                                         icon={fantomIcon}
                                         text='FANTOM'
                                     />
+                                    </Col>
                                 </Row>
                                 <Row className="bg-gray mt-4">
                                     <Col className="px-5 py-2">

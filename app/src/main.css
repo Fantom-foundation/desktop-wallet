@@ -19,7 +19,7 @@
 /** Light */
 @font-face {
   font-family: 'SFCompactDisplay';
-  font-weight: 200;
+  font-weight: 300;
   src: url("../fonts/SFCompactDisplay/SF-Compact-Display-Light.otf"); }
 
 /** Medium */
@@ -43,7 +43,7 @@
 /** Thin */
 @font-face {
   font-family: 'SFCompactDisplay';
-  font-weight: 300;
+  font-weight: 200;
   src: url("../fonts/SFCompactDisplay/SF-Compact-Display-Thin.otf"); }
 
 /** Ultralight */
@@ -1651,3 +1651,73 @@ select.form-element-field {
   .form-element-field[type='number']::-webkit-outer-spin-button, .form-element-field[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0; }
+
+.print-screen {
+  max-width: 541px;
+  width: 100%;
+  margin: auto;
+  background: #fff;
+  min-height: 225px;
+  transform: scale(2);
+  margin-top: 300px;
+  box-shadow: 8px 8px 20px 0px rgba(0, 0, 0, 0.06); }
+  .print-screen .brand {
+    min-height: 225px;
+    -ms-flex: 83px !important;
+    flex: 0 0 83px !important;
+    max-width: 83px !important; }
+    .print-screen .brand.blue {
+      background-color: #00b1ff;
+      color: white; }
+      .print-screen .brand.blue .link {
+        opacity: .75; }
+    .print-screen .brand .brand-body {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: rotate(-90deg) translate(-50%, -50%);
+      transform-origin: 0 0; }
+      .print-screen .brand .brand-body .logo {
+        font-weight: bold;
+        font-size: 32px;
+        margin-bottom: 0px; }
+        .print-screen .brand .brand-body .logo img {
+          height: 27.75px;
+          margin-right: 6px; }
+      .print-screen .brand .brand-body .link {
+        font-family: SFCompactDisplay;
+        font-size: 12px;
+        font-weight: 500;
+        padding-left: 23px; }
+  .print-screen p {
+    font-size: 10px; }
+    .print-screen p.address {
+      font-font-family: SFCompactDisplay;
+      font-size: 10px;
+      font-weight: 500; }
+      .print-screen p.address.large {
+        font-size: 12px;
+        font-weight: 400; }
+    .print-screen p.account-no {
+      font-family: SFCompactDisplay;
+      font-weight: 300; }
+      .print-screen p.account-no.roboto {
+        font-family: Roboto; }
+  .print-screen .light-text p {
+    color: #9B9B9B;
+    margin-bottom: 0px;
+    font-family: Roboto;
+    font-size: 8px; }
+  .print-screen .qr-with-rotated-text .col {
+    -ms-flex: 157px !important;
+    flex: 0 0 157px !important;
+    max-width: 157px !important; }
+  .print-screen .qr-with-rotated-text canvas {
+    height: 110px !important;
+    width: 110px !important; }
+  .print-screen .rotate-anti {
+    transform: rotate(-90deg) translateY(-44%);
+    position: absolute;
+    top: 44%;
+    right: -33px;
+    margin-bottom: 0; }
