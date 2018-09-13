@@ -39,7 +39,7 @@ export default class AccountManagement extends React.Component {
                     <Container className="bg-white">
                         <Row className="bg-primary py-1 account-management-header">
                             <Col md={5} className="col text-white pl-4 text-uppercase">Account Management</Col>
-                            <Col className="col text-white text-uppercase" onClick={() => handleSendFunds()}>
+                            <Col className="col text-white text-uppercase" style={{cursor: 'pointer' }} onClick={() => handleSendFunds()}>
                                 <img src={arrowLeftRight} className="mr-1" alt='Transfer fund' /> Transfer</Col>
                         </Row>
                         <Row >

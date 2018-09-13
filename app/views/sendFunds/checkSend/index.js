@@ -8,7 +8,8 @@ export default class SendMoney extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            coin: '089.00FTM',
+            // coin: '089.00FTM',
+            coin: 'FTM',
             errorMessage: '',
         }
     }
@@ -33,7 +34,7 @@ export default class SendMoney extends Component {
     };
 
     confirmSendFunds() {
-        const { publicKey, address, amount, coin, memo, fees, privateKey } = this.props;
+        const { publicKey, address, amount, coin, memo, fees, privateKey,  } = this.props;
         this.transferMoney(publicKey, address, amount, memo, privateKey);
     }
 
@@ -80,7 +81,10 @@ export default class SendMoney extends Component {
                         style={{ marginTop: '18px' }} onClick={() => this.confirmSendFunds()}>Continue</Button>
                     {errorMessage !== '' && <p style={{ color: 'red' }}>Funds transfer unsuccessful!</p>}
                     <br /><br />
-                    <Button className="text-uppercase" color="primary" onClick={() => this.props.handleGoBack()}>BACK</Button>
+
+                    <p aria-hidden className="text-center" sty onClick={() => this.props.handleGoBack()}>
+                        <span style={{cursor: 'pointer', fontSize: '12px', fontFamily: 'SFCompactDisplay', fontWeight: 'bold', color: '#00b1ff', textDecoration: 'underline'}}><span>BACK</span></span>
+                    </p>
                     <hr style={{ borderStyle: 'dashed', borderColor: "#707070", opacity: .33, marginBottom: '14px' }} />
                     <p className="error-msg">Please check if the above information is correct.</p>
                     <div />

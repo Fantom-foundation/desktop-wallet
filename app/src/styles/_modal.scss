@@ -46,6 +46,11 @@
       box-shadow: none;
     }
   }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+}
   .success-check {
     position: relative;
     input {

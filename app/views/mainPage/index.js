@@ -401,7 +401,12 @@ class MainPage extends Component{
                     handleUserSettings={this.handleUserSettings.bind(this)} 
                     handleSelectedAccount={this.handleSelectedAccount.bind(this)}/>}
                    {this.state.isSendFund &&  
-                   <SendFunds isSendFund={this.state.isSendFund} onClose={this.onCloseSendFunds.bind(this)} privateKey={privateKey} publicKey={publicKey}/>}
+                   <SendFunds isSendFund={this.state.isSendFund} 
+                   onClose={this.onCloseSendFunds.bind(this)} 
+                   privateKey={privateKey} 
+                   publicKey={publicKey}
+                   userAccountStore ={Store.store}
+                   />}
                 </div>
         );
     }

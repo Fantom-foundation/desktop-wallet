@@ -11,14 +11,14 @@ class UserAccountDetail extends Component {
             <Col lg={8} className="gray-column large">
                 <div className="person-info large">
                     <span className="person-basic-info">
-                        <div className="mt-2 mr-3 theme-blue-shadow d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}>
+                        <div className="mt-2 mr-3 theme-blue-shadow d-inline-block align-top" style={{ cursor: 'pointer', width: '40px', height: '45px', overflow: 'hidden' }}>
                             <Identicons id={identiconsId} className="person-image theme-blue-shadow" width={40} size={3} />
                         </div>
                         <div className="d-inline-block align-top block">
                             <h2 className="person-name">{name}</h2>
                             <div className="person-copy-info">
                                 <div className="info-description-box pl-0">
-                                    <span aria-hidden className="mr-3" onClick={() => copyToClipboard(address)}>
+                                    <span aria-hidden className="mr-3" onClick={() => copyToClipboard(address)} style={{cursor: 'pointer'}}>
                                         <img src={copyImage} className="copy mr-3" alt='Copy Text'/>
                                     </span>
                                     <span className="">{address}</span>

@@ -6,13 +6,14 @@ import successCheck from '../../images/icons/icon-success.svg';
 import smallLogo from '../../images/Logo/small-logo.svg';
 import logo from '../../images/Logo/fantom-black-logo.png';
 import CheckSend from './checkSend/index';
+import AcoountList from './accountList';
 
 export default class SendFunds extends Component {
     constructor(props) {
         super(props);
         this.state = {
             address: '',
-            accountType: 'Fantom Wallet',
+            accountType: '',
             ftmAmount: '',
             usdAmount: '',
             optionalMessage: '',
@@ -20,7 +21,22 @@ export default class SendFunds extends Component {
             totalFees: 0.402926,
             isCheckSend: false,
             isValidAddress: false,
+            accountStore: '',
         }
+    }
+
+    componentDidMount(){
+        const { userAccountStore, privateKey, publicKey } = this.props;
+        const keys = Object.keys(userAccountStore);
+        let accountDetailLsit = [];
+        for(const key of keys){
+            accountDetailLsit.push(userAccountStore[key]);
+        }
+        this.setState({
+            accountStore: accountDetailLsit,
+            privateKey,
+            publicKey,
+        });
     }
 
     setAddress(e) {
@@ -33,10 +49,22 @@ export default class SendFunds extends Component {
     }
 
     setAccountType(e) {
-        const accountType = e.target.value.trim();
+        const { accountStore } = this.state;
+        const accountType = e.target.value;
+        const length = accountStore.length;
+        let publicKey = '';
+        let privateKey = '';
+        for(let account = 0;  account < length; account++){
+            if(accountStore[account].name === accountType){
+                publicKey = accountStore[account].address;
+                privateKey = accountStore[account].privateKey;
+            }
+          }
         this.setState({
             accountType,
-        })
+            publicKey,
+            privateKey,
+        });
     }
 
     setFTMAmount(e) {
@@ -123,9 +151,8 @@ export default class SendFunds extends Component {
         }
     }
 
-    render() {
-        const { address, accountType, ftmAmount, usdAmount, optionalMessage, networkFees, totalFees, isCheckSend, isValidAddress } = this.state;
-        const { publicKey, privateKey, isSendFund } = this.props;
+    render() {    
+        const { address, accountType, ftmAmount, usdAmount, optionalMessage, networkFees, totalFees, isCheckSend, isValidAddress, accountStore, publicKey, privateKey, } = this.state;
         return (
             <div>
                 <div className="modal fade show" role="dialog" tabIndex="-1" style={{ display: 'block' }} >
@@ -138,7 +165,7 @@ export default class SendFunds extends Component {
                                             <h2 className="text-primary title" style={{ marginBottom: '20px' }}><span><strong>Send Funds</strong></span></h2>
                                             <FormGroup>
                                                 <Label for="to-address"><strong>To Address</strong></Label>
-                                                <div className={`success-check ${isValidAddress ? 'success' : ''}`}>  {/* add or remove --- success --- class */}
+                                                <div className={`success-check ${isValidAddress ? 'success' : ''}`}>  {/* add or remove --- success --- class  */}
                                                     <Input type="text" id="to-address" placeholder="Enter Address" value={address} onChange={this.setAddress.bind(this)} />
                                                     <img src={successCheck} alt={successCheck} />
                                                 </div>
@@ -147,7 +174,8 @@ export default class SendFunds extends Component {
                                             <FormGroup>
                                                 <Label for="withdraw-from"><strong>Withdraw from</strong></Label>
                                                 <div className="withdraw-holder">
-                                                    <Input type="text" id="withdraw-from" placeholder="Fantom Wallet" disabled value={accountType} onChange={this.setAccountType.bind(this)} />
+                                                    {/* <Input type="text" id="withdraw-from" placeholder="Fantom Wallet" value={accountType} onChange={this.setAccountType.bind(this)}/> */}
+                                                    <AcoountList accountType={accountType} accountStore={accountStore} setAccountType={this.setAccountType.bind(this)} />
                                                     <span className="value-1">0.58273450 FTM</span>
                                                     <span className="value-2">≈$144.68</span>
                                                 </div>
@@ -174,7 +202,6 @@ export default class SendFunds extends Component {
                                                 </Col>
                                             </Row>
 
-                                            {/* <p className="note m-0"><strong>Note</strong></p> */}
                                             <Label for="OptionalMessage" ><strong>Note</strong></Label>
                                             <FormGroup className="mb-1">
                                                 <Input type="textarea" name="text" id="exampleText" placeholder="Optional Message" value={optionalMessage} onChange={this.setMessage.bind(this)} />
@@ -209,7 +236,7 @@ export default class SendFunds extends Component {
                                                 handleGoBack={this.handleGoBack.bind(this)}
                                                 address={address}
                                                 amount={ftmAmount}
-                                                coin={accountType}
+                                                // coin={'coin'}
                                                 memo={optionalMessage || 'none'}
                                                 fees={networkFees}
                                                 publicKey={publicKey}
