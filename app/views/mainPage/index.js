@@ -56,13 +56,25 @@ class MainPage extends Component{
             isSendFund: false,
             privateKey: userAccountDetail.privateKey,
             name: userAccountDetail.name,
-            address: userAccountDetail.address
+            address: userAccountDetail.address,
+            storeSize: Store.size,
         }
     }
     
     componentDidMount(){
        const storeSize = (Store.size);
         if(storeSize > 0){
+        // const keys = Object.keys(Store.store);
+        // let accountDetailLsit = [];
+        // for(const key of keys){
+        //     accountDetailLsit.push(Store.store[key]);
+        // }
+
+        this.setState({
+            storeSize,
+            // accountStore: accountDetailLsit,
+        })
+
            const userAccountDetail =  this.getUserAccountDetail();
            console.log('from didmount Api call for userAccountDetail  : ', userAccountDetail);
             this.getWalletBalance(userAccountDetail.address);
@@ -394,7 +406,11 @@ class MainPage extends Component{
         return(
                 <div>
                    
-                    { !this.state.isUnlock ? <WalletSetup onUnlockAccount={this.onUnlockAccount.bind(this)} setAmountData={this.setAmountData.bind(this)}/>
+                    { !this.state.isUnlock ? 
+                    <WalletSetup onUnlockAccount={this.onUnlockAccount.bind(this)} 
+                    setAmountData={this.setAmountData.bind(this)}
+                    accountIconId={this.state.identiconsId}
+                    />
                     :
                     <AccountManagement 
                     handleSendFunds={this.handleSendFunds.bind(this)}

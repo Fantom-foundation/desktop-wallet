@@ -22,8 +22,8 @@ function transferMoneyViaEthereum(from, to, value, memo, privateKey) {
       console.log('privateKeyBuffer : ', privateKeyBuffer)
       web3.eth.getGasPrice((err, result) => {
         const rawTx = {
-          from: from,
-          to: to,
+          from,
+          to,
           value: Web3.utils.toHex(Web3.utils.toWei(value, "ether")),
           gasLimit: Web3.utils.toHex(22000),
           gasPrice: Web3.utils.toHex(result),
@@ -37,11 +37,11 @@ function transferMoneyViaEthereum(from, to, value, memo, privateKey) {
         const serializedTx = tx.serialize();
         console.log('serializedTx : ', serializedTx)
 
-        web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'))
-          .on('transactionHash', function (hash) {
+        web3.eth.sendSignedTransaction(`0x${  serializedTx.toString('hex')}`)
+          .on('transactionHash', (hash) => {
             console.log('transactionHash', hash);
           })
-          .on('receipt', function (receipt) {
+          .on('receipt', (receipt) => {
             console.log('receipt', receipt);
           })
           .on('confirmation', (confirmationNumber, receipt) => {
@@ -80,10 +80,11 @@ function transferMoneyViaFantom(from, to, value, memo, privateKey) {
     getNonceFantom(from).then((count) => {
       const privateKeyBuffer = EthUtil.toBuffer(privateKey);
       const rawTx = {
-        from: from,
-        to: to,
+        from,
+        to,
         value: Web3.utils.toHex(Web3.utils.toWei(value, "ether")),
-        gasPrice: '0x09184e72a000',
+        // gasPrice: '0x09184e72a000',
+        gasPrice:'0x000000000001',
         gasLimit: '0x27100',
         nonce: Web3.utils.toHex(count),
         data: memo,
@@ -92,9 +93,9 @@ function transferMoneyViaFantom(from, to, value, memo, privateKey) {
       tx.sign(privateKeyBuffer);
       const serializedTx = tx.serialize();
 
-        const hexTx = '0x' + serializedTx.toString('hex')
-      axios.post(configHelper.apiUrl + '/sendRawTransaction', hexTx)
-        .then(function (response) {
+        const hexTx = `0x${  serializedTx.toString('hex')}`
+      axios.post(`${configHelper.apiUrl  }/sendRawTransaction`, hexTx)
+        .then((response) => {
           console.log(response.data)
           if (response && response.data && response.data.txHash) {
             resolve({ success: true, hash: response.data.txHash });
@@ -103,7 +104,7 @@ function transferMoneyViaFantom(from, to, value, memo, privateKey) {
           }
           
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
           reject(error);
         });
@@ -119,14 +120,14 @@ function transferMoneyViaFantom(from, to, value, memo, privateKey) {
 
 function getNonceFantom(address) {
   return new Promise((resolve, reject) => {
-    axios.get(configHelper.apiUrl +'/account/' + address)
-      .then(function (response) {
+    axios.get(`${configHelper.apiUrl }/account/${  address}`)
+      .then((response) => {
         console.log('nonce', response.data.nonce)
         resolve(response.data.nonce);
         // tx.nonce = response.data.nonce
         // generateRawTx(tx, priv)
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
         reject(error);
       });

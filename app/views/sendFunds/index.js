@@ -28,10 +28,12 @@ export default class SendFunds extends Component {
     componentDidMount(){
         const { userAccountStore, privateKey, publicKey } = this.props;
         const keys = Object.keys(userAccountStore);
-        let accountDetailLsit = [];
+        const accountDetailLsit = [];
+
         for(const key of keys){
             accountDetailLsit.push(userAccountStore[key]);
         }
+
         this.setState({
             accountStore: accountDetailLsit,
             privateKey,

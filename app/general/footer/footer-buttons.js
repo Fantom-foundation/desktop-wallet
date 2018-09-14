@@ -1,30 +1,3 @@
-
-
-// import React from 'react';
-// import arrowLeft from '../../images/icons/arrow-left.svg';
-// import arrowRight from '../../images/icons/arrow-right.svg';
-// import cross from '../../images/icons/cross.svg';
-
-// export default class FooterButtons extends React.Component{
-//     render()
-//     {
-//         return (
-//             <ul className="form-footer-buttons">
-//             <li>
-//               <span style={{ backgroundImage: `url(${cross})` }}>Close</span>
-//             </li>
-//             <li>
-//               <span style={{ backgroundImage: `url(${arrowLeft})` }}>Back</span>
-//             </li>
-//             <li>
-//               <span aria-hidden className="disabled" style={{ backgroundImage: `url(${arrowRight})` }} onClick={(event) => this.props.onNext(event)}>Next</span>
-//             </li>
-//           </ul>
-
-//         );
-//     }
-// }
-
 import React,{Component} from 'react';
 import arrowLeft from '../../images/icons/arrow-left.svg';
 import arrowRight from '../../images/icons/arrow-right.svg';
@@ -54,22 +27,23 @@ export default class FooterButtons extends Component {
   }
 
  render() {
+   const {isCloseActive, isBackActive, isNextActive} = this.props;
    return (
      <ul className="form-footer-buttons">
        <li>
-         <span className={`${this.props.isCloseActive ? '' : 'disabled'}`}
+         <span aria-hidden className={`${isCloseActive ? '' : 'disabled'}`}
           style={{ backgroundImage: `url(${cross})`, backgroundRepeat: 'no-repeat', cursor: 'pointer' }}
-          onClick={(event) => this.onClose(event, this.props.isCloseActive)}>Close</span>
+          onClick={(event) => this.onClose(event, isCloseActive)}>Close</span>
        </li>
        <li>
-         <span className={`${this.props.isBackActive ? '' : 'disabled'}`}
+         <span aria-hidden className={`${isBackActive ? '' : 'disabled'}`}
           style={{ backgroundImage: `url(${arrowLeft})`, backgroundRepeat: 'no-repeat', cursor: 'pointer' }}
-          onClick={(event) => this.onBack(event, this.props.isBackActive)}>Back</span>
+          onClick={(event) => this.onBack(event, isBackActive)}>Back</span>
        </li>
        <li>
-         <span aria-hidden className={`${this.props.isNextActive ? '' : 'disabled'}`}
+         <span aria-hidden className={`${isNextActive ? '' : 'disabled'}`}
           style={{ backgroundImage: `url(${arrowRight})`, backgroundRepeat: 'no-repeat', cursor: 'pointer' }}
-           onClick={(event) => this.onNext(event, this.props.isNextActive)}>Next</span>
+           onClick={(event) => this.onNext(event, isNextActive)}>Next</span>
        </li>
      </ul>
 

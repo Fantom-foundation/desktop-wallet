@@ -6,7 +6,7 @@ import {
     Form,
 } from 'reactstrap';
 
-
+import Store from '../../../store/userInfoStore/index';
 
 import { Progress } from '../../../general/core/index';
 import FooterButtons from '../../../general/footer/footer-buttons';
@@ -83,6 +83,25 @@ class CreateAccount extends Component {
             } else {
                 validationResult = {errorText:'Enter a valid name'}
             }
+            const storeSize = (Store.size);
+            if(storeSize > 0){
+                const keys = Object.keys(Store.store);
+                const accountDetailLsit = [];
+                for(const key of keys){
+                    accountDetailLsit.push(Store.store[key]);
+                }
+
+            for( const accountDetail of accountDetailLsit ){
+                if(accountDetail.name === value){
+                    validationResult = {errorText:'Username already exists!'}
+                }
+            }
+            }
+
+
+            
+
+
             // if (value.includes('@')) {
             //     validationResult = this.validEmail(value);
             // }
@@ -111,9 +130,9 @@ class CreateAccount extends Component {
     }
 
     passwordStrengthChecker(value){
-        var enoughRegex = new RegExp("(?=.{8,}).*", "g");
-        var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{12,})");
-        var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{10,})");
+        const enoughRegex = new RegExp("(?=.{8,}).*", "g");
+        const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{12,})");
+        const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{10,})");
 
         if (value.length===0) {
             this.setState({
@@ -239,6 +258,14 @@ renderPasswordStrengthBar(){
             <Progress type={type} value={strength} /> 
     )
 }
+
+// isGoToAccountManagement(){
+
+// }
+
+// onClose(){
+
+// }
       
     render() {
         const {emailErrorText, passwordErrorText, confirmPasswordErrorText} = this.state;
@@ -252,7 +279,7 @@ renderPasswordStrengthBar(){
                                     <div className="form-element form-input">
                                         <input id="AccountName" className="form-element-field" placeholder=" " type="text" required="" 
                                         onChange={this.setAccountName.bind(this)}/>
-                                        <div className="form-element-bar"></div>
+                                        <div className="form-element-bar" />
                                         <label className="form-element-label" htmlFor="AccountName">Account Name</label>
                                         <small className="form-element-hint">{emailErrorText}</small>
                                     </div>
@@ -262,7 +289,7 @@ renderPasswordStrengthBar(){
                                             <div className="form-element form-input">
                                                 <input id="Password" className="form-element-field" placeholder=" " type="password" required="" 
                                                 onChange={this.setPassword.bind(this)}/>
-                                                <div className="form-element-bar"></div>
+                                                <div className="form-element-bar" />
                                                 <label className="form-element-label" htmlFor="Password">Password</label>
                                                 <small className="form-element-hint">{passwordErrorText}</small>
                                             </div>
@@ -271,7 +298,7 @@ renderPasswordStrengthBar(){
                                             <div className="form-element form-input">
                                                 <input id="Re-enterPassword" className="form-element-field" placeholder=" " type="password" required="" 
                                                 onChange={this.setConfirmPassword.bind(this)}/>
-                                                <div className="form-element-bar"></div>
+                                                <div className="form-element-bar" />
                                                 <label className="form-element-label" htmlFor="Re-enterPassword">Re- enter Password</label>
                                                 <small className="form-element-hint">{confirmPasswordErrorText}</small>
                                             </div>
@@ -280,7 +307,7 @@ renderPasswordStrengthBar(){
                                     <div className="form-element form-input">
                                         <input id="PasswordHint" className="form-element-field" placeholder="(optional) a hint to remebering the password " type="text" required="" 
                                         onChange={this.setPasswordHint.bind(this)}/>
-                                        <div className="form-element-bar"></div>
+                                        <div className="form-element-bar" />
                                         <label className="form-element-label" htmlFor="PasswordHint">Password hint</label>
                                     </div>
                                     <Row className="mt-3">
@@ -306,6 +333,8 @@ renderPasswordStrengthBar(){
                         <FooterButtons 
                         onNext={this.onNext.bind(this)} 
                         isNextActive={this.isCreateAccount()}
+                        // onClose={this.onClose.bind(this)}
+                        // isCloseActive={this.isGoToAccountManagement()}
                        />
                     </div>
                     <AccountFooter />

@@ -44,12 +44,12 @@ export default class Home extends Component {
 
 
 
-///////////******************************************************************************/////////////
+// /////////******************************************************************************/////////////
 
 
     componentDidMount() {
         const mnemonic = Bip39.generateMnemonic();
-        const seed = Bip39.mnemonicToSeed(mnemonic); //creates seed buffer
+        const seed = Bip39.mnemonicToSeed(mnemonic); // creates seed buffer
         const mnemonicWords = mnemonic.split(' ');
         this.setState({
             mnemonic,
@@ -136,9 +136,10 @@ export default class Home extends Component {
     
     render() {
        const {accountName, mnemonic, address, identiconsId} = this.state;
+       const {accountIconId} = this.props;
         return (
             <div>
-                <Header />
+                <Header accountIcon={accountIconId}/>
                 <section style={{ padding: '118px 0' }}>
                     <Container className="bg-white theme-blue-shadow">
                         <Row>
