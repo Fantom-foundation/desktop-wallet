@@ -432,18 +432,9 @@ strong {
     font-family: Roboto;
     font-weight: 400;
     font-size: 15px; }
-  .form-element .form-element-field.-hasvalue ~ .form-element-label,
-  .form-element .form-element-field:focus ~ .form-element-label {
-    transform: translateY(-100%) translateY(-0.5em) translateY(-2px) scale(0.9);
-    cursor: pointer;
-    pointer-events: auto;
-    font-size: 8px;
-    line-height: 10px; }
   .form-element .form-element-label {
-    transform: translateY(-16px) translateY(-0.5em) translateY(-2px) scale(0.9);
     font-family: Roboto;
-    font-weight: 400;
-    font-size: 13.4px; }
+    font-weight: 400; }
   .form-element .form-element-bar {
     height: 1.68px !important;
     background-color: #00b1ff; }

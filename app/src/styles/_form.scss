@@ -1,44 +1,4 @@
 $formTextColor: #979797;
-// .form-control:focus{box-shadow: none;}
-// input[type="email"],input[type="text"],input[type="password"]
-// {
-
-//     border: 0px;
-//     border-bottom: 1.7px solid;
-//     border-radius: 0px;
-//     color: $formTextColor;
-
-//     &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-//         color: $formTextColor;
-//       }
-//       &::-moz-placeholder { /* Firefox 19+ */
-//         color: $formTextColor;
-//       }
-//       &:-ms-input-placeholder { /* IE 10+ */
-//         color: $formTextColor;
-//       }
-//       &:-moz-placeholder { /* Firefox 18- */
-//         color: $formTextColor;
-//       }
-
-//     font: {
-//         family:Roboto;
-//         weight: 400;
-//         size:13.4px;
-//     }
-//     &.theme-blue
-//     {
-//         border-color: #85daff;
-//         padding: 24.4px 10.7px;
-
-//     }
-// }
-
-// .error
-// {
-//     color: #ff0000;
-//     padding: {left:10.7px;right:10.7px;}
-// }
 .form-footer-buttons {
   position: absolute;
   bottom: 34px;
@@ -114,22 +74,22 @@ $formTextColor: #979797;
     }
   }
 
-  .form-element-field.-hasvalue ~ .form-element-label,
-  .form-element-field:focus ~ .form-element-label {
-    transform: translateY(-100%) translateY(-0.5em) translateY(-2px) scale(0.9);
-    cursor: pointer;
-    pointer-events: auto;
-    font: {
-      size: 8px;
-    }
-    line-height: 10px;
-  }
+  // .form-element-field.-hasvalue ~ .form-element-label,
+  // .form-element-field:focus ~ .form-element-label {
+  //   transform: translateY(-100%) translateY(-0.5em) translateY(-2px) scale(0.9);
+  //   cursor: pointer;
+  //   pointer-events: auto;
+  //   font: {
+  //     size: 8px;
+  //   }
+  //   line-height: 10px;
+  // }
   .form-element-label {
-    transform: translateY(-16px) translateY(-0.5em) translateY(-2px) scale(0.9);
+    // transform: translateY(-16px) translateY(-0.5em) translateY(-2px) scale(0.9);
     font: {
       family: Roboto;
       weight: 400;
-      size: 13.4px;
+      // size: 13.4px;
     }
   }
   .form-element-bar {
