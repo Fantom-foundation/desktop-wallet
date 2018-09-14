@@ -15,6 +15,7 @@ import smallLogoWhite from '../../../images/Logo/small-logo-white.svg';
 import AccountFooter from '../../../general/footer/account-footer';
 import AccountInfoCard from './accountInfoCard';
 import FooterButtons from '../../../general/footer/footer-buttons';
+import AccountDetailPrint from './accountDetailPrint';
 
 class AccountInfo extends Component {
     constructor(props){
@@ -94,7 +95,7 @@ class AccountInfo extends Component {
                             <Col className="text-right">
                                     <QRCodeIcon 
                                     className=''
-                                    address={'abc'}
+                                    address="abc"
                                     //  icon={fantomIcon}
                                     text='FANTOM'
                                     />
@@ -134,7 +135,7 @@ class AccountInfo extends Component {
                             <Col >
                                     <QRCodeIcon 
                                     className=''
-                                    address={'abc'}
+                                    address="abc"
                                     //  icon={fantomIcon}
                                     text='FANTOM'
                                     />
@@ -165,7 +166,9 @@ class AccountInfo extends Component {
                     <div className="cs-container forms-container theme-blue-shadow inner mb-4">
                         <Row className="mx-0">
                             <Col style={{ paddingTop: '46px', paddingBottom: '46px', paddingLeft: '66px', paddingRight: '69px' }}>
-
+                                {/* <AccountDetailPrint 
+                                //  ref={e => (this.printThisData = e)}
+                                /> */}
                                 {
                                     this.printAccountData()
                                 }
@@ -182,7 +185,7 @@ class AccountInfo extends Component {
                                     <Col className="text-center">
                                         <ReactToPrint
                                     trigger={() => <Button color="primary">Print Phrase</Button>}
-                                    // content={() => this.accountInfoRef} this.printThisData
+                                    // content={() => this.accountInfoRef} 
                                     content={() => this.printThisData}
                                   />
                                         {/* <Button color="primary">Print Phrase</Button> */}
@@ -196,7 +199,7 @@ class AccountInfo extends Component {
                                         <div className="form-element form-input">
                                             <input id="PasswordHint" className="form-element-field" placeholder="the account recovery phrase." type="text" required="" 
                                             onChange={this.confirmPhraseBackup.bind(this)}/>
-                                            <div className={` ${this.state.errorText === '' ? 'form-element-bar':'form-text-line' }`}></div>
+                                            <div className={` ${this.state.errorText === '' ? 'form-element-bar':'form-text-line' }`} />
                                             {/* <div className="form-element-bar"></div> */}
                                             {/* <label className="form-element-label" for="PasswordHint">Password hint</label> */}
                                             {!this.state.isBackupConfirm && <small className="form-element-hint">{this.state.errorText} </small>}
@@ -206,7 +209,7 @@ class AccountInfo extends Component {
                             </Col>
                         </Row>
                         <FooterButtons onBack={this.onBack.bind(this)}  
-                        isBackActive={true} 
+                        isBackActive 
                         onNext={this.onNext.bind(this)} 
                         isNextActive={this.state.isBackupConfirm}/>
                     </div>

@@ -32,12 +32,12 @@
   input {
     color: #5e6875;
     font: {
-      size: 8px;
+      size: 14px;
       family: Helvetica;
     }
   }
   input {
-    height: 24px;
+    // height: 24px;
     padding: {
       top: 0;
       bottom: 0;
@@ -46,6 +46,11 @@
       box-shadow: none;
     }
   }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+}
   .success-check {
     position: relative;
     input {
@@ -76,14 +81,16 @@
     }
     .value-1 {
       font: {
-        size: 7.2px;
+        // size: 7.2px;
+        size: 12px;
       }
       color: #5e6875;
       top: 3.9px;
     }
     .value-2 {
       font: {
-        size: 6.6px;
+        // size: 6.6px;
+        size: 12px;
       }
       color: #8d9bae;
       bottom: 3.6px;
@@ -119,7 +126,8 @@
         right: 12.1px;
         transform: translateY(-50%);
         font: {
-          size: 9.6px;
+          // size: 9.6px;
+          size: 12px;
           family: Helvetica;
         }
       }
@@ -167,13 +175,14 @@
   .result {
     .col {
       &:nth-child(1) {
-        @include responsive-width(52px);
+        @include responsive-width(100px);
       }
     }
     p {
       color: #5e6875;
       font: {
-        size: 8.4px;
+        // size: 8.4px;
+        size: 12px;
         family: Helvetica;
       }
       span {
@@ -184,7 +193,8 @@
   .btn {
     border-radius: 4px;
     font: {
-      size: 8px;
+      // size: 8px;
+      size: 10px;
       family: Helvetica;
     }
   }
@@ -212,7 +222,8 @@
     label {
       color: #000;
       font: {
-        size: 8px;
+        size: 14px;
+        // size: 8px;
         family: Helvetica;
       }
       margin-top: 22px;
@@ -226,7 +237,8 @@
   .error-msg {
     color: #ff0000;
     font: {
-      size: 9px;
+      // size: 9px;
+      size: 12px;
       family: Helvetica;
     }
   }

@@ -4,7 +4,7 @@ import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Co
 import Logo from '../../images/Logo/logo.png';
 import SettingIcon from '../../images/icons/setting.svg';
 import NotificationIcon from '../../images/icons/notification_red.png';
-import downArrowIcon from '../../images/icons/downArrowButton.svg';
+import downArrowIcon from '../../images/icons/downArrowWhite.svg';
 import Identicons from '../identicons/identicons';
 
 
@@ -43,13 +43,13 @@ export default class Header extends Component {
                         <Nav className="ml-auto" navbar>
                             <NavItem>
                                 <NavLink href="#">
-                                    <div className="theme-blue-shadow d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden', borderRadius: '100%' }}>
+                                    <div className="theme-blue-shadow d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}>
                                         <Identicons id={this.props.accountIcon} className="person-image theme-blue-shadow" width={40} size={3} />
                                     </div>
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="#"><img src={downArrowIcon} alt="Down Arrow " style={{ height: '16.6px', backgroundColor: '#fff' }} /></NavLink>
+                                <NavLink href="#"><img src={downArrowIcon} alt="Down Arrow " style={{ height: '16.6px' }} /></NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink href="#"><img src={NotificationIcon} alt="Notification" style={{ height: '16.6px' }} /></NavLink>

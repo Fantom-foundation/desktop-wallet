@@ -92,10 +92,11 @@ $formTextColor: #979797;
 }
 .form-group{
   textarea.form-control{
+    color: #5e6875;
     height: 61px;
-    font-family: SFCompactDisplay;
-    font-size: 16px;
-    font-weight: 500;
+    // font-family: SFCompactDisplay;
+    font-size: 14px;
+    // font-weight: 500;
   }
   
 }

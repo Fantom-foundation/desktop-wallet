@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Col} from 'reactstrap';
+import QRCode from 'qrcode.react';
 
 import icon from '../../images/Logo/small-logo.svg';
-import QRCode from 'qrcode.react';
 
 
 
@@ -35,14 +34,12 @@ class QRCodeIcon extends Component {
       }
 
     render(){
-        const {address, className} = this.props;
+        const { address } = this.props;
         return(
-            // <Col className={`${className}`}>
             <div style={{  position: 'relative', display: 'inline-block' }}>
               {this.renderLogo()}
               <QRCode value={`${address} `} />
             </div>
-          // </Col>
         )
     }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
+import { Row, Col } from 'reactstrap';
 import QRCodeIcon from '../../general/qr/index';
 // import fantomIcon from '../../images/icons/fantom_Icon.png';
 // import fantomIcon from '../../images/Logo/small-logo.svg';
@@ -8,30 +9,30 @@ import WalletSetup from '../walletSetup/index';
 import AccountManagement from '../accountManagement/index';
 import Store from '../../store/userInfoStore/index';
 import SendFunds from '../sendFunds/index';
-import { Row, Col } from 'reactstrap';
 import config from '../../store/config/index';
 import smallLogo from '../../images/Logo/small-logo.svg';
 import smallLogoWhite from '../../images/Logo/small-logo-white.svg';
+
 const configHelper = config();
 
 function scientificToDecimal(num) {
     const sign = Math.sign(num);
-    //if the number is in scientific notation remove it
+    // if the number is in scientific notation remove it
     if(/\d+\.?\d*e[\+\-]*\d+/i.test(num)) {
         const zero = '0';
-        const parts = String(num).toLowerCase().split('e'); //split into coeff and exponent
-        const e = parts.pop(); //store the exponential part
-        let l = Math.abs(e); //get the number of zeros
+        const parts = String(num).toLowerCase().split('e'); // split into coeff and exponent
+        const e = parts.pop(); // store the exponential part
+        let l = Math.abs(e); // get the number of zeros
         const direction = e/l; // use to determine the zeroes on the left or right
         const coeff_array = parts[0].split('.');
         
         if (direction === -1) {
             coeff_array[0] = Math.abs(coeff_array[0]);
-            num = zero + '.' + new Array(l).join(zero) + coeff_array.join('');
+            num = `${zero  }.${  new Array(l).join(zero)  }${coeff_array.join('')}`;
         }
         else {
             const dec = coeff_array[1];
-            if (dec) l = l - dec.length;
+            if (dec) l -= dec.length;
             num = coeff_array.join('') + new Array(l+1).join(zero);
         }
     }
@@ -71,11 +72,11 @@ class MainPage extends Component{
 
     getUserAccountDetail(){
         const storeSize = (Store.size);
-        let userAccountDetail = '';
+        const userAccountDetail = '';
         if(storeSize > 0){
             const keys = Object.keys(Store.store);
             let accountDetail = '';
-            for(let key of keys){
+            for(const key of keys){
                  accountDetail = Store.get(key);
                 if(accountDetail.primaryAccount === true){
                    return  accountDetail;
@@ -156,7 +157,7 @@ class MainPage extends Component{
         // }
     }
     
-    ///////////////////////////////////////////   FOR FANTOM OWN END POINT  ///////////////////////////////////////////////////////////////  
+    // /////////////////////////////////////////   FOR FANTOM OWN END POINT  ///////////////////////////////////////////////////////////////  
 
     /**
      * getFantomBalanceFromApiAsync() :  Api to fetch wallet balance for given address of Fantom own endpoint.
@@ -164,9 +165,9 @@ class MainPage extends Component{
      */
 
     getFantomBalanceFromApiAsync(address) {
-        let dummyAddress = '0xFD00A5fE03CB4672e4380046938cFe5A18456Df4';
+        const dummyAddress = '0xFD00A5fE03CB4672e4380046938cFe5A18456Df4';
         console.log('test net balance for address :  ', address)
-        return fetch(configHelper.apiUrl + '/account/' + address)
+        return fetch(`${configHelper.apiUrl  }/account/${  address}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson && responseJson.balance) {
@@ -174,7 +175,7 @@ class MainPage extends Component{
                     console.log('test net responseJson : ', responseJson)
                     const balance = scientificToDecimal(responseJson.balance);
                     console.log('test net balance : ', balance)
-                    const valInEther = Web3.utils.fromWei('' + balance, 'ether');
+                    const valInEther = Web3.utils.fromWei(`${  balance}`, 'ether');
                     console.log('test net valInEther : ', valInEther)
                     this.setState({
                         balance: valInEther,
@@ -203,7 +204,7 @@ class MainPage extends Component{
     getFantomTransactionsFromApiAsync(address) {
         const dummyAddress = '0x68a07a9dc6ff0052e42f4e7afa117e90fb896eda168211f040da69606a2aeddc';
     
-        fetch(configHelper.apiUrl + '/transaction/' + dummyAddress)
+        fetch(`${configHelper.apiUrl  }/transaction/${  dummyAddress}`)
     
             // fetch(configHelper.apiUrl+'/transactions/'+ dummyAddress)
             .then((response) => response.json())
@@ -234,12 +235,12 @@ class MainPage extends Component{
     */
     loadFantomTransactionData(result) {
         let transactionData = [];
-        let publicKey = '0xfd00a5fe03cb4672e4380046938cfe5a18456df4'.toLowerCase();
+        const publicKey = '0xfd00a5fe03cb4672e4380046938cfe5a18456df4'.toLowerCase();
         // let publicKey = this.props.publicKey.toLowerCase();
         let type = '';
         let transactionId = '';
         // for (let data of result) {
-        let data = result;
+        const data = result;
         if (publicKey === data.from.toLowerCase()) {
             type = SENT;
             transactionId = data.to;
@@ -253,10 +254,10 @@ class MainPage extends Component{
             const valInEther = Web3.utils.fromWei(value, 'ether');
     
             transactionData.push({
-                type: type,
+                type,
                 amount: valInEther,
-                transactionId: transactionId,
-                transactionStatus: transactionStatus,
+                transactionId,
+                transactionStatus,
                 amountUnit: 'FTM',
                 from: data.from,
                 to: data.to,
@@ -271,7 +272,7 @@ class MainPage extends Component{
         });
     }
     
-    ///////////////////////////////////////////   FOR ETHER END POINT  ////////////////////////////////////////////////////////////////     
+    // /////////////////////////////////////////   FOR ETHER END POINT  ////////////////////////////////////////////////////////////////     
         
     /**
      * getEtherBalanceFromApiAsync() :  Api to fetch Ether wallet balance for given address.
@@ -280,7 +281,7 @@ class MainPage extends Component{
     async getEtherBalanceFromApiAsync(address) {
         console.log('getEtherBalanceFromApiAsync api called');
        const dummyAddress = '0x4d8868F7d7581d770735821bb0c83137Ceaf18FD';
-        return fetch('https://api-ropsten.etherscan.io/api?module=account&action=balance&address=' + dummyAddress + '&tag=latest&apikey=WQ1D9TBEG4IWFNGZSX3YP4QKXUI1CVAUBP')
+        return fetch(`https://api-ropsten.etherscan.io/api?module=account&action=balance&address=${  dummyAddress  }&tag=latest&apikey=WQ1D9TBEG4IWFNGZSX3YP4QKXUI1CVAUBP`)
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.status && responseJson.status === "1") {
@@ -305,7 +306,7 @@ class MainPage extends Component{
     getEtherTransactionsFromApiAsync(address) {
         console.log('getEtherTransactionsFromApiAsync api called');
         const dummyAddress = '0x4d8868F7d7581d770735821bb0c83137Ceaf18FD';
-        fetch('http://api-ropsten.etherscan.io/api?module=account&action=txlist&address=' + dummyAddress + '&startblock=0&endblock=99999999&sort=asc&apikey=WQ1D9TBEG4IWFNGZSX3YP4QKXUI1CVAUBP')
+        fetch(`http://api-ropsten.etherscan.io/api?module=account&action=txlist&address=${  dummyAddress  }&startblock=0&endblock=99999999&sort=asc&apikey=WQ1D9TBEG4IWFNGZSX3YP4QKXUI1CVAUBP`)
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson && responseJson.result && responseJson.result.length) {
@@ -338,7 +339,7 @@ class MainPage extends Component{
         publicKey = publicKey.toLowerCase();
         let type = '';
         let transactionId = '';
-        for (let data of responseJson.result) {
+        for (const data of responseJson.result) {
             if (publicKey === data.from.toLowerCase()) {
                 type = 'SENT';
                 transactionId = data.to;
@@ -351,9 +352,9 @@ class MainPage extends Component{
                 const value = data.value;
                 const valInEther = Web3.utils.fromWei(value, 'ether');
                 transactionData.push({
-                    type: type,
+                    type,
                     amount: valInEther,
-                    transactionId: transactionId,
+                    transactionId,
                     time: data.timeStamp,
                     amountUnit: 'FTM',
                     from: data.from,
@@ -405,83 +406,12 @@ class MainPage extends Component{
                     handleUserSettings={this.handleUserSettings.bind(this)} 
                     handleSelectedAccount={this.handleSelectedAccount.bind(this)}/>}
                    {this.state.isSendFund &&  
-                   <SendFunds isSendFund={this.state.isSendFund} onClose={this.onCloseSendFunds.bind(this)} privateKey={privateKey} publicKey={publicKey}/>}
-               {/* <div>
-               <div className="print-screen">
-                    <Row className="mx-0">
-                        <Col className="pt-3">
-                            <Row>
-                                <Col>
-                                    <p className="address large">Your Address</p>
-                                </Col>
-                            </Row>
-                            <Row>
-                            <Col className="text-right">
-                                    <QRCodeIcon 
-                                    className=''
-                                    address={'abc'}
-                                    //  icon={fantomIcon}
-                                    text='FANTOM'
-                                    />
-                                </Col>
-                                <Col className="pt-4">
-                                    <p className="account-no roboto" style={{marginBottom:'54px'}}>0x59d50B3XXXXXXXXXXXXXXXXXXXCBE154D</p>
-                                    <div className="light-text">
-                                        <p>This password encrypts your private key.</p>
-                                        <p>This does not act as a seed to generate your keys.</p>
-                                        <p>You will need this password + mnemonickey to unlock your wallet.</p>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </Col>
-                        <Col className="brand px-0">
-                            <div className="brand-body">
-                                <p className="logo"><img src={smallLogo} />Fantom</p>
-                                <a htef="https://fantom.foundation/" className="link">https://fantom.foundation/</a>
-                            </div>
-                        </Col>
-                    </Row>
-               </div>
-
-
-<div className="print-screen">
-                    <Row className="mx-0">
-                        <Col className="pt-3" style={{paddingLeft:'49px'}}>
-                            <Row>
-                                <Col className="pr-0">
-                                    <p className="address mb-0">Your Address</p>
-                                    <p className="account-no mb-2">0x59d50B3XXXXXXXXXXXXXXXXXXXCBE154D</p>
-                                    <p className="mb-0">Mnemonic Phrase</p>
-                                    <p>unmoved skewed primary pointing pep prescribe on stage eject unbiased skeleton robot click </p>
-                                </Col>
-                            </Row>
-                            <Row className="qr-with-rotated-text pb-2">
-                            <Col >
-                                    <QRCodeIcon 
-                                    className=''
-                                    address={'abc'}
-                                    //  icon={fantomIcon}
-                                    text='FANTOM'
-                                    />
-                                    <p className="address rotate-anti inline-block text-uppercase">Your Address</p>
-                                </Col>
-                                <Col>
-                                    
-                                <p className="address rotate-anti inline-block">AMOUNT / NOTES</p>
-                                </Col>
-                            </Row>
-                        </Col>
-                        <Col className="brand blue px-0">
-                            <div className="brand-body">
-                                <p className="logo"><img src={smallLogoWhite} />Fantom</p>
-                                <a htef="https://fantom.foundation/" className="link">https://fantom.foundation/</a>
-                            </div>
-                        </Col>
-                    </Row>
-               </div>
-               </div> */}
-
-               
+                   <SendFunds isSendFund={this.state.isSendFund} 
+                   onClose={this.onCloseSendFunds.bind(this)} 
+                   privateKey={privateKey} 
+                   publicKey={publicKey}
+                   userAccountStore ={Store.store}
+                   />}
                 </div>
 
         );

@@ -264,14 +264,17 @@ strong {
   .modal-dialog label,
   .modal-dialog input {
     color: #5e6875;
-    font-size: 8px;
+    font-size: 14px;
     font-family: Helvetica; }
   .modal-dialog input {
-    height: 24px;
     padding-top: 0;
     padding-bottom: 0; }
     .modal-dialog input:focus {
       box-shadow: none; }
+  .modal-dialog select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px; }
   .modal-dialog .success-check {
     position: relative; }
     .modal-dialog .success-check input {
@@ -292,11 +295,11 @@ strong {
       position: absolute;
       right: 14px; }
     .modal-dialog .withdraw-holder .value-1 {
-      font-size: 7.2px;
+      font-size: 12px;
       color: #5e6875;
       top: 3.9px; }
     .modal-dialog .withdraw-holder .value-2 {
-      font-size: 6.6px;
+      font-size: 12px;
       color: #8d9bae;
       bottom: 3.6px; }
   .modal-dialog .change {
@@ -321,7 +324,7 @@ strong {
         top: 50%;
         right: 12.1px;
         transform: translateY(-50%);
-        font-size: 9.6px;
+        font-size: 12px;
         font-family: Helvetica; }
       .modal-dialog .change .input-holder .logo {
         position: absolute;
@@ -347,25 +350,25 @@ strong {
     .modal-dialog textarea:-ms-input-placeholder {
       color: rgba(40, 61, 74, 0.3); }
   .modal-dialog .result .col:nth-child(1) {
-    -ms-flex: 52px !important;
-    flex: 0 0 52px !important;
-    max-width: 52px !important; }
+    -ms-flex: 100px !important;
+    flex: 0 0 100px !important;
+    max-width: 100px !important; }
   .modal-dialog .result p {
     color: #5e6875;
-    font-size: 8.4px;
+    font-size: 12px;
     font-family: Helvetica; }
     .modal-dialog .result p span {
       color: #8d9bae; }
   .modal-dialog .btn {
     border-radius: 4px;
-    font-size: 8px;
+    font-size: 10px;
     font-family: Helvetica; }
   .modal-dialog.send-check .modal-content {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0; }
   .modal-dialog .check-send-fields label {
     color: #000;
-    font-size: 8px;
+    font-size: 14px;
     font-family: Helvetica;
     margin-top: 22px;
     margin-bottom: 11px; }
@@ -373,7 +376,7 @@ strong {
     background: #707070; }
   .modal-dialog .error-msg {
     color: #ff0000;
-    font-size: 9px;
+    font-size: 12px;
     font-family: Helvetica; }
 
 .form-footer-buttons {
@@ -418,10 +421,9 @@ strong {
   padding-right: 10.7px; }
 
 .form-group textarea.form-control {
+  color: #5e6875;
   height: 61px;
-  font-family: SFCompactDisplay;
-  font-size: 16px;
-  font-weight: 500; }
+  font-size: 14px; }
 
 .form-element {
   margin-bottom: 0px !important;
