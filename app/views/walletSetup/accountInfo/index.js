@@ -6,6 +6,7 @@ import {
 } from 'reactstrap';
 import ReactToPrint from 'react-to-print';
 import { clipboard } from 'electron';
+import { connect } from 'react-redux';
 
 import AccountFooter from '../../../general/footer/account-footer';
 import AccountInfoCard from './accountInfoCard';
@@ -76,7 +77,7 @@ class AccountInfo extends Component {
 
 
     printAccountData() {
-        const {mnemonic, address} = this.props;
+        const { mnemonic, address } = this.props;
         return (
             <div style={{ display: 'none' }}>
                 <div ref={el => (this.printAccountDetail = el)}>
@@ -87,6 +88,11 @@ class AccountInfo extends Component {
     }
 
     render() {
+        const { accountName, mnemonic, identiconsId, address, activeTab } = this.props;
+        if(activeTab !== '2'){
+            return null;
+        }
+        console.log('inside this.props accountInfo for reducer: ', this.props)
         return (
             <Row>
                 <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
@@ -96,10 +102,10 @@ class AccountInfo extends Component {
 
                                 {this.printAccountData()}
                                 <AccountInfoCard
-                                    accountName={this.props.accountName}
-                                    mnemonic={this.props.mnemonic}
-                                    address={this.props.address}
-                                    identiconsId={this.props.identiconsId}
+                                    accountName={accountName}
+                                    mnemonic={mnemonic}
+                                    address={address}
+                                    identiconsId={identiconsId}
                                     copyAddress={this.copyAddress.bind(this)}
                                     copyMnemonic={this.copyMnemonic.bind(this)}
                                 />
@@ -140,4 +146,15 @@ class AccountInfo extends Component {
     }
 }
 
-export default AccountInfo;
+const mapStateToProps = (state) => ({
+    accountName: state.createAccountReducer.accountName,
+    identiconsId: state.createAccountReducer.accountIcon,
+    address: state.keyReducer.publicKey,
+    mnemonic: state.keyReducer.mnemonic,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountInfo);

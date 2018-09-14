@@ -7,7 +7,8 @@ import fantomIcon from '../../../images/icons/fantom_Icon.png';
 import Identicons  from '../../../general/identicons/identicons';
 import QRCodeIcon from '../../../general/qr/index';
 
-export default class AccountInfo extends Component {
+
+ class AccountInfo extends Component {
 
   
 
@@ -62,3 +63,5 @@ export default class AccountInfo extends Component {
     );
   }
 }
+
+export default AccountInfo;

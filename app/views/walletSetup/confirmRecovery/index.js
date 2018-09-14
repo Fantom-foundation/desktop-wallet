@@ -2,11 +2,9 @@ import React, {Component} from 'react';
 import {
     Row,
     Col,
-    Form, FormGroup, Input, Button,
+    Form, FormGroup, Input, 
   } from 'reactstrap';
 import AccountFooter from '../../../general/footer/account-footer';
-import FooterButtons from '../../../general/footer/footer-buttons';
-import AccountManagement from '../../accountManagement/index';
 
 class ConfirmRecovery extends Component {
   // onBack(){
@@ -46,20 +44,14 @@ class ConfirmRecovery extends Component {
     if(isLocked){
       return;
     }
-    // console.log('mnemonicPhrase : ', mnemonicPhrase);
-    // console.log('mnemonic : ', mnemonic);
-    // if(mnemonic === mnemonicPhrase){
       onUnlockAccount(true);
-      // this.setState({
-      //   isLocked:false
-      // });
-    // }else{
-    //   console.log('not matched')
-    // }
-    
   }
 
     render(){
+      const { activeTab }=this.props;
+      if(activeTab !== '3'){
+          return null;
+      }
       let createWalletColor = 'secondary';
        createWalletColor = this.state.isLocked ? 'gray' : '#00b1ff';
         return(

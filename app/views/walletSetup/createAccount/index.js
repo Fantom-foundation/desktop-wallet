@@ -5,6 +5,7 @@ import {
     Col,
     Form,
 } from 'reactstrap';
+import { connect } from 'react-redux';
 
 import Store from '../../../store/userInfoStore/index';
 
@@ -12,6 +13,8 @@ import { Progress } from '../../../general/core/index';
 import FooterButtons from '../../../general/footer/footer-buttons';
 import AccountFooter from '../../../general/footer/account-footer';
 import DisplayIdenticons from '../../../general/identicons/index';
+
+import * as CreateAccountAction from '../../../reducers/createAccount/action';
 
 class CreateAccount extends Component {
 
@@ -34,10 +37,11 @@ class CreateAccount extends Component {
     };
 
       onNext(){
-          const { toggle, setAccountName } = this.props;
-          const {accountName} = this.state;
+          const { toggle, setAccountName, setNewAccountDetail } = this.props;
+          const {accountName, password, passwordHint, identiconsId } = this.state;
          if(this.isCreateAccount()){
             console.log('account created');
+            setNewAccountDetail(accountName, password, passwordHint, identiconsId);
             if(setAccountName){
                 setAccountName(accountName);
             }
@@ -268,6 +272,10 @@ renderPasswordStrengthBar(){
 // }
       
     render() {
+        const {activeTab}=this.props;
+        if(activeTab !== '1'){
+            return null;
+        }
         const {emailErrorText, passwordErrorText, confirmPasswordErrorText} = this.state;
         return (
             <Row>
@@ -344,4 +352,15 @@ renderPasswordStrengthBar(){
     }
 }
 
-export default CreateAccount;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => ({
+  setNewAccountDetail: (accountName, password, passwordHint, accountIcon) => {
+    dispatch({ type: CreateAccountAction.CREATE_NEW_ACCOUNT, accountName, password, passwordHint, accountIcon });
+  },
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateAccount);

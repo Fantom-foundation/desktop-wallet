@@ -91,11 +91,11 @@
     }
     .qr-with-rotated-text
     {
-        .col { @include responsive-width(157px); }
-        canvas{
-            height: 110px !important;
-            width: 110px !important;
-        }
+        // .col { @include responsive-width(157px); }
+        // canvas{
+        //     height: 110px !important;
+        //     width: 110px !important;
+        // }
     }
     .rotate-anti
     {

@@ -1701,13 +1701,6 @@ select.form-element-field {
     margin-bottom: 0px;
     font-family: Roboto;
     font-size: 8px; }
-  .print-screen .qr-with-rotated-text .col {
-    -ms-flex: 157px !important;
-    flex: 0 0 157px !important;
-    max-width: 157px !important; }
-  .print-screen .qr-with-rotated-text canvas {
-    height: 110px !important;
-    width: 110px !important; }
   .print-screen .rotate-anti {
     transform: rotate(-90deg) translateY(-44%);
     position: absolute;

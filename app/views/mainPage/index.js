@@ -179,7 +179,7 @@ class MainPage extends Component{
     getFantomBalanceFromApiAsync(address) {
         const dummyAddress = '0xFD00A5fE03CB4672e4380046938cFe5A18456Df4';
         console.log('test net balance for address :  ', address)
-        return fetch(`${configHelper.apiUrl  }/account/${  address}`)
+        return fetch(`${configHelper.apiUrl}/account/${address}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson && responseJson.balance) {

@@ -11,6 +11,7 @@ import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import Web3 from 'web3';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { Progress } from '../../general/core/index';
 import Header from '../../general/header/index';
@@ -22,7 +23,11 @@ import AccountInfo from './accountInfo/index';
 import ConfirmRecovery from './confirmRecovery/index';
 import AccountManagement from '../accountManagement/index';
 
-export default class Home extends Component {
+
+import * as KeyAction from '../../reducers/keys/action';
+
+
+class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,7 +46,6 @@ export default class Home extends Component {
 
         
     }
-
 
 
 // /////////******************************************************************************/////////////
@@ -84,6 +88,9 @@ export default class Home extends Component {
         //   masterPrivateKey,
         // };
         // this.props.updateUserDetails(object);
+        console.log('setKeys called : save to reducer : ')
+        this.props.setKeys(masterPrivateKey, address, hexPrivateKey);
+        this.props.setMnemonicCode(mnemonic);
         console.log('pubKey',pubKey,'public key address',address,'Private Key', hexPrivateKey);
 
         
@@ -188,6 +195,7 @@ export default class Home extends Component {
                                 <TabContent activeTab={this.state.activeTab}>
                                     <TabPane tabId="1">
                                         <CreateAccount 
+                                        activeTab={this.state.activeTab}
                                         identiconsId={identiconsId}
                                         date={this.state.date}
                                         toggle={this.toggle.bind(this)} 
@@ -196,12 +204,16 @@ export default class Home extends Component {
                                         setAccountName={this.setAccountName.bind(this)}/>
                                     </TabPane>
                                     <TabPane tabId="2">
-                                        <AccountInfo accountName={accountName} mnemonic={mnemonic}
-                                         address={address} identiconsId={identiconsId} toggle={this.toggle.bind(this)}/>
+                                        <AccountInfo 
+                                        activeTab={this.state.activeTab}
+                                        toggle={this.toggle.bind(this)}/>
                                     </TabPane>
                                     <TabPane tabId="3">
-                                        <ConfirmRecovery toggle={this.toggle.bind(this)} onUnlockAccount={this.onUnlockAccount.bind(this)}
-                                            mnemonic={this.state.mnemonic} />
+                                        <ConfirmRecovery 
+                                        activeTab={this.state.activeTab} 
+                                        toggle={this.toggle.bind(this)} 
+                                        onUnlockAccount={this.onUnlockAccount.bind(this)}
+                                        mnemonic={this.state.mnemonic} />
                                     </TabPane>
                                 </TabContent>
                             </Col>
@@ -212,4 +224,27 @@ export default class Home extends Component {
         );
     }
 }
+
+
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => ({
+  setMasterKey: key => {
+    dispatch({ type: KeyAction.MASTER_KEY, key });
+  },
+  setPublicKey: key => {
+    dispatch({ type: KeyAction.PUBLIC_KEY, key });
+  },
+  setKeys: (masterKey, publicKey, privateKey) => {
+    dispatch({ type: KeyAction.MASTER_PUBLIC_PRIVATE_KEY, masterKey, publicKey, privateKey });
+  },
+  setMnemonicCode: (mnemonic) => {
+      dispatch({ type: KeyAction.MNEMONIC_CODE, mnemonic});
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);
 
