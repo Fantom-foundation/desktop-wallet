@@ -132,21 +132,22 @@ class Home extends Component {
         })
     }
     
-    onUnlockAccount(){
+    onUnlockAccount(isUnlock, privateKey, password){
         if(this.props.onUnlockAccount){
-            this.props.onUnlockAccount();
+            this.props.onUnlockAccount(isUnlock, privateKey, password);
         }
         if(this.props.setAmountData){
-            this.props.setAmountData(this.state.accountName,this.state.identiconsId,this.state.address, this.state.privateKey)
+            const { address, accountIcon, accountName} = this.props;
+            this.props.setAmountData(accountName,accountIcon,address)
         }
     }
     
     render() {
        const {accountName, mnemonic, address, identiconsId} = this.state;
-       const {accountIconId} = this.props;
+       const {accountIcon} = this.props;
         return (
             <div>
-                <Header accountIcon={accountIconId}/>
+                <Header accountIcon={accountIcon}/>
                 <section style={{ padding: '118px 0' }}>
                     <Container className="bg-white theme-blue-shadow">
                         <Row>
@@ -213,7 +214,7 @@ class Home extends Component {
                                         activeTab={this.state.activeTab} 
                                         toggle={this.toggle.bind(this)} 
                                         onUnlockAccount={this.onUnlockAccount.bind(this)}
-                                        mnemonic={this.state.mnemonic} />
+                                        />
                                     </TabPane>
                                 </TabContent>
                             </Col>
@@ -226,7 +227,11 @@ class Home extends Component {
 }
 
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+    accountName: state.createAccountReducer.accountName,
+    accountIcon: state.createAccountReducer.accountIcon,
+    address: state.keyReducer.publicKey,
+});
 
 const mapDispatchToProps = dispatch => ({
   setMasterKey: key => {

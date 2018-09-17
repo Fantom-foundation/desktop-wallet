@@ -1,6 +1,9 @@
 import { remote } from 'electron';
 import WalletEther from 'ethereumjs-wallet';
+import EthUtil from 'ethereumjs-util';
 import Store from "../store/userInfoStore";
+
+const Buffer = require('safe-buffer').Buffer;
 
 const fs = require('fs');
 
@@ -81,11 +84,14 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
    * To get data of file having keystore contain address.
    */
   const getKeystoreDataOfAddress = (address) => new Promise((resolve, reject) => {
+    console.log('address in keystore : ', address)
       getSavedKeystoreWithAddress(address).then((result) => {
         if (result.success && result.result && result.result.length
           && result.result.length > 0) {
             const file = result.result[0];
-            fs.readFile(file, (err, data) => {
+            console.log('filename of file to read : ', file);
+            const appPath = remote.app.getPath('userData');
+            fs.readFile(`${appPath}/${file}`, (err, data) => {
               if (err) {
                   reject(new Error('Not able to read file.'))
               } else {
@@ -108,9 +114,16 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
    */
   const getPrivateKeyOfAddress = (address, password) => new Promise((resolve, reject) => {
       getKeystoreDataOfAddress(address).then((result) => {
-        if (result.success && result.data) {
-          const wallet = WalletEther.fromV3(result.data, password);
-          resolve({ success: true, result: wallet.getPrivateKey(), wallet });
+        if (result.success && result.result) {
+          console.log('getKeystoreDataOfAddress result from address file : ', result.result.toString('utf8') )
+          console.log(1);
+          const data = result.result.toString('utf8');
+          console.log(1);
+          const wallet = WalletEther.fromV3(data, password);
+          console.log(1);
+          const privateKeyBuffer = EthUtil.bufferToHex(wallet.getPrivateKey());
+          console.log(1);
+          resolve({ success: true, result: privateKeyBuffer });
         } else {
           reject(new Error('Unable to read data.'))
         }
@@ -125,15 +138,26 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
  * To save the private key in keystore and lock with password.
  */
   const savePrivateKey = (privateKey, password) => new Promise((resolve, reject) => {
-      const wallet = WalletEther.fromPrivateKey(privateKey);
+    console.log('private key file creating....2 : ', privateKey, password);
+      /** */
+      const privateKeyBuffer = EthUtil.toBuffer(privateKey);
+      // const privateKeyBuffer = Buffer.from(privateKey, 'hex')
+      /** */
+      const wallet = WalletEther.fromPrivateKey(privateKeyBuffer);
+      console.log('wallet  :', wallet);
       const keystoreFilename = wallet.getV3Filename();
+      console.log('keystoreFilename  :', keystoreFilename);
       const keystore = wallet.toV3(password);
+      console.log('keystore  :', keystore);
       const appPath = remote.app.getPath('userData');
+      console.log('appPath  :', appPath);
       const savePath = `${appPath}/${keystoreFilename}.json`;
+      console.log('savePath  :', savePath);
       fs.writeFile(`${appPath}/${keystoreFilename}.json`, JSON.stringify(keystore), (err) => {
           if (err) {
             reject(new Error('Unable to store file.'));
           } else {
+            console.log('no error, savepath of file : ', savePath);
             resolve({ success: true, result: savePath })
           }
           
@@ -146,29 +170,40 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
    */
   const getValidAccounts = () => new Promise((resolve, reject) => {
       const userAccountStore = Store.store;
-      if (userAccountStore.size && userAccountStore.size > 0) {
+      console.log('loaded accounts userAccountStore: ', Store.size);
+      if (Store.size && Store.size > 0) {
+        console.log('getSavedKeystoreFiles called')
         getSavedKeystoreFiles().then((data) => {
           const validAccounts = [];
           if (data && data.success && data.result && data.result.length && data.result.length > 0) {
+            console.log('data : ', data);
             const keys = Object.keys(userAccountStore);
+            console.log('keys : ', keys);
             const fileArr = data.result;
+            console.log('fileArr : ', fileArr);
             for (const key of keys) {
               for(const file of fileArr) {
                 const fileName = file.toLowerCase();
+                console.log('fileName : ', fileName);
                 const keyName = (key.toLowerCase()).replace('0x', '');
+                console.log('keyName : ', keyName);
                 if (fileName.includes('utc') && fileName.includes(keyName)) {
+                  console.log('validAccounts key : ', key);
                   validAccounts.push(key);
                   break;
                 }
               }
             }
+            console.log('success validAccounts validAccounts : ', validAccounts);
             resolve({success: true, result: validAccounts})
           } else {
+            console.log('1 success No accounts already setup : ');
             resolve({success: true, message:'No accounts already setup.', result: []})
           }
           return true;
         }).catch(err => reject(err));
       } else {
+        console.log('2 success No accounts already setup : ');
         resolve({success: true, message:'No accounts already setup.', result: []})
       }
     })

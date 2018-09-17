@@ -10,8 +10,6 @@ import QRCodeIcon from '../../../general/qr/index';
 
  class AccountInfo extends Component {
 
-  
-
   render() {
     return (
       <span>

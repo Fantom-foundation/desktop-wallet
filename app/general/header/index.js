@@ -6,7 +6,7 @@ import SettingIcon from '../../images/icons/setting.svg';
 import NotificationIcon from '../../images/icons/notification_red.png';
 import downArrowIcon from '../../images/icons/downArrowWhite.svg';
 import Identicons from '../identicons/identicons';
-
+import {savePrivateKey} from '../../KeystoreManager/index';
 
 export default class Header extends Component {
     constructor(props) {
@@ -30,7 +30,16 @@ export default class Header extends Component {
         if(handleUserSettings){
             handleUserSettings();
         }
+    }       
+
+savePrivateKeyToStore(){
+    console.log('1call save private key')
+    const { privateKey, password } = this.props;
+    if(privateKey && password){
+        console.log('2call save private key')
+        savePrivateKey(privateKey, password);
     }
+}
 
     render() {
         const { isOpen } = this.state;
@@ -49,7 +58,7 @@ export default class Header extends Component {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="#"><img src={downArrowIcon} alt="Down Arrow " style={{ height: '16.6px' }} /></NavLink>
+                                <NavLink href="#"><img src={downArrowIcon} alt="Down Arrow " style={{ height: '16.6px' }} onClick={() => this.savePrivateKeyToStore()}/></NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink href="#"><img src={NotificationIcon} alt="Notification" style={{ height: '16.6px' }} /></NavLink>

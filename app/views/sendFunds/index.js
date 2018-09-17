@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Button, ModalBody, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import Web3 from 'web3';
+import EthUtil from 'ethereumjs-util';
 
 import successCheck from '../../images/icons/icon-success.svg';
 import smallLogo from '../../images/Logo/small-logo.svg';
 import logo from '../../images/Logo/fantom-black-logo.png';
 import CheckSend from './checkSend/index';
 import AcoountList from './accountList';
+import Store from '../../store/userInfoStore/index';
+import { getPrivateKeyOfAddress } from '../../KeystoreManager/index';
 
 export default class SendFunds extends Component {
     constructor(props) {
@@ -22,21 +25,26 @@ export default class SendFunds extends Component {
             isCheckSend: false,
             isValidAddress: false,
             accountStore: '',
+            password: '',
+            privateKey: '',
+            publicKey: '',
         }
     }
 
     componentDidMount(){
-        const { userAccountStore, privateKey, publicKey } = this.props;
-        const keys = Object.keys(userAccountStore);
-        const accountDetailLsit = [];
+        const { userAccountStore,  publicKey } = this.props;
+        // const keys = Object.keys(userAccountStore);
+        const keys = userAccountStore;
+        const accountDetailList = [];
 
         for(const key of keys){
-            accountDetailLsit.push(userAccountStore[key]);
+            // accountDetailLsit.push(userAccountStore[key]);
+            accountDetailList.push(Store.store[key]);
         }
 
         this.setState({
-            accountStore: accountDetailLsit,
-            privateKey,
+            accountStore: accountDetailList,
+            // privateKey,
             publicKey,
         });
     }
@@ -55,17 +63,18 @@ export default class SendFunds extends Component {
         const accountType = e.target.value;
         const length = accountStore.length;
         let publicKey = '';
-        let privateKey = '';
+        const privateKey = '';
         for(let account = 0;  account < length; account++){
             if(accountStore[account].name === accountType){
                 publicKey = accountStore[account].address;
-                privateKey = accountStore[account].privateKey;
+                // privateKey = accountStore[account].privateKey;
             }
           }
+          console.log('selected account publicKey :', publicKey);
         this.setState({
             accountType,
             publicKey,
-            privateKey,
+            // privateKey,
         });
     }
 
@@ -90,8 +99,20 @@ export default class SendFunds extends Component {
         })
     }
 
-    handleCheckSend() {
-        this.handleSendMoney()
+    setPassword(e) {
+        const password = e.target.value.trim();
+        this.setState({
+            password,
+        })
+    //     const { publicKey  } = this.props;
+    //    this.getPrivateKeyOfAddress(publicKey, password);
+    }
+
+    async handleCheckSend() {
+        // const { publicKey  } = this.props;
+        const { password , privateKey, publicKey } = this.state;
+       this.getPrivateKeyOfAddress(publicKey, password);
+       
     }
 
     handleGoBack() {
@@ -153,8 +174,28 @@ export default class SendFunds extends Component {
         }
     }
 
+    getPrivateKeyOfAddress(publicKey, password){
+        getPrivateKeyOfAddress(publicKey, password).then((res) => {
+            console.log('res from getPrivateKeyOfAddress : ', res)
+            const hexPrivateKey = res.result;
+            console.log(' hexPrivateKey : ',  hexPrivateKey);
+            this.setState({
+                privateKey: hexPrivateKey,
+            })
+            if(hexPrivateKey !== '') {
+                this.handleSendMoney();
+             }
+        }).catch((err) => {
+            this.setState({
+                privateKey: '',
+            })
+            console.log('err from getPrivateKeyOfAddress : ', err)
+        })
+    }
+
     render() {    
-        const { address, accountType, ftmAmount, usdAmount, optionalMessage, networkFees, totalFees, isCheckSend, isValidAddress, accountStore, publicKey, privateKey, } = this.state;
+        const { address, accountType, ftmAmount, usdAmount, optionalMessage,
+             networkFees, totalFees, isCheckSend, isValidAddress, accountStore, publicKey, privateKey, password } = this.state;
         return (
             <div>
                 <div className="modal fade show" role="dialog" tabIndex="-1" style={{ display: 'block' }} >
@@ -203,6 +244,14 @@ export default class SendFunds extends Component {
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
+
+                                            <FormGroup>
+                                                <Label for="to-address"><strong>Enter password : </strong></Label>
+                                                <div className="success-check">  {/* add or remove --- success --- class  */}
+                                                    <Input type="password" id="to-password" placeholder="Enter password" value={password} onChange={this.setPassword.bind(this)} />
+                                                    {/* <img src={successCheck} alt={successCheck} /> */}
+                                                </div>
+                                            </FormGroup>
 
                                             <Label for="OptionalMessage" ><strong>Note</strong></Label>
                                             <FormGroup className="mb-1">

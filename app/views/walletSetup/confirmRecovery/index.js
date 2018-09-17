@@ -4,6 +4,7 @@ import {
     Col,
     Form, FormGroup, Input, 
   } from 'reactstrap';
+  import { connect } from 'react-redux';
 import AccountFooter from '../../../general/footer/account-footer';
 
 class ConfirmRecovery extends Component {
@@ -39,12 +40,12 @@ class ConfirmRecovery extends Component {
   }
 
   onUnlock(){
-    const {mnemonic, onUnlockAccount} = this.props; 
+    const {mnemonic, onUnlockAccount, privateKey, password} = this.props; 
     const {mnemonicPhrase, isLocked} = this.state;
     if(isLocked){
       return;
     }
-      onUnlockAccount(true);
+      onUnlockAccount(true, privateKey, password);
   }
 
     render(){
@@ -120,4 +121,15 @@ class ConfirmRecovery extends Component {
     }
 }
 
-export default ConfirmRecovery;
+
+const mapStateToProps = (state) => ({
+  mnemonic: state.keyReducer.mnemonic,
+  privateKey: state.keyReducer.privateKey,
+  password: state.createAccountReducer.password,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmRecovery);
