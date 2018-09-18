@@ -1,7 +1,6 @@
 import * as Actions from './action';
 
-const CreateAccountReducer = (state = { accountName: '', password: '', passwordHint: '', accountIcon: '' }, action) => {
-    console.log('action for create acoount value : ', action);
+const CreateAccountReducer = (state = { accountName: '', password: '', passwordHint: '', accountIcon: '', }, action) => {
   switch (action.type) {
     case Actions.CREATE_NEW_ACCOUNT:
       return Object.assign({}, state, {

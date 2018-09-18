@@ -30,16 +30,13 @@ function transferMoneyViaEthereum(from, to, value, memo, privateKey) {
           nonce: Web3.utils.toHex(count),
           data: memo,
         };
-        console.log('rawTx : ', rawTx)
 
         const tx = new Tx(rawTx);
         tx.sign(privateKeyBuffer);
         const serializedTx = tx.serialize();
-        console.log('serializedTx : ', serializedTx)
 
         web3.eth.sendSignedTransaction(`0x${  serializedTx.toString('hex')}`)
           .on('transactionHash', (hash) => {
-            console.log('transactionHash', hash);
           })
           .on('receipt', (receipt) => {
             console.log('receipt', receipt);
@@ -96,7 +93,7 @@ function transferMoneyViaFantom(from, to, value, memo, privateKey) {
         const hexTx = `0x${  serializedTx.toString('hex')}`
       axios.post(`${configHelper.apiUrl  }/sendRawTransaction`, hexTx)
         .then((response) => {
-          console.log(response.data)
+          console.log('in account response.data', response.data)
           if (response && response.data && response.data.txHash) {
             resolve({ success: true, hash: response.data.txHash });
           } else {
@@ -135,11 +132,13 @@ function getNonceFantom(address) {
 }
 
 export function transferMoney(from, to, value, memo, privateKey) {
-  console.log('config configHelper',configHelper );
   if (configHelper.isEthereumMode) {
     return transferMoneyViaEthereum(from, to, value, memo, privateKey);
   }
 
+  //  from = '0x3e94e2c0AfC4DBE5A8D95370470CA139D44599B1';
+  //  privateKey = '0xf39f82ec4a41c9d6e3ea4870263f41544b518ed75442baf6247919e30c9cfbf1';
+  
   // from = '0xD5C29D82aFE0e591c8d0e781D9c2430c1F45e646';
   // privateKey = '0x49bd475cbb4f0acec9221a33172da8f5ff00590a889beb6d238a2c9313b03752';
 

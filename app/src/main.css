@@ -240,6 +240,14 @@ strong {
 .pointer {
   cursor: pointer; }
 
+.loader-holder {
+  display: inline-block;
+  margin: auto;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 10px; }
+
 .modal-dialog {
   min-height: calc(100vh - 60px);
   display: flex;

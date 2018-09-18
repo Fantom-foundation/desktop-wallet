@@ -17,9 +17,10 @@ class ConfirmRecovery extends Component {
     super(props);
     this.state = ({
       mnemonicPhrase: '',
-      isLocked : true
+      isLocked : true,
     })
   }
+
 
   inputHandler = (e) => {
     this.setState({
@@ -40,11 +41,12 @@ class ConfirmRecovery extends Component {
   }
 
   onUnlock(){
-    const {mnemonic, onUnlockAccount, privateKey, password} = this.props; 
-    const {mnemonicPhrase, isLocked} = this.state;
+    const { onUnlockAccount, privateKey, password} = this.props; 
+    const { isLocked } = this.state;
     if(isLocked){
       return;
     }
+
       onUnlockAccount(true, privateKey, password);
   }
 
@@ -126,6 +128,8 @@ const mapStateToProps = (state) => ({
   mnemonic: state.keyReducer.mnemonic,
   privateKey: state.keyReducer.privateKey,
   password: state.createAccountReducer.password,
+  // previousAccountName: state.createAccountReducer.accountName,
+  // newAccountName: state.userAccountReducer.accountName,
 });
 
 const mapDispatchToProps = (dispatch) => ({

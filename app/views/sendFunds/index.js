@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Button, ModalBody, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import Web3 from 'web3';
-import EthUtil from 'ethereumjs-util';
+import Loader from '../../general/loader/index';
 
 import successCheck from '../../images/icons/icon-success.svg';
 import smallLogo from '../../images/Logo/small-logo.svg';
 import logo from '../../images/Logo/fantom-black-logo.png';
 import CheckSend from './checkSend/index';
-import AcoountList from './accountList';
+import AccountList from './accountList';
 import Store from '../../store/userInfoStore/index';
 import { getPrivateKeyOfAddress } from '../../KeystoreManager/index';
 
@@ -24,27 +24,24 @@ export default class SendFunds extends Component {
             totalFees: 0.402926,
             isCheckSend: false,
             isValidAddress: false,
-            accountStore: '',
+            accountStore: [],
             password: '',
             privateKey: '',
             publicKey: '',
+            loading: false,
+            verificationError: '',
         }
     }
 
     componentDidMount(){
-        const { userAccountStore,  publicKey } = this.props;
-        // const keys = Object.keys(userAccountStore);
-        const keys = userAccountStore;
+        const { storeKeys,  publicKey } = this.props;
+        const userAccountStore = Store.store;
         const accountDetailList = [];
-
-        for(const key of keys){
-            // accountDetailLsit.push(userAccountStore[key]);
-            accountDetailList.push(Store.store[key]);
+        for(const key of storeKeys){ 
+            accountDetailList.push(userAccountStore[key]);
         }
-
         this.setState({
             accountStore: accountDetailList,
-            // privateKey,
             publicKey,
         });
     }
@@ -54,7 +51,6 @@ export default class SendFunds extends Component {
         this.setState({
             address,
         })
-
         this.addressVerification(address);
     }
 
@@ -63,18 +59,14 @@ export default class SendFunds extends Component {
         const accountType = e.target.value;
         const length = accountStore.length;
         let publicKey = '';
-        const privateKey = '';
         for(let account = 0;  account < length; account++){
             if(accountStore[account].name === accountType){
                 publicKey = accountStore[account].address;
-                // privateKey = accountStore[account].privateKey;
             }
           }
-          console.log('selected account publicKey :', publicKey);
         this.setState({
             accountType,
             publicKey,
-            // privateKey,
         });
     }
 
@@ -103,16 +95,19 @@ export default class SendFunds extends Component {
         const password = e.target.value.trim();
         this.setState({
             password,
+            verificationError: '',
         })
-    //     const { publicKey  } = this.props;
-    //    this.getPrivateKeyOfAddress(publicKey, password);
     }
 
-    async handleCheckSend() {
-        // const { publicKey  } = this.props;
-        const { password , privateKey, publicKey } = this.state;
-       this.getPrivateKeyOfAddress(publicKey, password);
-       
+    handleCheckSend() {
+        const { password , publicKey, loading } = this.state;
+        if(loading){
+            return null;
+        }
+        const isValidDetail = this.handleSendMoney();
+        if(isValidDetail){
+              this.getPrivateKeyOfAddress(publicKey, password);
+        }
     }
 
     handleGoBack() {
@@ -126,7 +121,7 @@ export default class SendFunds extends Component {
     *  and navigate to CheckSend screen if all fields are filled.
     */
     handleSendMoney() {
-        const { address, ftmAmount, } = this.state;
+        const { address, ftmAmount, password } = this.state;
 
         let message = '';
         if (address === '') {
@@ -135,14 +130,19 @@ export default class SendFunds extends Component {
             message = 'Please enter valid address.';
         } else if (ftmAmount === '') {
             message = 'Please enter valid amount';
+        } else if (password === ''){
+            message = 'Please enter password to continue!!';
         }
 
         if (message !== '') {
-            return;
+            return false;
         }
+       
+        
         this.setState({
-            isCheckSend: true
+            loading: true,
         })
+        return true;
     }
 
 
@@ -176,26 +176,58 @@ export default class SendFunds extends Component {
 
     getPrivateKeyOfAddress(publicKey, password){
         getPrivateKeyOfAddress(publicKey, password).then((res) => {
-            console.log('res from getPrivateKeyOfAddress : ', res)
             const hexPrivateKey = res.result;
-            console.log(' hexPrivateKey : ',  hexPrivateKey);
             this.setState({
                 privateKey: hexPrivateKey,
             })
             if(hexPrivateKey !== '') {
-                this.handleSendMoney();
+                this.setState({
+                    verificationError: '',
+                    isCheckSend: true,
+                    loading: false,
+                })
              }
         }).catch((err) => {
             this.setState({
+                verificationError: 'Verification Failed.',
                 privateKey: '',
+                loading: false,
             })
-            console.log('err from getPrivateKeyOfAddress : ', err)
         })
+    }
+
+    renderLoader(){
+        const { loading } = this.state;
+        if(loading){
+            return <div className='loader-holder'>
+            <Loader
+                sizeUnit="px"
+                size={25}
+                color="#000"
+                loading={loading}
+              /></div>
+        }
+        return null;
+    }
+
+    renderVerificationError(){
+        const { verificationError } = this.state;
+        if(verificationError !== ''){
+            return <div className='loader-holder'><span style={{ color: 'red' }}>{verificationError}</span></div>
+        }
+        return null;
     }
 
     render() {    
         const { address, accountType, ftmAmount, usdAmount, optionalMessage,
-             networkFees, totalFees, isCheckSend, isValidAddress, accountStore, publicKey, privateKey, password } = this.state;
+             networkFees, totalFees, isCheckSend, isValidAddress, accountStore, publicKey, privateKey, password, loading } = this.state;
+
+             let continueBtnColor = 'primary';
+           if(loading){
+
+             continueBtnColor = 'secondary';
+           }
+            
         return (
             <div>
                 <div className="modal fade show" role="dialog" tabIndex="-1" style={{ display: 'block' }} >
@@ -218,7 +250,7 @@ export default class SendFunds extends Component {
                                                 <Label for="withdraw-from"><strong>Withdraw from</strong></Label>
                                                 <div className="withdraw-holder">
                                                     {/* <Input type="text" id="withdraw-from" placeholder="Fantom Wallet" value={accountType} onChange={this.setAccountType.bind(this)}/> */}
-                                                    <AcoountList accountType={accountType} accountStore={accountStore} setAccountType={this.setAccountType.bind(this)} />
+                                                    <AccountList accountType={accountType} accountStore={accountStore} setAccountType={this.setAccountType.bind(this)} />
                                                     <span className="value-1">0.58273450 FTM</span>
                                                     <span className="value-2">≈$144.68</span>
                                                 </div>
@@ -269,7 +301,7 @@ export default class SendFunds extends Component {
                                                 </Row>
                                             </div>
 
-                                            <center><Button color="primary" className="text-uppercase" onClick={this.handleCheckSend.bind(this)}>Continue</Button></center>
+                                            <center><Button color={`${continueBtnColor}`} className="text-uppercase" onClick={this.handleCheckSend.bind(this)}>Continue</Button></center>
 
                                             <span aria-hidden
                                                 className="pointer" style={{
@@ -279,6 +311,8 @@ export default class SendFunds extends Component {
                                                 fontFamily: 'Robotos',
                                                 color: '#8D9BAE'
                                             }} onClick={this.handleModalClose.bind(this)} >&times;</span>
+                                            {this.renderVerificationError()}
+                                            {this.renderLoader()}
                                         </div>
                                         :
                                         <div>
@@ -287,7 +321,6 @@ export default class SendFunds extends Component {
                                                 handleGoBack={this.handleGoBack.bind(this)}
                                                 address={address}
                                                 amount={ftmAmount}
-                                                // coin={'coin'}
                                                 memo={optionalMessage || 'none'}
                                                 fees={networkFees}
                                                 publicKey={publicKey}

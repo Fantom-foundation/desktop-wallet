@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Input } from 'reactstrap';
 
- class AcoountList extends Component {
+ class AccountList extends Component {
+     constructor(props){
+         super(props);
+         this.state = {
+            accountStore: [],
+         }
+     }
   
 setAccountType(e){
     const { setAccountType } = this.props;
@@ -10,8 +16,15 @@ setAccountType(e){
     }
 }
 
+componentWillReceiveProps(nextProps){
+    const { accountStore } = nextProps;
+    this.setState({
+        accountStore,
+    })
+}
+
 renderAccountList(){
-  const { accountStore } = this.props;
+  const { accountStore } = this.state;
   const accountDetailLsit = [];
   const length = accountStore.length;
   for(let account = 0;  account < length; account++){
@@ -29,4 +42,4 @@ render() {
     );
   }
 }
-export default AcoountList;
+export default AccountList;

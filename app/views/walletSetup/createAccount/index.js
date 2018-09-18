@@ -21,8 +21,8 @@ class CreateAccount extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-             mnemonicWords: [],
-             loading: true,
+            //  mnemonicWords: [],
+            //  loading: true,
              accountName: '',
              password: '',
              confirmPassword: '',
@@ -36,15 +36,22 @@ class CreateAccount extends Component {
              };
     };
 
+    componentWillReceiveProps(nextProps){
+        const {accountName, accountIcon, password, passwordHint} = nextProps;
+        this.setState({
+            accountName,
+             password,
+             confirmPassword: password,
+             passwordHint,
+             identiconsId: accountIcon,
+        })
+    }
+
       onNext(){
-          const { toggle, setAccountName, setNewAccountDetail } = this.props;
-          const {accountName, password, passwordHint, identiconsId } = this.state;
+          const { toggle, setNewAccountDetail } = this.props;
+          const { accountName, password, passwordHint, identiconsId } = this.state;
          if(this.isCreateAccount()){
-            console.log('account created');
             setNewAccountDetail(accountName, password, passwordHint, identiconsId);
-            if(setAccountName){
-                setAccountName(accountName);
-            }
             if(toggle){
                 toggle('2');
             }
@@ -221,13 +228,13 @@ class CreateAccount extends Component {
     }
 
     getRadioIconData(identiconsId){
-        const { getRadioIconData } = this.props;
+        // const { getRadioIconData } = this.props;
         this.setState({
             identiconsId, 
         })
-        if(getRadioIconData){
-            getRadioIconData(identiconsId)
-        }
+        // if(getRadioIconData){
+        //     getRadioIconData(identiconsId)
+        // }
     }
 
     onRefresh(){
@@ -272,11 +279,13 @@ renderPasswordStrengthBar(){
 // }
       
     render() {
-        const {activeTab}=this.props;
+         const {activeTab}=this.props;
         if(activeTab !== '1'){
             return null;
         }
-        const {emailErrorText, passwordErrorText, confirmPasswordErrorText} = this.state;
+      
+        const {emailErrorText, passwordErrorText, confirmPasswordErrorText,
+             accountName, accountIcon, password, passwordHint, confirmPassword, identiconsId} = this.state;
         return (
             <Row>
                 <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
@@ -285,7 +294,7 @@ renderPasswordStrengthBar(){
                             <Col sm="12" className="px-5 py-3">
                                 <Form>
                                     <div className="form-element form-input">
-                                        <input id="AccountName" className="form-element-field" placeholder=" " type="text" required="" 
+                                        <input id="AccountName" className="form-element-field" value={accountName} placeholder=" " type="text" required="" 
                                         onChange={this.setAccountName.bind(this)}/>
                                         <div className="form-element-bar" />
                                         <label className="form-element-label" htmlFor="AccountName">Account Name</label>
@@ -295,7 +304,7 @@ renderPasswordStrengthBar(){
                                     <Row>
                                         <Col sm={6}>
                                             <div className="form-element form-input">
-                                                <input id="Password" className="form-element-field" placeholder=" " type="password" required="" 
+                                                <input id="Password" className="form-element-field" value={password} placeholder=" " type="password" required="" 
                                                 onChange={this.setPassword.bind(this)}/>
                                                 <div className="form-element-bar" />
                                                 <label className="form-element-label" htmlFor="Password">Password</label>
@@ -304,7 +313,7 @@ renderPasswordStrengthBar(){
                                         </Col>
                                         <Col sm={6}>
                                             <div className="form-element form-input">
-                                                <input id="Re-enterPassword" className="form-element-field" placeholder=" " type="password" required="" 
+                                                <input id="Re-enterPassword" className="form-element-field" value={confirmPassword} placeholder=" " type="password" required="" 
                                                 onChange={this.setConfirmPassword.bind(this)}/>
                                                 <div className="form-element-bar" />
                                                 <label className="form-element-label" htmlFor="Re-enterPassword">Re- enter Password</label>
@@ -313,7 +322,7 @@ renderPasswordStrengthBar(){
                                         </Col>
                                     </Row>
                                     <div className="form-element form-input">
-                                        <input id="PasswordHint" className="form-element-field" placeholder="(optional) a hint to remebering the password " type="text" required="" 
+                                        <input id="PasswordHint" className="form-element-field" value={passwordHint} placeholder="(optional) a hint to remebering the password " type="text" required="" 
                                         onChange={this.setPasswordHint.bind(this)}/>
                                         <div className="form-element-bar" />
                                         <label className="form-element-label" htmlFor="PasswordHint">Password hint</label>
@@ -334,7 +343,7 @@ renderPasswordStrengthBar(){
                         <DisplayIdenticons
                         animateRefreshIcon={this.state.animateRefreshIcon} 
                         date={this.props.date} 
-                        identiconsId={this.props.identiconsId} 
+                        identiconsId={this.state.identiconsId} 
                         onRefresh={this.onRefresh.bind(this)}
                         getRadioIconData={this.getRadioIconData.bind(this)} />
 
@@ -352,7 +361,13 @@ renderPasswordStrengthBar(){
     }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+    accountName: state.createAccountReducer.accountName,
+    accountIcon: state.createAccountReducer.accountIcon,
+    address: state.keyReducer.publicKey,
+    password:state.createAccountReducer.password,
+    passwordHint: state.createAccountReducer.passwordHint,
+});
 
 const mapDispatchToProps = dispatch => ({
   setNewAccountDetail: (accountName, password, passwordHint, accountIcon) => {

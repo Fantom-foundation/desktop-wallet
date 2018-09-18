@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { clipboard } from 'electron';
 import { connect } from 'react-redux';
+import Web3 from 'web3';
 
 import arrowLeftRight from '../../images/icons/arrows-left-right.svg';
 import Header from '../../general/header/index';
@@ -18,6 +19,9 @@ import { savePrivateKey, getValidAccounts } from '../../KeystoreManager/index';
 import * as KeyStoreAction from '../../reducers/keyStore/action';
 import * as KeyStoreDetailAction from '../../reducers/keyStoreDetail/action';
 import * as UserAccountAction from '../../reducers/userDetail/action';
+import config from '../../store/config/index';
+
+const configHelper = config();
 
 function scientificToDecimal(num) {
     const sign = Math.sign(num);
@@ -50,37 +54,25 @@ function scientificToDecimal(num) {
 
 class AccountManagement extends Component {
 
-   
     constructor(props){
         super(props);
 
         const  userDetail = this.getIntialUserAccountDetail();
-        console.log('in account amangement userDetail : ', userDetail);
         this.state={
             isSendFund: false,
             identiconsId: userDetail.accountIcon,
             name: userDetail. accountName,
             publicKey: userDetail.publicKey,
             storeKeys: [],
+            
         }
     }
 
-    // ///////////////////////////////
 
     componentWillMount(){
-        console.log('load store keys to state start');
         this.getValidAccounts();
-        console.log('load store keys to state done');
     }
-    
-    componentDidMount(){
-        const { storeKeys, publicKey } = this.state;
-        const storeSize = storeKeys.length;
-        if(storeSize > 0){     
-            this.getWalletBalance(publicKey);
-            this.getWalletTransaction(publicKey);
-        }
-    }
+
 
     getIntialUserAccountDetail(){
         const {publicKey, accountName, accountIcon} = this.props;
@@ -88,37 +80,36 @@ class AccountManagement extends Component {
     }
 
     getValidAccounts(){
-        // debugger;
         getValidAccounts().then((storeKeys) => {
-            // debugger;
-            console.log('success in storeKeys : ', storeKeys);
             if(storeKeys.success){
-                const userAccountDetail =  this.getUserAccountDetail(storeKeys.result);
-                console.log('success in storeKeys  userAccountDetail : ', userAccountDetail)
+                const {result} = storeKeys;
+                const userAccountDetail =  this.getUserAccountDetail(result);
+                const { accountIcon, name, address} = userAccountDetail;
                 this.setState({
-                    storeKeys: storeKeys.result,
-                    identiconsId: userAccountDetail.accountIcon,
-                    name: userAccountDetail.name,
-                    publicKey: userAccountDetail.address,
+                    storeKeys: result,
+                    identiconsId: accountIcon,
+                    name,
+                    publicKey: address,
                 });
-                this.props.updateUserAccountDetail(userAccountDetail.name, userAccountDetail.accountIcon, userAccountDetail.address )
-                this.props.updateKeyStore(storeKeys.result);
+                this.props.updateUserAccountDetail(name, accountIcon, address )
+                this.props.updateKeyStore(result);
+
+                const storeSize = result.length;
+                if(storeSize > 0){     
+                    this.getWalletBalance(address);
+                    this.getWalletTransaction(address);
+                }
 
                 return storeKeys.result;
             }
                 return [];
-        }).catch((err)=>{
-            console.log('err in storeData : ', err);  
-            return [];
-        })
+        }).catch((err)=>[])
     }
 
     getUserAccountDetail(storeKeys){
-        console.log('getUserAccountDetail storeKeys  :', storeKeys);
         const storeSize = storeKeys.length;
         const userAccountDetail = '';
         if(storeSize > 0){
-            // debugger;
             const keys = storeKeys;
             let accountDetail = '';
             for(const key of keys){
@@ -148,51 +139,6 @@ class AccountManagement extends Component {
         // return userAccountDetail;
     }
     
-    // onUnlockAccount(isUnlock, privateKey, password){
-    //     console.log('inside unlock');
-    //     this.setState({
-    //         isUnlock,
-    //     });
-    //     console.log('private key file creating....')
-    //     savePrivateKey(privateKey, password);
-    // }
-
-    // setAmountData(name,identiconsId,address){
-    //     const  { storeKeys }  = this.state;
-       
-    //     this.setState({
-    //         name,
-    //         identiconsId,
-    //         address,
-    //     });
-
-    //     if(address){
-    //         console.log('from setAmountData api call for address  :', address);
-    //         this.getWalletBalance(address);
-    //         this.getWalletTransaction(address);
-
-    //         const storeSize = storeKeys.length;
-    //         if(storeSize > 0){
-    //             const keys = storeKeys;             
-    //             keys.forEach((key) => {
-    //                 const newObj = Store.get(key);
-    //                 newObj.primaryAccount = false;
-    //                 Store.set(key,newObj); 
-    //             })
-    //         }
-    //         const userStoreData = {
-    //             'address': address,
-    //             'name':name,
-    //             'primaryAccount': true,
-    //             'accountIcon': identiconsId,
-    //         };
-    //         this.props.updateKeyStoreDetail(userStoreData);
-    //         Store.set(address, userStoreData );
-    //         Store.openInEditor();
-    //     }
-        
-    // }
-
     getWalletBalance(address) {
         if (configHelper.isEthereumMode) {
             this.getEtherBalanceFromApiAsync(address);
@@ -217,18 +163,13 @@ class AccountManagement extends Component {
      */
 
     getFantomBalanceFromApiAsync(address) {
-        const dummyAddress = '0xFD00A5fE03CB4672e4380046938cFe5A18456Df4';
-        console.log('test net balance for address :  ', address)
+        // const dummyAddress = '0xFD00A5fE03CB4672e4380046938cFe5A18456Df4';
         return fetch(`${configHelper.apiUrl}/account/${address}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson && responseJson.balance) {
-                    console.log('test net from address : ', address)
-                    console.log('test net responseJson : ', responseJson)
                     const balance = scientificToDecimal(responseJson.balance);
-                    console.log('test net balance : ', balance)
-                    const valInEther = Web3.utils.fromWei(`${  balance}`, 'ether');
-                    console.log('test net valInEther : ', valInEther)
+                    const valInEther = Web3.utils.fromWei(`${balance}`, 'ether');
                     this.setState({
                         balance: valInEther,
                     })
@@ -241,7 +182,6 @@ class AccountManagement extends Component {
                 return responseJson;
             })
             .catch((error) => {
-                console.error(error);
                 this.setState({
                     balance: '',
                 })
@@ -254,18 +194,21 @@ class AccountManagement extends Component {
      * @param {String} address : address to fetch transactions.
      */
     getFantomTransactionsFromApiAsync(address) {
+        console.log('inside getFantomTransactionsFromApiAsync ')
         const dummyAddress = '0x68a07a9dc6ff0052e42f4e7afa117e90fb896eda168211f040da69606a2aeddc';
-    
+        console.log('inside getFantomTransactionsFromApiAsync dummyAddress', dummyAddress)
         fetch(`${configHelper.apiUrl  }/transaction/${  dummyAddress}`)
     
             // fetch(configHelper.apiUrl+'/transactions/'+ dummyAddress)
             .then((response) => response.json())
             .then((responseJson) => {
+                console.log('inside getFantomTransactionsFromApiAsync responseJson : ', responseJson)
+       
                 console.log('from fantom own wallet , transaction response : ', responseJson);
                 // if (responseJson && responseJson.result && responseJson.result.length) {
                 if (responseJson) {
                     // this.loadFantomTransactionData(responseJson.result);
-                    this.loadFantomTransactionData(responseJson);
+                    // this.loadFantomTransactionData(responseJson);
                 } else {
                     this.setState({
                         isLoading: false,
@@ -274,7 +217,6 @@ class AccountManagement extends Component {
                 return responseJson;
             })
             .catch((error) => {
-                console.error(error);
                 this.setState({
                     isLoading: false,
                 });
@@ -331,7 +273,6 @@ class AccountManagement extends Component {
      * @param { String } address : address to fetch wallet balance.
      */
     async getEtherBalanceFromApiAsync(address) {
-        console.log('getEtherBalanceFromApiAsync api called');
        const dummyAddress = '0x4d8868F7d7581d770735821bb0c83137Ceaf18FD';
         return fetch(`https://api-ropsten.etherscan.io/api?module=account&action=balance&address=${  dummyAddress  }&tag=latest&apikey=WQ1D9TBEG4IWFNGZSX3YP4QKXUI1CVAUBP`)
             .then((response) => response.json())
@@ -339,7 +280,6 @@ class AccountManagement extends Component {
                 if (responseJson.status && responseJson.status === "1") {
                     const balance = responseJson.result;
                     const valInEther = Web3.utils.fromWei(balance, 'ether');
-                    console.log('ether balance from api : ', balance);
                     this.setState({
                         balance: valInEther,
                     })
@@ -356,13 +296,11 @@ class AccountManagement extends Component {
      * @param {String} address : address to fetch transactions.
      */
     getEtherTransactionsFromApiAsync(address) {
-        console.log('getEtherTransactionsFromApiAsync api called');
         const dummyAddress = '0x4d8868F7d7581d770735821bb0c83137Ceaf18FD';
         fetch(`http://api-ropsten.etherscan.io/api?module=account&action=txlist&address=${  dummyAddress  }&startblock=0&endblock=99999999&sort=asc&apikey=WQ1D9TBEG4IWFNGZSX3YP4QKXUI1CVAUBP`)
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson && responseJson.result && responseJson.result.length) {
-                    console.log('transaction responseJson : ', responseJson);
                     this.loadTransactionData(responseJson);
                 } else {
                     this.setState({
@@ -372,7 +310,6 @@ class AccountManagement extends Component {
                 return responseJson;
             })
             .catch((error) => {
-                console.error(error);
                 this.setState({
                     isLoading: false,
                 });
@@ -425,11 +362,13 @@ class AccountManagement extends Component {
 
 
     handleSelectedAccount(address){
-        console.log('selected account address : ', address);
         const selectedAccount = Store.get(address);
-        console.log('selected account : ', selectedAccount);
         const { name, primaryAccount, accountIcon} = selectedAccount;
         this.props.setAmountData(name,accountIcon,address);
+        if(address){
+            this.getWalletBalance(address);
+            this.getWalletTransaction(address);
+        }
         this.setState({
             identiconsId: accountIcon,
             name,
@@ -465,8 +404,7 @@ class AccountManagement extends Component {
     
     render() {
 
-        const {transactionData, balance, storeKeys, identiconsId, name, publicKey,   } = this.state;
-        console.log('in account amangement publicKey : ', publicKey);
+        const { transactionData, balance, storeKeys, identiconsId, name, publicKey,   } = this.state;
         let transactionLength = 0;
         if (transactionData) {
             transactionLength = transactionData.length;
@@ -504,6 +442,7 @@ class AccountManagement extends Component {
                                 </Row>
                                 <TransactionCard transactionData={transactionData} />
                                 {Store.size > 1 && <UserAccount
+                                    storeKeys={storeKeys}
                                     address={publicKey}
                                     handleSelectedAccount={this.handleSelectedAccount.bind(this)}
                                     copyToClipboard={this.copyToClipboard.bind(this)} />}
@@ -517,7 +456,7 @@ class AccountManagement extends Component {
                    onClose={this.onCloseSendFunds.bind(this)} 
                 //    privateKey={privateKey} 
                    publicKey={publicKey}
-                   userAccountStore={storeKeys}
+                   storeKeys={storeKeys}
                 //    userAccountStore={userAccountStore}
                    />}
             </div>
@@ -529,9 +468,6 @@ const mapStateToProps = (state) => ({
     publicKey: state.userAccountReducer.address,
     accountName: state.userAccountReducer.accountName,
     accountIcon: state.userAccountReducer.accountIcon,
-
-    // privateKey: state.keyReducer.privateKey,
-    // password: state.createAccountReducer.password,
 
     publicKeyStore: state.keyStoreReducer.publicKeyStore,
     keyStoreDetail: state.keyStoreDetailReducer.keyStoreDetail,

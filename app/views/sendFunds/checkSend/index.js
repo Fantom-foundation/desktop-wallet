@@ -15,7 +15,6 @@ export default class SendMoney extends Component {
     }
 
     transferMoney(from, to, value, memo, privateKey) {
-        console.log('from', from);
         this.setState({ isLoading: true });
         transferMoney(from, to, value, memo, privateKey).then((data) => {
             if (data.hash && data.hash !== '') {
@@ -47,20 +46,20 @@ export default class SendMoney extends Component {
                 <div >
                     <div >
                         <TextField
-                            isTextPresent={true}
+                            isTextPresent
                             rightTextValue={coin}
                             placeHolderText='Coin' />
                     </div>
                     <div >
                         <TextField
                             placeHolderText='Address to send'
-                            isTextPresent={true}
+                            isTextPresent
                             rightTextValue={address} />
                     </div>
                     <div >
                         <TextField
                             placeHolderText='Price'
-                            isTextPresent={true}
+                            isTextPresent
                             rightTextValue={amount} />
                     </div>
                     {/* <div >
@@ -72,7 +71,7 @@ export default class SendMoney extends Component {
                     <div >
                         <TextField
                             placeHolderText='Memo'
-                            isTextPresent={true}
+                            isTextPresent
                             rightTextValue={memo} />
                     </div>
 

@@ -5,24 +5,18 @@ import {
     Row,
     Col,
     TabContent, TabPane, Nav, NavItem, NavLink,
-    Form, FormGroup, Input, Button,
 } from 'reactstrap';
 import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
-import Web3 from 'web3';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { Progress } from '../../general/core/index';
 import Header from '../../general/header/index';
 
-import AccountFooter from '../../general/footer/account-footer';
-import FooterButtons from '../../general/footer/footer-buttons';
 import CreateAccount from './createAccount/index';
 import AccountInfo from './accountInfo/index';
 import ConfirmRecovery from './confirmRecovery/index';
-import AccountManagement from '../accountManagement/index';
-
 
 import * as KeyAction from '../../reducers/keys/action';
 
@@ -32,24 +26,14 @@ class Home extends Component {
         super(props);
         this.state = {
             activeTab: '1',
-            accountName: '',
-            email: '',
-            password: '',
-            passwordHint: '',
-            repassword: '',
             progressValue: 33.33,
             date: new Date().getTime(),
-            identiconsId: '',
             address:''
         };
         this.toggle = this.toggle.bind(this);
 
         
     }
-
-
-// /////////******************************************************************************/////////////
-
 
     componentDidMount() {
         const mnemonic = Bip39.generateMnemonic();
@@ -88,10 +72,9 @@ class Home extends Component {
         //   masterPrivateKey,
         // };
         // this.props.updateUserDetails(object);
-        console.log('setKeys called : save to reducer : ')
+
         this.props.setKeys(masterPrivateKey, address, hexPrivateKey);
         this.props.setMnemonicCode(mnemonic);
-        console.log('pubKey',pubKey,'public key address',address,'Private Key', hexPrivateKey);
 
         
       }
@@ -119,18 +102,6 @@ class Home extends Component {
         const newDate = new Date().getTime();
         this.setState({ date: newDate, });
     }
-
-    getRadioIconData(identiconsId) {
-        this.setState({
-            identiconsId
-        })
-    }
-
-    setAccountName(accountName){
-        this.setState({
-            accountName
-        })
-    }
     
     onUnlockAccount(isUnlock, privateKey, password){
         if(this.props.onUnlockAccount){
@@ -143,47 +114,31 @@ class Home extends Component {
     }
     
     render() {
-       const {accountName, mnemonic, address, identiconsId} = this.state;
-       const {accountIcon} = this.props;
+       const { mnemonic, address, identiconsId} = this.state;
+       const {accountIconId} = this.props;
         return (
             <div>
-                <Header accountIcon={accountIcon}/>
+                <Header accountIcon={accountIconId}/>
                 <section style={{ padding: '118px 0' }}>
                     <Container className="bg-white theme-blue-shadow">
                         <Row>
                             <Col className="px-0">
                                 <Nav tabs className="tab-full tab-theme text-center">
-                                    {/* <NavItem>
-                    <NavLink
-                      className={classnames({ active: this.state.activeTab === '1' })}
-                      onClick={() => { this.toggle('1'); }}
-                    >
-                      Creation type
-                    </NavLink>
-                  </NavItem> */}
+                                    
                                     <NavItem>
-                                        <NavLink
-                                            className={classnames({ active: this.state.activeTab === '1' })}
-                                        // onClick={() => { this.toggle('1'); }}
-                                        >
+                                        <NavLink className={classnames({ active: this.state.activeTab === '1' })} >
                                             Create account
                                         </NavLink>
                                     </NavItem>
 
                                     <NavItem>
-                                        <NavLink
-                                            className={classnames({ active: this.state.activeTab === '2' })}
-                                        // onClick={() => { this.toggle('2'); }}
-                                        >
+                                        <NavLink className={classnames({ active: this.state.activeTab === '2' })} >
                                             Account information
                                         </NavLink>
 
                                     </NavItem>
                                     <NavItem>
-                                        <NavLink
-                                            className={classnames({ active: this.state.activeTab === '3' })}
-                                        // onClick={() => { this.toggle('3'); }}
-                                        >
+                                        <NavLink className={classnames({ active: this.state.activeTab === '3' })}>
                                             Confirm
                                         </NavLink>
                                     </NavItem>
@@ -197,12 +152,10 @@ class Home extends Component {
                                     <TabPane tabId="1">
                                         <CreateAccount 
                                         activeTab={this.state.activeTab}
-                                        identiconsId={identiconsId}
                                         date={this.state.date}
                                         toggle={this.toggle.bind(this)} 
-                                        getRadioIconData={this.getRadioIconData.bind(this)}
                                         onRefresh={this.onRefresh.bind(this)}
-                                        setAccountName={this.setAccountName.bind(this)}/>
+                                        />
                                     </TabPane>
                                     <TabPane tabId="2">
                                         <AccountInfo 
@@ -230,6 +183,7 @@ class Home extends Component {
 const mapStateToProps = (state) => ({
     accountName: state.createAccountReducer.accountName,
     accountIcon: state.createAccountReducer.accountIcon,
+    accountIconId: state.userAccountReducer.accountIcon,
     address: state.keyReducer.publicKey,
 });
 

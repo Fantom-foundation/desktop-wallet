@@ -231,6 +231,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^5.0.0-alpha.6",
+    "react-spinners": "^0.4.5",
     "react-to-print": "^2.0.0-alpha-3",
     "reactstrap": "^6.4.0",
     "redux": "^4.0.0",

@@ -1,7 +1,7 @@
-//Libraries
+// Libraries
 import _ from 'lodash';
 
-//Helpers
+// Helpers
 import config from './apiConfig';
 
 export default function() {
@@ -15,7 +15,7 @@ export default function() {
     // }
 
     // configUrls = config['ethereum'];
-    configUrls = config['testnet']    
+    configUrls = config.testnet    
 
     return configUrls
 }

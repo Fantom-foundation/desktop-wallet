@@ -52,7 +52,8 @@ savePrivateKeyToStore(){
                         <Nav className="ml-auto" navbar>
                             <NavItem>
                                 <NavLink href="#">
-                                    <div className="theme-blue-shadow d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}>
+                                <div className="theme-blue-shadow d-inline-block align-top" style={{ cursor: 'pointer', width: '40px', height: '45px', overflow: 'hidden' }}>
+                                    {/* <div className="theme-blue-shadow d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}> */}
                                         <Identicons id={this.props.accountIcon} className="person-image theme-blue-shadow" width={40} size={3} />
                                     </div>
                                 </NavLink>

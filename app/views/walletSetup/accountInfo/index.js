@@ -92,7 +92,6 @@ class AccountInfo extends Component {
         if(activeTab !== '2'){
             return null;
         }
-        console.log('inside this.props accountInfo for reducer: ', this.props)
         return (
             <Row>
                 <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>

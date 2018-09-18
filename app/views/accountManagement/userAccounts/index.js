@@ -10,26 +10,30 @@ class UserAccounts extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userAccountStore: ''
+            userAccountStore: '',
+            storeKeys: [],
         }
     }
 
-    componentDidMount() {
+    componentWillReceiveProps() {
+        const { storeKeys } =this.props;
         const userAccountStore = Store.store;
-        if (Store.size > 1) {
+        if (storeKeys.length > 1) {
             this.setState({
                 userAccountStore,
+                storeKeys,
             })
         }
     }
 
     renderAccountCard() {
-        const { userAccountStore } = this.state;
+        const { userAccountStore, storeKeys } = this.state;
+
         let account = '';
-        let accountList = [];
-        if (userAccountStore) {
-            const keys = Object.keys(userAccountStore);
-            for (const key of keys) {
+        const accountList = [];
+        if (storeKeys) {
+            // const keys = Object.keys(userAccountStore);
+            for (const key of storeKeys) {
                 if (key !== this.props.address) {
                     account = <AccountCard
                         key={`${key}`}
@@ -42,6 +46,24 @@ class UserAccounts extends Component {
             }
             return accountList;
         }
+
+        // let account = '';
+        // const accountList = [];
+        // if (userAccountStore) {
+        //     const keys = Object.keys(userAccountStore);
+        //     for (const key of keys) {
+        //         if (key !== this.props.address) {
+        //             account = <AccountCard
+        //                 key={`${key}`}
+        //                 accountInfo={userAccountStore[key]}
+        //                 handleSelectedAccount={this.props.handleSelectedAccount}
+        //                 copyToClipboard={this.props.copyToClipboard} />
+
+        //             accountList.push(account);
+        //         }
+        //     }
+        //     return accountList;
+        // }
     }
 
     render() {

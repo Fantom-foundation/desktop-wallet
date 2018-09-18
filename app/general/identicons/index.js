@@ -8,12 +8,13 @@ import refreshIcon from '../../images/icons/refresh-icon.svg';
 
 export default class DisplayIdenticons extends Component {
   render() {
-    const {animateRefreshIcon, onRefresh } = this.props;
-    let items = [];
+    const {animateRefreshIcon, onRefresh, identiconsId } = this.props;
+    const items = [];
     for(let i = 0; i < 6; i++) {
-      const item = <IdenticonsIcon key={i} {...this.props} index={i} />;
+      const item = <IdenticonsIcon accountIcon={identiconsId} key={i} {...this.props} index={i} />;
       items.push(item);
     }
+
 
     return (
       <Row className="m-auto" style={{ maxWidth: '635px' }}>
