@@ -95,6 +95,16 @@ class MainPage extends Component{
         return null;
     }
 
+    openAccountManagement(){
+        const { address } = this.props;
+        if(address){
+            this.setState({
+                isUnlock: true,
+            })
+        }
+       
+    }
+
 
     render(){
         return(
@@ -104,6 +114,7 @@ class MainPage extends Component{
                     <WalletSetup 
                     onUnlockAccount={this.onUnlockAccount.bind(this)} 
                     setAmountData={this.setAmountData.bind(this)}
+                    openAccountManagement={this.openAccountManagement.bind(this)}
                     />
                     :
                     <AccountManagement 
@@ -121,6 +132,7 @@ class MainPage extends Component{
 const mapStateToProps = (state) => ({
     // publicKeyStore: state.keyStoreReducer.publicKeyStore,
     // keyStoreDetail: state.keyStoreDetailReducer.keyStoreDetail,
+    address: state.userAccountReducer.address
   });
   
   const mapDispatchToProps = (dispatch) => ({

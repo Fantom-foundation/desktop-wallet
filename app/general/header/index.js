@@ -30,7 +30,14 @@ export default class Header extends Component {
         if(handleUserSettings){
             handleUserSettings();
         }
-    }       
+    }    
+    
+    openAccountManagement(){
+        const { openAccountManagement }= this.props;
+        if(openAccountManagement){
+            openAccountManagement();
+        }
+    }
 
 savePrivateKeyToStore(){
     console.log('1call save private key')
@@ -41,18 +48,28 @@ savePrivateKeyToStore(){
     }
 }
 
+hangleHeaderClick(){
+    const {onCloseSendFunds} = this.props;
+    if(onCloseSendFunds){
+        onCloseSendFunds();
+    }
+
+}
+
     render() {
         const { isOpen } = this.state;
         return (
-            <Navbar color="dark" dark expand="md">
+            <Navbar color="dark" dark expand="md" onClick={() => this.hangleHeaderClick()}>
                 <Container>
-                    <NavbarBrand href="/"><img className="logo" src={Logo} alt={Logo} /></NavbarBrand>
+                    <NavbarBrand href="#" onClick={() => this.openAccountManagement()}><img className="logo" src={Logo} alt={Logo} /></NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
                                 <NavLink href="#">
-                                <div className="theme-blue-shadow d-inline-block align-top" style={{ cursor: 'pointer', width: '40px', height: '45px', overflow: 'hidden' }}>
+                                <div className="theme-blue-shadow d-inline-block align-top" 
+                                style={{ cursor: 'pointer', width: '40px', height: '45px', overflow: 'hidden' }}
+                                onClick={() => this.openAccountManagement()}>
                                     {/* <div className="theme-blue-shadow d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}> */}
                                         <Identicons id={this.props.accountIcon} className="person-image theme-blue-shadow" width={40} size={3} />
                                     </div>

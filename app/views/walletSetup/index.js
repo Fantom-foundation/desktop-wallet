@@ -112,13 +112,21 @@ class Home extends Component {
             this.props.setAmountData(accountName,accountIcon,address)
         }
     }
+
+    openAccountManagement(){
+        const {openAccountManagement} = this.props;
+        if(openAccountManagement){
+            openAccountManagement();
+        }
+    }
+    
     
     render() {
        const { mnemonic, address, identiconsId} = this.state;
        const {accountIconId} = this.props;
         return (
             <div>
-                <Header accountIcon={accountIconId}/>
+                <Header accountIcon={accountIconId} openAccountManagement={() => this.openAccountManagement()}/>
                 <section style={{ padding: '118px 0' }}>
                     <Container className="bg-white theme-blue-shadow">
                         <Row>

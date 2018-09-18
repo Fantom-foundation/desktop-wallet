@@ -411,7 +411,7 @@ class AccountManagement extends Component {
         }
         return (
             <div>
-                <Header handleUserSettings={this.handleUserSettings.bind(this)} accountIcon={identiconsId} />
+                <Header handleUserSettings={this.handleUserSettings.bind(this)} accountIcon={identiconsId} onCloseSendFunds={this.onCloseSendFunds.bind(this)} />
                 <section style={{ padding: '118px 0' }}>
                     <Container className="bg-white">
                         <Row className="bg-primary py-1 account-management-header">
