@@ -407,6 +407,13 @@ class AccountManagement extends Component {
         })
     }
 
+    handleCloseSettings(){
+        const { isOpenSetting } = this.state;
+        this.setState({
+            isOpenSetting: false,
+        })
+    }
+
     handleUserSettings() {
         const { handleUserSettings } = this.props;
         if (handleUserSettings) {
@@ -463,6 +470,7 @@ class AccountManagement extends Component {
     render() {
 
         const { transactionData, balance, storeKeys, identiconsId, name, publicKey, isLoading, animateRefreshIcon, isOpenSetting } = this.state;
+        const { accountName } = this.props;
         console.log('in render updated balance : ', balance);
         let transactionLength = 0;
         if (transactionData) {
@@ -473,11 +481,12 @@ class AccountManagement extends Component {
             <div>
                 <Header 
                 handleSettings={this.handleSettings.bind(this)}
+                handleCloseSettings={this.handleCloseSettings.bind(this)}
                 handleUserSettings={this.handleUserSettings.bind(this)}
                 isOpenSetting={isOpenSetting}
                 accountIcon={identiconsId} 
                 onCloseSendFunds={this.onCloseSendFunds.bind(this)} />
-                <section style={{ padding: '118px 0' }}>
+                <section style={{ padding: '118px 0' }} onClick={this.handleCloseSettings.bind(this)}>
                     <Container className="bg-white">
                         <Row className="bg-primary py-1 account-management-header">
                             <Col md={5} className="col text-white pl-4 text-uppercase">Account Management</Col>
@@ -497,9 +506,9 @@ class AccountManagement extends Component {
                                         balance={balance}
                                         transactionLength={transactionLength}
                                         copyToClipboard={this.copyToClipboard.bind(this)} />
-                                    <Col>
+                                    <Col className="text-right gray-column large qr">
                                         <QRCodeIcon
-                                            className='text-right gray-column large qr'
+                                            // className='text-right gray-column large qr'
                                             address={publicKey}
                                             icon={fantomIcon}
                                             text='FANTOM'
@@ -521,6 +530,7 @@ class AccountManagement extends Component {
                    <SendFunds 
                    isSendFund={this.state.isSendFund} 
                    onClose={this.onCloseSendFunds.bind(this)} 
+                   accountName={accountName}
                    publicKey={publicKey}
                    storeKeys={storeKeys}
                    refreshWalletDetail={this.refreshWalletDetail.bind(this)}

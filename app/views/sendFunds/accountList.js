@@ -5,32 +5,44 @@ import { Input } from 'reactstrap';
      constructor(props){
          super(props);
          this.state = {
-            accountStore: [],
+            accountStore: this.props.accountStore || [],
+            accountType: this.props.accountType,
          }
      }
   
 setAccountType(e){
+    this.setState({
+        accountType: e.target.value,
+    })
     const { setAccountType } = this.props;
     if(setAccountType){
         setAccountType(e);
+        
+        
     }
 }
 
 componentWillReceiveProps(nextProps){
-    const { accountStore } = nextProps;
+    const { accountStore, accountType } = nextProps;
     this.setState({
         accountStore,
+        accountType,
     })
 }
 
 renderAccountList(){
-  const { accountStore } = this.state;
-  const accountDetailLsit = [];
+  const { accountStore, accountType } = this.state;
+  const accountDetailList = [];
   const length = accountStore.length;
   for(let account = 0;  account < length; account++){
-    accountDetailLsit.push(<option key={account}>{accountStore[account].name}</option>)
+      let selected = false;
+      if(accountType === accountStore[account].name){
+
+        selected = true;
+      }
+      accountDetailList.push(<option key={account} selected={selected}>{accountStore[account].name}</option>)
   }
-  return accountDetailLsit;
+  return accountDetailList;
 }
 
 render() {
@@ -38,7 +50,6 @@ render() {
         <Input type="select" name="select" id="accountSelect" onChange={this.setAccountType.bind(this)}>
         {this.renderAccountList()}
         </Input>
-
     );
   }
 }

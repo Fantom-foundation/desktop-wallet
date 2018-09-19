@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container, Input } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container, Input,
+    Dropdown, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap';
 import Logo from '../../images/Logo/logo.png';
 import SettingIcon from '../../images/icons/setting.svg';
 import NotificationIcon from '../../images/icons/notification_red.png';
@@ -46,18 +47,24 @@ export default class Header extends Component {
     }
 
 hangleHeaderClick(){
-    const {onCloseSendFunds} = this.props;
-    if(onCloseSendFunds){
-        onCloseSendFunds();
+    // const {onCloseSendFunds} = this.props;
+    // if(onCloseSendFunds){
+    //     onCloseSendFunds();
+    // }
+
+    const { handleCloseSettings } = this.props;
+    if(handleCloseSettings){
+        handleCloseSettings();
     }
 }
 
     render() {
         const { isOpen } = this.state;
         const { isOpenSetting } = this.props;
+        console.log('isOpenSetting : ', isOpenSetting);
        
         return (
-            <Navbar color="dark" dark expand="md" onClick={() => this.hangleHeaderClick()}>
+            <Navbar color="dark" dark expand="md" >
                 <Container>
                     <NavbarBrand href="#" onClick={() => this.openAccountManagement()}><img className="logo" src={Logo} alt={Logo} /></NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
@@ -73,11 +80,17 @@ hangleHeaderClick(){
                                 </NavLink>
                             </NavItem>
                             <NavItem className="add-wallet-dropdown" >
-                                <NavLink href="#"><img src={SettingIcon} alt="Setting" style={{ height: '16.6px' }} 
-                                    onClick={this.handleSettings.bind(this)}/></NavLink>
-                                    {isOpenSetting && <div className="add-wallet-dropdown-content" >
+                                  <Dropdown isOpen={isOpenSetting} toggle={this.handleSettings.bind(this)} className="h-100">
+                                    <DropdownToggle className=" ml-3 my-3 px-0 border-0" style={{backgroundColor: 'transparent', boxShadow: 'none'}}>
+                                    <img src={SettingIcon} alt="Setting" style={{ height: '16.6px', }} 
+                                        />
+                                    </DropdownToggle>
+                                    <DropdownMenu className='pt-0 ' right>
+                                    <div className="add-wallet-dropdown-content" >
                                         <option className="add-wallet-dropdown-content-field" onClick={this.handleUserSettings.bind(this)} >ADD NEW WALLET</option>
-                                    </div>}
+                                    </div>
+                                    </DropdownMenu>
+                                </Dropdown>
                             </NavItem>
                         </Nav>
                     </Collapse>

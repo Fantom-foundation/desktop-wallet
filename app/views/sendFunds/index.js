@@ -16,7 +16,7 @@ export default class SendFunds extends Component {
         super(props);
         this.state = {
             address: '',
-            accountType: '',
+            accountType: this.props.accountName,
             ftmAmount: '',
             usdAmount: '',
             optionalMessage: '',
@@ -33,8 +33,8 @@ export default class SendFunds extends Component {
         }
     }
 
-    componentDidMount(){
-        const { storeKeys,  publicKey } = this.props;
+    componentWillReceiveProps(nextProps){
+        const { storeKeys,  publicKey, accountName  } = nextProps;
         const userAccountStore = Store.store;
         const accountDetailList = [];
         for(const key of storeKeys){ 
@@ -43,6 +43,21 @@ export default class SendFunds extends Component {
         this.setState({
             accountStore: accountDetailList,
             publicKey,
+            accountType: accountName,
+        });
+    }
+
+    componentDidMount(){
+        const { storeKeys,  publicKey, accountName  } = this.props;
+        const userAccountStore = Store.store;
+        const accountDetailList = [];
+        for(const key of storeKeys){ 
+            accountDetailList.push(userAccountStore[key]);
+        }
+        this.setState({
+            accountStore: accountDetailList,
+            publicKey,
+            accountType: accountName,
         });
     }
 
@@ -229,7 +244,7 @@ export default class SendFunds extends Component {
            }
             
         return (
-            <div>
+            <div >
                 <div className="modal fade show" role="dialog" tabIndex="-1" style={{ display: 'block' }} >
                     <div className="modal-dialog send-funds" role="document">
                         <div className="modal-content">
@@ -249,7 +264,6 @@ export default class SendFunds extends Component {
                                             <FormGroup>
                                                 <Label for="withdraw-from"><strong>Withdraw from</strong></Label>
                                                 <div className="withdraw-holder">
-                                                    {/* <Input type="text" id="withdraw-from" placeholder="Fantom Wallet" value={accountType} onChange={this.setAccountType.bind(this)}/> */}
                                                     <AccountList accountType={accountType} accountStore={accountStore} setAccountType={this.setAccountType.bind(this)} />
                                                     <span className="value-1">0.58273450 FTM</span>
                                                     <span className="value-2">≈$144.68</span>
