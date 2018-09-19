@@ -326,6 +326,7 @@ export default class SendFunds extends Component {
                                                 publicKey={publicKey}
                                                 privateKey={privateKey}
                                                 handleModalClose={this.handleModalClose.bind(this)}
+                                                refreshWalletDetail={this.props.refreshWalletDetail}
                                             />
                                         </div>
                                     }

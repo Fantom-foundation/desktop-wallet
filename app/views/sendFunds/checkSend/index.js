@@ -11,16 +11,24 @@ export default class SendMoney extends Component {
             // coin: '089.00FTM',
             coin: 'FTM',
             errorMessage: '',
+            isLoading: false,
         }
     }
 
     transferMoney(from, to, value, memo, privateKey) {
+        const { handleModalClose, refreshWalletDetail }  = this.props;
         this.setState({ isLoading: true });
         transferMoney(from, to, value, memo, privateKey).then((data) => {
             if (data.hash && data.hash !== '') {
                 this.setState({ isLoading: false });
                 console.log(`Transfer successful with transaction hash: ${data.hash}`);
-                this.props.handleModalClose();
+                if(handleModalClose){
+                    handleModalClose();
+                }
+                if(refreshWalletDetail){
+                    refreshWalletDetail(from);
+                }
+                this.setState({ isLoading: false });
                 return;
             }
             console.log(`Transfer successful.`)
@@ -38,9 +46,8 @@ export default class SendMoney extends Component {
     }
 
     render() {
-        const { address, amount, memo, fees } = this.props;
-        const { errorMessage, coin } = this.state;
-
+        const { address, amount, memo, fees, } = this.props;
+        const { errorMessage, coin, isLoading } = this.state;
         return (
             <div >
                 <div >

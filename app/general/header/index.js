@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container, Input } from 'reactstrap';
 import Logo from '../../images/Logo/logo.png';
 import SettingIcon from '../../images/icons/setting.svg';
 import NotificationIcon from '../../images/icons/notification_red.png';
 import downArrowIcon from '../../images/icons/downArrowWhite.svg';
 import Identicons from '../identicons/identicons';
-import {savePrivateKey} from '../../KeystoreManager/index';
 
 export default class Header extends Component {
     constructor(props) {
@@ -25,6 +24,13 @@ export default class Header extends Component {
         })
     }
 
+    handleSettings(){
+        const { handleSettings } = this.props;
+        if(handleSettings){
+            handleSettings();
+        }
+    }
+
     handleUserSettings(){
         const { handleUserSettings } = this.props;
         if(handleUserSettings){
@@ -39,25 +45,17 @@ export default class Header extends Component {
         }
     }
 
-savePrivateKeyToStore(){
-    console.log('1call save private key')
-    const { privateKey, password } = this.props;
-    if(privateKey && password){
-        console.log('2call save private key')
-        savePrivateKey(privateKey, password);
-    }
-}
-
 hangleHeaderClick(){
     const {onCloseSendFunds} = this.props;
     if(onCloseSendFunds){
         onCloseSendFunds();
     }
-
 }
 
     render() {
         const { isOpen } = this.state;
+        const { isOpenSetting } = this.props;
+       
         return (
             <Navbar color="dark" dark expand="md" onClick={() => this.hangleHeaderClick()}>
                 <Container>
@@ -68,21 +66,18 @@ hangleHeaderClick(){
                             <NavItem>
                                 <NavLink href="#">
                                 <div className="theme-blue-shadow d-inline-block align-top" 
-                                style={{ cursor: 'pointer', width: '40px', height: '45px', overflow: 'hidden' }}
-                                onClick={() => this.openAccountManagement()}>
-                                    {/* <div className="theme-blue-shadow d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}> */}
+                                   style={{ cursor: 'pointer', width: '40px', height: '45px', overflow: 'hidden' }}
+                                   onClick={() => this.openAccountManagement()}>
                                         <Identicons id={this.props.accountIcon} className="person-image theme-blue-shadow" width={40} size={3} />
                                     </div>
                                 </NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink href="#"><img src={downArrowIcon} alt="Down Arrow " style={{ height: '16.6px' }} onClick={() => this.savePrivateKeyToStore()}/></NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="#"><img src={NotificationIcon} alt="Notification" style={{ height: '16.6px' }} /></NavLink>
-                            </NavItem>
-                            <NavItem onClick={this.handleUserSettings.bind(this)}>
-                                <NavLink href="#"><img src={SettingIcon} alt="Setting" style={{ height: '16.6px' }} /></NavLink>
+                            <NavItem className="add-wallet-dropdown" >
+                                <NavLink href="#"><img src={SettingIcon} alt="Setting" style={{ height: '16.6px' }} 
+                                    onClick={this.handleSettings.bind(this)}/></NavLink>
+                                    {isOpenSetting && <div className="add-wallet-dropdown-content" >
+                                        <option className="add-wallet-dropdown-content-field" onClick={this.handleUserSettings.bind(this)} >ADD NEW WALLET</option>
+                                    </div>}
                             </NavItem>
                         </Nav>
                     </Collapse>
