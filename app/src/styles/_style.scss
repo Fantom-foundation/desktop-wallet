@@ -125,3 +125,14 @@ strong {
   color:#3e68ea;
   background-color: #f3ecf4
 }
+
+.unlock-loader-holder {
+    top: 65%;
+    padding: 12px 16px;
+    z-index: 1;
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: -47px;
+}

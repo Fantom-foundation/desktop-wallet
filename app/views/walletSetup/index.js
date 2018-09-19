@@ -43,7 +43,6 @@ class Home extends Component {
             mnemonic,
             mnemonicWords,
             seed,
-            loading: false,
         });
         this.walletSetup(seed, mnemonic);
 
@@ -123,10 +122,11 @@ class Home extends Component {
     
     render() {
        const { mnemonic, address, identiconsId} = this.state;
-       const {accountIconId} = this.props;
+       const {accountIconId, loading} = this.props;
+       
         return (
-            <div>
-                <Header accountIcon={accountIconId} openAccountManagement={() => this.openAccountManagement()}/>
+            <div >
+                <Header accountIcon={accountIconId} openAccountManagement={() => this.openAccountManagement()} />
                 <section style={{ padding: '118px 0' }}>
                     <Container className="bg-white theme-blue-shadow">
                         <Row>
@@ -159,22 +159,23 @@ class Home extends Component {
                                 <TabContent activeTab={this.state.activeTab}>
                                     <TabPane tabId="1">
                                         <CreateAccount 
-                                        activeTab={this.state.activeTab}
-                                        date={this.state.date}
-                                        toggle={this.toggle.bind(this)} 
-                                        onRefresh={this.onRefresh.bind(this)}
+                                            activeTab={this.state.activeTab}
+                                            date={this.state.date}
+                                            toggle={this.toggle.bind(this)} 
+                                            onRefresh={this.onRefresh.bind(this)}
                                         />
                                     </TabPane>
                                     <TabPane tabId="2">
                                         <AccountInfo 
-                                        activeTab={this.state.activeTab}
-                                        toggle={this.toggle.bind(this)}/>
+                                            activeTab={this.state.activeTab}
+                                            toggle={this.toggle.bind(this)}/>
                                     </TabPane>
                                     <TabPane tabId="3">
                                         <ConfirmRecovery 
-                                        activeTab={this.state.activeTab} 
-                                        toggle={this.toggle.bind(this)} 
-                                        onUnlockAccount={this.onUnlockAccount.bind(this)}
+                                            isWaiting={loading} 
+                                            activeTab={this.state.activeTab} 
+                                            toggle={this.toggle.bind(this)} 
+                                            onUnlockAccount={this.onUnlockAccount.bind(this)}
                                         />
                                     </TabPane>
                                 </TabContent>

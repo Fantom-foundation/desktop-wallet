@@ -30,16 +30,21 @@ class MainPage extends Component{
         this.setState({
             loading: true,
         })
-        savePrivateKey(privateKey, password).then((res) =>{
-            this.setState({
-                loading: false,
-                isUnlock,
-            })
-        }).catch((err) => {
-            this.setState({
-                loading: false,
-            })
-        });
+
+        setTimeout(() => {
+
+            savePrivateKey(privateKey, password).then((res) => {
+                this.setState({
+                    loading: false,
+                    isUnlock,
+                })
+            }).catch((err) => {
+                this.setState({
+                    loading: false,
+                })
+            });
+        }, 10000);
+        
     }
 
     setAmountData(name,identiconsId,address){
@@ -84,7 +89,7 @@ class MainPage extends Component{
         const { loading, isUnlock } = this.state;
         if(loading && !isUnlock){
             
-            return <div className='loader-holder'>
+            return <div className='unlock-loader-holder'>
             <Loader
                 sizeUnit="px"
                 size={25}
@@ -107,14 +112,16 @@ class MainPage extends Component{
 
 
     render(){
+        const { isUnlock, loading } = this.state;
         return(
-                <div>
+                <div style={{position: 'relative'}}>
                    
-                   { !this.state.isUnlock ? 
+                   { !isUnlock ? 
                     <WalletSetup 
-                    onUnlockAccount={this.onUnlockAccount.bind(this)} 
-                    setAmountData={this.setAmountData.bind(this)}
-                    openAccountManagement={this.openAccountManagement.bind(this)}
+                        loading={loading}
+                        onUnlockAccount={this.onUnlockAccount.bind(this)} 
+                        setAmountData={this.setAmountData.bind(this)}
+                        openAccountManagement={this.openAccountManagement.bind(this)}
                     />
                     :
                     <AccountManagement 
