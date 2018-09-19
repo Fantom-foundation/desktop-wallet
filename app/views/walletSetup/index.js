@@ -121,8 +121,8 @@ class Home extends Component {
     
     
     render() {
-       const { mnemonic, address, identiconsId} = this.state;
-       const {accountIconId, loading} = this.props;
+       const { mnemonic, address } = this.state;
+       const {accountIconId, loading, accountName, accountIcon, password, passwordHint } = this.props;
        
         return (
             <div >
@@ -161,6 +161,10 @@ class Home extends Component {
                                         <CreateAccount 
                                             activeTab={this.state.activeTab}
                                             date={this.state.date}
+                                            accountName={accountName}
+                                            // accountIcon={accountIcon} 
+                                            password={password}
+                                            passwordHint={passwordHint}
                                             toggle={this.toggle.bind(this)} 
                                             onRefresh={this.onRefresh.bind(this)}
                                         />
@@ -194,6 +198,8 @@ const mapStateToProps = (state) => ({
     accountIcon: state.createAccountReducer.accountIcon,
     accountIconId: state.userAccountReducer.accountIcon,
     address: state.keyReducer.publicKey,
+    password:state.createAccountReducer.password,
+    passwordHint: state.createAccountReducer.passwordHint,
 });
 
 const mapDispatchToProps = dispatch => ({

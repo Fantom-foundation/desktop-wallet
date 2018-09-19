@@ -21,8 +21,6 @@ class CreateAccount extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            //  mnemonicWords: [],
-            //  loading: true,
              accountName: '',
              password: '',
              confirmPassword: '',
@@ -36,8 +34,8 @@ class CreateAccount extends Component {
              };
     };
 
-    componentWillReceiveProps(nextProps){
-        const {accountName, accountIcon, password, passwordHint} = nextProps;
+    componentWillMount(){
+        const {accountName, accountIcon, password, passwordHint} = this.props;
         this.setState({
             accountName,
              password,
