@@ -265,7 +265,6 @@ export default class SendFunds extends Component {
                                                 <div className="withdraw-holder">
                                                     <AccountList accountType={accountType} accountStore={accountStore} setAccountType={this.setAccountType.bind(this)} />
                                                     <span className="value-1">0.58273450 FTM</span>
-                                                    <span className="value-2">≈$144.68</span>
                                                 </div>
                                             </FormGroup>
                                             <Row className="change">

@@ -85,7 +85,8 @@
         size: 12px;
       }
       color: #5e6875;
-      top: 3.9px;
+      top: 50%;
+      transform: translateY(-50%);
     }
     .value-2 {
       font: {

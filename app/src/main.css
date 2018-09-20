@@ -341,7 +341,8 @@ strong {
     .modal-dialog .withdraw-holder .value-1 {
       font-size: 12px;
       color: #5e6875;
-      top: 3.9px; }
+      top: 50%;
+      transform: translateY(-50%); }
     .modal-dialog .withdraw-holder .value-2 {
       font-size: 12px;
       color: #8d9bae;
