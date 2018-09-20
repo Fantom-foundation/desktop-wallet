@@ -73,9 +73,11 @@ hangleHeaderClick(){
                             <NavItem>
                                 <NavLink href="#">
                                 <div className="theme-blue-shadow d-inline-block align-top" 
-                                   style={{ cursor: 'pointer', width: '40px', height: '45px', overflow: 'hidden' }}
+                                   style={{ cursor: 'pointer', width: '40px', height: '40px', overflow: 'hidden', borderRadius: '100%',backgroundColor: '#fff' }}
                                    onClick={() => this.openAccountManagement()}>
-                                        <Identicons id={this.props.accountIcon} className="person-image theme-blue-shadow" width={40} size={3} />
+                                        <div style={{transform: 'translate(20%, 3%)', height: '100px'}}>
+                                        <Identicons id={this.props.accountIcon} className="person-image theme-blue-shadow" width={26} size={3}/>
+                                        </div>
                                     </div>
                                 </NavLink>
                             </NavItem>
