@@ -127,7 +127,7 @@ class Home extends Component {
         return (
             <div >
                 <Header accountIcon={accountIconId} openAccountManagement={() => this.openAccountManagement()} />
-                <section style={{ padding: '118px 0' }}>
+                <section style={{ padding: '12px 0px 10px 0px' }}>
                     <Container className="bg-white theme-blue-shadow">
                         <Row>
                             <Col className="px-0">

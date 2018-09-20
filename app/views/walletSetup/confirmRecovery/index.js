@@ -110,7 +110,6 @@ class ConfirmRecovery extends Component {
                 {/* <FooterButtons onBack={this.onBack.bind(this)}  
                         isBackActive={true} /> */}
               </div>
-              <AccountFooter />
             </Col>
             
           </Row>

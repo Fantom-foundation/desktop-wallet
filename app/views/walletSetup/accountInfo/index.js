@@ -138,7 +138,6 @@ class AccountInfo extends Component {
                             onNext={this.onNext.bind(this)}
                             isNextActive={this.state.isBackupConfirm} />
                     </div>
-                    <AccountFooter />
                 </Col>
             </Row>
         );

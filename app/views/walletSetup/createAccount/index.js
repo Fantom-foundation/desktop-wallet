@@ -352,7 +352,6 @@ renderPasswordStrengthBar(){
                         // isCloseActive={this.isGoToAccountManagement()}
                        />
                     </div>
-                    <AccountFooter />
                 </Col>
             </Row>
         );
