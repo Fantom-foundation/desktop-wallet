@@ -25,9 +25,13 @@ export default class SendMoney extends Component {
                 if(handleModalClose){
                     handleModalClose();
                 }
-                if(refreshWalletDetail){
-                    refreshWalletDetail(from);
-                }
+                setTimeout(() => {
+                    console.log(' api refresh called after timeout : ',data.hash);
+                    if(refreshWalletDetail){
+                        refreshWalletDetail(from);
+                    }
+                }, 1000)
+                
                 this.setState({ isLoading: false });
                 return;
             }

@@ -1155,7 +1155,8 @@ select.form-element-field {
 
 .ftm-block {
   min-height: 83px;
-  max-width: 288px;
+  /* max-width: 288px; */
+  max-width: 326px;
   font-family: Helvetica; }
   .ftm-block h2 {
     font-size: 23px;

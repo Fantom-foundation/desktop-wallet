@@ -10,15 +10,15 @@ class UserAccounts extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userAccountStore: '',
-            storeKeys: [],
+            userAccountStore: Store.store,
+            storeKeys: this.props.storeKeys,
         }
     }
 
     componentWillReceiveProps() {
         const { storeKeys } =this.props;
         const userAccountStore = Store.store;
-        if (storeKeys.length > 1) {
+        if (storeKeys.length > 0) {
             this.setState({
                 userAccountStore,
                 storeKeys,
@@ -27,14 +27,12 @@ class UserAccounts extends Component {
     }
 
     renderAccountCard() {
-        const { userAccountStore, storeKeys } = this.state;
-
+         const { userAccountStore, storeKeys } = this.state ;
         let account = '';
         const accountList = [];
         if (storeKeys) {
-            // const keys = Object.keys(userAccountStore);
             for (const key of storeKeys) {
-                if (key !== this.props.address) {
+                // if (key !== this.props.address) {
                     account = <AccountCard
                         key={`${key}`}
                         accountInfo={userAccountStore[key]}
@@ -42,28 +40,10 @@ class UserAccounts extends Component {
                         copyToClipboard={this.props.copyToClipboard} />
 
                     accountList.push(account);
-                }
+                // }
             }
             return accountList;
         }
-
-        // let account = '';
-        // const accountList = [];
-        // if (userAccountStore) {
-        //     const keys = Object.keys(userAccountStore);
-        //     for (const key of keys) {
-        //         if (key !== this.props.address) {
-        //             account = <AccountCard
-        //                 key={`${key}`}
-        //                 accountInfo={userAccountStore[key]}
-        //                 handleSelectedAccount={this.props.handleSelectedAccount}
-        //                 copyToClipboard={this.props.copyToClipboard} />
-
-        //             accountList.push(account);
-        //         }
-        //     }
-        //     return accountList;
-        // }
     }
 
     render() {

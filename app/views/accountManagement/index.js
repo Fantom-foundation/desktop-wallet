@@ -4,6 +4,8 @@ import { clipboard } from 'electron';
 import { connect } from 'react-redux';
 import Web3 from 'web3';
 
+import UserAccountsDetailCard from './userAccountsDetailCard/index';
+
 import arrowLeftRight from '../../images/icons/arrows-left-right.svg';
 import Header from '../../general/header/index';
 import fantomIcon from '../../images/icons/fantom_Icon.png';
@@ -71,6 +73,7 @@ class AccountManagement extends Component {
             gasPrice: 0x000000000001,
             maxFantomBalance: 0,
             balance: 0,
+            isOpenAccountDetail: false,
         }
     }
 
@@ -404,7 +407,10 @@ class AccountManagement extends Component {
         const selectedAccount = Store.get(address);
         const { name, primaryAccount, accountIcon} = selectedAccount;
         this.props.setAmountData(name,accountIcon,address);
-        this.props.updateUserAccountDetail(name, accountIcon, address )
+        this.props.updateUserAccountDetail(name, accountIcon, address );
+        this.setState({
+            isOpenAccountDetail: true,
+        })
         setTimeout(() => {
             if(address){
                 this.getWalletBalance(address);
@@ -479,13 +485,7 @@ class AccountManagement extends Component {
         this.setState({
             isLoading: true,
         });
-        console.log('______________________________________')
-        console.log('upadte wallet ifo after transfer funds : ');
-        console.log('public key : ', publicKey);
-        console.log('address key : ', address);
-        console.log('______________________________________')
-
-
+       
         if( publicKey === address ){     
             this.getWalletBalance(publicKey);
             this.getWalletTransaction(publicKey);
@@ -500,10 +500,59 @@ class AccountManagement extends Component {
         }
 
     }
+
+    renderAccountManagement(){
+        const { storeKeys, publicKey, isOpenAccountDetail } = this.state;
+        if(isOpenAccountDetail){
+            return null;
+        }
+        if(Store.size > 0){
+            return(
+                  <UserAccount
+                    storeKeys={storeKeys}
+                    address={publicKey}
+                    handleSelectedAccount={this.handleSelectedAccount.bind(this)}
+                    copyToClipboard={this.copyToClipboard.bind(this)} />
+            )
+        }
+        return null;
+        
+    }
+
+    renderAccountDetail(){
+        const { transactionData, balance, identiconsId, name, publicKey, isOpenAccountDetail } = this.state;
+        if(!isOpenAccountDetail){
+            return null;
+        }
+        let transactionLength = 0;
+        if (transactionData) {
+            transactionLength = transactionData.length;
+        }
+        return(
+            <UserAccountsDetailCard 
+                publicKey={publicKey} 
+                identiconsId={identiconsId} name={name}
+                balance={balance}  
+                transactionLength={transactionLength}
+                copyToClipboard={this.copyToClipboard.bind(this)}
+                transactionData={transactionData}/>
+        )
+    }
+
+    openAccountManagement(){
+        const{ isOpenAccountDetail } = this.state;
+        if(isOpenAccountDetail){
+            this.setState({
+                isOpenAccountDetail: false,
+            })
+        }
+    }
     
     render() {
 
-        const { transactionData, balance, storeKeys, identiconsId, name, publicKey, isLoading, animateRefreshIcon, isOpenSetting , maxFantomBalance } = this.state;
+        const { transactionData, balance, storeKeys, identiconsId, name,
+             publicKey, isLoading, animateRefreshIcon, isOpenSetting , maxFantomBalance, isOpenAccountDetail } = this.state;
+
         const { accountName } = this.props;
         let transactionLength = 0;
         if (transactionData) {
@@ -518,43 +567,21 @@ class AccountManagement extends Component {
                 handleUserSettings={this.handleUserSettings.bind(this)}
                 isOpenSetting={isOpenSetting}
                 accountIcon={identiconsId} 
-                onCloseSendFunds={this.onCloseSendFunds.bind(this)} />
-                <section style={{ padding: '118px 0' }} onClick={this.handleCloseSettings.bind(this)}>
+                onCloseSendFunds={this.onCloseSendFunds.bind(this)}
+                openAccountManagement={this.openAccountManagement.bind(this)} />
+                <section style={{ padding: '12px 0px 50px ' }} onClick={this.handleCloseSettings.bind(this)}>
                     <Container className="bg-white">
                         <Row className="bg-primary py-1 account-management-header">
                             <Col md={5} className="col text-white pl-4 text-uppercase">Account Management</Col>
-                            <Col className="col text-white text-uppercase" style={{cursor: 'pointer' }} onClick={() => this.handleSendFunds()}>
-                                <img src={arrowLeftRight} className="mr-1" alt='Transfer fund' /> Transfer</Col>
+                            {isOpenAccountDetail && <Col className="col text-white text-uppercase" style={{cursor: 'pointer' }} onClick={() => this.handleSendFunds()}>
+                                <img src={arrowLeftRight} className="mr-1" alt='Transfer fund' /> Transfer</Col>}
                            <Col className="text-right" style={{cursor: 'pointer', }} onClick={this.onRefresh.bind(this)} >
                                 <img aria-hidden src={refreshIcon} alt="Refresh" style={{ height: '16.6px'}} className={`${animateRefreshIcon && 'rotation anti-clock'}`} /> </Col>
                         </Row>
                         <Row >
                             <Col className="px-5 py-4">
-                                <Row className="bg-gray ">
-
-                                    <UserAccountDetail
-                                        identiconsId={identiconsId}
-                                        name={name}
-                                        address={publicKey}
-                                        balance={balance}
-                                        transactionLength={transactionLength}
-                                        copyToClipboard={this.copyToClipboard.bind(this)} />
-                                    <Col className="text-right gray-column large qr">
-                                        <QRCodeIcon
-                                            // className='text-right gray-column large qr'
-                                            address={publicKey}
-                                            icon={fantomIcon}
-                                            text='FANTOM'
-                                        />
-                                    </Col>
-                                    
-                                </Row>
-                                <TransactionCard transactionData={transactionData} />
-                                {Store.size > 1 && <UserAccount
-                                    storeKeys={storeKeys}
-                                    address={publicKey}
-                                    handleSelectedAccount={this.handleSelectedAccount.bind(this)}
-                                    copyToClipboard={this.copyToClipboard.bind(this)} />}
+                                    {this.renderAccountDetail()}
+                                    {this.renderAccountManagement()}
                             </Col>
                         </Row>
                     </Container>
