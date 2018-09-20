@@ -61,7 +61,6 @@ hangleHeaderClick(){
     render() {
         const { isOpen } = this.state;
         const { isOpenSetting } = this.props;
-        console.log('isOpenSetting : ', isOpenSetting);
        
         return (
             <Navbar color="dark" dark expand="md" >

@@ -3,10 +3,17 @@ import { Row, Col, } from 'reactstrap';
 
 import Identicons from '../../../general/identicons/identicons';
 import copyImage from '../../../images/icons/copy.svg';
+import { addCommasToNumber } from '../../../general/util/index';
 
 class UserAccountDetail extends Component {
-    render() {
-        const { identiconsId, name, address, balance, transactionLength, copyToClipboard } = this.props;
+    render() {  
+        const { identiconsId, name, address, transactionLength, copyToClipboard } = this.props;
+        let { balance } = this.props;
+
+        if(balance){
+            balance = addCommasToNumber(balance);
+        }
+
         return (
             <Col lg={8} className="gray-column large">
                 <div className="person-info large">
@@ -35,9 +42,8 @@ class UserAccountDetail extends Component {
                                 <p className="text large text-gray mb-5">{transactionLength} Outgoing transactions</p>
                             </div>
                             <div className="bg-white ftm-block theme-blue-shadow text-center p-2 m-auto ml-lg-0">
-                                <h3 className="text-right pr-4"><span>(1,000\ = 1.00002312FTM)</span></h3>
-                                <h2><span><strong>{balance ? `${balance}` : '00,0000'} <span className="medium-text">FTM</span></strong></span></h2>
-                                <h3><span>0,0000\</span></h3>
+                                {/* <h3 className="text-right pr-4"><span>(1,000\ = 1.00002312FTM)</span></h3> */}
+                                <h2 className="text-center" style={{position: 'relative', transform: 'translateY(50%)'}}><span><strong>{balance ? `${balance}` : '0'} <span className="medium-text">FTM</span></strong></span></h2>
                             </div>
                         </Col>
                     </Row>

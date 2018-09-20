@@ -68,6 +68,9 @@ class AccountManagement extends Component {
             animateRefreshIcon: false,
             isLoading: false,
             isOpenSetting: false,
+            gasPrice: 0x000000000001,
+            maxFantomBalance: 0,
+            balance: 0,
         }
     }
 
@@ -166,7 +169,7 @@ class AccountManagement extends Component {
      */
 
     getFantomBalanceFromApiAsync(address) {
-        console.log('get fantom balance from address : ', address);
+           const { publicKey } = this.props;
         // const dummyAddress = '0xFD00A5fE03CB4672e4380046938cFe5A18456Df4';
         return fetch(`${configHelper.apiUrl}/account/${address}`)
             .then((response) => response.json())
@@ -174,13 +177,26 @@ class AccountManagement extends Component {
                 if (responseJson && responseJson.balance) {
                     const balance = scientificToDecimal(responseJson.balance);
                     const valInEther = Web3.utils.fromWei(`${balance}`, 'ether');
-                    console.log('in getFantomBalanceFromApiAsync updated valInEther : ', valInEther);
-                    this.setState({
+                   if(publicKey === address){
+                       this.setState({
                         balance: valInEther,
+                    });
+                   }
+                    
+                    const { gasPrice } = this.state;
+                    const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
+                    const maxFantomBalance = valInEther - gasPriceEther;
+                    this.setState({
+                        maxFantomBalance,
                     })
                 }else{
+                    if(publicKey === address){
+                        this.setState({
+                            balance: 0,
+                        })
+                    }
                     this.setState({
-                        balance: '',
+                        maxFantomBalance: 0,
                     })
                 }
 
@@ -193,10 +209,15 @@ class AccountManagement extends Component {
             })
             .catch((error) => {
                 this.setState({
-                    balance: '',
-                    isLoading: false,
-                    animateRefreshIcon:false,
+                    maxFantomBalance: 0,
                 })
+                if(publicKey === address){
+                    this.setState({
+                        balance: 0,
+                        isLoading: false,
+                        animateRefreshIcon:false,
+                    })
+                }
             });
     }
     
@@ -383,15 +404,19 @@ class AccountManagement extends Component {
         const selectedAccount = Store.get(address);
         const { name, primaryAccount, accountIcon} = selectedAccount;
         this.props.setAmountData(name,accountIcon,address);
-        if(address){
-            this.getWalletBalance(address);
-            this.getWalletTransaction(address);
-        }
-        this.setState({
-            identiconsId: accountIcon,
-            name,
-            publicKey: address,
-        })
+        this.props.updateUserAccountDetail(name, accountIcon, address )
+        setTimeout(() => {
+            if(address){
+                this.getWalletBalance(address);
+                this.getWalletTransaction(address);
+            }
+            this.setState({
+                identiconsId: accountIcon,
+                name,
+                publicKey: address,
+            }) 
+        }, 100);
+       
     }
 
 
@@ -466,12 +491,20 @@ class AccountManagement extends Component {
             this.getWalletTransaction(publicKey);
         }
     }
+
+    getWalletDetail(address){
+
+        if(address){
+            this.getWalletBalance(address);
+            this.getWalletTransaction(address);
+        }
+
+    }
     
     render() {
 
-        const { transactionData, balance, storeKeys, identiconsId, name, publicKey, isLoading, animateRefreshIcon, isOpenSetting } = this.state;
+        const { transactionData, balance, storeKeys, identiconsId, name, publicKey, isLoading, animateRefreshIcon, isOpenSetting , maxFantomBalance } = this.state;
         const { accountName } = this.props;
-        console.log('in render updated balance : ', balance);
         let transactionLength = 0;
         if (transactionData) {
             transactionLength = transactionData.length;
@@ -531,9 +564,11 @@ class AccountManagement extends Component {
                    isSendFund={this.state.isSendFund} 
                    onClose={this.onCloseSendFunds.bind(this)} 
                    accountName={accountName}
+                   maxFantomBalance={maxFantomBalance}
                    publicKey={publicKey}
                    storeKeys={storeKeys}
                    refreshWalletDetail={this.refreshWalletDetail.bind(this)}
+                   getWalletDetail={this.getWalletDetail.bind(this)}
                    />}
             </div>
         );

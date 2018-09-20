@@ -31,19 +31,19 @@ export default class SendFunds extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps){
-        const { storeKeys,  publicKey, accountName  } = nextProps;
-        const userAccountStore = Store.store;
-        const accountDetailList = [];
-        for(const key of storeKeys){ 
-            accountDetailList.push(userAccountStore[key]);
-        }
-        this.setState({
-            accountStore: accountDetailList,
-            publicKey,
-            accountType: accountName,
-        });
-    }
+    // componentWillReceiveProps(nextProps){
+    //     const { storeKeys,  publicKey, accountName  } = nextProps;
+    //     const userAccountStore = Store.store;
+    //     const accountDetailList = [];
+    //     for(const key of storeKeys){ 
+    //         accountDetailList.push(userAccountStore[key]);
+    //     }
+    //     this.setState({
+    //         accountStore: accountDetailList,
+    //         publicKey,
+    //         accountType: accountName,
+    //     });
+    // }
 
     componentDidMount(){
         const { storeKeys,  publicKey, accountName  } = this.props;
@@ -75,6 +75,10 @@ export default class SendFunds extends Component {
         for(let account = 0;  account < length; account++){
             if(accountStore[account].name === accountType){
                 publicKey = accountStore[account].address;
+                const { getWalletDetail } = this.props;
+                if(getWalletDetail){
+                    getWalletDetail(publicKey);
+                }
             }
           }
         this.setState({
@@ -224,7 +228,8 @@ export default class SendFunds extends Component {
         return null;
     }
 
-    render() {    
+    render() {   
+        const { maxFantomBalance } = this.props; 
         const { address, accountType, ftmAmount, optionalMessage,
               totalFees, isCheckSend, isValidAddress, accountStore, publicKey, privateKey, password, loading } = this.state;
 
@@ -256,7 +261,7 @@ export default class SendFunds extends Component {
                                                 <Label for="withdraw-from"><strong>Withdraw from</strong></Label>
                                                 <div className="withdraw-holder">
                                                     <AccountList accountType={accountType} accountStore={accountStore} setAccountType={this.setAccountType.bind(this)} />
-                                                    <span className="value-1">0.58273450 FTM</span>
+                                                    <span className="value-1">{maxFantomBalance} FTM</span>
                                                 </div>
                                             </FormGroup>
                                             <Row className="change">
