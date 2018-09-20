@@ -20,7 +20,6 @@ export default class SendFunds extends Component {
             ftmAmount: '',
             usdAmount: '',
             optionalMessage: '',
-            networkFees: 0.000226,
             totalFees: 0.402926,
             isCheckSend: false,
             isValidAddress: false,
@@ -235,7 +234,7 @@ export default class SendFunds extends Component {
 
     render() {    
         const { address, accountType, ftmAmount, usdAmount, optionalMessage,
-             networkFees, totalFees, isCheckSend, isValidAddress, accountStore, publicKey, privateKey, password, loading } = this.state;
+              totalFees, isCheckSend, isValidAddress, accountStore, publicKey, privateKey, password, loading } = this.state;
 
              let continueBtnColor = 'primary';
            if(loading){
@@ -306,10 +305,6 @@ export default class SendFunds extends Component {
 
                                             <div className="result mt-2" style={{ maxWidth: '235px', margin: 'auto', marginRight: 0 }}>
                                                 <Row className="m-0">
-                                                    <Col className="p-0"><p><strong>Network fee</strong></p></Col>
-                                                    <Col className="text-right p-0"><p>{networkFees} USD <span>($0.06)</span></p></Col>
-                                                </Row>
-                                                <Row className="m-0">
                                                     <Col className="p-0"><p><strong>Total</strong></p></Col>
                                                     <Col className="text-right p-0"><p>{totalFees} USD <span>($100.06)</span></p></Col>
                                                 </Row>
@@ -336,7 +331,6 @@ export default class SendFunds extends Component {
                                                 address={address}
                                                 amount={ftmAmount}
                                                 memo={optionalMessage || 'none'}
-                                                fees={networkFees}
                                                 publicKey={publicKey}
                                                 privateKey={privateKey}
                                                 handleModalClose={this.handleModalClose.bind(this)}
