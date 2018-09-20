@@ -271,7 +271,8 @@ strong {
 
 .add-wallet-dropdown-content-field:hover {
   color: #3e68ea;
-  background-color: #f3ecf4; }
+  background-color: #f3ecf4;
+  cursor: pointer; }
 
 .unlock-loader-holder {
   top: 65%;
