@@ -5,7 +5,7 @@ import {
 } from 'reactstrap';
 import QRCodeIcon from '../../../general/qr/index';
 
-import smallLogo from '../../../images/Logo/small-logo.svg';
+// import smallLogo from '../../../images/Logo/small-logo.svg';
 import smallLogoWhite from '../../../images/Logo/small-logo-white.svg';
 
 class AccountDetailPrint extends Component {
@@ -22,7 +22,7 @@ class AccountDetailPrint extends Component {
         const {addressTitle, url} = this.state;
         return (
             <div>
-                <div className="print-screen">
+                {/* <div className="print-screen">
                     <Row className="mx-0">
                         <Col className="pt-3">
                             <Row>
@@ -55,7 +55,7 @@ class AccountDetailPrint extends Component {
                             </div>
                         </Col>
                     </Row>
-                </div>
+                </div> */}
 
 
                 <div className="print-screen">
@@ -73,10 +73,9 @@ class AccountDetailPrint extends Component {
                                 <Col >
                                     <QRCodeIcon
                                         address={address}
-                                        //  icon={fantomIcon}
                                         text='FANTOM'
                                     />
-                                    <p className="address rotate-anti inline-block text-uppercase">{addressTitle}</p>
+                                    {/* <p className="address rotate-anti inline-block text-uppercase">{addressTitle}</p> */}
                                 </Col>
                                 {/* <Col>
                                     
@@ -86,7 +85,7 @@ class AccountDetailPrint extends Component {
                         </Col>
                         <Col className="brand blue px-0">
                             <div className="brand-body">
-                                <p className="logo"><img src={smallLogoWhite} />Fantom</p>
+                                <p className="logo"><img src={smallLogoWhite} alt=''/>Fantom</p>
                                 <a htef={`${url}`} className="link">{url}</a>
                             </div>
                         </Col>
