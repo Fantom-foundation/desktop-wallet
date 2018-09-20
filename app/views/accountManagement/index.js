@@ -575,8 +575,8 @@ class AccountManagement extends Component {
                             <Col md={5} className="col text-white pl-4 text-uppercase">Account Management</Col>
                             {isOpenAccountDetail && <Col className="col text-white text-uppercase" style={{cursor: 'pointer' }} onClick={() => this.handleSendFunds()}>
                                 <img src={arrowLeftRight} className="mr-1" alt='Transfer fund' /> Transfer</Col>}
-                           <Col className="text-right" style={{cursor: 'pointer', }} onClick={this.onRefresh.bind(this)} >
-                                <img aria-hidden src={refreshIcon} alt="Refresh" style={{ height: '16.6px'}} className={`${animateRefreshIcon && 'rotation anti-clock'}`} /> </Col>
+                                {isOpenAccountDetail && <Col className="text-right" style={{cursor: 'pointer', }} onClick={this.onRefresh.bind(this)} >
+                                <img aria-hidden src={refreshIcon} alt="Refresh" style={{ height: '16.6px'}} className={`${animateRefreshIcon && 'rotation anti-clock'}`} /> </Col>}
                         </Row>
                         <Row >
                             <Col className="px-5 py-4">
