@@ -28,6 +28,8 @@ export default class SendFunds extends Component {
             publicKey: '',
             loading: false,
             verificationError: '',
+            addressErrText: '',
+            ammountErrText: '',
         }
     }
 
@@ -92,6 +94,7 @@ export default class SendFunds extends Component {
         this.setState({
             ftmAmount,
         })
+        this.ftmAmmountVerification(ftmAmount);
     }
 
     setMessage(e) {
@@ -110,12 +113,12 @@ export default class SendFunds extends Component {
     }
 
     handleCheckSend() {
-        const { password , publicKey, loading } = this.state;
-        if(loading){
+        const { password , publicKey, loading, addressErrText, ammountErrText, address, ftmAmount } = this.state;
+        if(loading || addressErrText !== '' || ammountErrText !== '' || address === '' || ftmAmount === '' || password === ''){
             return null;
         }
         const isValidDetail = this.handleSendMoney();
-        if(isValidDetail){
+        if(isValidDetail ){
               this.getPrivateKeyOfAddress(publicKey, password);
         }
     }
@@ -142,13 +145,14 @@ export default class SendFunds extends Component {
             message = 'Please enter valid amount';
         } else if (password === ''){
             message = 'Please enter password to continue!!';
+            this.setState({
+                verificationError: message,
+            })
         }
 
         if (message !== '') {
             return false;
-        }
-       
-        
+        }        
         this.setState({
             loading: true,
         })
@@ -157,22 +161,49 @@ export default class SendFunds extends Component {
 
 
     /**
-     * addressVerification() : To check address entered is valid address or not, if valid address then display green tick.
+     * addressVerification() : To check address entered is valid address or not, if valid address then display green tick. Otherwise render error message.
      */
     addressVerification(address) {
         let message = '';
         if (address === '') {
-            message = 'Please enter address.';
+            message = 'An address must be specified.';
         } else if (!Web3.utils.isAddress(address)) {
-            message = 'Please enter valid address.';
+            message = 'Must be valid address.';
         }
         if (message === '') {
             this.setState({
                 isValidAddress: true,
+                addressErrText: '',
             });
         } else {
             this.setState({
                 isValidAddress: false,
+                addressErrText: message,
+            });
+        }
+    }
+
+     /**
+     * ftmAmmountVerification() : To check ammount entered is valid or not, if invalid ammount then render error message.
+     */
+    ftmAmmountVerification(ammount){
+        const { maxFantomBalance } = this.props;
+        let message = '';
+        if (ammount === '') {
+            message = 'An amount must be specified.';
+        }else if(isNaN(ammount)){
+            message = 'Must be valid amount. Only numbers.';
+        } 
+        else if (ammount > maxFantomBalance) {
+            message = 'Insufficient balance.';
+        }
+        if (message === '') {
+            this.setState({
+                ammountErrText: '',
+            });
+        } else {
+            this.setState({
+                ammountErrText: message,
             });
         }
     }
@@ -199,7 +230,7 @@ export default class SendFunds extends Component {
              }
         }).catch((err) => {
             this.setState({
-                verificationError: 'Verification Failed.',
+                verificationError: 'Incorrect password.',
                 privateKey: '',
                 loading: false,
             })
@@ -223,21 +254,43 @@ export default class SendFunds extends Component {
     renderVerificationError(){
         const { verificationError } = this.state;
         if(verificationError !== ''){
-            return <div className='loader-holder'><span style={{ color: 'red' }}>{verificationError}</span></div>
+            return <small className="form-element-hint" style={{color: '#FF0000', paddingLeft: '10px'}}>{verificationError}</small>
         }
+        return null;
+    }
+
+    renderAddressErrText(){
+        const { isValidAddress, addressErrText } = this.state;
+        if(!isValidAddress && addressErrText !== ''){
+            return <small className="form-element-hint" style={{color: '#FF0000', paddingLeft: '10px'}}>{addressErrText}</small>
+        }  
+        return null;
+    }
+
+    renderAmmountErrText(){
+        const {  ammountErrText } = this.state;
+        if( ammountErrText !== ''){
+            return <small className="form-element-hint" style={{color: '#FF0000', paddingLeft: '10px'}}>{ammountErrText}</small>
+        }  
         return null;
     }
 
     render() {   
         const { maxFantomBalance } = this.props; 
         const { address, accountType, ftmAmount, optionalMessage,
-              totalFees, isCheckSend, isValidAddress, accountStore, publicKey, privateKey, password, loading } = this.state;
+              totalFees, isCheckSend, isValidAddress, accountStore, publicKey,
+               privateKey, password, loading,  } = this.state;
 
              let continueBtnColor = 'primary';
            if(loading){
-
              continueBtnColor = 'secondary';
            }
+
+           if( address === '' || ftmAmount === '' || password === ''){
+            continueBtnColor = 'secondary';
+           }
+
+
             
         return (
             <div >
@@ -255,6 +308,7 @@ export default class SendFunds extends Component {
                                                     <Input type="text" id="to-address" placeholder="Enter Address" value={address} onChange={this.setAddress.bind(this)} />
                                                     <img src={successCheck} alt={successCheck} />
                                                 </div>
+                                                {this.renderAddressErrText()}
                                             </FormGroup>
 
                                             <FormGroup>
@@ -273,6 +327,7 @@ export default class SendFunds extends Component {
                                                             <span>FTM</span>
                                                             <img src={smallLogo} className="logo" alt={smallLogo} />
                                                         </div>
+                                                        {this.renderAmmountErrText()}
 
                                                     </FormGroup>
                                                 </Col>
@@ -284,6 +339,7 @@ export default class SendFunds extends Component {
                                                     <Input type="password" id="to-password" placeholder="Enter password" value={password} onChange={this.setPassword.bind(this)} />
                                                     {/* <img src={successCheck} alt={successCheck} /> */}
                                                 </div>
+                                                {this.renderVerificationError()}
                                             </FormGroup>
 
                                             <Label for="OptionalMessage" ><strong>Note</strong></Label>
@@ -308,7 +364,6 @@ export default class SendFunds extends Component {
                                                 fontFamily: 'Robotos',
                                                 color: '#8D9BAE'
                                             }} onClick={this.handleModalClose.bind(this)} >&times;</span>
-                                            {this.renderVerificationError()}
                                             {this.renderLoader()}
                                         </div>
                                         :
