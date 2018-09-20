@@ -18,7 +18,6 @@ export default class SendFunds extends Component {
             address: '',
             accountType: this.props.accountName,
             ftmAmount: '',
-            usdAmount: '',
             optionalMessage: '',
             totalFees: 0.402926,
             isCheckSend: false,
@@ -88,13 +87,6 @@ export default class SendFunds extends Component {
         const ftmAmount = e.target.value.trim();
         this.setState({
             ftmAmount,
-        })
-    }
-
-    setUSDAmount(e) {
-        const usdAmount = e.target.value.trim();
-        this.setState({
-            usdAmount,
         })
     }
 
@@ -233,7 +225,7 @@ export default class SendFunds extends Component {
     }
 
     render() {    
-        const { address, accountType, ftmAmount, usdAmount, optionalMessage,
+        const { address, accountType, ftmAmount, optionalMessage,
               totalFees, isCheckSend, isValidAddress, accountStore, publicKey, privateKey, password, loading } = this.state;
 
              let continueBtnColor = 'primary';
@@ -277,14 +269,6 @@ export default class SendFunds extends Component {
                                                             <img src={smallLogo} className="logo" alt={smallLogo} />
                                                         </div>
 
-                                                    </FormGroup>
-                                                </Col>
-                                                <Col>
-                                                    <FormGroup>
-                                                        <Label for="Amount"><strong>&nbsp;</strong></Label>
-                                                        <div className="input-holder">
-                                                            <Input type="text" id="Amount" className="text-right" value={usdAmount} onChange={this.setUSDAmount.bind(this)} />
-                                                            <span>USD</span></div>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
