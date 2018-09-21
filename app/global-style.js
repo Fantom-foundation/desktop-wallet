@@ -1,5 +1,5 @@
-import 'bootstrap/dist/css/bootstrap.css';
-import './src/main.css';
+// import 'bootstrap/dist/css/bootstrap.css';
+// import './src/main.css';
 
 // import { injectGlobal } from 'styled-components';
 

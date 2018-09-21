@@ -25,16 +25,16 @@ class AccountCard extends Component {
         return (
             <Col xs={12} md={6} className="mb-3 accounts accounts-column" >
                 <div className="h-100 bg-gray py-4">
-                    <Row >
+                    <Row style={{cursor: 'pointer'}}>
                         <Col className="account-logo px-0 pl-3" onClick={this.handleSelectedAccount.bind(this)}>
                             <div className="theme-blue-shadow d-inline-block align-top" style={{ cursor: 'pointer',width: '40px', height: '45px', overflow: 'hidden' }}>
                                 <Identicons id={accountInfo.accountIcon} className="person-image theme-blue-shadow" width={40} size={3} />
                             </div>
                         </Col>
                         <Col className="pl-0">
-                            <h2 className="black-text"><span >{accountInfo.name}</span></h2>
+                            <h2 aria-hidden className="black-text" onClick={this.handleSelectedAccount.bind(this)} ><span >{accountInfo.name}</span></h2>
                             <p aria-hidden className="account-number text text-primary large mb-0 text-ellipsis" style={{cursor: 'pointer'}} onClick={this.copyToClipboard.bind(this)}>
-                                <img src={copyImage} alt='copy text' /> {accountInfo.address}</p>
+                                <img src={copyImage} alt='copy text' /> <span aria-hidden onClick={this.handleSelectedAccount.bind(this)}>{accountInfo.address}</span></p>
                         </Col>
                     </Row>
                 </div>

@@ -40,30 +40,14 @@ const installExtensions = async () => {
   ).catch(console.log);
 };
 
-/**
- * Add event listeners...
- */
-
-app.on('window-all-closed', () => {
-  // Respect the OSX convention of having the application in memory even
-  // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
-app.on('ready', async () => {
-  if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.DEBUG_PROD === 'true'
-  ) {
-    await installExtensions();
-  }
-
+const createMainWindow = () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
-    height: 728
+    height: 728,
+  //  minHeight: 300,
+  //  minWidth: 300,
+  //  resizable: false
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -79,6 +63,8 @@ app.on('ready', async () => {
     } else {
       mainWindow.show();
       mainWindow.focus();
+      mainWindow.setMinimumSize(600, 300)
+
     }
   });
 
@@ -88,4 +74,38 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+}
+
+/**
+ * Add event listeners...
+ */
+
+app.on('window-all-closed', () => {
+  // Respect the OSX convention of having the application in memory even
+  // after all windows have been closed
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+
+app.on('activate', () => {
+  // Respect the OSX convention of having the application in memory even
+  // after all windows have been closed
+  if (process.platform === 'darwin') {
+    if (mainWindow === null) {
+      createMainWindow();
+    }
+  }
+});
+
+app.on('ready', async () => {
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.DEBUG_PROD === 'true'
+  ) {
+    await installExtensions();
+  }
+  createMainWindow();
+  
 });
