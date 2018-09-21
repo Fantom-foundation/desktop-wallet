@@ -46,6 +46,13 @@ export default class Header extends Component {
         }
     }
 
+    openAccount(){
+        const { openAccount }= this.props;
+        if(openAccount){
+            openAccount();
+        }
+    }
+
 hangleHeaderClick(){
     // const {onCloseSendFunds} = this.props;
     // if(onCloseSendFunds){
@@ -73,7 +80,7 @@ hangleHeaderClick(){
                                 <NavLink href="#">
                                 <div className="theme-blue-shadow d-inline-block align-top" 
                                    style={{ cursor: 'pointer', width: '40px', height: '40px', overflow: 'hidden', borderRadius: '100%',backgroundColor: '#fff' }}
-                                   onClick={() => this.openAccountManagement()}>
+                                   onClick={() => this.openAccount()}>
                                         <div style={{transform: 'translate(20%, 3%)', height: '100px'}}>
                                         <Identicons id={this.props.accountIcon} className="person-image theme-blue-shadow" width={26} size={3}/>
                                         </div>

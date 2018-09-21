@@ -126,7 +126,7 @@ class Home extends Component {
        
         return (
             <div >
-                <Header accountIcon={accountIconId} openAccountManagement={() => this.openAccountManagement()} />
+                <Header accountIcon={accountIconId} openAccountManagement={() => this.openAccountManagement()} openAccount={() => this.openAccountManagement()}/>
                 <section style={{ padding: '12px 0px 10px 0px' }}>
                     <Container className="bg-white theme-blue-shadow">
                         <Row>
