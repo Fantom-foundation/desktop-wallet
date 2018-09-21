@@ -147,6 +147,11 @@ export default merge.smart(baseConfig, {
           }
         ]
       },
+      // {
+      //   test: /\.(eot|svg|ttf|woff|woff2)$/, // loader for custom fonts
+      //   use: [{ loader: 'file-loader?name=font/[name]__[hash:base64:5].[ext]' }],
+      //   include: defaultInclude
+      // },
       // WOFF Font
       {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
