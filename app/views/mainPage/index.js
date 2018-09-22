@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import WalletSetup from '../walletSetup/index';
 import AccountManagement from '../accountManagement/index';
 import Store from '../../store/userInfoStore/index';
-import { savePrivateKey } from '../../KeystoreManager/index';
+import { savePrivateKey, getValidAccounts } from '../../KeystoreManager/index';
 import Loader from '../../general/loader/index';
 
 import * as KeyStoreAction from '../../reducers/keyStore/action';
@@ -17,12 +17,35 @@ class MainPage extends Component{
     constructor(props){
         super(props);
         this.state={
-            isUnlock: !!Store.size,
+            isUnlock: false,
+            isFetching: true,
             name: '',
             address: '',
             storeKeys: [],
             loading: false,
+            accounts: [],
         }
+    }
+
+    componentDidMount() {
+      getValidAccounts().then((storeKeys) => {
+        if (storeKeys && storeKeys.success && storeKeys.result && storeKeys.result.length && storeKeys.result.length > 0) {
+          this.setState({
+            isFetching: false,
+            isUnlock: true,
+          })
+          return;
+        }
+        this.setState({
+          isFetching: false,
+          isUnlock: false,
+        })
+      }).catch(err => {
+        this.setState({
+          isFetching: false,
+          isUnlock: false,
+        })
+      })
     }
     
     onUnlockAccount(isUnlock, privateKey, password){
@@ -112,7 +135,10 @@ class MainPage extends Component{
 
 
     render(){
-        const { isUnlock, loading } = this.state;
+        const { isUnlock, loading, isFetching } = this.state;
+        if (isFetching) {
+          return null;
+        }
         return(
                 <div style={{position: 'relative'}}>
                    
