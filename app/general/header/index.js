@@ -26,7 +26,10 @@ export default class Header extends Component {
     }
 
     handleSettings(){
-        const { handleSettings } = this.props;
+        const { handleSettings, isOpenAccountDetail } = this.props;
+        // if(isOpenAccountDetail === false){
+        //     return null;
+        // }
         if(handleSettings){
             handleSettings();
         }

@@ -180,6 +180,7 @@ class Home extends Component {
                                             activeTab={this.state.activeTab} 
                                             toggle={this.toggle.bind(this)} 
                                             onUnlockAccount={this.onUnlockAccount.bind(this)}
+                                            openAccountManagement={this.openAccountManagement.bind(this)}
                                         />
                                     </TabPane>
                                 </TabContent>

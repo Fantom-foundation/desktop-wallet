@@ -8,6 +8,7 @@ import {
   import Loader from 'react-spinners';
 
 import AccountFooter from '../../../general/footer/account-footer';
+import AccountCreationCancelModal from './accountCreationCancelModal/index';
 
 class ConfirmRecovery extends Component {
   // onBack(){
@@ -20,9 +21,17 @@ class ConfirmRecovery extends Component {
     this.state = ({
       mnemonicPhrase: '',
       isLocked : true,
-    })
+      modal: false
+    });
+    this.toggle = this.toggle.bind(this);
   }
 
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
 
   inputHandler = (e) => {
     this.setState({
@@ -52,13 +61,20 @@ class ConfirmRecovery extends Component {
       onUnlockAccount(true, privateKey, password);
   }
 
+  renderCancelAccountCreationModal(){
+    const { openAccountManagement } = this.props;
+    return(
+      <AccountCreationCancelModal toggle={() => this.toggle()} modal={this.state.modal} openAccountManagement={openAccountManagement}/>
+    )
+  }
+
     render(){
       const { activeTab, isWaiting }=this.props;
       if(activeTab !== '3'){
           return null;
       }
 
-      let createWalletColor = 'secondary';
+      let createWalletColor = 'gray';
        if(isWaiting){
         createWalletColor = 'gray'
        }else if(this.state.isLocked){
@@ -89,28 +105,47 @@ class ConfirmRecovery extends Component {
                               onChange={(e) => this.inputHandler(e)}/>
                             </FormGroup>
                             <center>
-                              <button type='button' style={{ 
-                                  height:'30px',
-                                  padding:'0px 32px',
-                                  fontFamily:'SFCompactDisplay',
-                                  fontSize:'15px',
-                                  backgroundColor:`${createWalletColor}`,
-                                  border:'0px',
-                                  color:'#fff',
-                                  textAlign: 'center',
-                                  cursor: 'pointer',
-                                }} onClick={this.onUnlock.bind(this)}>Create Wallet</button>
+                              {/* <button type='button' 
+                                style={{
+                                    height:'30px',
+                                    width: '150px',
+                                    padding:'0px 32px',
+                                    fontFamily:'SFCompactDisplay',
+                                    fontSize:'15px',
+                                    backgroundColor:`#00b1ff`,
+                                    border:'0px',
+                                    color:'#fff',
+                                    textAlign: 'center',
+                                    cursor: 'pointer',
+                                    marginRight: '50px'
+                                  }} onClick={() => this.toggle()}>Cancel</button>  */}
+                                  
+                                <button type='button' 
+                                  style={{ 
+                                    height:'30px',
+                                    width: '150px',
+                                    padding:'0px 32px',
+                                    fontFamily:'SFCompactDisplay',
+                                    fontSize:'15px',
+                                    backgroundColor:`${createWalletColor}`,
+                                    border:'0px',
+                                    color:'#fff',
+                                    textAlign: 'center',
+                                    cursor: 'pointer',
+                                  }} onClick={this.onUnlock.bind(this)}>Create Wallet</button>
                               </center>
                           </Form>
                         </Col>
                       </Row>
                     </div>
+                   
                   </Col>
                 </Row>
                 {/* <FooterButtons onBack={this.onBack.bind(this)}  
                         isBackActive={true} /> */}
               </div>
             </Col>
+            {/* {this.renderCancelAccountCreationModal()} */}
             
           </Row>
         );
