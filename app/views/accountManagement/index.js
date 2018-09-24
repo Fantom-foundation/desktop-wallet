@@ -558,6 +558,7 @@ class AccountManagement extends Component {
         if (transactionData) {
             transactionLength = transactionData.length;
         }
+        
 
         return (
             <div>
@@ -566,6 +567,7 @@ class AccountManagement extends Component {
                 handleCloseSettings={this.handleCloseSettings.bind(this)}
                 handleUserSettings={this.handleUserSettings.bind(this)}
                 isOpenSetting={isOpenSetting}
+                isOpenAccountDetail={isOpenAccountDetail}
                 accountIcon={identiconsId} 
                 onCloseSendFunds={this.onCloseSendFunds.bind(this)}
                 openAccountManagement={this.openAccountManagement.bind(this)} />
