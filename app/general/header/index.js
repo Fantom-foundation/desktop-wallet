@@ -67,7 +67,7 @@ hangleHeaderClick(){
 
     render() {
         const { isOpen } = this.state;
-        const { isOpenSetting } = this.props;
+        const { isOpenSetting, isOpenAccountDetail } = this.props;
        
         return (
             <Navbar color="dark" dark expand="md" >
@@ -78,13 +78,13 @@ hangleHeaderClick(){
                         <Nav className="ml-auto" navbar>
                             <NavItem>
                                 <NavLink href="#">
-                                <div className="theme-blue-shadow d-inline-block align-top" 
+                                {isOpenAccountDetail && <div className="theme-blue-shadow d-inline-block align-top" 
                                    style={{ cursor: 'pointer', width: '40px', height: '40px', overflow: 'hidden', borderRadius: '100%',backgroundColor: '#fff' }}
                                    onClick={() => this.openAccount()}>
                                         <div style={{transform: 'translate(20%, 3%)', height: '100px'}}>
                                         <Identicons id={this.props.accountIcon} className="person-image theme-blue-shadow" width={26} size={3}/>
                                         </div>
-                                    </div>
+                                    </div>}
                                 </NavLink>
                             </NavItem>
                             <NavItem className="add-wallet-dropdown" >

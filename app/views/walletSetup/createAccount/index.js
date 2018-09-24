@@ -49,7 +49,7 @@ class CreateAccount extends Component {
           const { toggle, setNewAccountDetail } = this.props;
           const { accountName, password, passwordHint, identiconsId } = this.state;
          if(this.isCreateAccount()){
-            setNewAccountDetail(accountName, password, passwordHint, identiconsId);
+            setNewAccountDetail(accountName.trim(), password, passwordHint, identiconsId);
             if(toggle){
                 toggle('2');
             }
@@ -192,7 +192,7 @@ class CreateAccount extends Component {
     }
       
       setAccountName(e){
-         const accountName = e.target.value.trim();
+         const accountName = e.target.value;
          const isValid = this.validateData(e,accountName, 'accountName');
          this.setState({
               accountName,
