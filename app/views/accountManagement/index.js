@@ -479,14 +479,14 @@ class AccountManagement extends Component {
         }
     }
 
-    refreshWalletDetail(address){
+    refreshWalletDetail(address, to){
         const { publicKey } = this.props;
 
         this.setState({
             isLoading: true,
         });
        
-        if( publicKey === address ){     
+        if( publicKey.toLowerCase() === address.toLowerCase() || publicKey.toLowerCase() === to.toLowerCase() ){     
             this.getWalletBalance(publicKey);
             this.getWalletTransaction(publicKey);
         }

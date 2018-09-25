@@ -28,7 +28,7 @@ export default class SendMoney extends Component {
                 setTimeout(() => {
                     console.log(' api refresh called after timeout : ',data.hash);
                     if(refreshWalletDetail){
-                        refreshWalletDetail(from);
+                        refreshWalletDetail(from, to);
                     }
                 }, 1000)
                 

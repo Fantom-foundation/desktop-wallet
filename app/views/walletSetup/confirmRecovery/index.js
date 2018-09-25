@@ -28,6 +28,11 @@ class ConfirmRecovery extends Component {
 
 
   toggle() {
+    const { isWaiting }=this.props;
+    if(isWaiting){
+      return null;
+    }
+
     this.setState({
       modal: !this.state.modal
     });
@@ -64,7 +69,8 @@ class ConfirmRecovery extends Component {
   renderCancelAccountCreationModal(){
     const { openAccountManagement } = this.props;
     return(
-      <AccountCreationCancelModal toggle={() => this.toggle()} modal={this.state.modal} openAccountManagement={openAccountManagement}/>
+      <AccountCreationCancelModal toggle={() => this.toggle()} 
+        modal={this.state.modal} openAccountManagement={openAccountManagement}/>
     )
   }
 
@@ -81,6 +87,15 @@ class ConfirmRecovery extends Component {
         createWalletColor = 'gray'
        }else{
         createWalletColor =  '#00b1ff'
+       }
+
+       let cancelBtnColor = '#00b1ff';
+       if(isWaiting){
+        cancelBtnColor = 'gray'
+       }else if(this.state.isLocked){
+        cancelBtnColor = '#00b1ff'
+       }else{
+        cancelBtnColor =  '#00b1ff'
        }
 
         return(
@@ -105,21 +120,7 @@ class ConfirmRecovery extends Component {
                               onChange={(e) => this.inputHandler(e)}/>
                             </FormGroup>
                             <center>
-                              {/* <button type='button' 
-                                style={{
-                                    height:'30px',
-                                    width: '150px',
-                                    padding:'0px 32px',
-                                    fontFamily:'SFCompactDisplay',
-                                    fontSize:'15px',
-                                    backgroundColor:`#00b1ff`,
-                                    border:'0px',
-                                    color:'#fff',
-                                    textAlign: 'center',
-                                    cursor: 'pointer',
-                                    marginRight: '50px'
-                                  }} onClick={() => this.toggle()}>Cancel</button>  */}
-                                  
+                              
                                 <button type='button' 
                                   style={{ 
                                     height:'30px',
@@ -128,11 +129,30 @@ class ConfirmRecovery extends Component {
                                     fontFamily:'SFCompactDisplay',
                                     fontSize:'15px',
                                     backgroundColor:`${createWalletColor}`,
-                                    border:'0px',
+                                    border:'0px',outline: '0px',
                                     color:'#fff',
                                     textAlign: 'center',
                                     cursor: 'pointer',
                                   }} onClick={this.onUnlock.bind(this)}>Create Wallet</button>
+                              </center>
+                              {/* <br/> */}
+                              <center>
+                              <button type='button' 
+                                style={{
+                                    width: '150px',
+                                    marginTop: '10px',
+                                    padding:'0px 32px',
+                                    fontFamily:'SFCompactDisplay',
+                                    fontSize:'15px',
+                                    color:`${cancelBtnColor}`,
+                                    outline: '0px',
+                                    backgroundColor: 'white',
+                                    border: '0px',
+                                    textDecoration: 'underline',
+                                    textAlign: 'center',
+                                    cursor: 'pointer',
+                                  }} onClick={() => this.toggle()}>Cancel</button> 
+                                  
                               </center>
                           </Form>
                         </Col>
@@ -145,7 +165,7 @@ class ConfirmRecovery extends Component {
                         isBackActive={true} /> */}
               </div>
             </Col>
-            {/* {this.renderCancelAccountCreationModal()} */}
+            {this.renderCancelAccountCreationModal()}
             
           </Row>
         );
