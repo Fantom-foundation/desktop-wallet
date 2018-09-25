@@ -40,7 +40,8 @@ $formTextColor: #979797;
 }
 .Form-Text {
   font-family: Roboto;
-  font-size: 10.7px;
+  // font-size: 10.7px;
+  font-size: 12px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -71,6 +72,12 @@ $formTextColor: #979797;
       family: Roboto;
       weight: 400;
       size: 15px;
+    }
+  }
+
+  .form-element-backup-field {
+    font: {
+      family: SFCompactDisplay;
     }
   }
 

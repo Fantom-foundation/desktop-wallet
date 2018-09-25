@@ -215,6 +215,7 @@ nav {
   font-size: 15px; }
   .btn.btn-primary {
     background-color: #00b1ff;
+    font-weight: 500;
     border: 0px;
     box-shadow: none !important; }
     .btn.btn-primary:hover {
@@ -508,7 +509,7 @@ strong {
 
 .Form-Text {
   font-family: Roboto;
-  font-size: 10.7px;
+  font-size: 12px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -530,6 +531,8 @@ strong {
     font-family: Roboto;
     font-weight: 400;
     font-size: 15px; }
+  .form-element .form-element-backup-field {
+    font-family: SFCompactDisplay; }
   .form-element .form-element-label {
     font-family: Roboto;
     font-weight: 400; }
@@ -1113,7 +1116,8 @@ select.form-element-field {
 
 .person-info .person-name {
   font-family: Roboto;
-  font-size: 19.04px; }
+  font-size: 19px;
+  font-weight: 400; }
 
 .person-info.large {
   /*--Account section--*/ }
@@ -1152,6 +1156,7 @@ select.form-element-field {
   .person-copy-info div .info-title {
     font-family: SFCompactDisplay;
     font-size: 15.23px;
+    font-weight: 400;
     color: #000; }
   .person-copy-info div.info-description-box {
     position: relative;

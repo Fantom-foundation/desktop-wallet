@@ -10,7 +10,8 @@ $font-family: SFCompactDisplay;
   .person-name {
     font: {
       family: Roboto;
-      size: 19.04px;
+      size: 19px;
+      weight: 400;
     }
   }
   &.large {
@@ -75,6 +76,7 @@ $font-family: SFCompactDisplay;
       font: {
         family: $font-family;
         size: $font-size;
+        weight: 400;
       }
       color: #000;
     }

@@ -122,12 +122,12 @@ class AccountInfo extends Component {
                                         <p className="text mb-0 black-text">Type "I have written down the phrase"  below to confirm it is backed up.</p>
 
                                         <div className="form-element form-input">
-                                            <input id="PasswordHint" className="form-element-field" placeholder="the account recovery phrase." type="text" required=""
+                                            <input id="PasswordHint" className="form-element-field form-element-backup-field" placeholder="the account recovery phrase." type="text" required=""
                                                 onChange={this.confirmPhraseBackup.bind(this)} />
                                             <div className={` ${this.state.errorText === '' ? 'form-element-bar' : 'form-text-line'}`} />
                                             {/* <div className="form-element-bar"></div> */}
                                             {/* <label className="form-element-label" for="PasswordHint">Password hint</label> */}
-                                            {!this.state.isBackupConfirm && <small className="form-element-hint">{this.state.errorText} </small>}
+                                            {!this.state.isBackupConfirm && <span className="form-element-hint form-element-backup-field">{this.state.errorText} </span>}
                                         </div>
                                     </Col>
                                 </Row>
