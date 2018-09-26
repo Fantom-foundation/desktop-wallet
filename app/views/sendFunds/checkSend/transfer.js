@@ -61,6 +61,7 @@ function transferMoneyViaEthereum(from, to, value, memo, privateKey) {
             reject({ success: false, message });
           });
       });
+      return true;
     }).catch((err) => {
       console.log(err, 'err');
       reject({ success: false, message });

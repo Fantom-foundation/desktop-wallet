@@ -29,7 +29,7 @@ class UserAccountsDetailCard extends Component {
                                     </Col>
                                     
                                 </Row>
-                                <TransactionCard transactionData={transactionData} />
+                                <TransactionCard transactionData={transactionData} address={publicKey} />
                             </Col>
                         </Row>
             )

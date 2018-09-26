@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { Button } from 'reactstrap'
 import TextField from './textField';
 
+import TransactionStore from "../../../store/transactionStore";
 import { transferMoney } from './transfer';
+
+
+// const newObj = Store.get(key);
+//                     newObj.primaryAccount = false;
+//                     Store.set(key,newObj);
 
 export default class SendMoney extends Component {
     constructor(props) {
@@ -20,7 +26,7 @@ export default class SendMoney extends Component {
         this.setState({ isLoading: true });
         transferMoney(from, to, value, memo, privateKey).then((data) => {
             if (data.hash && data.hash !== '') {
-                this.setState({ isLoading: false });
+              this.addTransactionLocally(value, from, to, data.hash, false);
                 console.log(`Transfer successful with transaction hash: ${data.hash}`);
                 if(handleModalClose){
                     handleModalClose();
@@ -37,12 +43,34 @@ export default class SendMoney extends Component {
             }
             console.log(`Transfer successful.`)
             
+            return true;
         }).catch((err) => {
             const message = err.message || 'Invalid error. Please check the data and try again.';
             console.log(`Transfer error message: `, message);
+            this.addTransactionLocally(value, from, to, '', true);
             this.setState({ isLoading: false, errorMessage: message });
         });
     };
+
+    addTransactionLocally(amount, from, to, hash, isError) {
+      const data = {
+        type: 'SENT',
+        amount,
+        transactionId: '',
+        time: (new Date()).getTime(),
+        amountUnit: 'FTM',
+        from,
+        to,
+        isError,
+        hash   
+      }
+
+      const key = 'Transactions';
+      const newObj = TransactionStore.get(key);
+      const objArr = newObj || [];
+      objArr.push(data);
+      TransactionStore.set(key, objArr);
+    }
 
     confirmSendFunds() {
         const { publicKey, address, amount, coin, memo, fees, privateKey,  } = this.props;

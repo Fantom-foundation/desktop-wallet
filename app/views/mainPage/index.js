@@ -84,7 +84,7 @@ class MainPage extends Component{
                 keys.forEach((key) => {
                     const newObj = Store.get(key);
                     newObj.primaryAccount = false;
-                    Store.set(key,newObj); 
+                    Store.set(key,newObj);
                 })
             }
             const userStoreData = {

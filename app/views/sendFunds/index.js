@@ -228,6 +228,7 @@ export default class SendFunds extends Component {
                     loading: false,
                 })
              }
+             return true;
         }).catch((err) => {
             this.setState({
                 verificationError: 'Incorrect password.',

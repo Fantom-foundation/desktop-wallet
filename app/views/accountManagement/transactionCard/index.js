@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
 import downArrowIcon from '../../../images/icons/downArrowBlack.svg';
+import TransactionStore from '../../../store/transactionStore';
 
 
 class TransactionCard extends Component {
@@ -13,10 +14,25 @@ class TransactionCard extends Component {
         }
     }
 
+    getTransactionsData() {
+      const key = 'Transactions';
+      const newObj = TransactionStore.get(key);
+      const objArr = newObj || [];
+      const arrToRet = [];
+      const { address } = this.props;
+      for (const transaction of objArr) {
+        if (transaction.to && transaction.from && (transaction.to === address || transaction.from === address)) {
+          arrToRet.push(transaction);
+        }
+      }
+      return arrToRet;
+    }
+
     renderTransactions() {
-        const { transactionData } = this.props;
+        // const { transactionData } = this.props;
         let allTransaction =<center><p className="r-title text-gray mb-2">You have no transactions to display.</p></center> 
-                
+        
+        const transactionData = this.getTransactionsData();
         if (transactionData && transactionData.length && transactionData.length > 0) {
             allTransaction = transactionData.map((data, index) => (
                 <Row key={index} className="bg-gray mt-2">
@@ -26,7 +42,7 @@ class TransactionCard extends Component {
                             <Col className="">
                                 <Row>
                                     <Col ><h4 className="text-ellipsis  w-208"><span>TX# <a href="#">{data.hash}</a></span></h4></Col>
-                                    <Col><h4 className=" text-right text-primary"><span>{moment(data.time, 'X').fromNow()}</span></h4></Col>
+                                    <Col><h4 className=" text-right text-primary"><span>{moment(data.time).fromNow()}</span></h4></Col>
                                 </Row>
                                 <Row>
                                     <Col className="blank-184"><h4 className="text-gray text-ellipsis  w-148"><span >From <a href="#">{data.from}</a></span></h4></Col>
