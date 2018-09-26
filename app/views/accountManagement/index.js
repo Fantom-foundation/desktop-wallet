@@ -548,7 +548,6 @@ class AccountManagement extends Component {
     }
 
     openWalletRecovery(){
-        console.log('2restore wallet')
         const { openWalletRecovery }= this.props;
         if( openWalletRecovery ){
             openWalletRecovery();

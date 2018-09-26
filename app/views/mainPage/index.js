@@ -75,7 +75,6 @@ class MainPage extends Component{
     }
 
     setAmountData(name,identiconsId,address){
-        console.log('setAmountData : ', name,identiconsId,address)
       
         if(address){
             const storeSize = Store.size;
@@ -146,7 +145,6 @@ class MainPage extends Component{
     }
 
     openWalletRecovery(){
-        console.log('3restore wallet')
         this.setState({
             isUnlock: false,
             isWalletRecovery: true,

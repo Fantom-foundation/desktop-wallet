@@ -69,7 +69,6 @@ hangleHeaderClick(){
 }
 
 openWalletRecovery(){
-    console.log('1restore wallet')
     const { openWalletRecovery } = this.props;
     if( openWalletRecovery ){
         openWalletRecovery();
