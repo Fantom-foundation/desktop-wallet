@@ -119,7 +119,10 @@ export default class SendFunds extends Component {
         }
         const isValidDetail = this.handleSendMoney();
         if(isValidDetail ){
-              this.getPrivateKeyOfAddress(publicKey, password);
+            setTimeout(() => {
+                this.getPrivateKeyOfAddress(publicKey, password);
+            }, 10)
+              
         }
     }
 
@@ -348,7 +351,7 @@ export default class SendFunds extends Component {
                                                 <Input type="textarea" name="text" id="exampleText" placeholder="Optional Message" value={optionalMessage} onChange={this.setMessage.bind(this)} />
                                             </FormGroup>
                                             <br/>
-                                            <center><Button color={`${continueBtnColor}`} className="text-uppercase" onClick={this.handleCheckSend.bind(this)}>Continue</Button></center>
+                                           { !loading && <center><Button color={`${continueBtnColor}`} className="text-uppercase" onClick={this.handleCheckSend.bind(this)}>Continue</Button></center>}
 
                                             <span aria-hidden
                                                 className="pointer" style={{
