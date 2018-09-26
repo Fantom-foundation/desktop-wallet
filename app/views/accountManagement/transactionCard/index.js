@@ -23,7 +23,7 @@ class TransactionCard extends Component {
       const arrToRet = [];
       const { address } = this.props;
       for (const transaction of objArr) {
-        if (transaction.to && transaction.from && (transaction.to === address || transaction.from === address)) {
+        if (transaction.to && transaction.from && (transaction.to === address)) {
             if(transaction.from === address){
                 outGoingTransCount =+ 1;
             }
@@ -86,7 +86,7 @@ class TransactionCard extends Component {
             <div>
                 <Row className="bg-gray mt-4">
                     <Col className="pl-5 py-2">
-                        <h2 className="r-title text-gray mb-0"><span>Transactions</span></h2>
+                        <h2 className="r-title text-gray mb-0"><span>Sent Transactions</span></h2>
                     </Col>
                     {/* <Col className="pr-5 py-2 text-right" onClick={this.handleShowTransaction.bind(this)}>
                     <img src={downArrowIcon} alt="Down Arrow " style={{ cursor: 'pointer', height: '16.6px', transition: '1s all', transform: `${transition}` }} />
