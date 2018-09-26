@@ -187,7 +187,8 @@ class AccountManagement extends Component {
                     
                     const { gasPrice } = this.state;
                     const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
-                    const maxFantomBalance = valInEther - gasPriceEther;
+                    let maxFantomBalance = valInEther - gasPriceEther;
+                    maxFantomBalance =  Number(maxFantomBalance).toFixed(4);
                     this.setState({
                         maxFantomBalance,
                     })

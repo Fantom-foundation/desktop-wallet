@@ -33,7 +33,7 @@ class ConfirmRecovery extends Component {
    *    If invalid then error message is displayed.
    */
   isValidSeed(mnemonic) {
-    const mnemonicKey = mnemonic.split(',');
+    const mnemonicKey = mnemonic.split(' ');
     if (mnemonicKey.length === 12) {
       return true;
     }
@@ -41,11 +41,10 @@ class ConfirmRecovery extends Component {
   }
 
   handleRecoverWallet(mnemonic) {
-    console.log('mnemonic : ', mnemonic);
-    mnemonic = mnemonic.replace(/' '/g, '');
+    mnemonic = mnemonic.trim();
     if (!this.isValidSeed(mnemonic)) {
       this.setState({
-        errorText: 'Invalid Credentials!!',
+        errorText: 'Invalid Mnemonics!!',
         isLocked: true,
       });
       return;
@@ -54,7 +53,7 @@ class ConfirmRecovery extends Component {
       errorText: '',
       isLocked: false,
     });
-    mnemonic = mnemonic.replace(/,/g, ' ');
+    console.log('final mnemonic : ', mnemonic);
     const seed = Bip39.mnemonicToSeed(mnemonic); // creates seed buffer
 
     this.walletSetup(seed);
@@ -180,7 +179,7 @@ class ConfirmRecovery extends Component {
                         <Col>
                           <h2 className="title large text-center black-text">Enter Your Mnemonic</h2>
                           <p className="text text-center black-text">Enter your mnemonic to recover your account below.</p>
-                          <p className="text text-center black-text">Please enter comma seprated values and note that it is case sensitive.</p>
+                          <p className="text text-center black-text">Please enter space separated values and note that it is case sensitive.</p>
                         </Col>
                       </Row>
                       <Row>
@@ -191,12 +190,12 @@ class ConfirmRecovery extends Component {
                               onChange={(e) => this.inputHandler(e)}/>
                               {errorText !== '' && <small style={{fontFamily: 'Roboto', fontSize: '14px', color: 'red'}}>{errorText}</small>}
                             </FormGroup>
-                            <center>
+                             <center>
                               
-                                <button type='button' 
+                             {!isWaiting && <button type='button' 
                                   style={{ 
                                     height:'30px',
-                                    width: '150px',
+                                    // width: '150px',
                                     padding:'0px 32px',
                                     fontFamily:'SFCompactDisplay',
                                     fontSize:'15px',
@@ -205,7 +204,22 @@ class ConfirmRecovery extends Component {
                                     color:'#fff',
                                     textAlign: 'center',
                                     cursor: 'pointer',
-                                  }} onClick={this.onUnlock.bind(this)}>Create Wallet</button>
+                                  }} onClick={this.onUnlock.bind(this)}>Recover Wallet</button>}
+                                  
+                              
+                              {isWaiting && <button type='button' 
+                                style={{ 
+                                  height:'30px',
+                                  // width: '150px',
+                                  padding:'0px 32px',
+                                  fontFamily:'SFCompactDisplay',
+                                  fontSize:'15px',
+                                  backgroundColor:`transparent`,
+                                  border:'0px',outline: '0px',
+                                  color:'#fff',
+                                  textAlign: 'center',
+                                  cursor: 'pointer',
+                                }} onClick={this.onUnlock.bind(this)}>Recover Wallet</button>}
                               </center>
                               <center>
                               <button type='button' 
