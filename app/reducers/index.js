@@ -6,6 +6,7 @@ import createAccountReducer from './createAccount/reducer';
 import keyStoreReducer from './keyStore/reducer';
 import keyStoreDetailReducer from './keyStoreDetail/reducer';
 import userAccountReducer from './userDetail/reducer';
+import transactionStoreReducer from './transactionStore/reducer';
 
 import counter from './counter';
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   keyStoreReducer,
   keyStoreDetailReducer,
   userAccountReducer,
+  transactionStoreReducer,
   counter,
   router
 });

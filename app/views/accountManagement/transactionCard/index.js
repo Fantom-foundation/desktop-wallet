@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
+import { connect } from 'react-redux';
 import downArrowIcon from '../../../images/icons/downArrowBlack.svg';
 import TransactionStore from '../../../store/transactionStore';
-
+import * as TransactionStoreAction from '../../../reducers/transactionStore/action';
 
 class TransactionCard extends Component {
     constructor(props){
@@ -15,6 +16,7 @@ class TransactionCard extends Component {
     }
 
     getTransactionsData() {
+        let outGoingTransCount = 0;
       const key = 'Transactions';
       const newObj = TransactionStore.get(key);
       const objArr = newObj || [];
@@ -22,9 +24,15 @@ class TransactionCard extends Component {
       const { address } = this.props;
       for (const transaction of objArr) {
         if (transaction.to && transaction.from && (transaction.to === address || transaction.from === address)) {
+            if(transaction.from === address){
+                outGoingTransCount =+ 1;
+            }
+             
           arrToRet.push(transaction);
         }
       }
+      this.props.storeTransactionCount(outGoingTransCount);
+
       return arrToRet;
     }
 
@@ -33,6 +41,7 @@ class TransactionCard extends Component {
         let allTransaction =<center><p className="r-title text-gray mb-2">You have no transactions to display.</p></center> 
         
         const transactionData = this.getTransactionsData();
+        
         if (transactionData && transactionData.length && transactionData.length > 0) {
             allTransaction = transactionData.map((data, index) => (
                 <Row key={index} className="bg-gray mt-2">
@@ -90,4 +99,15 @@ class TransactionCard extends Component {
     }
 }
 
-export default TransactionCard;
+
+const mapStateToProps = (state) => ({
+  });
+  
+  const mapDispatchToProps = (dispatch) => ({
+    storeTransactionCount: ( transactionCount ) => {
+        dispatch({ type: TransactionStoreAction.TRANSACTION_COUNT, transactionCount });
+    },
+  });
+  
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(TransactionCard);

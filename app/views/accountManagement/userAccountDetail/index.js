@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, } from 'reactstrap';
+import { connect } from 'react-redux';
 
 import Identicons from '../../../general/identicons/identicons';
 import copyImage from '../../../images/icons/copy.svg';
@@ -7,11 +8,14 @@ import { addCommasToNumber } from '../../../general/util/index';
 
 class UserAccountDetail extends Component {
     render() {  
-        const { identiconsId, name, address, transactionLength, copyToClipboard } = this.props;
+        let { identiconsId, name, address, transactionLength, copyToClipboard } = this.props;
         let { balance } = this.props;
 
         if(balance){
             balance = addCommasToNumber(balance);
+        }
+        if(!transactionLength){
+            transactionLength = this.props.transactionCount;
         }
 
         return (
@@ -53,5 +57,9 @@ class UserAccountDetail extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    transactionCount: state.transactionStoreReducer.transactionCount,
+});
 
-export default UserAccountDetail;
+
+export default connect(mapStateToProps, null)(UserAccountDetail);
