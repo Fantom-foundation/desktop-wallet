@@ -30,19 +30,19 @@ class AccountCard extends Component {
                 <div aria-hidden className='account-card-field-overlay' onClick={this.handleSelectedAccount.bind(this)}/>
                 <div className="h-100 bg-gray py-4">
                     <Row style={{cursor: 'pointer'}}>
-                        <Col className="account-logo px-0 pl-3" >
+                        <Col className="account-logo px-0 pl-3" onClick={this.handleSelectedAccount.bind(this)}>
                             <div className="theme-blue-shadow d-inline-block align-top" 
                             style={{ cursor: 'pointer',width: '40px', height: '45px', overflow: 'hidden' }}>
                                 <Identicons id={accountInfo.accountIcon} className="person-image theme-blue-shadow" width={40} size={3} />
                             </div>
                         </Col>
                         <Col className="pl-lg-0 pl-md-3">
-                            <h2 aria-hidden className="black-text" ><span >{accountInfo.name}</span></h2>
+                            <h2 aria-hidden className="black-text" onClick={this.handleSelectedAccount.bind(this)}><span >{accountInfo.name}</span></h2>
                             <p aria-hidden className="account-number text text-primary large mb-0 text-ellipsis" style={{cursor: 'pointer'}} >
                                 <img aria-hidden src={copyImage} 
                                 onClick={this.copyToClipboard.bind(this)} 
                                 alt='copy text' style={{zIndex: 2, position: 'relative' }}/> {' '}
-                                <span aria-hidden >{accountInfo.address}</span></p>
+                                <span aria-hidden onClick={this.handleSelectedAccount.bind(this)}>{accountInfo.address}</span></p>
                         </Col>
                     </Row>
                 </div>

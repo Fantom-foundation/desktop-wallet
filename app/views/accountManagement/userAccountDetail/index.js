@@ -3,12 +3,13 @@ import { Row, Col, } from 'reactstrap';
 import { connect } from 'react-redux';
 
 import Identicons from '../../../general/identicons/identicons';
+import Loader from "../../../general/loader";
 import copyImage from '../../../images/icons/copy.svg';
 import { addCommasToNumber } from '../../../general/util/index';
 
 class UserAccountDetail extends Component {
     render() {  
-        let { identiconsId, name, address, transactionLength, copyToClipboard } = this.props;
+        let { identiconsId, name, address, transactionLength, copyToClipboard, isLoading } = this.props;
         let { balance } = this.props;
 
         if(balance){
@@ -47,7 +48,7 @@ class UserAccountDetail extends Component {
                             </div>
                             <div className="bg-white ftm-block theme-blue-shadow text-center py-2 m-auto ml-lg-0 px-4 inline-block">
                                 {/* <h3 className="text-right pr-4"><span>(1,000\ = 1.00002312FTM)</span></h3> */}
-                                <h2 className="text-center" style={{position: 'relative', transform: 'translateY(50%)'}}><span><strong>{balance ? `${balance}` : '0'} <span className="medium-text">FTM</span></strong></span></h2>
+                                <h2 className="text-center" style={{position: 'relative', transform: 'translateY(50%)'}}><span><strong>{balance ? `${balance}` : '0'} <span className="medium-text">{balance === '-' ? '' : 'FTM'}</span></strong></span></h2>
                             </div>
                         </Col>
                     </Row>

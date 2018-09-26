@@ -76,7 +76,11 @@ class AccountManagement extends Component {
 
 
     componentWillMount(){
+      setTimeout(() => {
         this.getValidAccounts();
+      }, 5000)
+      this.getValidAccounts();
+        
     }
 
 
@@ -409,18 +413,19 @@ class AccountManagement extends Component {
         this.props.updateUserAccountDetail(name, accountIcon, address );
         this.setState({
             isOpenAccountDetail: true,
+            identiconsId: accountIcon,
+            name,
+            publicKey: address,
+            balance: '-',
+            isLoading: true,
         })
         setTimeout(() => {
             if(address){
                 this.getWalletBalance(address);
-                this.getWalletTransaction(address);
+                // this.getWalletTransaction(address);
             }
-            this.setState({
-                identiconsId: accountIcon,
-                name,
-                publicKey: address,
-            }) 
-        }, 100);
+            
+        }, 10);
        
     }
 
@@ -531,7 +536,8 @@ class AccountManagement extends Component {
             <UserAccountsDetailCard 
                 publicKey={publicKey} 
                 identiconsId={identiconsId} name={name}
-                balance={balance}  
+                balance={balance}
+                isLoading={this.state.isLoading}
                 transactionLength={transactionLength}
                 copyToClipboard={this.copyToClipboard.bind(this)}
                 transactionData={transactionData}/>

@@ -23,7 +23,7 @@ class TransactionCard extends Component {
       const arrToRet = [];
       const { address } = this.props;
       for (const transaction of objArr) {
-        if (transaction.to && transaction.from && (transaction.to === address)) {
+        if (transaction.to && transaction.from && (transaction.from === address)) {
             if(transaction.from === address){
                 outGoingTransCount =+ 1;
             }
