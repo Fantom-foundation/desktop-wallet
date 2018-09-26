@@ -101,11 +101,10 @@ strong {
   margin-top: 10px;
 }
 
-.setting-menu{
+.setting-menu {
   left: initial !important;
   right: 0 !important;
-} 
-
+}
 
 .add-wallet-dropdown {
   // position: relative;
@@ -117,39 +116,44 @@ strong {
   position: absolute;
   background-color: #f9f9f9;
   width: 100%;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 8px 12px;
   z-index: 1;
 }
 
-.add-wallet-dropdown-content-field{
+.add-wallet-dropdown-content-field {
   font-size: 16px;
   color: #000;
   padding: 4px;
 }
 
 .add-wallet-dropdown-content-field:hover {
-  color:#3e68ea;
+  color: #3e68ea;
   background-color: #f3ecf4;
   cursor: pointer;
 }
 
 .unlock-loader-holder {
-    top: 65%;
-    padding: 12px 16px;
-    z-index: 1;
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: -47px;
+  top: 65%;
+  padding: 12px 16px;
+  z-index: 1;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: -47px;
 }
 
-.account-card-field-overlay{
+.account-card-field-overlay {
   position: absolute;
   opacity: 0.5;
   top: 0;
   bottom: 0;
-  right: 0; left: 0; display: block; 
+  right: 0;
+  left: 0;
+  display: block;
   z-index: 1;
+}
+.account-card-field-overlay:hover {
+  cursor: pointer;
 }

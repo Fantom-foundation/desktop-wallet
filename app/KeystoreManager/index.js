@@ -114,11 +114,9 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
       getKeystoreDataOfAddress(address).then((result) => {
         if (result.success && result.result) {
           const data = result.result.toString('utf8');
-          setTimeout(() => {
-            const wallet = WalletEther.fromV3(data, password);
+          const wallet = WalletEther.fromV3(data, password);
             const privateKeyBuffer = EthUtil.bufferToHex(wallet.getPrivateKey());
             resolve({ success: true, result: privateKeyBuffer });
-          }, 10);
           
         } else {
           reject(new Error('Unable to read data.'))

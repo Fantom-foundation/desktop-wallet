@@ -121,8 +121,7 @@ export default class SendFunds extends Component {
         if(isValidDetail ){
             setTimeout(() => {
                 this.getPrivateKeyOfAddress(publicKey, password);
-            }, 10)
-              
+            }, 100)
         }
     }
 

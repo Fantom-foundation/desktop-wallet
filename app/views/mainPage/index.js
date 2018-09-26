@@ -130,7 +130,7 @@ class MainPage extends Component{
 
     openAccountManagement(){
         const { address } = this.props;
-        if(address){
+        if(address && address !== ''){
             this.setState({
                 isUnlock: true,
                 isWalletRecovery: false,
