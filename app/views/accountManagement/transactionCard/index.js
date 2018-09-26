@@ -31,9 +31,9 @@ class TransactionCard extends Component {
           arrToRet.push(transaction);
         }
       }
-      this.props.storeTransactionCount(outGoingTransCount);
+      this.props.storeTransactionCount(arrToRet.length);
 
-      return arrToRet;
+      return arrToRet.reverse();
     }
 
     renderTransactions() {
@@ -82,6 +82,7 @@ class TransactionCard extends Component {
         if(isShowTransaction){
             transition = 'scaleY(-1)';
         }
+        console.log(this.props.isLoading, 'this.props.isLoading');
         return (
             <div>
                 <Row className="bg-gray mt-4">

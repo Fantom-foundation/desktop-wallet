@@ -8,7 +8,7 @@ import TransactionCard from '../transactionCard/index';
 class UserAccountsDetailCard extends Component {
     
     render(){
-        const { publicKey, identiconsId, name, balance, transactionLength, copyToClipboard, transactionData } = this.props;
+        const { publicKey, identiconsId, name, balance, transactionLength, copyToClipboard, transactionData, isLoading } = this.props;
         return(
                         <Row >
                             <Col className="px-5 py-4">
@@ -29,7 +29,7 @@ class UserAccountsDetailCard extends Component {
                                     </Col>
                                     
                                 </Row>
-                                <TransactionCard transactionData={transactionData} address={publicKey} />
+                                <TransactionCard isLoading={isLoading} transactionData={transactionData} address={publicKey} />
                             </Col>
                         </Row>
             )

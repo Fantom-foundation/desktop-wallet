@@ -490,12 +490,38 @@ class AccountManagement extends Component {
         this.setState({
             isLoading: true,
         });
+
+        this.forceUpdate();
+        console.log('chehck ckk')
        
         if( publicKey.toLowerCase() === address.toLowerCase() || publicKey.toLowerCase() === to.toLowerCase() ){     
             this.getWalletBalance(publicKey);
             this.getWalletTransaction(publicKey);
         }
     }
+
+
+  //   getTransactionsData() {
+  //     let outGoingTransCount = 0;
+  //   const key = 'Transactions';
+  //   const newObj = TransactionStore.get(key);
+  //   const objArr = newObj || [];
+  //   const arrToRet = [];
+  //   const { address } = this.props;
+  //   for (const transaction of objArr) {
+  //     if (transaction.to && transaction.from && (transaction.from === address)) {
+  //         if(transaction.from === address){
+  //             outGoingTransCount =+ 1;
+  //         }
+           
+  //       arrToRet.push(transaction);
+  //     }
+  //   }
+  //   // this.props.storeTransactionCount(arrToRet.length);
+
+  //   return arrToRet.reverse();
+  // }
+
 
     getWalletDetail(address){
 
