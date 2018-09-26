@@ -12,6 +12,7 @@ body {
     size: cover;
     position: center;
     color: #f5f8fa;
+    attachment: fixed;
   }
 }
 .bg-primary {
@@ -142,4 +143,13 @@ strong {
     left: 50%;
     transform: translateX(-50%);
     margin-top: -47px;
+}
+
+.account-card-field-overlay{
+  position: absolute;
+  opacity: 0.5;
+  top: 0;
+  bottom: 0;
+  right: 0; left: 0; display: block; 
+  z-index: 1;
 }

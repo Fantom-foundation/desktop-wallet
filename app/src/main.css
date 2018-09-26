@@ -235,7 +235,8 @@ body {
   background-image: url(../images/backgrounds/pattern.svg);
   background-size: cover;
   background-position: center;
-  background-color: #f5f8fa; }
+  background-color: #f5f8fa;
+  background-attachment: fixed; }
 
 .bg-primary {
   background-color: #00b1ff !important; }
@@ -338,6 +339,16 @@ strong {
   left: 50%;
   transform: translateX(-50%);
   margin-top: -47px; }
+
+.account-card-field-overlay {
+  position: absolute;
+  opacity: 0.5;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: block;
+  z-index: 1; }
 
 .modal-dialog {
   min-height: calc(100vh - 60px);
