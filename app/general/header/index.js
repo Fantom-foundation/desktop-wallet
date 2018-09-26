@@ -79,7 +79,7 @@ hangleHeaderClick(){
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={isOpen} navbar>
                         <Nav className="ml-auto" navbar>
-                            <NavItem>
+                            {/* <NavItem>
                                 <NavLink href="#">
                                 {isOpenAccountDetail && <div className="theme-blue-shadow d-inline-block align-top" 
                                    style={{ cursor: 'pointer', width: '40px', height: '40px', overflow: 'hidden', borderRadius: '100%',backgroundColor: '#fff' }}
@@ -89,7 +89,7 @@ hangleHeaderClick(){
                                         </div>
                                     </div>}
                                 </NavLink>
-                            </NavItem>
+                            </NavItem> */}
                             <NavItem className="add-wallet-dropdown" >
                                   <Dropdown isOpen={isOpenSetting} toggle={this.handleSettings.bind(this)} className="h-100">
                                     <DropdownToggle className=" ml-3 my-3 px-0 border-0" style={{backgroundColor: 'transparent', boxShadow: 'none'}}>
