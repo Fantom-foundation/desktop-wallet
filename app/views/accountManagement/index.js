@@ -180,10 +180,11 @@ class AccountManagement extends Component {
                 if (responseJson && responseJson.balance) {
                     const balance = scientificToDecimal(responseJson.balance);
                     const valInEther = Web3.utils.fromWei(`${balance}`, 'ether');
+                    const walletBalance =  Number(valInEther).toFixed(4);
                    if(publicKey === address){
                        this.setState({
-                        // balance: Number(valInEther).toFixed(4),
-                        balance: valInEther,
+                        balance: walletBalance,
+                        // balance: valInEther,
                     });
                    }
                     
