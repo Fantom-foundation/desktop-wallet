@@ -51,7 +51,7 @@ class QRCodeIcon extends Component {
         return(
             <div style={{  position: 'relative', display: 'inline-block' }}>
               {this.renderLogo()}
-              <QRCode value={`${address} `} level='H' />
+              <QRCode value={`${address}`} level='H' />
             </div>
         )
     }

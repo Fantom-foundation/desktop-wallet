@@ -3,15 +3,12 @@ import { Container, Row, Col } from 'reactstrap';
 import { clipboard } from 'electron';
 import { connect } from 'react-redux';
 import Web3 from 'web3';
-
 import UserAccountsDetailCard from './userAccountsDetailCard/index';
 
 import arrowLeftRight from '../../images/icons/arrows-left-right.svg';
 import Header from '../../general/header/index';
-import fantomIcon from '../../images/icons/fantom_Icon.png';
 
 import UserAccount from './userAccounts/index';
-import QRCodeIcon from '../../general/qr/index';
 import Store from '../../store/userInfoStore/index';
 import TransactionCard from './transactionCard/index';
 import UserAccountDetail from './userAccountDetail/index';
@@ -549,6 +546,14 @@ class AccountManagement extends Component {
             })
         }
     }
+
+    openWalletRecovery(){
+        console.log('2restore wallet')
+        const { openWalletRecovery }= this.props;
+        if( openWalletRecovery ){
+            openWalletRecovery();
+        }
+    }
     
     render() {
 
@@ -565,6 +570,8 @@ class AccountManagement extends Component {
         return (
             <div>
                 <Header 
+                isWalletSetup isWalletRecover
+                openWalletRecovery={this.openWalletRecovery.bind(this)}
                 handleSettings={this.handleSettings.bind(this)}
                 handleCloseSettings={this.handleCloseSettings.bind(this)}
                 handleUserSettings={this.handleUserSettings.bind(this)}

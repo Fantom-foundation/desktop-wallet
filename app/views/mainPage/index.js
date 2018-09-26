@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import WalletSetup from '../walletSetup/index';
 import AccountManagement from '../accountManagement/index';
+import WalletRecovery from '../walletRecovery/index';
 import Store from '../../store/userInfoStore/index';
 import { savePrivateKey, getValidAccounts } from '../../KeystoreManager/index';
 import Loader from '../../general/loader/index';
@@ -18,6 +19,7 @@ class MainPage extends Component{
         super(props);
         this.state={
             isUnlock: false,
+            isWalletRecovery: false,
             isFetching: true,
             name: '',
             address: '',
@@ -49,6 +51,7 @@ class MainPage extends Component{
     }
     
     onUnlockAccount(isUnlock, privateKey, password){
+        console.log('onUnlockAccount : ', isUnlock, privateKey, password)
       
         this.setState({
             loading: true,
@@ -60,6 +63,7 @@ class MainPage extends Component{
                 this.setState({
                     loading: false,
                     isUnlock,
+                    isWalletRecovery: false,
                 })
             }).catch((err) => {
                 this.setState({
@@ -71,6 +75,7 @@ class MainPage extends Component{
     }
 
     setAmountData(name,identiconsId,address){
+        console.log('setAmountData : ', name,identiconsId,address)
       
         if(address){
             const storeSize = Store.size;
@@ -100,6 +105,7 @@ class MainPage extends Component{
     handleUserSettings(){
         this.setState({
             isUnlock: false,
+            isWalletRecovery: false,
         });
         const accountName = '';
         const password = '';
@@ -128,9 +134,78 @@ class MainPage extends Component{
         if(address){
             this.setState({
                 isUnlock: true,
+                isWalletRecovery: false,
+            })
+        }else{
+            this.setState({
+                isUnlock: false,
+                isWalletRecovery: false,
             })
         }
        
+    }
+
+    openWalletRecovery(){
+        console.log('3restore wallet')
+        this.setState({
+            isUnlock: false,
+            isWalletRecovery: true,
+        });
+
+        const accountName = '';
+        const password = '';
+        const passwordHint = '';
+        const accountIcon = '';
+        this.props.setNewAccountDetail(accountName, password, passwordHint, accountIcon)
+    }
+
+    renderWalletRecovery(){
+        const {  loading  } = this.state;
+        return(
+            <WalletRecovery loading={loading}
+                onUnlockAccount={this.onUnlockAccount.bind(this)} 
+                setAmountData={this.setAmountData.bind(this)}
+                openAccountManagement={this.openAccountManagement.bind(this)}
+                handleUserSettings={this.handleUserSettings.bind(this)} 
+                // openWalletRecovery={this.openWalletRecovery.bind(this)}
+            />
+        )
+    }
+
+    renderWalletSetup(){
+        const {  loading  } = this.state;
+        return(
+            <WalletSetup 
+                loading={loading}
+                onUnlockAccount={this.onUnlockAccount.bind(this)} 
+                setAmountData={this.setAmountData.bind(this)}
+                openAccountManagement={this.openAccountManagement.bind(this)}
+                openWalletRecovery={this.openWalletRecovery.bind(this)}
+            />
+        )
+    }
+
+    renderAccountManagement(){
+        return(
+            <AccountManagement 
+                handleUserSettings={this.handleUserSettings.bind(this)} 
+                setAmountData={this.setAmountData.bind(this)}
+                openWalletRecovery={this.openWalletRecovery.bind(this)}
+            />
+        )
+    }
+
+    renderScreen(){
+        const { isUnlock, loading, isFetching, isWalletRecovery } = this.state;
+         if( !isUnlock && !isWalletRecovery ){
+            return this.renderWalletSetup();
+         }if( isUnlock && !isWalletRecovery ){
+            return this.renderAccountManagement();
+         } if( !isUnlock && isWalletRecovery ){
+             return this.renderWalletRecovery();
+         }
+             return null;
+         
     }
 
 
@@ -141,19 +216,7 @@ class MainPage extends Component{
         }
         return(
                 <div style={{position: 'relative'}}>
-                   
-                   { !isUnlock ? 
-                    <WalletSetup 
-                        loading={loading}
-                        onUnlockAccount={this.onUnlockAccount.bind(this)} 
-                        setAmountData={this.setAmountData.bind(this)}
-                        openAccountManagement={this.openAccountManagement.bind(this)}
-                    />
-                    :
-                    <AccountManagement 
-                    handleUserSettings={this.handleUserSettings.bind(this)} 
-                    setAmountData={this.setAmountData.bind(this)}
-                    />}
+                   {this.renderScreen()}
                     {this.renderLoader()}
                     
                 </div>

@@ -68,9 +68,34 @@ hangleHeaderClick(){
     }
 }
 
+openWalletRecovery(){
+    console.log('1restore wallet')
+    const { openWalletRecovery } = this.props;
+    if( openWalletRecovery ){
+        openWalletRecovery();
+    }
+}
+
+renderAccountSetting(){
+    const { isOpenSetting, isWalletSetup, isWalletRecover } = this.props;
+    return(
+        <Dropdown isOpen={isOpenSetting} toggle={this.handleSettings.bind(this)} className="h-100">
+             <DropdownToggle className=" ml-3 my-3 px-0 border-0" style={{backgroundColor: 'transparent', boxShadow: 'none'}}>
+                <img src={SettingIcon} alt="Setting" style={{ height: '16.6px', }}  />
+             </DropdownToggle>
+             <DropdownMenu className='pt-0 ' right>
+                <div className="add-wallet-dropdown-content" >
+                    {isWalletSetup && <option className="add-wallet-dropdown-content-field" onClick={this.handleUserSettings.bind(this)} >Add Wallet</option>}
+                    {isWalletRecover && <option className="add-wallet-dropdown-content-field" onClick={this.openWalletRecovery.bind(this)} >Restore Wallet</option>}
+                </div>
+             </DropdownMenu>
+        </Dropdown>
+    )
+}
+
     render() {
         const { isOpen } = this.state;
-        const { isOpenSetting, isOpenAccountDetail } = this.props;
+        // const { isOpenAccountDetail } = this.props;
        
         return (
             <Navbar color="dark" dark expand="md" >
@@ -91,17 +116,7 @@ hangleHeaderClick(){
                                 </NavLink>
                             </NavItem> */}
                             <NavItem className="add-wallet-dropdown" >
-                                  <Dropdown isOpen={isOpenSetting} toggle={this.handleSettings.bind(this)} className="h-100">
-                                    <DropdownToggle className=" ml-3 my-3 px-0 border-0" style={{backgroundColor: 'transparent', boxShadow: 'none'}}>
-                                    <img src={SettingIcon} alt="Setting" style={{ height: '16.6px', }} 
-                                        />
-                                    </DropdownToggle>
-                                    <DropdownMenu className='pt-0 ' right>
-                                    <div className="add-wallet-dropdown-content" >
-                                        <option className="add-wallet-dropdown-content-field" onClick={this.handleUserSettings.bind(this)} >ADD NEW WALLET</option>
-                                    </div>
-                                    </DropdownMenu>
-                                </Dropdown>
+                               {this.renderAccountSetting()}
                             </NavItem>
                         </Nav>
                     </Collapse>
