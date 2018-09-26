@@ -15,7 +15,7 @@ class TransactionCard extends Component {
 
     renderTransactions() {
         const { transactionData } = this.props;
-        let allTransaction =<center><p className="r-title text-gray mb-2">You have no transaction to display.</p></center> 
+        let allTransaction =<center><p className="r-title text-gray mb-2">You have no transactions to display.</p></center> 
                 
         if (transactionData && transactionData.length && transactionData.length > 0) {
             allTransaction = transactionData.map((data, index) => (

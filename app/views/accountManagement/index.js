@@ -182,6 +182,7 @@ class AccountManagement extends Component {
                     const valInEther = Web3.utils.fromWei(`${balance}`, 'ether');
                    if(publicKey === address){
                        this.setState({
+                        // balance: Number(valInEther).toFixed(4),
                         balance: valInEther,
                     });
                    }

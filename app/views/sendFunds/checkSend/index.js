@@ -69,7 +69,7 @@ export default class SendMoney extends Component {
                     </div>
                     <div >
                         <TextField
-                            placeHolderText='Price'
+                            placeHolderText='Number of coin'
                             isTextPresent
                             rightTextValue={amount} />
                     </div>

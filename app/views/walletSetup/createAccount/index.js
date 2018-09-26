@@ -184,7 +184,7 @@ class CreateAccount extends Component {
         if (value === '') {
             errorObj.errorText = 'Re-enter password field can\'t be empty';
         } else if (value !== this.state.password) {
-            errorObj.errorText = 'Password and Re-enter password must be same';
+            errorObj.errorText = 'Password and re-enter password fields must be the same.';
         } else {
             errorObj.errorText = '';
         }

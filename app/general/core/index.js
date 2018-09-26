@@ -1,3 +1,11 @@
+/*
+ * Progress : Component for displaying progress bar on wallet creation screen.
+ * 1. This component is meant for showing progress of wallet creation steps.
+ * 2. This component is also meant for showing strength of password for wallet account set by user.
+ * 
+ * Refresh :  To render animated refresh icon button.
+ */
+
 import React from 'react';
 import refreshImage from '../../images/icons/refresh.svg';
 
