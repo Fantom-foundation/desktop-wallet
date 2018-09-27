@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import QRCode from 'qrcode.react';
 
-// import icon from '../../images/Logo/small-logo.svg';
-import icon from '../../images/icons/fantom_logo_TranparentBlackQRIcon.png';
-
+// import icon from '../../images/Logo/small-logo.svg';fantom_logo_transparent.svg fantom_logo_TranparentBlackQRIcon.png
+// import icon from '../../images/icons/fantom_logo_TranparentBlackQRIcon.png';
+import FantomLogo from '../fantomLogo/index';
 
 
 class QRCodeIcon extends Component {
@@ -39,8 +39,12 @@ class QRCodeIcon extends Component {
                       position: 'absolute',
                       top: '50%', 
                       left: '50%', 
-                      transform: 'translate(-50%, -50%)'}}>
-                        <img src={icon} height={20} />
+                      transform: 'translate(-50%, -50%)',
+                      width: '128px'
+                    }}
+                     >
+                        {/* <img src={icon} height={20} /> */}
+                        <FantomLogo logoType={2}/>
                       </p>
           )
         }
@@ -51,7 +55,7 @@ class QRCodeIcon extends Component {
         return(
             <div style={{  position: 'relative', display: 'inline-block' }}>
               {this.renderLogo()}
-              <QRCode value={`${address}`} level='H' />
+              <QRCode value={`${address}`} level='H' size={158}/>
             </div>
         )
     }

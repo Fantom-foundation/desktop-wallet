@@ -38,7 +38,7 @@ class TransactionCard extends Component {
 
     renderTransactions() {
         // const { transactionData } = this.props;
-        let allTransaction =<center><p className="r-title text-gray mb-2">You have no transactions to display.</p></center> 
+        let allTransaction =<center><p className="r-title text-gray mb-2">(Your recent sent transactions will be displayed here)</p></center> 
         
         const transactionData = this.getTransactionsData();
         
