@@ -1,7 +1,11 @@
 import React,{Component} from 'react';
 import { Row, Col } from 'reactstrap';
 
-export default class accountFooter extends Component{
+/**
+ * AccountFooter :  This component is meant for rendering text and other features on footer of wallet setup screen.
+ */
+
+export default class AccountFooter extends Component{
     render()
     {
         return (

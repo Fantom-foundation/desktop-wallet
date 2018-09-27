@@ -8,6 +8,10 @@ import NotificationIcon from '../../images/icons/notification_red.png';
 import downArrowIcon from '../../images/icons/downArrowWhite.svg';
 import Identicons from '../identicons/identicons';
 
+/**
+ * Header : This component is meant for rendering header bar in application.
+ */
+
 export default class Header extends Component {
     constructor(props) {
         super(props);
@@ -18,6 +22,9 @@ export default class Header extends Component {
         };
     }
 
+    /**
+     * toggle() :  To handle toggle settings of header bar, when screen size decreases, i.e. toggle header on click on Burger icon. 
+     */
     toggle() {
         const { isOpen } = this.state;
         this.setState({
@@ -25,6 +32,7 @@ export default class Header extends Component {
         })
     }
 
+    
     handleSettings(){
         const { handleSettings, isOpenAccountDetail } = this.props;
         // if(isOpenAccountDetail === false){

@@ -44,7 +44,8 @@ class UserAccountDetail extends Component {
                         <Col>
                             <div className="">
                                 <p className="text large text-gray mb-0"/>
-                                <p className="text large text-gray mb-5">{transactionLength} Outgoing transactions</p>
+                                <p className="text  text-gray " style={{fontSize: '15px', marginBottom: '6px'}}>Ledger {name}</p>
+                                <p className="text  text-gray mb-5" style={{fontSize: '15px'}}>{transactionLength} Outgoing transactions</p>
                             </div>
                             <div className="bg-white ftm-block theme-blue-shadow text-center py-2 m-auto ml-lg-0 px-4 inline-block">
                                 {/* <h3 className="text-right pr-4"><span>(1,000\ = 1.00002312FTM)</span></h3> */}

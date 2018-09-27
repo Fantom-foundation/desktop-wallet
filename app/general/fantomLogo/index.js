@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+/**
+ * FantomLogo : A svg file for rendering fantom logo in application.
+ * 
+ * logoType: For small icon pass {2} as props, for larger one pass {1}.
+ * 
+ */
 
 class FantomLogo extends Component {
 

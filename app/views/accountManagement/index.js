@@ -76,7 +76,7 @@ class AccountManagement extends Component {
 
 
     componentWillMount(){
-      setTimeout(() => {
+      setInterval(() => {
         this.getValidAccounts();
       }, 5000)
       this.getValidAccounts();

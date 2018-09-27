@@ -3,6 +3,15 @@ import arrowLeft from '../../images/icons/arrow-left.svg';
 import arrowRight from '../../images/icons/arrow-right.svg';
 import cross from '../../images/icons/cross.svg';
 
+/**
+ * FooterButtons :  This component is meant for rendering Buttons on footer of each screen of wallet setup.
+ * 
+ * onNext() : Trigger event to move to next screen , when clicked on 'Next' button. This button is clickable only if it is 'Active'.
+ * onBack() : Trigger event to move to previous screen, when clicked on 'Back' button. This button is clickable only if it is 'Active'.
+ * onClose() : Trigger event to close the screen, when clicked on 'Close' button. This button is clickable only if it is 'Active'.
+ * 
+ */
+
 export default class FooterButtons extends Component {
 
   onNext(event, isActive){
