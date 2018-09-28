@@ -27,7 +27,6 @@ export default class SendFunds extends Component {
       accountType: this.props.accountName,
       ftmAmount: '',
       optionalMessage: '',
-      totalFees: 0.402926,
       isCheckSend: false,
       isValidAddress: false,
       accountStore: [],
@@ -254,7 +253,7 @@ export default class SendFunds extends Component {
         }
         return true;
       })
-      .catch(err => {
+      .catch(() => {
         this.setState({
           verificationError: 'Incorrect password.',
           privateKey: '',

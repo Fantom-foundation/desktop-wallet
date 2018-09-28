@@ -26,7 +26,11 @@
     "no-return-assign": "off",
     "no-useless-escape": "off",
     "react/no-unescaped-entities": "off",
+    "prefer-destructuring": "off",
+    "prefer-promise-reject-errors": "off",
     "react/destructuring-assignment": "off",
+    "import/prefer-default-export": "off",
+    "no-restricted-globals": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "flowtype/boolean-style": [
