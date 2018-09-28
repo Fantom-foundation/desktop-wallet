@@ -22,7 +22,6 @@ class ConfirmRecovery extends Component {
       mnemonicPhrase: '',
       isLocked : true,
       modal: false,
-      mnemonic: '',
       errorText: '',
     });
     this.toggle = this.toggle.bind(this);
@@ -41,8 +40,8 @@ class ConfirmRecovery extends Component {
   }
 
   handleRecoverWallet(mnemonic) {
-    mnemonic = mnemonic.trim();
-    if (!this.isValidSeed(mnemonic)) {
+    const newMnemonic = mnemonic.trim();
+    if (!this.isValidSeed(newMnemonic)) {
       this.setState({
         errorText: 'Invalid Mnemonics!!',
         isLocked: true,
@@ -53,8 +52,8 @@ class ConfirmRecovery extends Component {
       errorText: '',
       isLocked: false,
     });
-    console.log('final mnemonic : ', mnemonic);
-    const seed = Bip39.mnemonicToSeed(mnemonic); // creates seed buffer
+    console.log('final mnemonic : ', newMnemonic);
+    const seed = Bip39.mnemonicToSeed(newMnemonic); // creates seed buffer
 
     this.walletSetup(seed);
   }
@@ -74,10 +73,6 @@ class ConfirmRecovery extends Component {
     const hexPrivateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
     this.props.setKeys(masterPrivateKey, address, hexPrivateKey);
 
-    this.setState({
-      address,
-      privateKey: hexPrivateKey
-  });
 
   const { onUnlockAccount, password} = this.props; 
   if(onUnlockAccount){
