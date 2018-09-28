@@ -11,10 +11,8 @@ import Header from '../../general/header/index';
 
 import UserAccount from './userAccounts/index';
 import Store from '../../store/userInfoStore/index';
-import TransactionCard from './transactionCard/index';
-import UserAccountDetail from './userAccountDetail/index';
 import SendFunds from '../sendFunds/index';
-import { savePrivateKey, getValidAccounts } from '../../KeystoreManager/index';
+import getValidAccounts from '../../KeystoreManager/index';
 
 import * as KeyStoreAction from '../../reducers/keyStore/action';
 import * as KeyStoreDetailAction from '../../reducers/keyStoreDetail/action';
@@ -71,7 +69,7 @@ class AccountManagement extends Component {
  * getIntialUserAccountDetail() : To load initial account info to state, if there already some account is present .
  */
     getIntialUserAccountDetail(){
-        const {publicKey, accountName, accountIcon} = this.props;
+        const {publicKey, accountName, accountIcon, updateUserAccountDetail, updateKeyStore} = this.props;
         return({publicKey, accountName, accountIcon});
     }
 
@@ -81,9 +79,11 @@ class AccountManagement extends Component {
      * And then call the balance and transaction apis for that selected accounts.
      */
     getValidAccounts(){
+       const {updateUserAccountDetail, updateKeyStore} = this.props;
         getValidAccounts().then((storeKeys) => {
             if(storeKeys.success){
                 const {result} = storeKeys;
+                const { updateUserAccountDetail, updateKeyStore} = this.props;
                 const userAccountDetail =  this.getUserAccountDetail(result);
                 const { accountIcon, name, address} = userAccountDetail;
                 this.setState({
@@ -92,19 +92,19 @@ class AccountManagement extends Component {
                     name,
                     publicKey: address,
                 });
-                this.props.updateUserAccountDetail(name, accountIcon, address )
-                this.props.updateKeyStore(result);
+                updateUserAccountDetail(name, accountIcon, address )
+                updateKeyStore(result);
 
                 const storeSize = result.length;
                 if(storeSize > 0){     
                     this.getWalletBalance(address);
-                    this.getWalletTransaction(address);
+                    // this.getWalletTransaction(address);
                 }
 
                 return storeKeys.result;
             }
                 return [];
-        }).catch((err)=>[])
+        }).catch(()=>[])
     }
 
     /**
@@ -222,22 +222,16 @@ class AccountManagement extends Component {
      * @param {String} address : address to fetch transactions.
      */
     getFantomTransactionsFromApiAsync(address) {
-        console.log('inside getFantomTransactionsFromApiAsync ')
-        const dummyAddress = '0x68a07a9dc6ff0052e42f4e7afa117e90fb896eda168211f040da69606a2aeddc';
-        console.log('inside getFantomTransactionsFromApiAsync dummyAddress', dummyAddress)
-        fetch(`${configHelper.apiUrl  }/transaction/${  dummyAddress}`)
-    
-            // fetch(configHelper.apiUrl+'/transactions/'+ dummyAddress)
+        // console.log('inside getFantomTransactionsFromApiAsync ')
+        // const dummyAddress = '0x68a07a9dc6ff0052e42f4e7afa117e90fb896eda168211f040da69606a2aeddc';
+        // console.log('inside getFantomTransactionsFromApiAsync dummyAddress', dummyAddress)
+        fetch(`${configHelper.apiUrl  }/transaction/${  address}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log('inside getFantomTransactionsFromApiAsync responseJson : ', responseJson)
        
                 console.log('from fantom own wallet , transaction response : ', responseJson);
-                // if (responseJson && responseJson.result && responseJson.result.length) {
-                if (responseJson) {
-                    // this.loadFantomTransactionData(responseJson.result);
-                    // this.loadFantomTransactionData(responseJson);
-                } else {
+                if (responseJson) {} else {
                     this.setState({
                         isLoading: false,
                         animateRefreshIcon: false,
@@ -495,7 +489,7 @@ class AccountManagement extends Component {
 
         if(publicKey){     
             this.getWalletBalance(publicKey);
-            this.getWalletTransaction(publicKey);
+            // this.getWalletTransaction(publicKey);
         }
     }
 
@@ -516,41 +510,15 @@ class AccountManagement extends Component {
        
         if( publicKey.toLowerCase() === address.toLowerCase() || publicKey.toLowerCase() === to.toLowerCase() ){     
             this.getWalletBalance(publicKey);
-            this.getWalletTransaction(publicKey);
+            // this.getWalletTransaction(publicKey);
         }
     }
 
-
-  //   getTransactionsData() {
-  //     let outGoingTransCount = 0;
-  //   const key = 'Transactions';
-  //   const newObj = TransactionStore.get(key);
-  //   const objArr = newObj || [];
-  //   const arrToRet = [];
-  //   const { address } = this.props;
-  //   for (const transaction of objArr) {
-  //     if (transaction.to && transaction.from && (transaction.from === address)) {
-  //         if(transaction.from === address){
-  //             outGoingTransCount =+ 1;
-  //         }
-           
-  //       arrToRet.push(transaction);
-  //     }
-  //   }
-  //   // this.props.storeTransactionCount(arrToRet.length);
-
-  //   return arrToRet.reverse();
-  // }
-
-/**
- * getWalletDetail: To fetch account balance for address selected in account type in send funds modal.
- * @param {*} address 
- */
     getWalletDetail(address){
 
         if(address){
             this.getWalletBalance(address);
-            this.getWalletTransaction(address);
+            // this.getWalletTransaction(address);
         }
 
     }

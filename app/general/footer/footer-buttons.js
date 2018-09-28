@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import PropTypes from 'prop-types';
 import arrowLeft from '../../images/icons/arrow-left.svg';
 import arrowRight from '../../images/icons/arrow-right.svg';
 import cross from '../../images/icons/cross.svg';
@@ -59,3 +60,11 @@ export default class FooterButtons extends Component {
    );
  }
 }
+FooterButtons.propTypes = {
+  isCloseActive: PropTypes.bool,
+  isBackActive: PropTypes.bool,
+  isNextActive: PropTypes.bool,
+  onNext: PropTypes.func,
+  onClose: PropTypes.func,
+  onBack: PropTypes.func,
+   };

@@ -97,7 +97,6 @@ class Home extends Component {
                 handleUserSettings={this.handleUserSettings.bind(this)}
                 openAccountManagement={() => this.openAccountManagement()} 
                 openAccount={() => this.openAccountManagement()}
-                isWalletSetup
                 handleSettings={this.handleSettings.bind(this)}
                 isOpenSetting={isOpenSetting}
                 />

@@ -7,27 +7,39 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import refreshImage from '../../images/icons/refresh.svg';
 
 export const Progress = (props) => {
     let barWidth = 0;
-    if (props.type === 'strong-password-bar') { barWidth = props.value + '%'; }
-    if (props.type === 'theme-blue') { barWidth = props.value + '%'; }
-    if (props.type === 'theme-red-Yellow-green') {
+    const { type, value, className } = props;
+    if (type === 'strong-password-bar') { barWidth = `${value}%`; }
+    if (type === 'theme-blue') { barWidth = `${value}%`; }
+    if (type === 'theme-red-Yellow-green') {
         barWidth = 100 - props.value;
-        barWidth = barWidth + '%';
+        barWidth += '%';
     }
     return (
-        <div className={`cs-progress ${props.className} ${props.type}`}>
-            <div className="bar" style={{ width: barWidth, }} ></div>
+        <div className={`cs-progress ${className} ${type}`}>
+            <div className="bar" style={{ width: barWidth, }}  />
         </div>
     );
 }
 
 export const Refresh = (props) => {
+    const { className, animated } = props;
 return(
-    <div className={props.className}>
-        <img src={refreshImage} className={`${props.animated &&  'rotation anti-clock'}`} />
+    <div className={className}>
+        <img src={refreshImage} className={`${animated &&  'rotation anti-clock'}`} alt=""/>
     </div>
 );
 }
+Progress.propTypes = {
+ value: PropTypes.number,
+ type: PropTypes.string,
+ className: PropTypes.string,
+  };
+  Refresh.propTypes = {
+    animated: PropTypes.string,
+    className: PropTypes.string,
+     };

@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Container, Input,
-    Dropdown, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, Container,
+    Dropdown, DropdownToggle, DropdownMenu  } from 'reactstrap';
 import Logo from '../../images/Logo/logo.png';
 import SettingIcon from '../../images/icons/setting.svg';
-import NotificationIcon from '../../images/icons/notification_red.png';
-import downArrowIcon from '../../images/icons/downArrowWhite.svg';
-import Identicons from '../identicons/identicons';
 
 /**
  * Header : This component is meant for rendering header bar in application.
@@ -37,9 +34,6 @@ export default class Header extends Component {
      */
     handleSettings(){
         const { handleSettings, isOpenAccountDetail } = this.props;
-        // if(isOpenAccountDetail === false){
-        //     return null;
-        // }
         if(handleSettings){
             handleSettings();
         }
@@ -122,9 +116,7 @@ renderAccountSetting(){
 }
 
     render() {
-        const { isOpen } = this.state;
-        // const { isOpenAccountDetail } = this.props;
-       
+        const { isOpen } = this.state; 
         return (
             <Navbar color="dark" dark expand="md" >
                 <Container>
@@ -132,17 +124,6 @@ renderAccountSetting(){
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={isOpen} navbar>
                         <Nav className="ml-auto" navbar>
-                            {/* <NavItem>
-                                <NavLink href="#">
-                                {isOpenAccountDetail && <div className="theme-blue-shadow d-inline-block align-top" 
-                                   style={{ cursor: 'pointer', width: '40px', height: '40px', overflow: 'hidden', borderRadius: '100%',backgroundColor: '#fff' }}
-                                   onClick={() => this.openAccount()}>
-                                        <div style={{transform: 'translate(20%, 3%)', height: '100px'}}>
-                                        <Identicons id={this.props.accountIcon} className="person-image theme-blue-shadow" width={26} size={3}/>
-                                        </div>
-                                    </div>}
-                                </NavLink>
-                            </NavItem> */}
                             <NavItem className="add-wallet-dropdown" >
                                {this.renderAccountSetting()}
                             </NavItem>

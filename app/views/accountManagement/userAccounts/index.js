@@ -14,7 +14,7 @@ class UserAccounts extends Component {
         super(props);
         this.state = {
             userAccountStore: Store.store,
-            storeKeys: this.props.storeKeys,
+            storeKeys: props.storeKeys,
         }
     }
 
@@ -31,6 +31,7 @@ class UserAccounts extends Component {
 
     renderAccountCard() {
          const { userAccountStore, storeKeys } = this.state ;
+         const { handleSelectedAccount, copyToClipboard } = this.props ;
         let account = '';
         const accountList = [];
         if (storeKeys) {
@@ -39,8 +40,8 @@ class UserAccounts extends Component {
                     account = <AccountCard
                         key={`${key}`}
                         accountInfo={userAccountStore[key]}
-                        handleSelectedAccount={this.props.handleSelectedAccount}
-                        copyToClipboard={this.props.copyToClipboard} />
+                        handleSelectedAccount={handleSelectedAccount}
+                        copyToClipboard={copyToClipboard} />
 
                     accountList.push(account);
                 // }

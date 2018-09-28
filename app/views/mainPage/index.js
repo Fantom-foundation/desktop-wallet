@@ -5,7 +5,7 @@ import WalletSetup from '../walletSetup/index';
 import AccountManagement from '../accountManagement/index';
 import WalletRecovery from '../walletRecovery/index';
 import Store from '../../store/userInfoStore/index';
-import { savePrivateKey, getValidAccounts } from '../../KeystoreManager/index';
+import { savePrivateKey, getValidAccounts }  from '../../KeystoreManager/index';
 import Loader from '../../general/loader/index';
 
 import * as KeyStoreAction from '../../reducers/keyStore/action';
@@ -23,11 +23,7 @@ class MainPage extends Component{
             isUnlock: false,
             isWalletRecovery: false,
             isFetching: true,
-            name: '',
-            address: '',
-            storeKeys: [],
             loading: false,
-            accounts: [],
         }
     }
 
@@ -47,7 +43,7 @@ class MainPage extends Component{
           isFetching: false,
           isUnlock: false,
         })
-      }).catch(err => {
+      }).catch(() => {
         this.setState({
           isFetching: false,
           isUnlock: false,
@@ -70,13 +66,13 @@ class MainPage extends Component{
 
         setTimeout(() => {
 
-            savePrivateKey(privateKey, password).then((res) => {
+            savePrivateKey(privateKey, password).then(() => {
                 this.setState({
                     loading: false,
                     isUnlock,
                     isWalletRecovery: false,
                 })
-            }).catch((err) => {
+            }).catch(() => {
                 this.setState({
                     loading: false,
                 })
@@ -92,6 +88,7 @@ class MainPage extends Component{
      * @param {string} address : Public key.
      */
     setAmountData(name,identiconsId,address){
+        const { updateUserAccountDetail } = this.props;
       
         if(address){
             const storeSize = Store.size;
@@ -109,7 +106,7 @@ class MainPage extends Component{
                 'primaryAccount': true,
                 'accountIcon': identiconsId,
             };
-            this.props.updateUserAccountDetail(name, identiconsId, address );
+            updateUserAccountDetail(name, identiconsId, address );
             // this.props.updateKeyStoreDetail(userStoreData);
             Store.set( address, userStoreData );
             // Store.openInEditor();
@@ -122,6 +119,7 @@ class MainPage extends Component{
      * for adding new wallet.
      */
     handleUserSettings(){
+        const { setNewAccountDetail } = this.props;
         this.setState({
             isUnlock: false,
             isWalletRecovery: false,
@@ -130,7 +128,7 @@ class MainPage extends Component{
         const password = '';
         const passwordHint = '';
         const accountIcon = '';
-        this.props.setNewAccountDetail(accountName, password, passwordHint, accountIcon)
+        setNewAccountDetail(accountName, password, passwordHint, accountIcon)
     }
 
     /**
@@ -176,6 +174,7 @@ class MainPage extends Component{
      * for recovering wallet.
      */
     openWalletRecovery(){
+        const { setNewAccountDetail } = this.props;
         this.setState({
             isUnlock: false,
             isWalletRecovery: true,
@@ -185,7 +184,7 @@ class MainPage extends Component{
         const password = '';
         const passwordHint = '';
         const accountIcon = '';
-        this.props.setNewAccountDetail(accountName, password, passwordHint, accountIcon)
+        setNewAccountDetail(accountName, password, passwordHint, accountIcon)
     }
 
     renderWalletRecovery(){
@@ -225,7 +224,7 @@ class MainPage extends Component{
     }
 
     renderScreen(){
-        const { isUnlock, loading, isFetching, isWalletRecovery } = this.state;
+        const { isUnlock, isWalletRecovery } = this.state;
          if( !isUnlock && !isWalletRecovery ){
             return this.renderWalletSetup();
          }if( isUnlock && !isWalletRecovery ){
@@ -239,7 +238,7 @@ class MainPage extends Component{
 
 
     render(){
-        const { isUnlock, loading, isFetching } = this.state;
+        const { isFetching } = this.state;
         if (isFetching) {
           return null;
         }

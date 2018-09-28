@@ -11,7 +11,6 @@ import Store from '../../../store/userInfoStore/index';
 
 import { Progress } from '../../../general/core/index';
 import FooterButtons from '../../../general/footer/footer-buttons';
-import AccountFooter from '../../../general/footer/account-footer';
 import DisplayIdenticons from '../../../general/identicons/index';
 
 import * as CreateAccountAction from '../../../reducers/createAccount/action';
@@ -180,10 +179,11 @@ class CreateAccount extends Component {
     }
 
     validRepass = (value) => {
+        const { password } = this.state;
         const errorObj = {};
         if (value === '') {
             errorObj.errorText = 'Re-enter password field can\'t be empty';
-        } else if (value !== this.state.password) {
+        } else if (value !== password) {
             errorObj.errorText = 'Password and re-enter password fields must be the same.';
         } else {
             errorObj.errorText = '';
@@ -277,13 +277,13 @@ renderPasswordStrengthBar(){
 // }
       
     render() {
-         const {activeTab}=this.props;
+         const { activeTab, date}=this.props;
         if(activeTab !== '1'){
             return null;
         }
       
         const {emailErrorText, passwordErrorText, confirmPasswordErrorText,
-             accountName, accountIcon, password, passwordHint, confirmPassword, identiconsId} = this.state;
+             accountName, password, passwordHint, confirmPassword, animateRefreshIcon, identiconsId} = this.state;
         return (
             <Row>
                 <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
@@ -339,9 +339,9 @@ renderPasswordStrengthBar(){
                             </Col>
                         </Row>
                         <DisplayIdenticons
-                        animateRefreshIcon={this.state.animateRefreshIcon} 
-                        date={this.props.date} 
-                        identiconsId={this.state.identiconsId} 
+                        animateRefreshIcon={animateRefreshIcon} 
+                        date={date} 
+                        identiconsId={identiconsId} 
                         onRefresh={this.onRefresh.bind(this)}
                         getRadioIconData={this.getRadioIconData.bind(this)} />
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import downArrowIcon from '../../../images/icons/downArrowBlack.svg';
 import TransactionStore from '../../../store/transactionStore';
 import * as TransactionStoreAction from '../../../reducers/transactionStore/action';
 
@@ -26,22 +25,22 @@ class TransactionCard extends Component {
      */
 
     getTransactionsData() {
-      let outGoingTransCount = 0;
+        // let outGoingTransCount = 0;
       const key = 'Transactions';
       const newObj = TransactionStore.get(key);
       const objArr = newObj || [];
       const arrToRet = [];
-      const { address } = this.props;
+      const { address, storeTransactionCount } = this.props;
       for (const transaction of objArr) {
         if (transaction.to && transaction.from && (transaction.from === address)) {
-            if(transaction.from === address){
-                outGoingTransCount =+ 1;
-            }
+            // if(transaction.from === address){
+            //     outGoingTransCount =+ 1;
+            // }
              
           arrToRet.push(transaction);
         }
       }
-      this.props.storeTransactionCount(arrToRet.length);
+      storeTransactionCount(arrToRet.length);
 
       return arrToRet.reverse();
     }
@@ -90,12 +89,11 @@ class TransactionCard extends Component {
     }
 
     render() {
-        const { isShowTransaction } = this.state;
-        let transition ='scaleY(1)';
-        if(isShowTransaction){
-            transition = 'scaleY(-1)';
-        }
-        console.log(this.props.isLoading, 'this.props.isLoading');
+        // const { isShowTransaction } = this.state;
+        // let transition ='scaleY(1)';
+        // if(isShowTransaction){
+        //     transition = 'scaleY(-1)';
+        // }
         return (
             <div>
                 <Row className="bg-gray mt-4">
@@ -114,7 +112,7 @@ class TransactionCard extends Component {
 }
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = () => ({
   });
   
   const mapDispatchToProps = (dispatch) => ({

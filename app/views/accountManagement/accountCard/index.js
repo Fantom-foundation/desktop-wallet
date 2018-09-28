@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Row } from 'reactstrap';
-
+import PropTypes from 'prop-types';
 import copyImage from '../../../images/icons/copy.svg';
 import Identicons from '../../../general/identicons/identicons';
 

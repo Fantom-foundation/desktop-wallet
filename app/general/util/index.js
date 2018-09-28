@@ -2,6 +2,7 @@
  * addCommasToNumber: A function to add commas to number, for getting comma seprated number.
  * @param {*} nStr : Number to be formatted. 
  */
+/*eslint-disable */
 export const addCommasToNumber = (nStr) => {
     nStr += '';
     const x = nStr.split('.');
