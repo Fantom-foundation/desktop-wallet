@@ -20,6 +20,7 @@ import * as UserAccountAction from '../../reducers/userDetail/action';
 import config from '../../store/config/index';
 import refreshIcon from '../../images/icons/refreshIcon_2.svg';
 import { scientificToDecimal } from '../../general/util/index';
+
 const configHelper = config();
 
 /**
@@ -69,7 +70,7 @@ class AccountManagement extends Component {
  * getIntialUserAccountDetail() : To load initial account info to state, if there already some account is present .
  */
     getIntialUserAccountDetail(){
-        const {publicKey, accountName, accountIcon, updateUserAccountDetail, updateKeyStore} = this.props;
+        const {publicKey, accountName, accountIcon} = this.props;
         return({publicKey, accountName, accountIcon});
     }
 
@@ -79,7 +80,6 @@ class AccountManagement extends Component {
      * And then call the balance and transaction apis for that selected accounts.
      */
     getValidAccounts(){
-       const {updateUserAccountDetail, updateKeyStore} = this.props;
         getValidAccounts().then((storeKeys) => {
             if(storeKeys.success){
                 const {result} = storeKeys;
@@ -145,7 +145,7 @@ class AccountManagement extends Component {
      * @param {*} address : Public key of account.
      * Based on value of 'configHelper.isEthereumMode'  , transactions can be get from 'testNet' for 'etherNet'.
      */
-    getWalletTransaction(address) {
+    getWalletTransaction() {
         // if (configHelper.isEthereumMode) {
         //     this.getEtherTransactionsFromApiAsync(address);
         // } else {
@@ -202,7 +202,7 @@ class AccountManagement extends Component {
 
                 return responseJson;
             })
-            .catch((error) => {
+            .catch(() => {
                 this.setState({
                     maxFantomBalance: 0,
                 })
@@ -231,15 +231,13 @@ class AccountManagement extends Component {
                 console.log('inside getFantomTransactionsFromApiAsync responseJson : ', responseJson)
        
                 console.log('from fantom own wallet , transaction response : ', responseJson);
-                if (responseJson) {} else {
                     this.setState({
                         isLoading: false,
                         animateRefreshIcon: false,
                     });
-                }
                 return responseJson;
             })
-            .catch((error) => {
+            .catch(() => {
                 this.setState({
                     isLoading: false,
                     animateRefreshIcon: false
@@ -260,13 +258,13 @@ class AccountManagement extends Component {
         // for (let data of result) {
         const data = result;
         if (publicKey === data.from.toLowerCase()) {
-            type = SENT;
+            type = 'SENT';
             transactionId = data.to;
         } else if (publicKey === data.to.toLowerCase()) {
-            type = RECEIVED;
+            type = 'RECEIVED';
             transactionId = data.from;
         }
-        transactionStatus = (data.failed === false) ? SUCCESS : FAILED;
+        const transactionStatus = (data.failed === false) ? 'SUCCESS' : "FAILED";
         if (publicKey === data.from || publicKey === data.to) {
             const value = data.value || '0';
             const valInEther = Web3.utils.fromWei(value, 'ether');
@@ -297,7 +295,7 @@ class AccountManagement extends Component {
      * getEtherBalanceFromApiAsync() :  Api to fetch Ether wallet balance for given address.
      * @param { String } address : address to fetch wallet balance.
      */
-    async getEtherBalanceFromApiAsync(address) {
+    async getEtherBalanceFromApiAsync() {
        const dummyAddress = '0x4d8868F7d7581d770735821bb0c83137Ceaf18FD';
         return fetch(`https://api-ropsten.etherscan.io/api?module=account&action=balance&address=${  dummyAddress  }&tag=latest&apikey=WQ1D9TBEG4IWFNGZSX3YP4QKXUI1CVAUBP`)
             .then((response) => response.json())
@@ -320,7 +318,7 @@ class AccountManagement extends Component {
      * getEtherTransactionsFromApiAsync():  Api to fetch transactions for given address.
      * @param {String} address : address to fetch transactions.
      */
-    getEtherTransactionsFromApiAsync(address) {
+    getEtherTransactionsFromApiAsync() {
         const dummyAddress = '0x4d8868F7d7581d770735821bb0c83137Ceaf18FD';
         fetch(`http://api-ropsten.etherscan.io/api?module=account&action=txlist&address=${  dummyAddress  }&startblock=0&endblock=99999999&sort=asc&apikey=WQ1D9TBEG4IWFNGZSX3YP4QKXUI1CVAUBP`)
             .then((response) => response.json())
@@ -335,7 +333,7 @@ class AccountManagement extends Component {
                 }
                 return responseJson;
             })
-            .catch((error) => {
+            .catch(() => {
                 this.setState({
                     isLoading: false,
                     animateRefreshIcon: false,
@@ -394,7 +392,7 @@ class AccountManagement extends Component {
  */
     handleSelectedAccount(address){
         const selectedAccount = Store.get(address);
-        const { name, primaryAccount, accountIcon} = selectedAccount;
+        const { name, accountIcon} = selectedAccount;
         this.props.setAmountData(name,accountIcon,address);
         this.props.updateUserAccountDetail(name, accountIcon, address );
         this.setState({
@@ -440,7 +438,6 @@ class AccountManagement extends Component {
  * 
  */
     handleCloseSettings(){
-        const { isOpenSetting } = this.state;
         this.setState({
             isOpenSetting: false,
         })
@@ -595,15 +592,10 @@ class AccountManagement extends Component {
     
     render() {
 
-        const { transactionData, balance, storeKeys, identiconsId, name,
-             publicKey, isLoading, animateRefreshIcon, isOpenSetting , maxFantomBalance, isOpenAccountDetail } = this.state;
+        const { storeKeys, identiconsId,
+             publicKey, animateRefreshIcon, isOpenSetting , maxFantomBalance, isOpenAccountDetail } = this.state;
 
         const { accountName } = this.props;
-        let transactionLength = 0;
-        if (transactionData) {
-            transactionLength = transactionData.length;
-        }
-        
 
         return (
             <div>
