@@ -93,6 +93,7 @@ class AccountManagement extends Component {
         getValidAccounts().then((storeKeys) => {
             if(storeKeys.success){
                 const {result} = storeKeys;
+                const { updateUserAccountDetail, updateKeyStore} = this.props;
                 const userAccountDetail =  this.getUserAccountDetail(result);
                 const { accountIcon, name, address} = userAccountDetail;
                 this.setState({
@@ -116,7 +117,7 @@ class AccountManagement extends Component {
         }).catch(()=>[])
     }
 
-    getUserAccountDetail(storeKeys){
+    getUserAccountDetail(storeKeys) {
         const storeSize = storeKeys.length;
         const userAccountDetail = '';
         if(storeSize > 0){
@@ -130,23 +131,6 @@ class AccountManagement extends Component {
             }
         }
         return userAccountDetail;
-
-
-        // const storeSize = (Store.size);
-
-        // const userAccountDetail = '';
-
-        // if(storeSize > 0){
-        //     const keys = Object.keys(Store.store);
-        //     let accountDetail = '';
-        //     for(const key of keys){
-        //          accountDetail = Store.get(key);
-        //         if(accountDetail.primaryAccount === true){
-        //            return  accountDetail;
-        //         }
-        //     }
-        // }
-        // return userAccountDetail;
     }
     
     getWalletBalance(address) {
@@ -157,13 +141,7 @@ class AccountManagement extends Component {
         }
     }
     
-    // getWalletTransaction(address) {
-    //     // if (configHelper.isEthereumMode) {
-    //     //     this.getEtherTransactionsFromApiAsync(address);
-    //     // } else {
-    //     //     this.getFantomTransactionsFromApiAsync(address);
-    //     // }
-    // }
+    getWalletTransaction(address) {}
     
     // /////////////////////////////////////////   FOR FANTOM OWN END POINT  ///////////////////////////////////////////////////////////////  
 
@@ -234,22 +212,16 @@ class AccountManagement extends Component {
      * @param {String} address : address to fetch transactions.
      */
     getFantomTransactionsFromApiAsync(address) {
-        console.log('inside getFantomTransactionsFromApiAsync ')
-        const dummyAddress = '0x68a07a9dc6ff0052e42f4e7afa117e90fb896eda168211f040da69606a2aeddc';
-        console.log('inside getFantomTransactionsFromApiAsync dummyAddress', dummyAddress)
-        fetch(`${configHelper.apiUrl  }/transaction/${  dummyAddress}`)
-    
-            // fetch(configHelper.apiUrl+'/transactions/'+ dummyAddress)
+        // console.log('inside getFantomTransactionsFromApiAsync ')
+        // const dummyAddress = '0x68a07a9dc6ff0052e42f4e7afa117e90fb896eda168211f040da69606a2aeddc';
+        // console.log('inside getFantomTransactionsFromApiAsync dummyAddress', dummyAddress)
+        fetch(`${configHelper.apiUrl  }/transaction/${  address}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log('inside getFantomTransactionsFromApiAsync responseJson : ', responseJson)
        
                 console.log('from fantom own wallet , transaction response : ', responseJson);
-                // if (responseJson && responseJson.result && responseJson.result.length) {
-                if (responseJson) {
-                    // this.loadFantomTransactionData(responseJson.result);
-                    // this.loadFantomTransactionData(responseJson);
-                } else {
+                if (responseJson) {} else {
                     this.setState({
                         isLoading: false,
                         animateRefreshIcon: false,
@@ -499,29 +471,6 @@ class AccountManagement extends Component {
             // this.getWalletTransaction(publicKey);
         }
     }
-
-
-  //   getTransactionsData() {
-  //     let outGoingTransCount = 0;
-  //   const key = 'Transactions';
-  //   const newObj = TransactionStore.get(key);
-  //   const objArr = newObj || [];
-  //   const arrToRet = [];
-  //   const { address } = this.props;
-  //   for (const transaction of objArr) {
-  //     if (transaction.to && transaction.from && (transaction.from === address)) {
-  //         if(transaction.from === address){
-  //             outGoingTransCount =+ 1;
-  //         }
-           
-  //       arrToRet.push(transaction);
-  //     }
-  //   }
-  //   // this.props.storeTransactionCount(arrToRet.length);
-
-  //   return arrToRet.reverse();
-  // }
-
 
     getWalletDetail(address){
 

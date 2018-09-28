@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import refreshImage from '../../images/icons/refresh.svg';
 
 export const Progress = (props) => {
@@ -33,3 +34,12 @@ return(
     </div>
 );
 }
+Progress.propTypes = {
+ value: PropTypes.number,
+ type: PropTypes.string,
+ className: PropTypes.string,
+  };
+  Refresh.propTypes = {
+    animated: PropTypes.string,
+    className: PropTypes.string,
+     };
