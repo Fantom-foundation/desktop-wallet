@@ -3,7 +3,7 @@ import WalletEther from 'ethereumjs-wallet';
 import EthUtil from 'ethereumjs-util';
 import Store from "../store/userInfoStore";
 
-const Buffer = require('safe-buffer').Buffer;
+// const Buffer = require('safe-buffer').Buffer;
 
 const fs = require('fs');
 

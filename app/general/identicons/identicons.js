@@ -2,14 +2,15 @@ import React from 'react';
 import identicons from 'identicons';
 
 export default function Identicons(props) {
-  const width = props.width;
-  const size = props.size;
-  const side = width / ((size * 2) - 1);
+  const { width, size, id} = props;
+  const newWidth = width;
+  const newsize = size;
+  const side = newWidth / ((newsize * 2) - 1);
   let color;
   const rects = [];
-  identicons.generate(props.id, props, {
+  identicons.generate(id, props, {
     start(value) {
-      color = '#' + Math.abs(value).toString(16).substring(0, 6);
+      color = `#${  Math.abs(value).toString(16).substring(0, 6)}`;
     },
     rect(x, y) {
       const rect = React.createElement('rect', {

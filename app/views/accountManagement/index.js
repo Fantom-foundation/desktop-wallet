@@ -10,10 +10,8 @@ import Header from '../../general/header/index';
 
 import UserAccount from './userAccounts/index';
 import Store from '../../store/userInfoStore/index';
-import TransactionCard from './transactionCard/index';
-import UserAccountDetail from './userAccountDetail/index';
 import SendFunds from '../sendFunds/index';
-import { savePrivateKey, getValidAccounts } from '../../KeystoreManager/index';
+import { getValidAccounts } from '../../KeystoreManager/index';
 
 import * as KeyStoreAction from '../../reducers/keyStore/action';
 import * as KeyStoreDetailAction from '../../reducers/keyStoreDetail/action';
@@ -32,16 +30,16 @@ function scientificToDecimal(num) {
         const e = parts.pop(); // store the exponential part
         let l = Math.abs(e); // get the number of zeros
         const direction = e/l; // use to determine the zeroes on the left or right
-        const coeff_array = parts[0].split('.');
+        const coeffArray = parts[0].split('.');
         
         if (direction === -1) {
-            coeff_array[0] = Math.abs(coeff_array[0]);
-            num = `${zero  }.${  new Array(l).join(zero)  }${coeff_array.join('')}`;
+            coeffArray[0] = Math.abs(coeffArray[0]);
+            num = `${zero  }.${  new Array(l).join(zero)  }${coeffArray.join('')}`;
         }
         else {
-            const dec = coeff_array[1];
+            const dec = coeffArray[1];
             if (dec) l -= dec.length;
-            num = coeff_array.join('') + new Array(l+1).join(zero);
+            num = coeffArray.join('') + new Array(l+1).join(zero);
         }
     }
     

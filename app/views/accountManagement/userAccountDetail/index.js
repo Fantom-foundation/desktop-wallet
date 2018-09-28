@@ -3,20 +3,18 @@ import { Row, Col, } from 'reactstrap';
 import { connect } from 'react-redux';
 
 import Identicons from '../../../general/identicons/identicons';
-import Loader from "../../../general/loader";
 import copyImage from '../../../images/icons/copy.svg';
 import { addCommasToNumber } from '../../../general/util/index';
 
 class UserAccountDetail extends Component {
     render() {  
-        let { identiconsId, name, address, transactionLength, copyToClipboard, isLoading } = this.props;
-        let { balance } = this.props;
-
+        const { identiconsId, name, address, copyToClipboard, transactionCount } = this.props;
+        let { transactionLength, balance } = this.props;
         if(balance){
             balance = addCommasToNumber(balance);
         }
         if(!transactionLength){
-            transactionLength = this.props.transactionCount;
+            transactionLength = transactionCount;
         }
 
         return (

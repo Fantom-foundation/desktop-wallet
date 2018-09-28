@@ -1,3 +1,5 @@
+/*eslint-disable */
+
 export const addCommasToNumber = (nStr) => {
     nStr += '';
     const x = nStr.split('.');
