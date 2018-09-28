@@ -6,6 +6,11 @@ import {
 import IdenticonsIcon from './identicons-list';
 import refreshIcon from '../../images/icons/refresh-icon.svg';
 
+/**
+ * DisplayIdenticons  : This component is meant for rendering IdenticonsIcon list in create account screen of wallet setup. 
+ * animateRefreshIcon: if 'animateRefreshIcon' is true then 'refresh icon' is displayed with animation.
+ */
+
 export default class DisplayIdenticons extends Component {
   render() {
     const {animateRefreshIcon, onRefresh, identiconsId } = this.props;

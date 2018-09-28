@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
-// import { css } from 'react-emotion';
-// First way to import
+import PropTypes from 'prop-types';
 import { ClipLoader } from 'react-spinners';
-// Another way to import
  
-   
-
- 
+/**
+ * Loader :  This component is meant for rendering loader on screen.
+ * 
+ * sizeUnit: To set units of size of loader, 
+ * size: To set size of loader, 
+ * color: To set color of loader, 
+ * loading: To set loading is enable or disableed.
+ */
 class Loader extends Component {
- 
   render() {
-      const {className, sizeUnit, size, color, loading}  =this.props;
+      const {sizeUnit, size, color, loading}  =this.props;
     return (
         <ClipLoader
           sizeUnit={sizeUnit}
@@ -22,4 +24,12 @@ class Loader extends Component {
   }
 }
 
+Loader.propTypes = {
+  sizeUnit: PropTypes.string,
+  size: PropTypes.number,
+  color: PropTypes.string,
+  loading: PropTypes.bool,
+};
+
 export default Loader;
+

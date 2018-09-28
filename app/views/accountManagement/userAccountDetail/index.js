@@ -6,6 +6,17 @@ import Identicons from '../../../general/identicons/identicons';
 import copyImage from '../../../images/icons/copy.svg';
 import { addCommasToNumber } from '../../../general/util/index';
 
+/**
+ * UserAccountDetail: This component is meant for rendering details of account selected from accounts list.
+ * this card contains following info:-
+ * identiconsId: Icon for that account,
+ * name: Name of account,
+ * address: Public key address for that account,
+ * transactionLength: Count of sent transactions.
+ * 
+ * Functions for each account are:-
+ * copyToClipboard: To Copy the address text to clipboard.
+ */
 class UserAccountDetail extends Component {
     render() {  
         const { identiconsId, name, address, copyToClipboard, transactionCount } = this.props;

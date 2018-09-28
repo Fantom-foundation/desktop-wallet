@@ -4,7 +4,10 @@ import { Row, Col } from 'reactstrap';
 import AccountCard from '../accountCard/index';
 import Store from '../../../store/userInfoStore/index';
 
-
+/**
+ * UserAccounts :  This component is meant for rendering list of valid accounts in wallet, in file on system.
+ * storeKeys: It contains list of public keys for valid accounts in file.
+ */
 class UserAccounts extends Component {
 
     constructor(props) {

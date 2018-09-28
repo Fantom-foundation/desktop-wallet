@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Web3 from 'web3';
 import UserAccountsDetailCard from './userAccountsDetailCard/index';
 
+
 import arrowLeftRight from '../../images/icons/arrows-left-right.svg';
 import Header from '../../general/header/index';
 
@@ -18,38 +19,17 @@ import * as KeyStoreDetailAction from '../../reducers/keyStoreDetail/action';
 import * as UserAccountAction from '../../reducers/userDetail/action';
 import config from '../../store/config/index';
 import refreshIcon from '../../images/icons/refreshIcon_2.svg';
-
+import { scientificToDecimal } from '../../general/util/index';
 const configHelper = config();
 
-function scientificToDecimal(num) {
-    let newNum = num;
-    const sign = Math.sign(newNum);
-    // if the number is in scientific notation remove it
-    if(/\d+\.?\d*e[\+\-]*\d+/i.test(newNum)) {
-        const zero = '0';
-        const parts = String(newNum).toLowerCase().split('e'); // split into coeff and exponent
-        const e = parts.pop(); // store the exponential part
-        let l = Math.abs(e); // get the number of zeros
-        const direction = e/l; // use to determine the zeroes on the left or right
-        const coeffArray = parts[0].split('.');
-        
-        if (direction === -1) {
-            coeffArray[0] = Math.abs(coeffArray[0]);
-            newNum = `${zero  }.${  new Array(l).join(zero)  }${coeffArray.join('')}`;
-        }
-        else {
-            const dec = coeffArray[1];
-            if (dec) l -= dec.length;
-            newNum = coeffArray.join('') + new Array(l+1).join(zero);
-        }
-    }
-    
-    if (sign < 0) {
-        newNum = -newNum;
-    }
-
-    return newNum;
-}
+/**
+ * AccountManagement: This is main screen shown when account is added to wallet.
+ * By default list of valid accounts is displayed here.
+ * ***************************************************************
+ * If user selects particuler account from list, details of that account is displayed.
+ * user can view transactions and balance and other info of account and can send funds from that account. 
+ * ***************************************************************
+ */
 
 class AccountManagement extends Component {
 
@@ -73,7 +53,9 @@ class AccountManagement extends Component {
         }
     }
 
-
+/**
+ * To fetch list of valid accounts from file on system .
+ */
     componentWillMount(){
       setInterval(() => {
         this.getValidAccounts();
@@ -83,11 +65,19 @@ class AccountManagement extends Component {
     }
 
 
+    /**
+ * getIntialUserAccountDetail() : To load initial account info to state, if there already some account is present .
+ */
     getIntialUserAccountDetail(){
         const {publicKey, accountName, accountIcon, updateUserAccountDetail, updateKeyStore} = this.props;
         return({publicKey, accountName, accountIcon});
     }
 
+    /**
+     * getValidAccounts() : Api for getting list of valid accounts and setting the data to state and reducer.
+     * updateUserAccountDetail() :  for setting selected account detail in reducer.
+     * And then call the balance and transaction apis for that selected accounts.
+     */
     getValidAccounts(){
        const {updateUserAccountDetail, updateKeyStore} = this.props;
         getValidAccounts().then((storeKeys) => {
@@ -117,7 +107,11 @@ class AccountManagement extends Component {
         }).catch(()=>[])
     }
 
-    getUserAccountDetail(storeKeys) {
+    /**
+     * 
+     * @param {Array} storeKeys : To get details of primary account from valid keys in storeKeys.
+     */
+    getUserAccountDetail(storeKeys){
         const storeSize = storeKeys.length;
         const userAccountDetail = '';
         if(storeSize > 0){
@@ -133,6 +127,11 @@ class AccountManagement extends Component {
         return userAccountDetail;
     }
     
+    /**
+     * getWalletBalance()  : To get balance of account.
+     * @param {*} address : Public key of account.
+     * Based on value of 'configHelper.isEthereumMode'  , balance can be get from 'testNet' for 'etherNet'.
+     */
     getWalletBalance(address) {
         if (configHelper.isEthereumMode) {
             this.getEtherBalanceFromApiAsync(address);
@@ -141,7 +140,18 @@ class AccountManagement extends Component {
         }
     }
     
-    getWalletTransaction(address) {}
+    /**
+     * getWalletTransaction()  : To get transactions done on that account.
+     * @param {*} address : Public key of account.
+     * Based on value of 'configHelper.isEthereumMode'  , transactions can be get from 'testNet' for 'etherNet'.
+     */
+    getWalletTransaction(address) {
+        // if (configHelper.isEthereumMode) {
+        //     this.getEtherTransactionsFromApiAsync(address);
+        // } else {
+        //     this.getFantomTransactionsFromApiAsync(address);
+        // }
+    }
     
     // /////////////////////////////////////////   FOR FANTOM OWN END POINT  ///////////////////////////////////////////////////////////////  
 
@@ -378,7 +388,10 @@ class AccountManagement extends Component {
         });
     }
 
-
+/**
+ * handleSelectedAccount() :  To set selected account from account list to primary account and display that card's detail
+ * @param {*} address 
+ */
     handleSelectedAccount(address){
         const selectedAccount = Store.get(address);
         const { name, primaryAccount, accountIcon} = selectedAccount;
@@ -403,11 +416,18 @@ class AccountManagement extends Component {
     }
 
 
-
+/**
+ * copyToClipboard() :  To copy content to clipboard.
+ * @param {String} copyText 
+ */
     copyToClipboard(copyText) {
         clipboard.writeText(copyText);
     }
 
+    /**
+ * handleSettings() :  To handle toggle event for setting button on header bar.
+ * 
+ */
     handleSettings(){
         const { isOpenSetting } = this.state;
         this.setState({
@@ -415,6 +435,10 @@ class AccountManagement extends Component {
         })
     }
 
+     /**
+ * handleCloseSettings() :  To handle close event for setting button on header bar.
+ * 
+ */
     handleCloseSettings(){
         const { isOpenSetting } = this.state;
         this.setState({
@@ -422,6 +446,10 @@ class AccountManagement extends Component {
         })
     }
 
+     /**
+     * handleUserSettings() :  This function is meant for handling event for click on 'Add Wallet' button in 'setting on header bar, 
+     * for adding new wallet, and close setting menu.
+     */
     handleUserSettings() {
         const { handleUserSettings } = this.props;
         if (handleUserSettings) {
@@ -432,18 +460,27 @@ class AccountManagement extends Component {
         }
     }
 
+     /**
+     * handleSendFunds() :  This function is meant for opening send funds modal.
+     */
     handleSendFunds(){
         this.setState({
             isSendFund: true,
         })
     }
 
+    /**
+     * onCloseSendFunds() :  This function is meant for closing send funds modal.
+     */
     onCloseSendFunds(){
         this.setState({
             isSendFund: false,
         })
     }
 
+    /**
+     * onRefresh() :  This function is meant for refreshing the wallet i.e fetching balance and transaction.
+     */
     onRefresh(){
         const { publicKey } = this.props;
         this.setState({
@@ -456,6 +493,11 @@ class AccountManagement extends Component {
         }
     }
 
+    /**
+     * refreshWalletDetail() : Refresh wallet details after sending funds.
+     * @param {*} address : Address of account from which funds are transfered.
+     * @param {*} to : address of account to which funds are transfered.
+     */
     refreshWalletDetail(address, to){
         const { publicKey } = this.props;
 
@@ -481,6 +523,9 @@ class AccountManagement extends Component {
 
     }
 
+    /**
+     * renderAccountManagement() : To render AccountManagement screen with list of valid accounts, by default this screen is rendred.
+     */
     renderAccountManagement(){
         const { storeKeys, publicKey, isOpenAccountDetail } = this.state;
         if(isOpenAccountDetail){
@@ -499,6 +544,9 @@ class AccountManagement extends Component {
         
     }
 
+    /**
+     * renderAccountDetail() : To render detail of selected account from liat.
+     */
     renderAccountDetail(){
         const { transactionData, balance, identiconsId, name, publicKey, isOpenAccountDetail } = this.state;
         if(!isOpenAccountDetail){
@@ -520,6 +568,11 @@ class AccountManagement extends Component {
         )
     }
 
+     /**
+     * openAccountManagement() :  This function is meant for handling event for click on 'Fantom Logo' icon on header bar,
+     *  for rendering account management list.
+     */
+
     openAccountManagement(){
         const{ isOpenAccountDetail } = this.state;
         if(isOpenAccountDetail){
@@ -529,6 +582,10 @@ class AccountManagement extends Component {
         }
     }
 
+     /**
+     * openWalletRecovery() :  This function is meant for handling event for click on 'Restore Wallet' button in 'setting' on header bar,
+     *  for recovering  wallet.
+     */
     openWalletRecovery(){
         const { openWalletRecovery }= this.props;
         if( openWalletRecovery ){

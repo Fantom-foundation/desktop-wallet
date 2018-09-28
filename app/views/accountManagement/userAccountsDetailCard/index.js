@@ -5,6 +5,10 @@ import UserAccountDetail from '../userAccountDetail/index';
 import QRCodeIcon from '../../../general/qr/index';
 import TransactionCard from '../transactionCard/index';
 
+/**
+ * UserAccountsDetailCard: This component is meant for rendering selected account from list of account shown in account management screen.
+ */
+
 class UserAccountsDetailCard extends Component {
     
     render(){

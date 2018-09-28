@@ -29,7 +29,9 @@ export default class Header extends Component {
         })
     }
 
-    
+    /**
+     * handleSettings() :  This function is meant for handling event for click on setting button on header bar.
+     */
     handleSettings(){
         const { handleSettings, isOpenAccountDetail } = this.props;
         if(handleSettings){
@@ -37,20 +39,32 @@ export default class Header extends Component {
         }
     }
 
+    /**
+     * handleUserSettings() :  This function is meant for handling event for click on 'Add Wallet' button in 'setting' on header bar, for adding new wallet.
+     */
     handleUserSettings(){
         const { handleUserSettings } = this.props;
         if(handleUserSettings){
             handleUserSettings();
         }
-    }    
+    }  
+    
+    /**
+     * openAccountManagement() :  This function is meant for handling event for click on 'Fantom Logo' icon on header bar,
+     *  for rendering account management list, if atleast one account is added to wallet.
+     */
     
     openAccountManagement(){
-        const { openAccountManagement }= this.props;
+        const { openAccountManagement } = this.props;
         if(openAccountManagement){
             openAccountManagement();
         }
     }
 
+      /**
+     * openAccount() :  This function is meant for handling event for click on 'Account icon' icon on header bar,
+     *  for rendering account management list, if atleast one account is added to wallet.
+     */
     openAccount(){
         const { openAccount }= this.props;
         if(openAccount){
@@ -58,13 +72,19 @@ export default class Header extends Component {
         }
     }
 
-hangleHeaderClick(){
-    const { handleCloseSettings } = this.props;
-    if(handleCloseSettings){
-        handleCloseSettings();
+    /**
+     * hangleHeaderClick() : This function is meant for handling event for closing settings when click on header bar.
+     */
+    hangleHeaderClick(){
+        const { handleCloseSettings } = this.props;
+        if(handleCloseSettings){
+            handleCloseSettings();
+        }
     }
-}
 
+     /**
+     * openWalletRecovery() :  This function is meant for handling event for click on 'Restore Wallet' button in 'setting' on header bar, for recovering wallet.
+     */
 openWalletRecovery(){
     const { openWalletRecovery } = this.props;
     if( openWalletRecovery ){
@@ -72,6 +92,12 @@ openWalletRecovery(){
     }
 }
 
+ /**
+     * renderAccountSetting() :  This function is meant for rendering 'setting' tab on hander bar.
+     * isOpenSetting: isOpenSetting , a boolean value for handling setting tab render.
+     * isWalletSetup : isWalletSetup means 'Add Wallet' feature is enabled.
+     * isWalletRecover : isWalletRecover means 'Restore Wallet' feature is enabled.
+     */
 renderAccountSetting(){
     const { isOpenSetting, isWalletSetup, isWalletRecover } = this.props;
     return(

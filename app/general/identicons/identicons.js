@@ -1,6 +1,10 @@
 import React from 'react';
 import identicons from 'identicons';
 
+/**
+ * Identicons()  : Function for creating Identicons.
+ */
+
 export default function Identicons(props) {
   const { width, size, id} = props;
   const newWidth = width;
