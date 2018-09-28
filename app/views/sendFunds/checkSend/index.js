@@ -14,7 +14,6 @@ export default class SendMoney extends Component {
     this.state = {
       coin: 'FTM',
       errorMessage: '',
-      isLoading: false
     };
   }
 
@@ -30,7 +29,6 @@ export default class SendMoney extends Component {
      */
   transferMoney(from, to, value, memo, privateKey) {
     const { handleModalClose, refreshWalletDetail } = this.props;
-    this.setState({ isLoading: true });
     transferMoney(from, to, value, memo, privateKey)
       .then(data => {
         if (data.hash && data.hash !== '') {
@@ -48,7 +46,6 @@ export default class SendMoney extends Component {
             }
           }, 1000);
 
-          this.setState({ isLoading: false });
           return;
         }
         console.log(`Transfer successful.`);
@@ -60,7 +57,7 @@ export default class SendMoney extends Component {
           err.message || 'Invalid error. Please check the data and try again.';
         console.log(`Transfer error message: `, message);
         this.addTransactionLocally(value, from, to, '', true);
-        this.setState({ isLoading: false, errorMessage: message });
+        this.setState({ errorMessage: message });
       });
   }
 
@@ -88,7 +85,7 @@ export default class SendMoney extends Component {
      * confirmSendFunds() :  A function for transfering funds on click on continue.
      */
     confirmSendFunds() {
-        const { publicKey, address, amount, coin, memo, fees, privateKey,  } = this.props;
+        const { publicKey, address, amount, memo, privateKey,  } = this.props;
         this.transferMoney(publicKey, address, amount, memo, privateKey);
     }
 

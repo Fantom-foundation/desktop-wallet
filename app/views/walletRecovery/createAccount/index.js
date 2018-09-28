@@ -15,6 +15,9 @@ import DisplayIdenticons from '../../../general/identicons/index';
 
 import * as CreateAccountAction from '../../../reducers/createAccount/action';
 
+/**
+ * This component is meant from setting account details.
+ */
 class CreateAccount extends Component {
 
     constructor(props) {
@@ -44,6 +47,9 @@ class CreateAccount extends Component {
         })
     }
 
+    /**
+     * User can navigate to next screen only if all fields are filled.
+     */
       onNext(){
           const { toggle, setNewAccountDetail } = this.props;
          
@@ -122,6 +128,9 @@ class CreateAccount extends Component {
         return validationResult;
     }
 
+    /**
+     * Password must be atleast of 8 characters
+     */
     validPass = (value) => {
         const errorObj = {};
         if (value === '') {
@@ -134,6 +143,9 @@ class CreateAccount extends Component {
         return errorObj;
     }
 
+    /**
+     * To render strength bar along with password text changes.
+     *   */
     passwordStrengthChecker(value){
         const enoughRegex = new RegExp("(?=.{8,}).*", "g");
         const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{12,})");

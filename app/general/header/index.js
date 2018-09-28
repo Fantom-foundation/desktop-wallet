@@ -33,7 +33,7 @@ export default class Header extends Component {
      * handleSettings() :  This function is meant for handling event for click on setting button on header bar.
      */
     handleSettings(){
-        const { handleSettings, isOpenAccountDetail } = this.props;
+        const { handleSettings } = this.props;
         if(handleSettings){
             handleSettings();
         }

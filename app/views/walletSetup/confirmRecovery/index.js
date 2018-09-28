@@ -63,7 +63,7 @@ class ConfirmRecovery extends Component {
 
   renderCancelAccountCreationModal(){
     const { openAccountManagement } = this.props;
-    const { modal } = this.props;
+    const { modal } = this.state;
     return(
       <AccountCreationCancelModal toggle={() => this.toggle()} 
         modal={modal} openAccountManagement={openAccountManagement}/>

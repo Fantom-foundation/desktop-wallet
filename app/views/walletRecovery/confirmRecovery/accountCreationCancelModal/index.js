@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
 
+/**
+ * To render modal to cancel the process.
+ */
 class AccountCreationCancelModal extends Component {
   constructor(props){
     super(props);

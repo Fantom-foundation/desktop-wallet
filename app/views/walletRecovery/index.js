@@ -16,7 +16,9 @@ import ConfirmRecovery from './confirmRecovery/index';
 
 import * as KeyAction from '../../reducers/keys/action';
 
-
+/**
+ * Screen to  recover wallet.
+ */
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +32,10 @@ class Home extends Component {
  
     }
 
-
+/**
+ * toggle() : To toggle the account step number.
+ * @param {*} tab : Set selected tab number.
+ */
     toggle(tab) {
         if (this.state.activeTab !== tab) {
 
@@ -47,11 +52,17 @@ class Home extends Component {
         }
     }
 
+    /**
+     * onRefresh() : To refresh the identicon list.
+     */
     onRefresh = () => {
         const newDate = new Date().getTime();
         this.setState({ date: newDate, });
     }
     
+    /**
+     * onUnlockAccount() :  This is meant for unlocking the  account .
+     */
     onUnlockAccount(isUnlock, privateKey, password, address){
         if(this.props.onUnlockAccount){
             this.props.onUnlockAccount(isUnlock, privateKey, password);

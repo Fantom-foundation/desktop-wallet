@@ -14,6 +14,9 @@ import {
 import AccountCreationCancelModal from './accountCreationCancelModal/index';
 import * as KeyAction from '../../../reducers/keys/action';
 
+/**
+ * ConfirmRecovery: This component is meant for confirming the account recover process.
+ */
 class ConfirmRecovery extends Component {
   
   constructor(props){
@@ -39,6 +42,10 @@ class ConfirmRecovery extends Component {
     return false;
   }
 
+  /**
+   * handleRecoverWallet() :  this function is meant to generate the keys to recover wallet.
+   * @param {*} mnemonic 
+   */
   handleRecoverWallet(mnemonic) {
     const newMnemonic = mnemonic.trim();
     if (!this.isValidSeed(newMnemonic)) {

@@ -81,6 +81,9 @@ class SendFunds extends Component {
     this.addressVerification(address);
   }
 
+  /**
+ * setAccountType() :  To set public key of selected account, and fetch balance for it.
+ */
   setAccountType(e) {
     const { accountStore } = this.state;
     const accountType = e.target.value;
@@ -124,6 +127,12 @@ class SendFunds extends Component {
     });
   }
 
+
+    /**
+     * handleCheckSend() : User can transfer funds,
+     *  only if all detail is filled and private key is retrived for public key and password in state.
+     */
+
   handleCheckSend() {
     const {
       password,
@@ -151,29 +160,6 @@ class SendFunds extends Component {
       }, 100);
     }
   }
-
-  /**
- * setAccountType() :  To set public key of selected account, and fetch balance for it.
- */
-setAccountType(e) {
-    const { accountStore } = this.state;
-    const accountType = e.target.value;
-    const length = accountStore.length;
-    let publicKey = '';
-    for(let account = 0;  account < length; account++){
-        if(accountStore[account].name === accountType){
-            publicKey = accountStore[account].address;
-            const { getWalletDetail } = this.props;
-            if(getWalletDetail){
-                getWalletDetail(publicKey);
-            }
-        }
-      }
-    this.setState({
-        accountType,
-        publicKey,
-    });
-}
 
 
 
@@ -237,24 +223,6 @@ setAccountType(e) {
   }
 
 
-    /**
-     * handleCheckSend() : User can transfer funds,
-     *  only if all detail is filled and private key is retrived for public key and password in state.
-     */
-    handleCheckSend() {
-        const { password , publicKey, loading, addressErrText, ammountErrText, address, ftmAmount } = this.state;
-        if(loading || addressErrText !== '' || ammountErrText !== '' || address === '' || ftmAmount === '' || password === ''){
-            return null;
-        }
-        const isValidDetail = this.handleSendMoney();
-        if(isValidDetail ){
-            setTimeout(() => {
-                this.getPrivateKeyOfAddress(publicKey, password);
-            }, 100)
-        }
-    }
-
-
   /**
    * ftmAmmountVerification() : To check ammount entered is valid or not, if invalid ammount then render error message.
    */
@@ -286,6 +254,12 @@ setAccountType(e) {
     }
   }
 
+
+    /**
+     * getPrivateKeyOfAddress() : This function is meant for getting private key.
+     * @param {String} publicKey ,
+     * @param {String} password ,
+     */
   getPrivateKeyOfAddress(publicKey, password) {
     getPrivateKeyOfAddress(publicKey, password)
       .then(res => {
@@ -338,33 +312,6 @@ setAccountType(e) {
     return null;
   }
 
-    /**
-     * getPrivateKeyOfAddress() : This function is meant for getting private key.
-     * @param {String} publicKey ,
-     * @param {String} password ,
-     */
-    getPrivateKeyOfAddress(publicKey, password){
-        getPrivateKeyOfAddress(publicKey, password).then((res) => {
-            const hexPrivateKey = res.result;
-            this.setState({
-                privateKey: hexPrivateKey,
-            })
-            if(hexPrivateKey !== '') {
-                this.setState({
-                    verificationError: '',
-                    isCheckSend: true,
-                    loading: false,
-                })
-             }
-             return true;
-        }).catch((err) => {
-            this.setState({
-                verificationError: 'Incorrect password.',
-                privateKey: '',
-                loading: false,
-            })
-        })
-    }
 
   renderAddressErrText() {
     const { isValidAddress, addressErrText } = this.state;
