@@ -12,7 +12,7 @@ import Header from '../../general/header/index';
 import UserAccount from './userAccounts/index';
 import Store from '../../store/userInfoStore/index';
 import SendFunds from '../sendFunds/index';
-import getValidAccounts from '../../KeystoreManager/index';
+import { getValidAccounts } from '../../KeystoreManager/index';
 
 import * as KeyStoreAction from '../../reducers/keyStore/action';
 import * as KeyStoreDetailAction from '../../reducers/keyStoreDetail/action';

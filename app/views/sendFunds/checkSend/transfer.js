@@ -13,6 +13,14 @@ const web3 = new Web3(
   new Web3.providers.HttpProvider('https://ropsten.infura.io/'),
 );
 
+/**
+ * transferMoneyViaEthereum()  : To transfer funds via ether's endpoint
+ * @param {*} from : Address of account from which to transfer.
+ * @param {*} to : Address of account to whom to transfer.
+ * @param {*} value : Amount to be transfered.
+ * @param {*} memo : : Message text for transaction.
+ * @param {*} privateKey : Private key of account from which to transfer.
+ */
 function transferMoneyViaEthereum(from, to, value, memo, privateKey) {
   return new Promise((resolve, reject) => {
     console.log('Promise : ')
@@ -69,6 +77,14 @@ function transferMoneyViaEthereum(from, to, value, memo, privateKey) {
   })
 }
 
+/**
+ * transferMoneyViaFantom()  : To transfer funds via testnet's own endpoint
+ * @param {*} from : Address of account from which to transfer.
+ * @param {*} to : Address of account to whom to transfer.
+ * @param {*} value : Amount to be transfered.
+ * @param {*} memo : : Message text for transaction.
+ * @param {*} privateKey : Private key of account from which to transfer.
+ */
 function transferMoneyViaFantom(from, to, value, memo, privateKey) {
   console.log('transfer via fantom test net');
   console.log('from : ', from);

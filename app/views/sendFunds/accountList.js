@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Input } from 'reactstrap';
 
+/**
+ * AccountList: This component is meant for rendering list of valid account in ' Withrom From ' type field in send funds screen.
+ * User can select the account from which to transfer funds, selected account name is rendered in ' Withrom From ' field.
+ */
  class AccountList extends Component {
      constructor(props){
          super(props);

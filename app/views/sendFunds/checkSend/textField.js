@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Row,Col } from 'reactstrap';
 
+/**
+ * TextField : A generic component for rendering text field in check send screen.
+ */
 class TextField extends Component {
   render() {
     return (

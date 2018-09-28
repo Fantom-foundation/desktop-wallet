@@ -10,6 +10,10 @@ import { transferMoney } from './transfer';
 //                     newObj.primaryAccount = false;
 //                     Store.set(key,newObj);
 
+
+/**
+ * SendMoney: This component is meant for rendering modal for Check send.
+ */
 export default class SendMoney extends Component {
     constructor(props) {
         super(props);
@@ -21,6 +25,16 @@ export default class SendMoney extends Component {
         }
     }
 
+    /**
+     * transferMoney() :  This function is meant for sending funds to some wallet account.
+     * @param {*} from : Address of account from which to transfer.
+     * @param {*} to : Address of account to whom to transfer.
+     * @param {*} value : Amount to be transfered.
+     * @param {*} memo : : Message text for transaction.
+     * @param {*} privateKey : Private key of account from which to transfer.
+     * 
+     * If the transfer done successfully then , modal is closed and wallet balance and transaction details is updated.
+     */
     transferMoney(from, to, value, memo, privateKey) {
         const { handleModalClose, refreshWalletDetail }  = this.props;
         this.setState({ isLoading: true });
@@ -72,6 +86,9 @@ export default class SendMoney extends Component {
       TransactionStore.set(key, objArr);
     }
 
+    /**
+     * confirmSendFunds() :  A function for transfering funds on click on continue.
+     */
     confirmSendFunds() {
         const { publicKey, address, amount, coin, memo, fees, privateKey,  } = this.props;
         this.transferMoney(publicKey, address, amount, memo, privateKey);

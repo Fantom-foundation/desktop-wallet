@@ -11,6 +11,11 @@ import AccountList from './accountList';
 import Store from '../../store/userInfoStore/index';
 import { getPrivateKeyOfAddress } from '../../KeystoreManager/index';
 
+/**
+ * SendFunds: This component is meant for rendering send funds modal.
+ * User can transfer funds only if , password of selected account, from which to transfer is filled.
+ */
+
 export default class SendFunds extends Component {
     constructor(props) {
         super(props);
@@ -68,7 +73,9 @@ export default class SendFunds extends Component {
         })
         this.addressVerification(address);
     }
-
+/**
+ * setAccountType() :  To set public key of selected account, and fetch balance for it.
+ */
     setAccountType(e) {
         const { accountStore } = this.state;
         const accountType = e.target.value;
@@ -112,6 +119,10 @@ export default class SendFunds extends Component {
         })
     }
 
+    /**
+     * handleCheckSend() : User can transfer funds,
+     *  only if all detail is filled and private key is retrived for public key and password in state.
+     */
     handleCheckSend() {
         const { password , publicKey, loading, addressErrText, ammountErrText, address, ftmAmount } = this.state;
         if(loading || addressErrText !== '' || ammountErrText !== '' || address === '' || ftmAmount === '' || password === ''){
@@ -217,6 +228,11 @@ export default class SendFunds extends Component {
         }
     }
 
+    /**
+     * getPrivateKeyOfAddress() : This function is meant for getting private key.
+     * @param {String} publicKey ,
+     * @param {String} password ,
+     */
     getPrivateKeyOfAddress(publicKey, password){
         getPrivateKeyOfAddress(publicKey, password).then((res) => {
             const hexPrivateKey = res.result;
