@@ -128,7 +128,7 @@ class Home extends Component {
     
     render() {
        const { isOpenSetting, activeTab, progressValue, date } = this.state;
-       const {accountIconId, loading, accountName, accountIcon, password, passwordHint } = this.props;
+       const {accountIconId, loading, accountName, password, passwordHint } = this.props;
        
         return (
             <div >

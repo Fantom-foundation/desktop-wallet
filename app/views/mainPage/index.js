@@ -203,7 +203,7 @@ class MainPage extends Component {
   }
 
   renderScreen() {
-    const { isUnlock, loading, isFetching, isWalletRecovery } = this.state;
+    const { isUnlock, isWalletRecovery } = this.state;
     if (!isUnlock && !isWalletRecovery) {
       return this.renderWalletSetup();
     }

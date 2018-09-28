@@ -117,7 +117,7 @@
         ]
       }
     ],
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
   },
   "plugins": [
     "flowtype",
@@ -129,7 +129,7 @@
   "settings": {
     "import/resolver": {
       "webpack": {
-        "config": "webpack.config.eslint.js"
+        "config": "webpack.config.eslint.js",
       }
     }
   }

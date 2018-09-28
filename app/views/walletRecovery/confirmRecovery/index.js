@@ -115,7 +115,6 @@ class ConfirmRecovery extends Component {
   }
 
   onUnlock(){
-    const { onUnlockAccount, privateKey, password} = this.props; 
     const { mnemonicPhrase } = this.state;
    
     const { isLocked } = this.state;
