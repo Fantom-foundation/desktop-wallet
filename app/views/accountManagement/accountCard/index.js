@@ -4,6 +4,18 @@ import { Col, Row } from 'reactstrap';
 import copyImage from '../../../images/icons/copy.svg';
 import Identicons from '../../../general/identicons/identicons';
 
+/**
+ * AccountCard: This component is meant for displaying account details card.
+ * 
+ * Each card contains following info:-
+ * accountIcon: Icon for that account,
+ * name: Name of account,
+ * address: Public key address for that account,
+ * 
+ * Functions for each account are:-
+ * handleSelectedAccount: To open the details of selected account.
+ * copyToClipboard: To Copy the address text to clipboard.
+ */
 class AccountCard extends Component {
 
     handleSelectedAccount() {

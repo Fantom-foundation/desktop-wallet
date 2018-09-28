@@ -1,5 +1,8 @@
 import * as Actions from './action';
 
+/**
+ * KeyReducer: A reducer for holding state of values for keys and mnemonic created while wallet setup.
+ */
 const KeyReducer = (state = { masterKey: '', publicKey: '', privateKey: '', mnemonic: '' }, action) => {
   switch (action.type) {
     case Actions.MASTER_KEY:

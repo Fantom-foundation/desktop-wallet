@@ -1,5 +1,8 @@
 import * as Actions from './action';
 
+/**
+ * UserAccountReducer: A reducer for holding state of selected account from wallet .
+ */
 const UserAccountReducer = (state = { accountName: '', accountIcon: '', address: '' }, action) => {
   switch (action.type) {
     case Actions.USER_ACCOUNT_DETAIL:

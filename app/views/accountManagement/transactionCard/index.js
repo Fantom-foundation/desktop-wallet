@@ -6,6 +6,12 @@ import downArrowIcon from '../../../images/icons/downArrowBlack.svg';
 import TransactionStore from '../../../store/transactionStore';
 import * as TransactionStoreAction from '../../../reducers/transactionStore/action';
 
+/**
+ * TransactionCard: This component is meant for rendering transactions for selected account.
+ * Only transaction that are sent from that account are displayed in list.Otherwise no transaction is displayed.
+ * 
+ */
+
 class TransactionCard extends Component {
     constructor(props){
         super(props);
@@ -14,9 +20,13 @@ class TransactionCard extends Component {
             isShowTransaction: false,
         }
     }
+    /**
+     * getTransactionsData(): To fetch transactions locally saved , from file on system, 
+     * if the account has transaction list then , transaction list is returned and its count is updated in reducer.
+     */
 
     getTransactionsData() {
-        let outGoingTransCount = 0;
+      let outGoingTransCount = 0;
       const key = 'Transactions';
       const newObj = TransactionStore.get(key);
       const objArr = newObj || [];
@@ -36,6 +46,9 @@ class TransactionCard extends Component {
       return arrToRet.reverse();
     }
 
+    /**
+     * renderTransactions() :  A function to render transaction cards based on transaction data fetched from file on system.
+     */
     renderTransactions() {
         // const { transactionData } = this.props;
         let allTransaction =<center><p className="r-title text-gray mb-2">(Your recent sent transactions will be displayed here)</p></center> 

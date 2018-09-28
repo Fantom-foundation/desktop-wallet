@@ -13,7 +13,9 @@ import * as KeyStoreDetailAction from '../../reducers/keyStoreDetail/action';
 import * as UserAccountAction from '../../reducers/userDetail/action';
 import * as CreateAccountAction from '../../reducers/createAccount/action';
 
-
+/** 
+ * This is main page for whole application.
+ */
 class MainPage extends Component{
     constructor(props){
         super(props);
@@ -29,6 +31,9 @@ class MainPage extends Component{
         }
     }
 
+    /**
+     * To fetch list of valid keys from file on system.
+     */
     componentDidMount() {
       getValidAccounts().then((storeKeys) => {
         if (storeKeys && storeKeys.success && storeKeys.result && storeKeys.result.length && storeKeys.result.length > 0) {
@@ -50,6 +55,12 @@ class MainPage extends Component{
       })
     }
     
+    /**
+     * onUnlockAccount() :  This function unloacks the account by saving private key to system file using private and password as encryption. 
+     * @param {Boolen} isUnlock ,
+     * @param {String} privateKey ,
+     * @param {String} password ,
+     */
     onUnlockAccount(isUnlock, privateKey, password){
         console.log('onUnlockAccount : ', isUnlock, privateKey, password)
       
@@ -74,6 +85,12 @@ class MainPage extends Component{
         
     }
 
+    /**
+     * setAmountData() : This function is meant for saving details of created account to file on system and to reducer.
+     * @param {String} name : Account name.
+     * @param {string} identiconsId : Account Icon.
+     * @param {string} address : Public key.
+     */
     setAmountData(name,identiconsId,address){
       
         if(address){
@@ -100,7 +117,10 @@ class MainPage extends Component{
         
     }
 
-
+    /**
+     * handleUserSettings() :  This function is meant for handling event for click on 'Add Wallet' button in 'setting' on header bar, 
+     * for adding new wallet.
+     */
     handleUserSettings(){
         this.setState({
             isUnlock: false,
@@ -113,6 +133,9 @@ class MainPage extends Component{
         this.props.setNewAccountDetail(accountName, password, passwordHint, accountIcon)
     }
 
+    /**
+     * To render loader on screen when wallet is under creation process or recovery process.
+     */
     renderLoader(){
         const { loading, isUnlock } = this.state;
         if(loading && !isUnlock){
@@ -128,6 +151,10 @@ class MainPage extends Component{
         return null;
     }
 
+    /**
+     * openAccountManagement() :  This function is meant for handling event for click on 'Fantom Logo' icon on header bar,
+     *  for rendering account management list, if atleast one account is added to wallet.
+     */
     openAccountManagement(){
         const { address } = this.props;
         if(address && address !== ''){
@@ -144,6 +171,10 @@ class MainPage extends Component{
        
     }
 
+    /**
+     * openWalletRecovery() :  This function is meant for handling event for click on 'Restore Wallet' button in 'setting' on header bar, 
+     * for recovering wallet.
+     */
     openWalletRecovery(){
         this.setState({
             isUnlock: false,
