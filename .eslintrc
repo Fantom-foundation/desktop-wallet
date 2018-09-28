@@ -22,6 +22,8 @@
     "consistent-return": "off",
     "jsx-a11y/label-has-for": "off",
     "comma-dangle": "off",
+    "react/no-access-state-in-setstate": "off",
+    "react/self-closing-comp": "off",
     "jsx-a11y/alt-text": "off",
     "no-return-assign": "off",
     "no-useless-escape": "off",
