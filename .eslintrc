@@ -29,6 +29,7 @@
     "no-useless-escape": "off",
     "react/no-unescaped-entities": "off",
     "prefer-destructuring": "off",
+    "react/prop-types": "off",
     "prefer-promise-reject-errors": "off",
     "react/destructuring-assignment": "off",
     "import/prefer-default-export": "off",
