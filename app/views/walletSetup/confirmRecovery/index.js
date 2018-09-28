@@ -5,9 +5,7 @@ import {
     Form, FormGroup, Input, 
   } from 'reactstrap';
   import { connect } from 'react-redux';
-  import Loader from 'react-spinners';
 
-import AccountFooter from '../../../general/footer/account-footer';
 import AccountCreationCancelModal from './accountCreationCancelModal/index';
 
 class ConfirmRecovery extends Component {
@@ -19,7 +17,6 @@ class ConfirmRecovery extends Component {
   constructor(props){
     super(props);
     this.state = ({
-      mnemonicPhrase: '',
       isLocked : true,
       modal: false
     });
@@ -29,19 +26,17 @@ class ConfirmRecovery extends Component {
 
   toggle() {
     const { isWaiting }=this.props;
+    const { modal }=this.state;
     if(isWaiting){
       return null;
     }
 
     this.setState({
-      modal: !this.state.modal
+      modal: !modal
     });
   }
 
   inputHandler = (e) => {
-    this.setState({
-      mnemonicPhrase: e.target.value
-    });
     const {mnemonic} = this.props; 
     if(mnemonic === e.target.value){
       this.setState({
@@ -68,14 +63,16 @@ class ConfirmRecovery extends Component {
 
   renderCancelAccountCreationModal(){
     const { openAccountManagement } = this.props;
+    const { modal } = this.props;
     return(
       <AccountCreationCancelModal toggle={() => this.toggle()} 
-        modal={this.state.modal} openAccountManagement={openAccountManagement}/>
+        modal={modal} openAccountManagement={openAccountManagement}/>
     )
   }
 
     render(){
       const { activeTab, isWaiting }=this.props;
+       const {isLocked }=this.state;
       if(activeTab !== '3'){
           return null;
       }
@@ -83,7 +80,7 @@ class ConfirmRecovery extends Component {
       let createWalletColor = 'gray';
        if(isWaiting){
         createWalletColor = 'gray'
-       }else if(this.state.isLocked){
+       }else if(isLocked){
         createWalletColor = 'gray'
        }else{
         createWalletColor =  '#00b1ff'
@@ -92,7 +89,7 @@ class ConfirmRecovery extends Component {
        let cancelBtnColor = '#00b1ff';
        if(isWaiting){
         cancelBtnColor = 'gray'
-       }else if(this.state.isLocked){
+       }else if(isLocked){
         cancelBtnColor = '#00b1ff'
        }else{
         cancelBtnColor =  '#00b1ff'
@@ -181,7 +178,7 @@ const mapStateToProps = (state) => ({
   // newAccountName: state.userAccountReducer.accountName,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = () => ({
 });
 
 

@@ -28,7 +28,6 @@ class Home extends Component {
             activeTab: '1',
             progressValue: 33.33,
             date: new Date().getTime(),
-            address:'',
             isOpenSetting: false,
         };
         this.toggle = this.toggle.bind(this);
@@ -39,29 +38,18 @@ class Home extends Component {
     componentDidMount() {
         const mnemonic = Bip39.generateMnemonic();
         const seed = Bip39.mnemonicToSeed(mnemonic); // creates seed buffer
-        const mnemonicWords = mnemonic.split(' ');
-        this.setState({
-            mnemonic,
-            mnemonicWords,
-            seed,
-        });
         this.walletSetup(seed, mnemonic);
-
     }
 
     walletSetup(seed, mnemonic) {
-        console.log('mnemonic : ', mnemonic);
+        const { setKeys, setMnemonicCode } = this.props;
         const root = Hdkey.fromMasterSeed(seed);
         const masterPrivateKey = root.privateKey.toString('hex');
         const addrNode = root.derive("m/44'/60'/0'/0/0");
-        const pubKey = EthUtil.privateToPublic(addrNode._privateKey);
+        const pubKey = EthUtil.privateToPublic(addrNode._privateKey);//eslint-disable-line
         const addr = EthUtil.publicToAddress(pubKey).toString('hex');
         const address = EthUtil.toChecksumAddress(addr);
-        const hexPrivateKey = EthUtil.bufferToHex(addrNode._privateKey);
-        this.setState({
-            address,
-            privateKey: hexPrivateKey
-        });
+        const hexPrivateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
         // const object = {
         //  // user: this.props.userDetails.user,
         //  // icon: this.props.userDetails.icon,
@@ -74,14 +62,15 @@ class Home extends Component {
         // };
         // this.props.updateUserDetails(object);
 
-        this.props.setKeys(masterPrivateKey, address, hexPrivateKey);
-        this.props.setMnemonicCode(mnemonic);
+        setKeys(masterPrivateKey, address, hexPrivateKey);
+        setMnemonicCode(mnemonic);
 
         
       }
 
     toggle(tab) {
-        if (this.state.activeTab !== tab) {
+        const { activeTab } = this.state;
+        if (activeTab !== tab) {
 
             let progressValue = 33.33;
             if (tab === '1') {
@@ -105,17 +94,18 @@ class Home extends Component {
     }
     
     onUnlockAccount(isUnlock, privateKey, password){
-        if(this.props.onUnlockAccount){
-            this.props.onUnlockAccount(isUnlock, privateKey, password);
+        const { onUnlockAccount, setAmountData } = this.props;
+        if(onUnlockAccount){
+            onUnlockAccount(isUnlock, privateKey, password);
         }
-        if(this.props.setAmountData){
+        if(setAmountData){
             const { address, accountIcon, accountName} = this.props;
-            this.props.setAmountData(accountName,accountIcon,address)
+            setAmountData(accountName,accountIcon,address)
         }
     }
 
     openAccountManagement(){
-        const {openAccountManagement} = this.props;
+        const { openAccountManagement } = this.props;
         if(openAccountManagement){
             openAccountManagement();
         }
@@ -137,7 +127,7 @@ class Home extends Component {
     
     
     render() {
-       const { mnemonic, address, isOpenSetting } = this.state;
+       const { isOpenSetting, activeTab, progressValue, date } = this.state;
        const {accountIconId, loading, accountName, accountIcon, password, passwordHint } = this.props;
        
         return (
@@ -157,33 +147,33 @@ class Home extends Component {
                                 <Nav tabs className="tab-full tab-theme text-center">
                                     
                                     <NavItem>
-                                        <NavLink className={classnames({ active: this.state.activeTab === '1' })} >
+                                        <NavLink className={classnames({ active: activeTab === '1' })} >
                                             Create account
                                         </NavLink>
                                     </NavItem>
 
                                     <NavItem>
-                                        <NavLink className={classnames({ active: this.state.activeTab === '2' })} >
+                                        <NavLink className={classnames({ active: activeTab === '2' })} >
                                             Account information
                                         </NavLink>
 
                                     </NavItem>
                                     <NavItem>
-                                        <NavLink className={classnames({ active: this.state.activeTab === '3' })}>
+                                        <NavLink className={classnames({ active: activeTab === '3' })}>
                                             Confirm
                                         </NavLink>
                                     </NavItem>
                                 </Nav>
-                                <Progress type="theme-blue" value={this.state.progressValue} />
+                                <Progress type="theme-blue" value={progressValue} />
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                <TabContent activeTab={this.state.activeTab}>
+                                <TabContent activeTab={activeTab}>
                                     <TabPane tabId="1">
                                         <CreateAccount 
-                                            activeTab={this.state.activeTab}
-                                            date={this.state.date}
+                                            activeTab={activeTab}
+                                            date={date}
                                             accountName={accountName}
                                             // accountIcon={accountIcon} 
                                             password={password}
@@ -194,13 +184,13 @@ class Home extends Component {
                                     </TabPane>
                                     <TabPane tabId="2">
                                         <AccountInfo 
-                                            activeTab={this.state.activeTab}
+                                            activeTab={activeTab}
                                             toggle={this.toggle.bind(this)}/>
                                     </TabPane>
                                     <TabPane tabId="3">
                                         <ConfirmRecovery 
                                             isWaiting={loading} 
-                                            activeTab={this.state.activeTab} 
+                                            activeTab={activeTab} 
                                             toggle={this.toggle.bind(this)} 
                                             onUnlockAccount={this.onUnlockAccount.bind(this)}
                                             openAccountManagement={this.openAccountManagement.bind(this)}

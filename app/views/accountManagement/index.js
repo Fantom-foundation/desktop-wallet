@@ -11,7 +11,7 @@ import Header from '../../general/header/index';
 import UserAccount from './userAccounts/index';
 import Store from '../../store/userInfoStore/index';
 import SendFunds from '../sendFunds/index';
-import { getValidAccounts } from '../../KeystoreManager/index';
+import getValidAccounts from '../../KeystoreManager/index';
 
 import * as KeyStoreAction from '../../reducers/keyStore/action';
 import * as KeyStoreDetailAction from '../../reducers/keyStoreDetail/action';
@@ -22,11 +22,12 @@ import refreshIcon from '../../images/icons/refreshIcon_2.svg';
 const configHelper = config();
 
 function scientificToDecimal(num) {
-    const sign = Math.sign(num);
+    let newNum = num;
+    const sign = Math.sign(newNum);
     // if the number is in scientific notation remove it
-    if(/\d+\.?\d*e[\+\-]*\d+/i.test(num)) {
+    if(/\d+\.?\d*e[\+\-]*\d+/i.test(newNum)) {
         const zero = '0';
-        const parts = String(num).toLowerCase().split('e'); // split into coeff and exponent
+        const parts = String(newNum).toLowerCase().split('e'); // split into coeff and exponent
         const e = parts.pop(); // store the exponential part
         let l = Math.abs(e); // get the number of zeros
         const direction = e/l; // use to determine the zeroes on the left or right
@@ -34,20 +35,20 @@ function scientificToDecimal(num) {
         
         if (direction === -1) {
             coeffArray[0] = Math.abs(coeffArray[0]);
-            num = `${zero  }.${  new Array(l).join(zero)  }${coeffArray.join('')}`;
+            newNum = `${zero  }.${  new Array(l).join(zero)  }${coeffArray.join('')}`;
         }
         else {
             const dec = coeffArray[1];
             if (dec) l -= dec.length;
-            num = coeffArray.join('') + new Array(l+1).join(zero);
+            newNum = coeffArray.join('') + new Array(l+1).join(zero);
         }
     }
     
     if (sign < 0) {
-        num = -num;
+        newNum = -newNum;
     }
 
-    return num;
+    return newNum;
 }
 
 class AccountManagement extends Component {
@@ -83,11 +84,12 @@ class AccountManagement extends Component {
 
 
     getIntialUserAccountDetail(){
-        const {publicKey, accountName, accountIcon} = this.props;
+        const {publicKey, accountName, accountIcon, updateUserAccountDetail, updateKeyStore} = this.props;
         return({publicKey, accountName, accountIcon});
     }
 
     getValidAccounts(){
+       const {updateUserAccountDetail, updateKeyStore} = this.props;
         getValidAccounts().then((storeKeys) => {
             if(storeKeys.success){
                 const {result} = storeKeys;
@@ -99,19 +101,19 @@ class AccountManagement extends Component {
                     name,
                     publicKey: address,
                 });
-                this.props.updateUserAccountDetail(name, accountIcon, address )
-                this.props.updateKeyStore(result);
+                updateUserAccountDetail(name, accountIcon, address )
+                updateKeyStore(result);
 
                 const storeSize = result.length;
                 if(storeSize > 0){     
                     this.getWalletBalance(address);
-                    this.getWalletTransaction(address);
+                    // this.getWalletTransaction(address);
                 }
 
                 return storeKeys.result;
             }
                 return [];
-        }).catch((err)=>[])
+        }).catch(()=>[])
     }
 
     getUserAccountDetail(storeKeys){
@@ -155,13 +157,13 @@ class AccountManagement extends Component {
         }
     }
     
-    getWalletTransaction(address) {
-        // if (configHelper.isEthereumMode) {
-        //     this.getEtherTransactionsFromApiAsync(address);
-        // } else {
-        //     this.getFantomTransactionsFromApiAsync(address);
-        // }
-    }
+    // getWalletTransaction(address) {
+    //     // if (configHelper.isEthereumMode) {
+    //     //     this.getEtherTransactionsFromApiAsync(address);
+    //     // } else {
+    //     //     this.getFantomTransactionsFromApiAsync(address);
+    //     // }
+    // }
     
     // /////////////////////////////////////////   FOR FANTOM OWN END POINT  ///////////////////////////////////////////////////////////////  
 
@@ -478,7 +480,7 @@ class AccountManagement extends Component {
 
         if(publicKey){     
             this.getWalletBalance(publicKey);
-            this.getWalletTransaction(publicKey);
+            // this.getWalletTransaction(publicKey);
         }
     }
 
@@ -494,7 +496,7 @@ class AccountManagement extends Component {
        
         if( publicKey.toLowerCase() === address.toLowerCase() || publicKey.toLowerCase() === to.toLowerCase() ){     
             this.getWalletBalance(publicKey);
-            this.getWalletTransaction(publicKey);
+            // this.getWalletTransaction(publicKey);
         }
     }
 
@@ -525,7 +527,7 @@ class AccountManagement extends Component {
 
         if(address){
             this.getWalletBalance(address);
-            this.getWalletTransaction(address);
+            // this.getWalletTransaction(address);
         }
 
     }

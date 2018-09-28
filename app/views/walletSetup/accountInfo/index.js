@@ -8,7 +8,6 @@ import ReactToPrint from 'react-to-print';
 import { clipboard } from 'electron';
 import { connect } from 'react-redux';
 
-import AccountFooter from '../../../general/footer/account-footer';
 import AccountInfoCard from './accountInfoCard';
 import FooterButtons from '../../../general/footer/footer-buttons';
 import AccountDetailPrint from './accountDetailPrint';
@@ -26,12 +25,13 @@ class AccountInfo extends Component {
 
     onNext() {
         const { confirmText, confirmPhrase } = this.state;
+         const { toggle } = this.props;
         if (confirmText === confirmPhrase) {
             this.setState({
                 isBackupConfirm: true
             });
-            if (this.props.toggle) {
-                this.props.toggle('3');
+            if (toggle) {
+                toggle('3');
 
             }
         }
@@ -151,7 +151,7 @@ const mapStateToProps = (state) => ({
     mnemonic: state.keyReducer.mnemonic,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = () => ({
 });
 
 
