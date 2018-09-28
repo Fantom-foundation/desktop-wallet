@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 /**
  * FantomLogo : A svg file for rendering fantom logo in application.
  * 
@@ -52,6 +53,10 @@ class FantomLogo extends Component {
         
     }
 }
-
+FantomLogo.propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number,
+    logoType: PropTypes.number,
+     };
 export default FantomLogo;
 
