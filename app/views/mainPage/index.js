@@ -55,7 +55,6 @@ class MainPage extends Component {
   }
 
   onUnlockAccount(isUnlock, privateKey, password) {
-    console.log('onUnlockAccount : ', isUnlock, privateKey, password);
 
     this.setState({
       loading: true
@@ -76,7 +75,7 @@ class MainPage extends Component {
             loading: false
           });
         });
-    }, 10000);
+    }, 100);
   }
 
   setAmountData(name, identiconsId, address) {

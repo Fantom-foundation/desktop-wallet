@@ -38,6 +38,7 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
  * To get file at a path and file name should contain a particular address as well.
  */
   const getFileAtPathAndContains = (path, address) => new Promise((resolve, reject) => {
+
     if (path && path !== '') {
       const fileArray = [];
       fs.readdir(`${path}`, (err, result) => {
@@ -73,6 +74,7 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
    * To get the keystor of particular address
    */
   const getSavedKeystoreWithAddress = (address) => {
+
     const appPath = remote.app.getPath('userData');
     return getFileAtPathAndContains(appPath, address);
   }
@@ -85,6 +87,7 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
    */
   const getKeystoreDataOfAddress = (address) => new Promise((resolve, reject) => {
       getSavedKeystoreWithAddress(address).then((result) => {
+
         if (result.success && result.result && result.result.length
           && result.result.length > 0) {
             const file = result.result[0];
@@ -112,6 +115,7 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
    */
   const getPrivateKeyOfAddress = (address, password) => new Promise((resolve, reject) => {
       getKeystoreDataOfAddress(address).then((result) => {
+
         if (result.success && result.result) {
           const data = result.result.toString('utf8');
           const wallet = WalletEther.fromV3(data, password);
@@ -138,7 +142,9 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
       /** */
       const wallet = WalletEther.fromPrivateKey(privateKeyBuffer);
       const keystoreFilename = wallet.getV3Filename();
+
       const keystore = wallet.toV3(password);
+
       const appPath = remote.app.getPath('userData');
       const savePath = `${appPath}/${keystoreFilename}.json`;
       fs.writeFile(`${appPath}/${keystoreFilename}.json`, JSON.stringify(keystore), (err) => {

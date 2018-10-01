@@ -148,7 +148,7 @@ class SendFunds extends Component {
       addressErrText !== '' ||
       ammountErrText !== '' ||
       address === '' ||
-      ftmAmount === '' ||
+      ftmAmount === '' || Number(ftmAmount) <= 0|| 
       password === ''
     ) {
       return null;
@@ -189,7 +189,6 @@ class SendFunds extends Component {
         verificationError: message
       });
     }
-
     if (message !== '') {
       return false;
     }
@@ -364,7 +363,7 @@ class SendFunds extends Component {
       continueBtnColor = 'secondary';
     }
 
-    if (address === '' || ftmAmount === '' || password === '') {
+    if (address === '' || ftmAmount === '' || Number(ftmAmount) <= 0 || password === '') {
       continueBtnColor = 'secondary';
     }
 
