@@ -58,11 +58,21 @@ class AccountManagement extends Component {
  * To fetch list of valid accounts from file on system .
  */
     componentWillMount(){
-      setInterval(() => {
-        this.getValidAccounts();
+      this.validAccountDetail = setInterval(() => {
+        const { isSendFund } = this.state;
+        if(!isSendFund){
+            this.getValidAccounts();
+        }
       }, 5000)
       this.getValidAccounts();
         
+    }
+
+/**
+ * To clear the counter for fetching list of valid accounts from file on system .
+ */
+    componentWillUnmount(){
+        clearInterval(this.validAccountDetail);
     }
 
 
@@ -83,7 +93,7 @@ class AccountManagement extends Component {
         getValidAccounts().then((storeKeys) => {
             if(storeKeys.success){
                 const {result} = storeKeys;
-                const { updateUserAccountDetail, updateKeyStore} = this.props;
+                const { updateUserAccountDetail} = this.props;
                 const userAccountDetail =  this.getUserAccountDetail(result);
                 const { accountIcon, name, address} = userAccountDetail;
                 this.setState({
@@ -93,7 +103,6 @@ class AccountManagement extends Component {
                     publicKey: address,
                 });
                 updateUserAccountDetail(name, accountIcon, address )
-                updateKeyStore(result);
 
                 const storeSize = result.length;
                 if(storeSize > 0){     
@@ -181,6 +190,7 @@ class AccountManagement extends Component {
                     const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
                     let maxFantomBalance = valInEther - gasPriceEther;
                     maxFantomBalance =  Number(maxFantomBalance).toFixed(4);
+                    console.log('maxFantomBalance : ',maxFantomBalance);
                     this.setState({
                         maxFantomBalance,
                     })

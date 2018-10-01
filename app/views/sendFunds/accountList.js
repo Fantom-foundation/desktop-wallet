@@ -35,29 +35,31 @@ class AccountList extends Component {
     const { accountStore, accountType } = this.state;
     const accountDetailList = [];
     const length = accountStore.length;
+    let accountName = '';
     for (let account = 0; account < length; account += 1) {
-      let selected = false;
       if (accountType === accountStore[account].name) {
-        selected = true;
+        accountName = accountStore[account].name
       }
       accountDetailList.push(
-        <option key={account} selected={selected}>
+        <option key={account} >
           {accountStore[account].name}
         </option>
       );
     }
-    return accountDetailList;
+    return {accountDetailList, accountName};
   }
 
   render() {
+    const  renderList =  this.renderAccountList()
     return (
       <Input
         type="select"
         name="select"
         id="accountSelect"
+        value={renderList.accountName}
         onChange={this.setAccountType.bind(this)}
       >
-        {this.renderAccountList()}
+        {renderList.accountDetailList}
       </Input>
     );
   }

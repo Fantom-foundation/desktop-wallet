@@ -141,7 +141,6 @@ export default class SendMoney extends Component {
           <p
             aria-hidden
             className="text-center"
-            sty
             onClick={() => this.props.handleGoBack()}
           >
             <span

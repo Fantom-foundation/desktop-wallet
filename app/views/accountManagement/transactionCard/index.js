@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
-import { connect } from 'react-redux';
-import TransactionStore from '../../../store/transactionStore';
-import * as TransactionStoreAction from '../../../reducers/transactionStore/action';
 
 /**
  * TransactionCard: This component is meant for rendering transactions for selected account.
@@ -19,40 +16,16 @@ class TransactionCard extends Component {
             isShowTransaction: false,
         }
     }
-    /**
-     * getTransactionsData(): To fetch transactions locally saved , from file on system, 
-     * if the account has transaction list then , transaction list is returned and its count is updated in reducer.
-     */
-
-    getTransactionsData() {
-        // let outGoingTransCount = 0;
-      const key = 'Transactions';
-      const newObj = TransactionStore.get(key);
-      const objArr = newObj || [];
-      const arrToRet = [];
-      const { address, storeTransactionCount } = this.props;
-      for (const transaction of objArr) {
-        if (transaction.to && transaction.from && (transaction.from === address)) {
-            // if(transaction.from === address){
-            //     outGoingTransCount =+ 1;
-            // }
-             
-          arrToRet.push(transaction);
-        }
-      }
-      storeTransactionCount(arrToRet.length);
-
-      return arrToRet.reverse();
-    }
-
+    
     /**
      * renderTransactions() :  A function to render transaction cards based on transaction data fetched from file on system.
      */
     renderTransactions() {
-        // const { transactionData } = this.props;
+        const { transactionData } = this.props;
         let allTransaction =<center><p className="r-title text-gray mb-2">(Your recent sent transactions will be displayed here)</p></center> 
         
-        const transactionData = this.getTransactionsData();
+        // const transactionData = this.getTransactionsData();
+
         
         if (transactionData && transactionData.length && transactionData.length > 0) {
             allTransaction = transactionData.map((data, index) => (
@@ -112,14 +85,6 @@ class TransactionCard extends Component {
 }
 
 
-const mapStateToProps = () => ({
-  });
+
   
-  const mapDispatchToProps = (dispatch) => ({
-    storeTransactionCount: ( transactionCount ) => {
-        dispatch({ type: TransactionStoreAction.TRANSACTION_COUNT, transactionCount });
-    },
-  });
-  
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(TransactionCard);
+  export default TransactionCard;

@@ -32,7 +32,7 @@ export default class IdenticonsIcon extends Component {
     return (
       <li>
         <label className="form-radio-label">
-          <input name="name" className="form-radio-field" type="radio" checked={checked} onClick={() => this.getRadioIconData(identiconsId)}/>          
+          <input name="name" className="form-radio-field" type="radio" value={checked} defaultChecked={checked} onClick={() => this.getRadioIconData(identiconsId)}/>          
           <i className="form-radio-button" />
           <div className="d-inline-block theme-blue-shadow identicon-boxes-container" >
             <Identicons id={identiconsId} width={40} size={3} />

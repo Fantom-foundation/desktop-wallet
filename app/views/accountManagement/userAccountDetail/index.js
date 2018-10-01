@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Col, } from 'reactstrap';
-import { connect } from 'react-redux';
 
 import Identicons from '../../../general/identicons/identicons';
 import copyImage from '../../../images/icons/copy.svg';
@@ -24,9 +23,9 @@ class UserAccountDetail extends Component {
         if(balance){
             balance = addCommasToNumber(balance);
         }
-        if(!transactionLength){
-            transactionLength = transactionCount;
-        }
+        // if(!transactionLength){
+        //     transactionLength = transactionCount;
+        // }
 
         return (
             <Col lg={8} className="gray-column large">
@@ -68,9 +67,7 @@ class UserAccountDetail extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    transactionCount: state.transactionStoreReducer.transactionCount,
-});
 
 
-export default connect(mapStateToProps, null)(UserAccountDetail);
+
+export default UserAccountDetail;
