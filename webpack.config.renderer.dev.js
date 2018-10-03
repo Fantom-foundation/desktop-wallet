@@ -44,7 +44,6 @@ export default merge.smart(baseConfig, {
   mode: 'development',
 
   target: 'electron-renderer',
-
   entry: [
     'react-hot-loader/patch',
     `webpack-dev-server/client?http://localhost:${port}/`,
@@ -58,6 +57,7 @@ export default merge.smart(baseConfig, {
   },
 
   module: {
+    exprContextCritical: false,
     rules: [
       {
         test: /\.jsx?$/,

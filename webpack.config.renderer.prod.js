@@ -20,7 +20,6 @@ export default merge.smart(baseConfig, {
   mode: 'production',
 
   target: 'electron-renderer',
-
   entry: './app/index',
 
   output: {
@@ -30,6 +29,7 @@ export default merge.smart(baseConfig, {
   },
 
   module: {
+    exprContextCritical: false,
     rules: [
       // Extract all .global.css to style.css as is
       {
