@@ -157,7 +157,7 @@ class SendFunds extends Component {
     if (isValidDetail) {
       setTimeout(() => {
         this.getPrivateKeyOfAddress(publicKey, password);
-      }, 100);
+      }, 10);
     }
   }
 

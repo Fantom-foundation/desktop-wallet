@@ -1,7 +1,18 @@
+import '../global';
 import { remote } from 'electron';
 import WalletEther from 'ethereumjs-wallet';
 import EthUtil from 'ethereumjs-util';
+const Web3 = require('web3');
+
+var keythereum = require("keythereum");
+// const nacl = require('tweetnacl');
+// const naclUtil = require('tweetnacl-util');
+
 import Store from "../store/userInfoStore";
+
+const web3 = new Web3(
+  new Web3.providers.HttpProvider('https://ropsten.infura.io/')
+);
 
 // const Buffer = require('safe-buffer').Buffer;
 
@@ -106,6 +117,27 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
       }).catch(error => reject(error));
     })
 
+    // const decryptKey =  (encryptedKey, pwDerivedKey) => {
+    //   debugger;
+    //   var secretbox = naclUtil.decodeBase64(encryptedKey.address);
+    //   console.log('secretbox : ', secretbox);
+    //   var nonce = naclUtil.decodeBase64(encryptedKey.nonce);
+    //   console.log('nonce : ', nonce);
+    //   var decryptedKey = nacl.secretbox.open(secretbox, nonce, pwDerivedKey);
+     
+    //   console.log('decryptedKey : ', decryptedKey);
+    //   if (decryptedKey === undefined) {
+    //     throw new Error("Decryption failed!");
+    //   }
+     
+    //   return nacl_encodeHex(decryptedKey);
+    //  }
+
+    //  const  nacl_encodeHex = (msgUInt8Arr) => {
+    //   var msgBase64 = naclUtil.encodeBase64(msgUInt8Arr);
+    //   return (new Buffer(msgBase64, 'base64')).toString('hex');
+    //  }
+
   /**
    * 
    * @param {String} address 
@@ -115,18 +147,55 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
    */
   const getPrivateKeyOfAddress = (address, password) => new Promise((resolve, reject) => {
       getKeystoreDataOfAddress(address).then((result) => {
-
         if (result.success && result.result) {
+          // debugger;
           const data = result.result.toString('utf8');
-          const wallet = WalletEther.fromV3(data, password);
-            const privateKeyBuffer = EthUtil.bufferToHex(wallet.getPrivateKey());
-            resolve({ success: true, result: privateKeyBuffer });
+          console.log('*********************************')
+          console.log('data : ', data);
+          const jsonData = JSON.parse(data);
+          console.log('jsonData : ', jsonData);
+          // console.log('web3.eth.accounts : ', web3.eth.accounts);
+
+          console.log('###############')
+          const walletData1 = web3.eth.accounts.decrypt(data, password);
+          // console.log('decrypt web3.eth.accounts data: ', walletData1);
+          // const walletData1 = decryptKey(data, password)
+          // console.log('decrypt decryptKey data: ', walletData1);
+          
+          // keythereum.recover(password, jsonData, function (privateKey) {
+          //   console.log('1111privateKey : ', privateKey)
+          //   resolve({ success: true, result: privateKey });
+          //   // do stuff
+          // });
+          // const walletData2 = web3.eth.accounts.decrypt(jsonData, password);
+          // console.log('decrypt web3.eth.accounts jsonData: ', walletData2);
+          // console.log('###############')
+
+          // const walletData = web3.eth.accounts.wallet.decrypt([jsonData], password);
+          
+          // console.log('web3.eth.accounts.wallet.decrypt : ', walletData[0]);
+
+          // const walletOld = WalletEther.fromV3(data, password);
+          // const wallet = WalletEther.fromV3(data, password);
+            // const privateKeyBuffer1 = EthUtil.bufferToHex(walletOld.getPrivateKey());
+          // console.log('walletold privatekey : ', privateKeyBuffer1);
+            const privateKeyBuffer = walletData1.privateKey
+          //   console.log('privateKeyBuffer : ', privateKeyBuffer);
+          // console.log('*********************************1')
+          resolve({ success: true, result: privateKeyBuffer });
+            
+          // console.log('*********************************2')
+
+
+
           
         } else {
           reject(new Error('Unable to read data.'))
         }
         return true;
-      }).catch(err => reject(err));
+      }).catch(err => {
+        reject(err)
+      });
     })
 
 /**
@@ -136,14 +205,29 @@ const getFilesAtPath = (path) => new Promise((resolve, reject) => {
  * To save the private key in keystore and lock with password.
  */
   const savePrivateKey = (privateKey, password) => new Promise((resolve, reject) => {
+    console.log('************************************')
+    console.log('private key : ', privateKey)
+    console.log('password : ', password)
       /** */
       const privateKeyBuffer = EthUtil.toBuffer(privateKey);
       // const privateKeyBuffer = Buffer.from(privateKey, 'hex')
       /** */
       const wallet = WalletEther.fromPrivateKey(privateKeyBuffer);
       const keystoreFilename = wallet.getV3Filename();
+      console.log('keystoreFilename : ', keystoreFilename);
 
-      const keystore = wallet.toV3(password);
+      const keystore = web3.eth.accounts.encrypt(privateKey, password);
+      console.log('Web3 : ',web3);
+      console.log('keystoreData : ', keystore);
+
+      // const keystore = wallet.toV3(password);
+      console.log('keystore : ', keystore);
+      /** */
+
+     
+
+      /** */
+
 
       const appPath = remote.app.getPath('userData');
       const savePath = `${appPath}/${keystoreFilename}.json`;
