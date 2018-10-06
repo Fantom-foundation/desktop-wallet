@@ -82,8 +82,8 @@ class SendFunds extends Component {
   }
 
   /**
- * setAccountType() :  To set public key of selected account, and fetch balance for it.
- */
+   * setAccountType() :  To set public key of selected account, and fetch balance for it.
+   */
   setAccountType(e) {
     const { accountStore } = this.state;
     const accountType = e.target.value;
@@ -127,11 +127,10 @@ class SendFunds extends Component {
     });
   }
 
-
-    /**
-     * handleCheckSend() : User can transfer funds,
-     *  only if all detail is filled and private key is retrived for public key and password in state.
-     */
+  /**
+   * handleCheckSend() : User can transfer funds,
+   *  only if all detail is filled and private key is retrived for public key and password in state.
+   */
 
   handleCheckSend() {
     const {
@@ -148,7 +147,8 @@ class SendFunds extends Component {
       addressErrText !== '' ||
       ammountErrText !== '' ||
       address === '' ||
-      ftmAmount === '' || Number(ftmAmount) <= 0|| 
+      ftmAmount === '' ||
+      Number(ftmAmount) <= 0 ||
       password === ''
     ) {
       return null;
@@ -157,11 +157,9 @@ class SendFunds extends Component {
     if (isValidDetail) {
       setTimeout(() => {
         this.getPrivateKeyOfAddress(publicKey, password);
-      }, 10);
+      }, 100);
     }
   }
-
-
 
   handleGoBack() {
     this.setState({
@@ -221,7 +219,6 @@ class SendFunds extends Component {
     }
   }
 
-
   /**
    * ftmAmmountVerification() : To check ammount entered is valid or not, if invalid ammount then render error message.
    */
@@ -253,12 +250,11 @@ class SendFunds extends Component {
     }
   }
 
-
-    /**
-     * getPrivateKeyOfAddress() : This function is meant for getting private key.
-     * @param {String} publicKey ,
-     * @param {String} password ,
-     */
+  /**
+   * getPrivateKeyOfAddress() : This function is meant for getting private key.
+   * @param {String} publicKey ,
+   * @param {String} password ,
+   */
   getPrivateKeyOfAddress(publicKey, password) {
     getPrivateKeyOfAddress(publicKey, password)
       .then(res => {
@@ -311,7 +307,6 @@ class SendFunds extends Component {
     return null;
   }
 
-
   renderAddressErrText() {
     const { isValidAddress, addressErrText } = this.state;
     if (!isValidAddress && addressErrText !== '') {
@@ -363,7 +358,12 @@ class SendFunds extends Component {
       continueBtnColor = 'secondary';
     }
 
-    if (address === '' || ftmAmount === '' || Number(ftmAmount) <= 0 || password === '') {
+    if (
+      address === '' ||
+      ftmAmount === '' ||
+      Number(ftmAmount) <= 0 ||
+      password === ''
+    ) {
       continueBtnColor = 'secondary';
     }
 
