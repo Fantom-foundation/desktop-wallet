@@ -190,7 +190,6 @@ class AccountManagement extends Component {
                     const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
                     let maxFantomBalance = valInEther - gasPriceEther;
                     maxFantomBalance =  Number(maxFantomBalance).toFixed(4);
-                    console.log('maxFantomBalance : ',maxFantomBalance);
                     this.setState({
                         maxFantomBalance,
                     })
@@ -513,7 +512,6 @@ class AccountManagement extends Component {
         });
 
         this.forceUpdate();
-        console.log('chehck ckk')
        
         if( publicKey.toLowerCase() === address.toLowerCase() || publicKey.toLowerCase() === to.toLowerCase() ){     
             this.getWalletBalance(publicKey);

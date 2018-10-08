@@ -59,7 +59,6 @@ class ConfirmRecovery extends Component {
       errorText: '',
       isLocked: false,
     });
-    console.log('final mnemonic : ', newMnemonic);
     const seed = Bip39.mnemonicToSeed(newMnemonic); // creates seed buffer
 
     this.walletSetup(seed);

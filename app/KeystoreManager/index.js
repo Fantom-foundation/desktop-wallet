@@ -131,10 +131,8 @@ const getPrivateKeyOfAddress = (address, password) =>
           const jsonData = JSON.parse(data);
 
           keythereum.recover(password, jsonData, dataRes => {
-            console.log('keytherem data: ', dataRes);
             if (dataRes instanceof Buffer) {
               const hexVal = EthUtil.bufferToHex(dataRes);
-              console.log('keytherem hexVal data: ', hexVal);
               resolve({ success: true, result: hexVal });
             } else if (dataRes instanceof Error) {
               reject(dataRes);
@@ -148,7 +146,6 @@ const getPrivateKeyOfAddress = (address, password) =>
         return true;
       })
       .catch(err => {
-        console.log(err, 'err');
         reject(err);
       });
   });
@@ -167,7 +164,6 @@ const savePrivateKey = (privateKey, password) =>
     /** */
     const wallet = WalletEther.fromPrivateKey(privateKeyBuffer);
     const keystoreFilename = wallet.getV3Filename();
-    console.log('keystoreFilename : ', keystoreFilename);
 
     const keystore = web3.eth.accounts.encrypt(privateKey, password);
 
