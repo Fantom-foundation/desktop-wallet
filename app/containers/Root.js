@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {Component} from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import type { Store } from '../reducers/types';
@@ -6,18 +6,24 @@ import type { Store } from '../reducers/types';
 import Routes from '../Routes';
 
 
+// type Props = {
+//   store: Object,
+//   history: Object
+// };
+
 type Props = {
-  store: Object,
-  history: Object
-};
-
-export default class Root extends React.Component<Props> {
-  props: Props;
-
-static defaultProps = {
   store: Store,
   history: {}
 };
+
+export default class Root extends Component<Props> {
+  
+  props: Props;
+
+// static defaultProps = {
+//   store: Store,
+//   history: {}
+// };
 
   render() {
     const { store, history } = this.props;
