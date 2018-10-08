@@ -19,7 +19,6 @@ static defaultProps = {
   history: {}
 };
 
-
   render() {
     const { store, history } = this.props;
     return (
