@@ -1,18 +1,4 @@
-<div align="center">
-<br>
-<img src='app/images/icons/fantomLogo.png' />
-
-</div>
-
-<br>
-
-<p align="center">
-A Cross-Platform Desktop Apps based on  <a href="http://electron.atom.io/">Electron</a>, <a href="https://facebook.github.io/react/">React</a>, <a href="https://github.com/reactjs/redux">Redux</a>, <a href="https://github.com/reactjs/react-router">React Router</a>, <a href="http://webpack.github.io/docs/">Webpack</a> and <a href="https://github.com/gaearon/react-transform-hmr">React Transform HMR</a> for fund transfer.
-</p>
-
-<hr>
-<br>
-
+# Fantom Wallet
 
 ## Install
 
@@ -31,7 +17,7 @@ $ yarn
 
 ## Run
 
-Start the app in the `dev` environment. 
+Start the app in the `dev` environment.
 
 ```bash
 $ yarn run dev
@@ -79,8 +65,3 @@ DEBUG_PROD=true yarn package
 <li>History of already done transactions is displayed </li>
 <li>User can have multiple accounts , which are displayed here. </li>
 <li>Funds can be transfered from any selected account. </li>
-
-
-
-
-
