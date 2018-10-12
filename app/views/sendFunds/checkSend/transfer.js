@@ -23,13 +23,10 @@ const web3 = new Web3(
  */
 function transferMoneyViaEthereum(from, to, value, memo, privateKey) {
   return new Promise((resolve, reject) => {
-    console.log('Promise : ');
     web3.eth
       .getTransactionCount(from)
       .then(count => {
-        console.log('from : ', from);
         const privateKeyBuffer = EthUtil.toBuffer(privateKey);
-        console.log('privateKeyBuffer : ', privateKeyBuffer);
         web3.eth.getGasPrice((err, result) => {
           const rawTx = {
             from,
@@ -92,10 +89,6 @@ function transferMoneyViaEthereum(from, to, value, memo, privateKey) {
  * @param {*} privateKey : Private key of account from which to transfer.
  */
 function transferMoneyViaFantom(from, to, value, memo, privateKey) {
-  console.log('transfer via fantom test net');
-  console.log('from : ', from);
-  console.log('to : ', to);
-  console.log('privateKey : ', privateKey);
   return new Promise((resolve, reject) => {
     getNonceFantom(from)
       .then(count => {
@@ -118,7 +111,6 @@ function transferMoneyViaFantom(from, to, value, memo, privateKey) {
         axios
           .post(`${configHelper.apiUrl}/sendRawTransaction`, hexTx)
           .then(response => {
-            console.log('in account response.data', response.data);
             if (response && response.data && response.data.txHash) {
               resolve({ success: true, hash: response.data.txHash });
             } else {

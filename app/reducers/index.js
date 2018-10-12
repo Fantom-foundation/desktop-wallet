@@ -8,7 +8,6 @@ import keyStoreDetailReducer from './keyStoreDetail/reducer';
 import userAccountReducer from './userDetail/reducer';
 import transactionStoreReducer from './transactionStore/reducer';
 
-import counter from './counter';
 
 const rootReducer = combineReducers({
   keyReducer,
@@ -17,7 +16,6 @@ const rootReducer = combineReducers({
   keyStoreDetailReducer,
   userAccountReducer,
   transactionStoreReducer,
-  counter,
   router
 });
 
