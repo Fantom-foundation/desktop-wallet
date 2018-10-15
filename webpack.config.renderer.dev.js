@@ -44,7 +44,6 @@ export default merge.smart(baseConfig, {
   mode: 'development',
 
   target: 'electron-renderer',
-
   entry: [
     'react-hot-loader/patch',
     `webpack-dev-server/client?http://localhost:${port}/`,
@@ -58,6 +57,7 @@ export default merge.smart(baseConfig, {
   },
 
   module: {
+    exprContextCritical: false,
     rules: [
       {
         test: /\.jsx?$/,
@@ -147,6 +147,11 @@ export default merge.smart(baseConfig, {
           }
         ]
       },
+      // {
+      //   test: /\.(eot|svg|ttf|woff|woff2)$/, // loader for custom fonts
+      //   use: [{ loader: 'file-loader?name=font/[name]__[hash:base64:5].[ext]' }],
+      //   include: defaultInclude
+      // },
       // WOFF Font
       {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,

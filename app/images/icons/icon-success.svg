@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12.382" width="12" height="12.382">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: rgba(0,0,0,0);
+      }
+
+      .cls-2 {
+        fill: #01ac5a;
+      }
+    </style>
+  </defs>
+  <g id="icon_success" data-name="icon/success" transform="translate(0 0)">
+    <rect id="icon_success_background" data-name="icon/success background" class="cls-1" width="12" height="12.382" transform="translate(0 0)"/>
+    <path id="Shape_Copy" data-name="Shape Copy" class="cls-2" d="M6,12.382a5.872,5.872,0,0,1-4.248-1.808A6.255,6.255,0,0,1,0,6.191,6.255,6.255,0,0,1,1.752,1.808a5.894,5.894,0,0,1,8.5,0A6.255,6.255,0,0,1,12,6.191a6.255,6.255,0,0,1-1.752,4.383A5.872,5.872,0,0,1,6,12.382ZM3.109,5.628a.266.266,0,0,0-.191.084l-.382.394a.277.277,0,0,0,0,.394l.055.056L4.718,8.92a.208.208,0,0,0,.191.085A.243.243,0,0,0,5.1,8.92L9.464,4.249a.277.277,0,0,0,.081-.21.211.211,0,0,0-.081-.155L9.082,3.49a.258.258,0,0,0-.382,0H8.673L5.018,7.4a.129.129,0,0,1-.191,0l-1.5-1.66L3.3,5.713A.266.266,0,0,0,3.109,5.628Z" transform="translate(0 0)"/>
+  </g>
+</svg>

@@ -1,8 +1,8 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "ElectronReact",
-  "version": "0.14.0",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "name": "fantom-foundation",
+  "productName": "Fantom",
+  "version": "0.1.3",
+  "description": "Beyond Blockchain, A fast, scalable and secure DAG based smart contract platform.",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
     "cdSass": "cd app && yarn build-css",
@@ -21,11 +21,11 @@
     "package-all": "yarn build && electron-builder build -mwl",
     "package-linux": "yarn build && electron-builder build --linux",
     "package-win": "yarn build && electron-builder build --win --x64",
-    "postinstall": "node -r babel-register internals/scripts/CheckNativeDep.js && yarn flow-typed && yarn build-dll && electron-builder install-app-deps package.json",
+    "postinstall": "node -r babel-register internals/scripts/CheckNativeDep.js && yarn build-dll && electron-builder install-app-deps package.json",
     "postlint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.js'",
     "precommit": "lint-staged",
     "prestart": "yarn build",
-    "start": "cross-env NODE_ENV=production electron ./app/",
+    "start": "cross-env NODE_ENV=production electron ./app/ ELECTRON_DISABLE_SECURITY_WARNINGS",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./app/main.dev.js",
     "start-renderer-dev": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.renderer.dev.js",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings -r babel-register ./internals/scripts/RunTests.js",
@@ -46,8 +46,8 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "Fantom",
+    "appId": "org.develar.Fantom",
     "files": [
       "dist/",
       "node_modules/",
@@ -91,15 +91,6 @@
     "type": "git",
     "url": "git+https://github.com/chentsulin/electron-react-boilerplate.git"
   },
-  "author": {
-    "name": "C. T. Lin",
-    "email": "chentsulin@gmail.com",
-    "url": "https://github.com/chentsulin"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/chentsulin/electron-react-boilerplate/issues"
-  },
   "keywords": [
     "electron",
     "boilerplate",
@@ -112,30 +103,9 @@
     "reload"
   ],
   "homepage": "https://github.com/chentsulin/electron-react-boilerplate#readme",
-  "jest": {
-    "testURL": "http://localhost/",
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js",
-      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
-    },
-    "moduleFileExtensions": [
-      "js"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "app/node_modules"
-    ],
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
-    "setupFiles": [
-      "./internals/scripts/CheckBuiltsExist.js"
-    ]
-  },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",
-    "babel-jest": "^23.4.2",
     "babel-loader": "^7.1.5",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-dev-expression": "^0.2.1",
@@ -160,7 +130,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.4",
-    "eslint": "^5.2.0",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-formatter-pretty": "^1.3.0",
@@ -168,7 +138,6 @@
     "eslint-plugin-compat": "^2.5.1",
     "eslint-plugin-flowtype": "^2.50.0",
     "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jest": "^21.18.0",
     "eslint-plugin-jsx-a11y": "6.1.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.10.0",
@@ -180,11 +149,10 @@
     "flow-typed": "^2.5.1",
     "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^23.4.2",
     "lint-staged": "^7.2.0",
     "mini-css-extract-plugin": "^0.4.1",
     "minimist": "^1.2.0",
-    "node-sass": "^4.9.2",
+    "node-sass": "4.9.2",
     "npm-logical-tree": "^1.2.1",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
     "prettier": "^1.14.0",
@@ -208,11 +176,31 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.2.0",
+    "axios": "^0.18.0",
+    "binary-loader": "^0.0.1",
+    "bip39": "^2.5.0",
     "bootstrap": "^4.1.3",
+    "bufferutil": "^4.0.0",
+    "chokidar": "2.0.4",
     "classnames": "^2.2.6",
     "devtron": "^1.4.0",
     "electron-debug": "^2.0.0",
+    "electron-store": "^2.0.0",
+    "eth-lib": "0.1.27",
+    "ethereumjs-tx": "^1.3.7",
+    "ethereumjs-util": "5.2.0",
+    "ethereumjs-wallet": "^0.6.2",
+    "file": "^0.2.2",
+    "hdkey": "1.1.0",
     "history": "^4.7.2",
+    "identicons-react": "^0.1.0",
+    "jquery": "1.9.1",
+    "keccak": "1.4.0",
+    "moment": "^2.22.2",
+    "node-sass-chokidar": "^1.3.3",
+    "popper.js": "^1.14.3",
+    "qrcode.react": "^0.8.0",
+    "keythereum": "https://github.com/Kapilbindal1/keythereum.git",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-hot-loader": "^4.3.4",
@@ -220,10 +208,22 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^5.0.0-alpha.6",
+    "react-spinners": "^0.4.5",
+    "react-to-print": "^2.0.0-alpha-3",
     "reactstrap": "^6.4.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "source-map-support": "^0.5.6"
+    "sane": "2.5.2",
+    "scrypt.js": "0.2.0",
+    "secp256k1": "3.5.2",
+    "source-map-support": "^0.5.6",
+    "styled-components": "^3.4.9",
+    "utf-8-validate": "^5.0.1",
+    "web3": "^1.0.0-beta.36",
+    "web3-core": "1.0.0-beta.36",
+    "web3-core-requestmanager": "1.0.0-beta.36",
+    "web3-providers-ws": "1.0.0-beta.36",
+    "webpack-node-externals": "^1.7.2"
   },
   "devEngines": {
     "node": ">=7.x",

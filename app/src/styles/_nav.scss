@@ -2,6 +2,9 @@
 
 //--Header
 nav {
+  position: sticky !important;
+  z-index: 999;
+  top: 0;
   &.navbar {
     min-height: 64px;
     &.bg-dark {
@@ -11,7 +14,6 @@ nav {
     }
     &.navbar-dark {
       .navbar-brand {
-        //  color:map-get($color, white);
       }
     }
   }

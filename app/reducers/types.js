@@ -10,6 +10,7 @@ export type Action = {
 
 export type GetState = () => counterStateType;
 
+// $FlowFixMe
 export type Dispatch = ReduxDispatch<Action>;
-
+// $FlowFixMe
 export type Store = ReduxStore<GetState, Action>;

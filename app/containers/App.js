@@ -1,12 +1,7 @@
-// @flow
-import * as React from 'react';
 
-type Props = {
-  children: React.Node
-};
+import React,{Component} from 'react';
 
-export default class App extends React.Component<Props> {
-  props: Props;
+export default class App extends Component {
 
   render() {
     const { children } = this.props;

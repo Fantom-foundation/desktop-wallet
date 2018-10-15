@@ -35,4 +35,20 @@
       background: rgba(255, 255, 255, 0.9);
     }
   }
+
+  &.strong-password-bar {
+    background-color: #c5f7d7;;
+    .bar {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -ms-flex-pack: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      background-color: #64fa9a;
+    }
+  }
 }

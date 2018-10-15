@@ -3,11 +3,12 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
+import './global-style';
 import './app.global.css';
-import './app.global.scss';
-import 'src/main.css';
-const store = configureStore();
+// import './src/main.scss';
+// import './src/main.css';
 
+const store = configureStore();
 render(
   <AppContainer>
     <Root store={store} history={history} />
@@ -15,14 +16,14 @@ render(
   document.getElementById('root')
 );
 
-if (module.hot) {
-  module.hot.accept('./containers/Root', () => {
-    const NextRoot = require('./containers/Root'); // eslint-disable-line global-require
-    render(
-      <AppContainer>
-        <NextRoot store={store} history={history} />
-      </AppContainer>,
-      document.getElementById('root')
-    );
-  });
-}
+// if (module.hot) {
+//   module.hot.accept('./containers/Root', () => {
+//     const NextRoot = require('./containers/Root'); // eslint-disable-line global-require
+//     render(
+//       <AppContainer>
+//         <NextRoot store={store} history={history} />
+//       </AppContainer>,
+//       document.getElementById('root')
+//     );
+//   });
+// }
