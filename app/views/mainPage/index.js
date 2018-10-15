@@ -55,7 +55,6 @@ class MainPage extends Component {
   }
 
   onUnlockAccount(isUnlock, privateKey, password) {
-
     this.setState({
       loading: true
     });
