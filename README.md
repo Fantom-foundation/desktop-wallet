@@ -1,6 +1,9 @@
-# Fantom Wallet
+# Fantom Desktop Wallet
 
-## Install
+This is Fantom's desktop wallet application, built in ElectronJS.
+
+
+## Installation
 
 First, clone the repo via git:
 
@@ -36,32 +39,3 @@ $ yarn package
 ```bash
 DEBUG_PROD=true yarn package
 ```
-
-## Usage
-
-<h2>Have no account opened ? Do following : </h2>
-<hr/>
-<h3> Create new account : </h3>
-<li> Enter valid account name.</li>
-<li> Passwords must be at least 8 characters long.</li>
-<li> To create a account user must enter all the fields and select icon for account, Password hint is optional. </li>
-<br/>
-
-<h3> Account information : </h3>
-<li> This step is meant for,  backup of account credentials. </li>
-<li> User can print the account credentials or may copy them to file on system for future references.</li>
-<li> Then confirm that,  backup of account credentials is done.</li>
-<br/>
-
-<h3>Confirm  :</h3>
-<li> Last step is to confirm account setup, to unlock the account, write down the keys  in input box and press Unlock. </li>
-<li>On unlock Account Management screen is displayed.</li>
-<br/><br/>
-
-<h2>Already have one account opened : </h2>
-<hr/>
-<li>Account management screen is displayed, where one can transer funds to other. </li>
-<li>Balance in wallet is displayed here.</li>
-<li>History of already done transactions is displayed </li>
-<li>User can have multiple accounts , which are displayed here. </li>
-<li>Funds can be transfered from any selected account. </li>
