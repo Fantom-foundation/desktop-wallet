@@ -1,7 +1,7 @@
 {
   "name": "fantom-foundation",
   "productName": "Fantom",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "Beyond Blockchain, A fast, scalable and secure DAG based smart contract platform.",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -47,7 +47,7 @@
   },
   "build": {
     "productName": "Fantom",
-    "appId": "org.develar.Fantom",
+    "appId": "com.fantom.foundation",
     "files": [
       "dist/",
       "node_modules/",
@@ -89,7 +89,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chentsulin/electron-react-boilerplate.git"
+    "url": "git+https://github.com/fantom-foundation-private/explorer.git"
   },
   "keywords": [
     "electron",
@@ -102,7 +102,7 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/chentsulin/electron-react-boilerplate#readme",
+  "homepage": "https://fantom-foundation",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",
@@ -200,7 +200,7 @@
     "node-sass-chokidar": "^1.3.3",
     "popper.js": "^1.14.3",
     "qrcode.react": "^0.8.0",
-    "keythereum": "https://github.com/Kapilbindal1/keythereum.git",
+    "keythereum": "https://github.com/Fantom-foundation/keythereum.git",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-hot-loader": "^4.3.4",

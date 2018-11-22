@@ -9,63 +9,72 @@ import Store from '../../../store/userInfoStore/index';
  * storeKeys: It contains list of public keys for valid accounts in file.
  */
 class UserAccounts extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userAccountStore: Store.store,
+      storeKeys: props.storeKeys
+    };
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            userAccountStore: Store.store,
-            storeKeys: props.storeKeys,
-        }
+  componentWillReceiveProps() {
+    const { storeKeys } = this.props;
+    const userAccountStore = Store.store;
+    if (storeKeys.length > 0) {
+      this.setState({
+        userAccountStore,
+        storeKeys
+      });
     }
+  }
 
-    componentWillReceiveProps() {
-        const { storeKeys } =this.props;
-        const userAccountStore = Store.store;
-        if (storeKeys.length > 0) {
-            this.setState({
-                userAccountStore,
-                storeKeys,
-            })
-        }
+  renderAccountCard() {
+    const { userAccountStore } = this.state;
+    const {
+      handleSelectedAccount,
+      copyToClipboard,
+      storeKeys = []
+    } = this.props;
+    let account = '';
+    const accountList = [];
+
+    if (storeKeys) {
+      for (const key of storeKeys) {
+        // if (key !== this.props.address) {
+        account = (
+          <AccountCard
+            key={`${key}`}
+            accountInfo={userAccountStore[key]}
+            handleSelectedAccount={handleSelectedAccount}
+            copyToClipboard={copyToClipboard}
+          />
+        );
+
+        accountList.push(account);
+        // }
+      }
+      return accountList;
     }
+  }
 
-    renderAccountCard() {
-         const { userAccountStore, storeKeys } = this.state ;
-         const { handleSelectedAccount, copyToClipboard } = this.props ;
-        let account = '';
-        const accountList = [];
-        if (storeKeys) {
-            for (const key of storeKeys) {
-                // if (key !== this.props.address) {
-                    account = <AccountCard
-                        key={`${key}`}
-                        accountInfo={userAccountStore[key]}
-                        handleSelectedAccount={handleSelectedAccount}
-                        copyToClipboard={copyToClipboard} />
-
-                    accountList.push(account);
-                // }
-            }
-            return accountList;
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <Row className="mt-5">
-                    <Col>
-                        <h2 className="title large roboto"><span>Accounts</span></h2>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Row>  {this.renderAccountCard()}</Row>
-                    </Col>
-                </Row>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <Row className="mt-5">
+          <Col>
+            <h2 className="title large roboto">
+              <span>Accounts</span>
+            </h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Row> {this.renderAccountCard()}</Row>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
 }
 
 export default UserAccounts;
