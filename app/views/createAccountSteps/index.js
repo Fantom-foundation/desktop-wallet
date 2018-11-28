@@ -84,6 +84,7 @@ export default class CreateAccountSteps extends Component {
               <Col className="text-right">
                 <Button
                   // onClick={event => this.onBack(event, isBackActive)}
+                  onClick={this.props.onPrev}
                   className="light"
                 >
                   <i className="fas fa-chevron-left" /> Back
@@ -91,7 +92,8 @@ export default class CreateAccountSteps extends Component {
               </Col>
               <Col>
                 <Button
-                //  onClick={event => this.onNext(event, isNextActive)}
+                  // onClick={event => this.onNext(event, isNextActive)}>
+                  onClick={this.props.onNext}
                 >
                   Next <i className="fas fa-chevron-right" />
                 </Button>

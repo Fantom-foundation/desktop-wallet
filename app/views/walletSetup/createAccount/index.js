@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { Row, Col, Form, FormGroup, Input } from 'reactstrap';
 import { connect } from 'react-redux';
-
 import Store from '../../../store/userInfoStore/index';
 
 import { Progress } from '../../../general/core/index';
@@ -36,6 +35,7 @@ class CreateAccount extends Component {
       capitalLetterCheck: false,
       numberCheck: false
     };
+    this.onNext = this.onNext.bind(this);
   }
 
   componentWillMount() {
@@ -609,5 +609,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
+  null,
+  { withRef: true }
 )(CreateAccount);

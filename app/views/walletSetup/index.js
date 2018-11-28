@@ -19,8 +19,8 @@ import { connect } from 'react-redux';
 import Header from '../../general/header/index';
 
 import CreateAccount from './createAccount/index';
-// import AccountInfo from './accountInfo/index';
-// import ConfirmRecovery from './confirmRecovery/index';
+import AccountInfo from './accountInfo/index';
+import ConfirmRecovery from './confirmRecovery/index';
 import CreateAccountSteps from '../createAccountSteps/index';
 
 import * as KeyAction from '../../reducers/keys/action';
@@ -34,6 +34,7 @@ class Home extends Component {
       date: new Date().getTime(),
       isOpenSetting: false
     };
+    this.accountRef = null;
     this.toggle = this.toggle.bind(this);
   }
 
@@ -42,6 +43,14 @@ class Home extends Component {
     const seed = Bip39.mnemonicToSeed(mnemonic); // creates seed buffer
     this.walletSetup(seed, mnemonic);
   }
+
+  onNext = () => {
+    this.accountRef.wrappedInstance.onNext();
+  };
+
+  onPrev = () => {
+    console.log('prev');
+  };
 
   walletSetup(seed, mnemonic) {
     const { setKeys, setMnemonicCode } = this.props;
@@ -127,7 +136,7 @@ class Home extends Component {
     const { isOpenSetting, activeTab, date } = this.state;
     const {
       accountIconId,
-      // loading,
+      loading,
       accountName,
       password,
       passwordHint
@@ -144,27 +153,43 @@ class Home extends Component {
           isOpenSetting={isOpenSetting}
           openWalletRecovery={this.openWalletRecovery.bind(this)}
         />
-        <CreateAccountSteps>
+        <CreateAccountSteps onNext={this.onNext} onPrev={this.onPrev}>
           <section className="bg-dark" style={{ padding: '88px 0px ' }}>
             <Container>
               {/*      <Row>
                 <Col>
                   <TabContent activeTab={activeTab}>
                     <TabPane tabId="1"> */}
-              <CreateAccount
-                activeTab={activeTab}
-                date={date}
-                accountName={accountName}
-                // accountIcon={accountIcon}
-                password={password}
-                passwordHint={passwordHint}
-                toggle={this.toggle.bind(this)}
-                onRefresh={this.onRefresh.bind(this)}
-              />
-              {/* <AccountInfo
-                        activeTab={activeTab}
-                        toggle={this.toggle.bind(this)}
-                      /> */}
+              {activeTab === '1' ? (
+                <CreateAccount
+                  ref={component => {
+                    this.accountRef = component;
+                  }}
+                  activeTab={activeTab}
+                  date={date}
+                  accountName={accountName}
+                  // accountIcon={accountIcon}
+                  password={password}
+                  passwordHint={passwordHint}
+                  toggle={this.toggle.bind(this)}
+                  onRefresh={this.onRefresh.bind(this)}
+                />
+              ) : null}
+              {activeTab === '2' ? (
+                <AccountInfo
+                  activeTab={activeTab}
+                  toggle={this.toggle.bind(this)}
+                />
+              ) : null}
+              {activeTab === '3' ? (
+                <ConfirmRecovery
+                  isWaiting={loading}
+                  activeTab={activeTab}
+                  toggle={this.toggle.bind(this)}
+                  onUnlockAccount={this.onUnlockAccount.bind(this)}
+                  openAccountManagement={this.openAccountManagement.bind(this)}
+                />
+              ) : null}
               {/* </TabPane>
                     <TabPane tabId="2">
                       <AccountInfo
