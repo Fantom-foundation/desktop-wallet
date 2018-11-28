@@ -1,15 +1,14 @@
 // @flow
 import React, { Component } from 'react';
-import {
-  Container
-  // Row,
-  // Col,
-  // TabContent,
-  // TabPane,
-  // Nav,
-  // NavItem,
-  // NavLink
-} from 'reactstrap';
+import // Container
+// Row,
+// Col,
+// TabContent,
+// TabPane,
+// Nav,
+// NavItem,
+// NavLink
+'reactstrap';
 import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
@@ -154,43 +153,41 @@ class Home extends Component {
           openWalletRecovery={this.openWalletRecovery.bind(this)}
         />
         <CreateAccountSteps onNext={this.onNext} onPrev={this.onPrev}>
-          <section className="bg-dark" style={{ padding: '88px 0px ' }}>
-            <Container>
-              {/*      <Row>
+          {/*      <Row>
                 <Col>
                   <TabContent activeTab={activeTab}>
                     <TabPane tabId="1"> */}
-              {activeTab === '1' ? (
-                <CreateAccount
-                  ref={component => {
-                    this.accountRef = component;
-                  }}
-                  activeTab={activeTab}
-                  date={date}
-                  accountName={accountName}
-                  // accountIcon={accountIcon}
-                  password={password}
-                  passwordHint={passwordHint}
-                  toggle={this.toggle.bind(this)}
-                  onRefresh={this.onRefresh.bind(this)}
-                />
-              ) : null}
-              {activeTab === '2' ? (
-                <AccountInfo
-                  activeTab={activeTab}
-                  toggle={this.toggle.bind(this)}
-                />
-              ) : null}
-              {activeTab === '3' ? (
-                <ConfirmRecovery
-                  isWaiting={loading}
-                  activeTab={activeTab}
-                  toggle={this.toggle.bind(this)}
-                  onUnlockAccount={this.onUnlockAccount.bind(this)}
-                  openAccountManagement={this.openAccountManagement.bind(this)}
-                />
-              ) : null}
-              {/* </TabPane>
+          {activeTab === '1' ? (
+            <CreateAccount
+              ref={component => {
+                this.accountRef = component;
+              }}
+              activeTab={activeTab}
+              date={date}
+              accountName={accountName}
+              // accountIcon={accountIcon}
+              password={password}
+              passwordHint={passwordHint}
+              toggle={this.toggle.bind(this)}
+              onRefresh={this.onRefresh.bind(this)}
+            />
+          ) : null}
+          {activeTab === '2' ? (
+            <AccountInfo
+              activeTab={activeTab}
+              toggle={this.toggle.bind(this)}
+            />
+          ) : null}
+          {activeTab === '3' ? (
+            <ConfirmRecovery
+              isWaiting={loading}
+              activeTab={activeTab}
+              toggle={this.toggle.bind(this)}
+              onUnlockAccount={this.onUnlockAccount.bind(this)}
+              openAccountManagement={this.openAccountManagement.bind(this)}
+            />
+          ) : null}
+          {/* </TabPane>
                     <TabPane tabId="2">
                       <AccountInfo
                         activeTab={activeTab}
@@ -211,8 +208,6 @@ class Home extends Component {
                   </TabContent>
                 </Col>
               </Row> */}
-            </Container>
-          </section>
         </CreateAccountSteps>
       </div>
     );
@@ -227,7 +222,6 @@ const mapStateToProps = state => ({
   password: state.createAccountReducer.password,
   passwordHint: state.createAccountReducer.passwordHint
 });
-
 const mapDispatchToProps = dispatch => ({
   setMasterKey: key => {
     dispatch({ type: KeyAction.MASTER_KEY, key });

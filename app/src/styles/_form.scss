@@ -11,6 +11,7 @@
       }
       color: #fff;
       list-style: none;
+
       .ico {
         height: 16px;
         margin-right: 10px;
@@ -61,8 +62,8 @@
       opacity: 0.7;
     }
     border: 0;
-    box-shadow: none;
-    background: transparent;
+    box-shadow: none !important;
+    background: transparent !important;
     color: map-get($color, back-next-btn);
     font: {
       family: 'Roboto Condensed';
@@ -73,7 +74,8 @@
         size: 20px;
       }
     }
-    &:hover {
+    &:hover,
+    &:active {
       color: map-get($color, back-next-btn-hover);
     }
   }
