@@ -21,7 +21,7 @@ class AccountInfo extends Component {
     super(props);
     this.state = {
       confirmText: '',
-      confirmPhrase: 'I have written down the phrase'
+      confirmationPhrase: 'I have written down the phrase'
       // isBackupConfirm: false,
       // errorText: ''
     };
@@ -44,6 +44,15 @@ class AccountInfo extends Component {
     if (this.props.toggle) {
       this.props.toggle('1');
     }
+  }
+
+  onUpdate(key, value) {
+    this.setState(
+      {
+        [key]: value
+      }
+      // () => this.disableNextButton(key, value)
+    );
   }
 
   confirmPhraseBackup(e) {
@@ -90,6 +99,8 @@ class AccountInfo extends Component {
   }
 
   render() {
+    const CONFIRMATION_PHASE = 'I have written down the phrase';
+    const { confirmationPhrase } = this.state;
     const {
       accountName,
       mnemonic,
@@ -191,7 +202,7 @@ class AccountInfo extends Component {
                   Type{' '}
                   <span className="text-primary">
                     {'"'}
-                    {/* {CONFIRMATION_PHASE} */}
+                    {CONFIRMATION_PHASE}
                     {'"'}
                   </span>
                   below to confirm it is backed up.
@@ -201,12 +212,11 @@ class AccountInfo extends Component {
                     type="text"
                     name="msg"
                     required=""
-                    onChange={this.confirmPhraseBackup.bind(this)}
-                    // onChange={e =>
-                    //   this.onUpdate('confirmationPhrase', e.currentTarget.value)
-                    // }
+                    onChange={e =>
+                      this.onUpdate('confirmationPhrase', e.currentTarget.value)
+                    }
                     id="msg"
-                    // value={confirmationPhrase}
+                    value={confirmationPhrase}
                     autoFocus={false}
                   />
                   <i className="fas fa-pencil-alt" />
