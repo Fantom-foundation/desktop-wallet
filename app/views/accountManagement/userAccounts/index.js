@@ -12,8 +12,8 @@ class UserAccounts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userAccountStore: Store.store,
-      storeKeys: props.storeKeys
+      userAccountStore: Store.store
+      // storeKeys: props.storeKeys
     };
   }
 
@@ -22,8 +22,8 @@ class UserAccounts extends Component {
     const userAccountStore = Store.store;
     if (storeKeys.length > 0) {
       this.setState({
-        userAccountStore,
-        storeKeys
+        userAccountStore
+        // storeKeys
       });
     }
   }
@@ -61,11 +61,11 @@ class UserAccounts extends Component {
     return (
       <div>
         <Row className="mt-5">
-          <Col>
+          {/* <Col>
             <h2 className="title large roboto">
               <span>Accounts</span>
             </h2>
-          </Col>
+          </Col> */}
         </Row>
         <Row>
           <Col>
