@@ -714,17 +714,11 @@ class AccountManagement extends Component {
                 </Col>
               </Row> */}
           </Container>
-        </section>
-
-        <section
-          style={{ padding: '12px 0px 50px ' }}
-          onClick={this.handleCloseSettings.bind(this)}
-        >
-          <Container className="bg-white">
-            <Row className="bg-primary py-1 account-management-header">
-              <Col md={5} className="col text-white pl-4 text-uppercase">
+          <Container>
+            <Row>
+              {/* <Col md={5} className="col text-white pl-4 text-uppercase">
                 Account Management
-              </Col>
+              </Col> */}
               {isOpenAccountDetail && (
                 <Col
                   className="col text-white text-uppercase"
@@ -763,6 +757,11 @@ class AccountManagement extends Component {
             </Row>
           </Container>
         </section>
+
+        <section
+          style={{ padding: '12px 0px 50px ' }}
+          onClick={this.handleCloseSettings.bind(this)}
+        />
         {this.state.isSendFund && (
           <SendFunds
             isSendFund={this.state.isSendFund}
