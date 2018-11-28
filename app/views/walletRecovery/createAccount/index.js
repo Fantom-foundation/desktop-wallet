@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
-import { Row, Col, Form } from 'reactstrap';
 import { connect } from 'react-redux';
 
+// import { Row, Col, Form, FormGroup, Input, Button } from 'reactstrap';
+
+import { Row, Col, Form } from 'reactstrap';
 import Store from '../../../store/userInfoStore/index';
 
 import { Progress } from '../../../general/core/index';
@@ -12,6 +14,10 @@ import DisplayIdenticons from '../../../general/identicons/index';
 import * as CreateAccountAction from '../../../reducers/createAccount/action';
 import { getValidAccounts } from '../../../KeystoreManager/index';
 import Loader from '../../../general/loader/index';
+// import cross from './cross.svg';
+// import check from './check.svg';
+// import user from './user.svg';
+// import lock from './lock.svg';
 /**
  * This component is meant from setting account details.
  */

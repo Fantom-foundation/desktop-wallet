@@ -65,24 +65,25 @@
 @font-face {
   font-family: 'SFCompactDisplay';
   font-weight: 400;
-  src: url('./fonts/SFCompactDisplay/SF-Compact-Display-Regular.ttf') format('truetype');
+  src: url('./fonts/SFCompactDisplay/SF-Compact-Display-Regular.ttf')
+    format('truetype');
 }
 
 /** Semibold */
 @font-face {
   font-family: 'SFCompactDisplay';
   font-weight: 600;
-  src: url('./fonts/SFCompactDisplay/SF-Compact-Display-Semibold.ttf') format('truetype');
+  src: url('./fonts/SFCompactDisplay/SF-Compact-Display-Semibold.ttf')
+    format('truetype');
 }
 
 /** bold */
 @font-face {
   font-family: 'SFCompactDisplay';
   font-weight: 700;
-  src: url('./fonts/SFCompactDisplay/SF-Compact-Display-Bold.ttf') format('truetype');
+  src: url('./fonts/SFCompactDisplay/SF-Compact-Display-Bold.ttf')
+    format('truetype');
 }
-
-
 
 /** Bold */
 @font-face {
@@ -95,4 +96,96 @@
   font-family: 'Helvetica';
   font-weight: 400;
   src: url('./fonts/Helvetica/Helvetica-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('./fonts/noto-sans/NotoSans-Thin.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 100;
+}
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('./fonts/noto-sans/NotoSans-Light.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('./fonts/noto-sans/NotoSans-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('./fonts/noto-sans/NotoSans-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Noto Sans Condensed';
+  src: url('./fonts/noto-sans-condensed/NotoSans-CondensedThin.ttf')
+    format('truetype');
+  font-style: normal;
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'Noto Sans Condensed';
+  src: url('./fonts/noto-sans-condensed/NotoSans-CondensedLight.ttf')
+    format('truetype');
+  font-style: normal;
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'Noto Sans Condensed';
+  src: url('./fonts/noto-sans-condensed/NotoSans-CondensedExtraLight.ttf')
+    format('truetype');
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Noto Sans Condensed';
+  src: url('./fonts/noto-sans-condensed/NotoSans-Condensed.ttf')
+    format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Noto Sans Condensed';
+  src: url('./fonts/noto-sans-condensed/NotoSans-CondensedSemiBold.ttf')
+    format('truetype');
+  font-style: normal;
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Noto Sans Condensed';
+  src: url('./fonts/noto-sans-condensed/NotoSans-CondensedBold.ttf')
+    format('truetype');
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Roboto Condensed';
+  src: url('./fonts/roboto-condensed/RobotoCondensed-Light.ttf')
+    format('truetype');
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Roboto Condensed';
+  src: url('./fonts/roboto-condensed/RobotoCondensed-Regular.ttf')
+    format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Roboto Condensed';
+  src: url('./fonts/roboto-condensed/RobotoCondensed-Bold.ttf')
+    format('truetype');
+  font-style: normal;
+  font-weight: 700;
 }

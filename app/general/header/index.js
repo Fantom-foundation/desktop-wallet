@@ -14,6 +14,7 @@ import {
 } from 'reactstrap';
 import Logo from '../../images/Logo/logo.png';
 import SettingIcon from '../../images/icons/setting.svg';
+// import CreateAccountSteps from '../../views/createAccountSteps/index';
 
 /**
  * Header : This component is meant for rendering header bar in application.

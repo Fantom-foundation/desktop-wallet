@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 
-import { Row, Col, Form } from 'reactstrap';
+import { Row, Col, Form, FormGroup, Input } from 'reactstrap';
 import { connect } from 'react-redux';
 
 import Store from '../../../store/userInfoStore/index';
 
 import { Progress } from '../../../general/core/index';
-import FooterButtons from '../../../general/footer/footer-buttons';
+// import FooterButtons from '../../../general/footer/footer-buttons';
 import DisplayIdenticons from '../../../general/identicons/index';
 import { getValidAccounts } from '../../../KeystoreManager/index';
 import Loader from '../../../general/loader/index';
+// import CreateAccountSteps from '../../createAccountSteps/index';
+import cross from './cross.svg';
+import check from './check.svg';
+import user from './user.svg';
+import lock from './lock.svg';
 
 import * as CreateAccountAction from '../../../reducers/createAccount/action';
 
@@ -26,7 +31,10 @@ class CreateAccount extends Component {
       passwordErrorText: '',
       confirmPasswordErrorText: '',
       animateRefreshIcon: false,
-      passwordStrength: 0
+      passwordStrength: 0,
+      eightCharacterCheck: false,
+      capitalLetterCheck: false,
+      numberCheck: false
     };
   }
 
@@ -190,6 +198,14 @@ class CreateAccount extends Component {
 
   setPassword(e) {
     const password = e.target.value.trim();
+    const eightCharacterCheck = password.length >= 8;
+    const capitalLetterCheck = password.match(/[A-Z]/) !== null;
+    const numberCheck = password.match(/[0-9]/) !== null;
+    this.setState({
+      eightCharacterCheck,
+      capitalLetterCheck,
+      numberCheck
+    });
     const isValid = this.validateData(e, password, 'password');
     this.setState({
       password,
@@ -384,16 +400,20 @@ class CreateAccount extends Component {
       passwordHint,
       confirmPassword,
       animateRefreshIcon,
-      identiconsId
+      identiconsId,
+      eightCharacterCheck,
+      capitalLetterCheck,
+      numberCheck
     } = this.state;
     return (
       <Row>
-        <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
-          <div className="cs-container forms-container theme-blue-shadow inner mb-4">
-            <Row className="mx-0">
-              <Col sm="12" className="px-5 py-3">
-                <Form>
-                  <div className="form-element form-input">
+        <Col sm="12">
+          {/* <div className="cs-container forms-container inner mb-4"> */}
+          {/* <section>
+              <Row className="mx-0">
+                <Col sm="12" className="px-5 py-3"> */}
+          <Form id="create-account-form">
+            {/* <div className="form-element form-input">
                     <input
                       id="AccountName"
                       className="form-element-field"
@@ -410,11 +430,21 @@ class CreateAccount extends Component {
                     <small className="form-element-hint">
                       {emailErrorText}
                     </small>
-                  </div>
-
-                  <Row>
-                    <Col sm={6}>
-                      <div className="form-element form-input">
+                  </div> */}
+            <FormGroup>
+              <Input
+                type="text"
+                name="name"
+                placeholder="Enter Account Name"
+                value={accountName}
+                onChange={this.setAccountName.bind(this)}
+                style={{ backgroundImage: `url(${user})` }}
+              />
+              <small className="form-element-hint">{emailErrorText}</small>
+            </FormGroup>
+            <Row>
+              <Col>
+                {/* <div className="form-element form-input">
                         <input
                           id="Password"
                           className="form-element-field"
@@ -434,33 +464,66 @@ class CreateAccount extends Component {
                         <small className="form-element-hint">
                           {passwordErrorText}
                         </small>
-                      </div>
-                    </Col>
-                    <Col sm={6}>
-                      <div className="form-element form-input">
-                        <input
-                          id="Re-enterPassword"
-                          className="form-element-field"
-                          value={confirmPassword}
-                          placeholder=" "
-                          type="password"
-                          required=""
-                          onChange={this.setConfirmPassword.bind(this)}
-                        />
-                        <div className="form-element-bar" />
-                        <label
-                          className="form-element-label"
-                          htmlFor="Re-enterPassword"
-                        >
-                          Re- enter Password
-                        </label>
-                        <small className="form-element-hint">
-                          {confirmPasswordErrorText}
-                        </small>
-                      </div>
-                    </Col>
-                  </Row>
-                  <div className="form-element form-input">
+											</div> */}
+                <FormGroup>
+                  <Input
+                    type="password"
+                    name="pass"
+                    placeholder="Enter Password"
+                    value={password}
+                    onChange={this.setPassword.bind(this)}
+                    style={{ backgroundImage: `url(${lock})` }}
+                  />
+                  <small className="form-element-hint">
+                    {passwordErrorText}
+                  </small>
+                </FormGroup>
+                <FormGroup>
+                  <Input
+                    type="password"
+                    name="name"
+                    placeholder="Re-enterPassword"
+                    value={confirmPassword}
+                    onChange={this.setConfirmPassword.bind(this)}
+                    style={{ backgroundImage: `url(${lock})` }}
+                  />
+                  <small className="form-element-hint">
+                    {confirmPasswordErrorText}
+                  </small>
+                </FormGroup>
+              </Col>
+              {password.length ? (
+                <Col md={4} lg={3}>
+                  <ul className="pass-validator">
+                    <li className="correct">
+                      <img
+                        src={eightCharacterCheck ? check : cross}
+                        alt="correct"
+                        className="ico"
+                      />
+                      8+ Characters
+                    </li>
+                    <li className="false">
+                      <img
+                        src={capitalLetterCheck ? check : cross}
+                        alt="invalid"
+                        className="ico"
+                      />
+                      1+ Capilital Letter
+                    </li>
+                    <li className="false">
+                      <img
+                        src={numberCheck ? check : cross}
+                        alt="invalid"
+                        className="ico"
+                      />
+                      1+ Number
+                    </li>
+                  </ul>
+                </Col>
+              ) : null}
+            </Row>
+            {/* <div className="form-element form-input">
                     <input
                       id="PasswordHint"
                       className="form-element-field"
@@ -477,36 +540,47 @@ class CreateAccount extends Component {
                     >
                       Password hint
                     </label>
-                  </div>
-                  <Row className="mt-3">
+									</div> */}
+            <FormGroup>
+              <Input
+                type="text"
+                name="name"
+                placeholder="Password Hint"
+                value={passwordHint}
+                onChange={this.setPasswordHint.bind(this)}
+                style={{ backgroundImage: `url(${lock})` }}
+              />
+            </FormGroup>
+            {/* <Row className="mt-3">
                     <Col>{this.renderPasswordStrengthBar()}</Col>
-                  </Row>
-                  <Row>
+                  </Row> */}
+            {/* <Row>
                     <Col md={6}>
                       <p className="Form-Text mt-3">
                         Make your password with 8 characters or more. It can be
                         any combination of letters, numbers, and symbols.
                       </p>
                     </Col>
-                  </Row>
-                </Form>
-              </Col>
-            </Row>
-            <DisplayIdenticons
-              animateRefreshIcon={animateRefreshIcon}
-              date={date}
-              identiconsId={identiconsId}
-              onRefresh={this.onRefresh.bind(this)}
-              getRadioIconData={this.getRadioIconData.bind(this)}
-            />
-            {this.renderLoader()}
-            <FooterButtons
-              onNext={this.onNext.bind(this)}
-              isNextActive={this.isCreateAccount()}
-              // onClose={this.onClose.bind(this)}
-              // isCloseActive={this.isGoToAccountManagement()}
-            />
-          </div>
+                  </Row> */}
+          </Form>
+          {/* </Col>
+              </Row> */}
+          <DisplayIdenticons
+            animateRefreshIcon={animateRefreshIcon}
+            date={date}
+            identiconsId={identiconsId}
+            onRefresh={this.onRefresh.bind(this)}
+            getRadioIconData={this.getRadioIconData.bind(this)}
+          />
+          {this.renderLoader()}
+          {/* </section> */}
+          {/* <FooterButtons
+            onNext={this.onNext.bind(this)}
+            isNextActive={this.isCreateAccount()}
+            // onClose={this.onClose.bind(this)}
+            // isCloseActive={this.isGoToAccountManagement()}
+          />
+          </div> */}
         </Col>
       </Row>
     );
