@@ -56,13 +56,12 @@ class Home extends Component {
 
   onPrev = () => {
     console.log('clicked');
-    // const { activeTab } = this.state;
-    // if (activeTab === '2') {
-    //   this.accountRef.wrappedInstance.onBack();
-    // } else if (activeTab === '3') {
-
-    //   this.accountInfoRef.wrappedInstance.onBack();
-    // }
+    const { activeTab } = this.state;
+    if (activeTab === '2') {
+      this.toggle('1');
+    } else if (activeTab === '3') {
+      this.toggle('2');
+    }
   };
 
   walletSetup(seed, mnemonic) {

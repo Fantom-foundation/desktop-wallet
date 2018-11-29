@@ -342,12 +342,6 @@ nav.navbar.bg-dark {
   max-height: 35px;
 }
 
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1164px;
-  }
-}
-
 .cs-container {
   max-width: 930px;
   width: 100%;
@@ -1206,21 +1200,26 @@ body {
 }
 
 .page-title {
-  padding: 100px 0;
+  padding: 60px 0;
 }
 .page-title .title {
   letter-spacing: 4px;
   font-family: 'Roboto Condensed';
-  font-size: 46px;
+  font-size: 36px;
 }
 @media (max-width: 991px) {
   .page-title .title {
-    font-size: 38px;
+    font-size: 32px;
   }
 }
 @media (max-width: 767px) {
   .page-title .title {
-    font-size: 32px;
+    font-size: 28px;
+  }
+}
+@media (max-width: 575px) {
+  .page-title .title {
+    font-size: 24px;
   }
 }
 
@@ -1748,12 +1747,11 @@ header nav .navbar-collapse .navbar-nav .nav-item .nav-link:hover {
   box-shadow: 0px 6px 8.73px 0.27px rgba(0, 0, 0, 0.14);
   position: relative;
 }
-#account-card .accounts-holder .avatar .avatar-icon img {
+#account-card .accounts-holder .avatar .avatar-icon svg {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.6);
-  width: 100%;
+  transform: translate(-50%, -50%) scale(0.9);
 }
 #account-card .accounts-holder .title,
 #account-card .accounts-holder p {
@@ -2125,184 +2123,6 @@ header nav .navbar-collapse .navbar-nav .nav-item .nav-link:hover {
 }
 
 #mnemonic-selector .bg-dark-light {
-  padding-top: 50px;
-  padding-bottom: 100px;
-}
-
-#mnemonic-selector h2 {
-  margin: 90px 0 70px;
-  font-family: 'Noto Sans';
-  font-size: 24px;
-}
-@media (max-width: 767px) {
-  #mnemonic-selector h2 {
-    font-size: 20px;
-  }
-}
-@media (max-width: 575px) {
-  #mnemonic-selector h2 {
-    font-size: 18px;
-  }
-}
-
-#mnemonic-selector .btn {
-  border-radius: 8px;
-  font-family: 'Noto Sans';
-  font-size: 18px;
-}
-
-#mnemonic-selector ul {
-  padding: 0;
-  margin: 0 -8px;
-  margin-top: -16px;
-}
-#mnemonic-selector ul li {
-  display: inline-block;
-  margin: 0 8px;
-  margin-top: 16px;
-}
-
-#mnemonic-selector .mnemonic-container,
-#mnemonic-selector .mnemonic-selector {
-  text-align: center;
-  margin: auto;
-}
-
-#mnemonic-selector .mnemonic-container {
-  max-width: 804px;
-  border: 2px dashed #fff;
-  min-height: 153px;
-  border-radius: 8px;
-  padding: 54px 64px;
-  margin-bottom: 200px;
-}
-@media (max-width: 991px) {
-  #mnemonic-selector .mnemonic-container {
-    margin-bottom: 120px;
-  }
-}
-@media (max-width: 767px) {
-  #mnemonic-selector .mnemonic-container {
-    min-height: 105px;
-    padding: 30px;
-    margin-bottom: 90px;
-  }
-}
-
-#mnemonic-selector .mnemonic-selector {
-  max-width: 727px;
-}
-#mnemonic-selector .mnemonic-selector ul li.selected .btn {
-  box-shadow: none !important;
-  background: transparent;
-  color: transparent;
-  cursor: default;
-}
-#mnemonic-selector .mnemonic-selector ul li.selected .btn.btn-primary {
-  border: 1px solid #549aec !important;
-}
-
-#mnemonic-selector .mnemonic-btn {
-  padding: 70px 0;
-}
-#mnemonic-selector .mnemonic-btn .btn {
-  height: 60px;
-  margin: auto;
-  margin-bottom: 30px;
-  display: block;
-  text-transform: uppercase;
-  transition: 0.3s all;
-}
-#mnemonic-selector .mnemonic-btn .btn:hover {
-  opacity: 0.7;
-}
-#mnemonic-selector .mnemonic-btn .btn.create-wallet {
-  color: #549aec;
-  border: 2px solid #549aec;
-  background: transparent;
-}
-#mnemonic-selector .mnemonic-btn .btn.cancel {
-  color: #fff;
-  border: 1px solid #fff;
-  background: transparent;
-}
-
-#create-account-form .pass-validator {
-  margin-top: 0px;
-}
-@media (min-width: 768px) {
-  #create-account-form .pass-validator {
-    margin-top: 52px;
-  }
-}
-#create-account-form .pass-validator li {
-  font-family: 'Roboto Condensed';
-  font-size: 16px;
-  color: #fff;
-  list-style: none;
-}
-#create-account-form .pass-validator li .ico {
-  height: 16px;
-  margin-right: 10px;
-}
-
-#create-account-form .form-group {
-  margin-bottom: 52px;
-}
-@media (max-width: 767px) {
-  #create-account-form .form-group {
-    margin-bottom: 30px;
-  }
-}
-
-#create-account-form input {
-  font-family: 'Roboto Condensed';
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-size: auto 22px;
-  background-position: left center;
-  padding-left: 38px;
-  border: 0px;
-  border-bottom: 1px solid #383838;
-  color: #fff;
-  box-shadow: none;
-  border-radius: 0px;
-}
-#create-account-form input::-webkit-input-placeholder,
-#create-account-form input::-moz-placeholder,
-#create-account-form input:-ms-input-placeholder,
-#create-account-form input:-moz-placeholder {
-  color: #8e8e8e !important;
-}
-#create-account-form input::placeholder {
-  color: #8e8e8e !important;
-}
-#create-account-form input:not(:placeholder-shown),
-#create-account-form input:focus {
-  border-bottom: 1px solid #dcdcdc;
-}
-
-.back-next-btn .btn {
-  border: 0;
-  box-shadow: none !important;
-  background: transparent !important;
-  color: #549aec;
-  font-family: 'Roboto Condensed';
-  font-size: 26px;
-}
-.back-next-btn .btn.light {
-  opacity: 0.7;
-}
-@media (max-width: 767px) {
-  .back-next-btn .btn {
-    font-size: 20px;
-  }
-}
-.back-next-btn .btn:hover,
-.back-next-btn .btn:active {
-  color: #4b89ca;
-}
-ic-selector .bg-dark-light {
   padding-top: 50px;
   padding-bottom: 100px;
 }
