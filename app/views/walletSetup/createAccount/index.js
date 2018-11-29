@@ -65,7 +65,10 @@ class CreateAccount extends Component {
       emailErrorText,
       passwordErrorText,
       confirmPasswordErrorText,
-      identiconsId
+      identiconsId,
+      eightCharacterCheck,
+      capitalLetterCheck,
+      numberCheck
     } = this.state;
 
     let isConfirmed = true;
@@ -82,6 +85,12 @@ class CreateAccount extends Component {
     } else if (confirmPasswordErrorText !== '') {
       isConfirmed = false;
     } else if (identiconsId === '') {
+      isConfirmed = false;
+    } else if (eightCharacterCheck === false) {
+      isConfirmed = false;
+    } else if (capitalLetterCheck === false) {
+      isConfirmed = false;
+    } else if (numberCheck === false) {
       isConfirmed = false;
     }
 
