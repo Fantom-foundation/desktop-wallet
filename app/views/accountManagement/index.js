@@ -713,9 +713,7 @@ class AccountManagement extends Component {
                   </div>
                 </Col>
               </Row> */}
-          </Container>
 
-          <Container>
             {this.renderAccountDetail()}
             {this.renderAccountManagement()}
           </Container>
