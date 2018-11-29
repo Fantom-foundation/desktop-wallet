@@ -12,7 +12,7 @@ class AccountInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      confirmText: '',
+      confirmText: 'I have written down the phrase',
       confirmationPhrase: 'I have written down the phrase'
       // isBackupConfirm: false,
       // errorText: ''
@@ -20,15 +20,16 @@ class AccountInfo extends Component {
   }
 
   onNext() {
-    const { confirmText, confirmPhrase } = this.state;
+    console.log('ankit');
+    const { confirmText, confirmationPhrase } = this.state;
     const { toggle } = this.props;
-    if (confirmText === confirmPhrase) {
-      this.setState({
-        // isBackupConfirm: true
-      });
+    if (confirmText === confirmationPhrase) {
       if (toggle) {
         toggle('3');
       }
+      // this.setState({
+      //   isBackupConfirm: true
+      // });
     }
   }
 
@@ -39,6 +40,10 @@ class AccountInfo extends Component {
   }
 
   onUpdate(key, value) {
+    const confirmText = value.trim();
+    this.setState({
+      confirmText
+    });
     this.setState(
       {
         [key]: value
@@ -233,5 +238,7 @@ const mapDispatchToProps = () => ({});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
+  null,
+  { withRef: true }
 )(AccountInfo);
