@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import { clipboard } from 'electron';
 import { connect } from 'react-redux';
 import Web3 from 'web3';
 import UserAccountsDetailCard from './userAccountsDetailCard/index';
+//	import avatar from '../../images/icons/icon.png';
 
 import arrowLeftRight from '../../images/icons/arrows-left-right.svg';
 import Header from '../../general/header/index';
@@ -662,16 +663,69 @@ class AccountManagement extends Component {
           onCloseSendFunds={this.onCloseSendFunds.bind(this)}
           openAccountManagement={this.openAccountManagement.bind(this)}
         />
-        <section
-          style={{ padding: '12px 0px 50px ' }}
-          onClick={this.handleCloseSettings.bind(this)}
-        >
-          <Container className="bg-white">
-            <Row className="bg-primary py-1 account-management-header">
-              <Col md={5} className="col text-white pl-4 text-uppercase">
-                Account Management
+        <section className="page-title">
+          <Container>
+            <Row>
+              <Col>
+                <h2 className="title text-white text-center text-uppercase m-0">
+                  <span>Account Management</span>
+                </h2>
               </Col>
-              {isOpenAccountDetail && (
+            </Row>
+          </Container>
+        </section>
+        <section className="bg-dark" style={{ padding: '0 0 120px' }}>
+          <Container className="account-card-container">
+            <Row style={{ marginBottom: '90px' }}>
+              <Col>
+                <div className="add-wallet">
+                  <h2 className="title ">
+                    <span>Accounts</span>
+                  </h2>
+                  <Button>
+                    <i className="fas fa-plus" />
+                  </Button>
+                </div>
+              </Col>
+            </Row>
+
+            {/* 			 
+
+							<Row id="account-card" className="text-center ">
+                <Col md={6} lg={3} className="main-col">
+                  <div className="accounts-holder">
+                    <div className="avatar">
+                      <span className="avatar-icon">
+                        <img src={avatar} alt="TestAccount" />
+                      </span>
+                    </div>
+                    <h2 className="title ">
+                      <span>TestAccount</span>
+                    </h2>
+                    <div className="account-no">
+                      <p>
+                        <span>
+                          <i className="fas fa-clone" />
+                        </span>
+                        gfvgv
+                      </p>
+                    </div>
+                  </div>
+                </Col>
+              </Row> */}
+          </Container>
+
+          <Container>
+            {this.renderAccountDetail()}
+            {this.renderAccountManagement()}
+          </Container>
+
+          {/* <Col md={5} className="col text-white pl-4 text-uppercase">
+                Account Management
+              </Col> */}
+          {isOpenAccountDetail && (
+            <Container>
+              <Row>
                 <Col
                   className="col text-white text-uppercase"
                   style={{ cursor: 'pointer' }}
@@ -684,8 +738,7 @@ class AccountManagement extends Component {
                   />{' '}
                   Transfer
                 </Col>
-              )}
-              {isOpenAccountDetail && (
+
                 <Col
                   className="text-right"
                   style={{ cursor: 'pointer' }}
@@ -699,16 +752,22 @@ class AccountManagement extends Component {
                     className={`${animateRefreshIcon && 'rotation anti-clock'}`}
                   />{' '}
                 </Col>
-              )}
-            </Row>
-            <Row>
+              </Row>
+            </Container>
+          )}
+
+          {/* <Row>
               <Col className="px-5 py-4">
                 {this.renderAccountDetail()}
                 {this.renderAccountManagement()}
               </Col>
-            </Row>
-          </Container>
+            </Row> */}
         </section>
+
+        <section
+          style={{ padding: '12px 0px 50px ' }}
+          onClick={this.handleCloseSettings.bind(this)}
+        />
         {this.state.isSendFund && (
           <SendFunds
             isSendFund={this.state.isSendFund}
