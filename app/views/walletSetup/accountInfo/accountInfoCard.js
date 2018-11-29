@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 
 import { Row, Col, Button } from 'reactstrap';
+import ReactToPrint from 'react-to-print';
 import noView from '../../../images/icons/no-view.png';
 // import copyImage from '../../../images/icons/copy.svg';
 import fantomIcon from '../../../images/icons/fantom_Icon.png';
 import Identicons from '../../../general/identicons/identicons';
 import QRCodeIcon from '../../../general/qr/index';
+
+import AccountDetailPrint from './accountDetailPrint';
 
 class AccountInfo extends Component {
   constructor() {
@@ -28,6 +31,17 @@ class AccountInfo extends Component {
     }
 
     return mnemonicsList;
+  }
+
+  printAccountData() {
+    const { mnemonic, address } = this.props;
+    return (
+      <div style={{ display: 'none' }}>
+        <div ref={el => (this.printAccountDetail = el)}>
+          <AccountDetailPrint mnemonic={mnemonic} address={address} />
+        </div>
+      </div>
+    );
   }
 
   revealSecret() {
@@ -66,6 +80,7 @@ class AccountInfo extends Component {
     console.log(getMnemonics, 'getMnemonics');
     return (
       <React.Fragment>
+        {this.printAccountData()}
         <Row>
           <Col className="acc-left-col">
             <div className="acc-qr">
@@ -118,9 +133,14 @@ class AccountInfo extends Component {
               <h2 className="title ">
                 <span>Owner Recovery Phrase</span>
               </h2>
-              <Button>
-                <i className="fas fa-print" />
-              </Button>
+              <ReactToPrint
+                trigger={() => (
+                  <Button>
+                    <i className="fas fa-print" />{' '}
+                  </Button>
+                )}
+                content={() => this.printAccountDetail}
+              />
             </div>
           </Col>
         </Row>

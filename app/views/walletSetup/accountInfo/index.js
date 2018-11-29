@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  FormGroup,
-  Label,
-  Input
-} from 'reactstrap';
-import ReactToPrint from 'react-to-print';
+import { Container, Row, Col, FormGroup, Label, Input } from 'reactstrap';
+// import ReactToPrint from 'react-to-print';
 import { clipboard } from 'electron';
 import { connect } from 'react-redux';
 
 import AccountInfoCard from './accountInfoCard';
 // import FooterButtons from '../../../general/footer/footer-buttons';
-import AccountDetailPrint from './accountDetailPrint';
+// import AccountDetailPrint from './accountDetailPrint';
 
 class AccountInfo extends Component {
   constructor(props) {
@@ -87,16 +79,16 @@ class AccountInfo extends Component {
     this.copyToClipboard(copyText);
   }
 
-  printAccountData() {
-    const { mnemonic, address } = this.props;
-    return (
-      <div style={{ display: 'none' }}>
-        <div ref={el => (this.printAccountDetail = el)}>
-          <AccountDetailPrint mnemonic={mnemonic} address={address} />
-        </div>
-      </div>
-    );
-  }
+  // printAccountData() {
+  //   const { mnemonic, address } = this.props;
+  //   return (
+  //     <div style={{ display: 'none' }}>
+  //       <div ref={el => (this.printAccountDetail = el)}>
+  //         <AccountDetailPrint mnemonic={mnemonic} address={address} />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   render() {
     const CONFIRMATION_PHASE = 'I have written down the phrase';
@@ -123,7 +115,7 @@ class AccountInfo extends Component {
             style={{ marginBottom: '30px' }}
           >
             <Col>
-              {this.printAccountData()}
+              {/* {this.printAccountData()} */}
               <AccountInfoCard
                 accountName={accountName}
                 mnemonic={mnemonic}
@@ -132,7 +124,7 @@ class AccountInfo extends Component {
                 copyAddress={this.copyAddress.bind(this)}
                 copyMnemonic={this.copyMnemonic.bind(this)}
               />
-              <Row className="my-3 ">
+              {/* <Row className="my-3 ">
                 <Col className="text-center">
                   <ReactToPrint
                     trigger={() => (
@@ -141,7 +133,7 @@ class AccountInfo extends Component {
                     content={() => this.printAccountDetail}
                   />
                 </Col>
-              </Row>
+              </Row> */}
               {/* <Row>
                 <Col>
                   <p className="text mb-3 black-text">
