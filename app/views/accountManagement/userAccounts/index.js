@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row } from 'reactstrap';
 
 import AccountCard from '../accountCard/index';
 import Store from '../../../store/userInfoStore/index';
@@ -59,20 +59,22 @@ class UserAccounts extends Component {
 
   render() {
     return (
-      <div>
-        <Row className="mt-5">
-          {/* <Col>
-            <h2 className="title large roboto">
-              <span>Accounts</span>
-            </h2>
-          </Col> */}
-        </Row>
-        <Row>
-          <Col>
-            <Row> {this.renderAccountCard()}</Row>
-          </Col>
-        </Row>
-      </div>
+      // <div>
+      //   <Row className="mt-5">
+      //     {/* <Col>
+      //       <h2 className="title large roboto">
+      //         <span>Accounts</span>
+      //       </h2>
+      //     </Col> */}
+      //   </Row>
+      //   <Row>
+      //     <Col>
+      <Row id="account-card" className="text-center ">
+        {this.renderAccountCard()}
+      </Row>
+      //     </Col>
+      //   </Row>
+      // </div>
     );
   }
 }

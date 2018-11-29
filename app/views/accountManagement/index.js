@@ -714,12 +714,18 @@ class AccountManagement extends Component {
                 </Col>
               </Row> */}
           </Container>
+
           <Container>
-            <Row>
-              {/* <Col md={5} className="col text-white pl-4 text-uppercase">
+            {this.renderAccountDetail()}
+            {this.renderAccountManagement()}
+          </Container>
+
+          {/* <Col md={5} className="col text-white pl-4 text-uppercase">
                 Account Management
               </Col> */}
-              {isOpenAccountDetail && (
+          {isOpenAccountDetail && (
+            <Container>
+              <Row>
                 <Col
                   className="col text-white text-uppercase"
                   style={{ cursor: 'pointer' }}
@@ -732,8 +738,7 @@ class AccountManagement extends Component {
                   />{' '}
                   Transfer
                 </Col>
-              )}
-              {isOpenAccountDetail && (
+
                 <Col
                   className="text-right"
                   style={{ cursor: 'pointer' }}
@@ -747,15 +752,16 @@ class AccountManagement extends Component {
                     className={`${animateRefreshIcon && 'rotation anti-clock'}`}
                   />{' '}
                 </Col>
-              )}
-            </Row>
-            <Row>
+              </Row>
+            </Container>
+          )}
+
+          {/* <Row>
               <Col className="px-5 py-4">
                 {this.renderAccountDetail()}
                 {this.renderAccountManagement()}
               </Col>
-            </Row>
-          </Container>
+            </Row> */}
         </section>
 
         <section
