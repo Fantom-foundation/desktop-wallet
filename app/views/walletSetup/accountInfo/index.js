@@ -20,7 +20,6 @@ class AccountInfo extends Component {
   }
 
   onNext() {
-    console.log('ankit');
     const { confirmText, confirmationPhrase } = this.state;
     const { toggle } = this.props;
     if (confirmText === confirmationPhrase) {
@@ -190,7 +189,7 @@ class AccountInfo extends Component {
           <Row>
             <Col>
               <p className="text-white">
-                Please back up the recovery phase now. Make sure to keep it
+                Please back up the recovery phrase now. Make sure to keep it
                 private and secure, it allows full and unlimited access to your
                 account and help you to restore your wallet.
               </p>
@@ -200,7 +199,7 @@ class AccountInfo extends Component {
                   <span className="text-primary">
                     {'"'}
                     {CONFIRMATION_PHASE}
-                    {'"'}
+                    {'" '}
                   </span>
                   below to confirm it is backed up.
                 </Label>

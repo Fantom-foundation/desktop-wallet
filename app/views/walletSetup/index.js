@@ -46,7 +46,7 @@ class Home extends Component {
 
   onNext = () => {
     const { activeTab } = this.state;
-    console.log('activeTab', activeTab);
+
     if (activeTab === '1') {
       this.accountRef.wrappedInstance.onNext();
     } else if (activeTab === '2') {
@@ -55,7 +55,14 @@ class Home extends Component {
   };
 
   onPrev = () => {
-    console.log('prev');
+    console.log('clicked');
+    // const { activeTab } = this.state;
+    // if (activeTab === '2') {
+    //   this.accountRef.wrappedInstance.onBack();
+    // } else if (activeTab === '3') {
+
+    //   this.accountInfoRef.wrappedInstance.onBack();
+    // }
   };
 
   walletSetup(seed, mnemonic) {
