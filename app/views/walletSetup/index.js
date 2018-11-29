@@ -34,6 +34,7 @@ class Home extends Component {
       isOpenSetting: false
     };
     this.accountRef = null;
+    this.accountInfoRef = null;
     this.toggle = this.toggle.bind(this);
   }
 
@@ -44,7 +45,13 @@ class Home extends Component {
   }
 
   onNext = () => {
-    this.accountRef.wrappedInstance.onNext();
+    const { activeTab } = this.state;
+    console.log('activeTab', activeTab);
+    if (activeTab === '1') {
+      this.accountRef.wrappedInstance.onNext();
+    } else if (activeTab === '2') {
+      this.accountInfoRef.wrappedInstance.onNext();
+    }
   };
 
   onPrev = () => {
@@ -77,21 +84,24 @@ class Home extends Component {
   }
 
   toggle(tab) {
-    const { activeTab } = this.state;
-    if (activeTab !== tab) {
-      // let progressValue = 33.33;
-      // if (tab === '1') {
-      //   progressValue = 33.33;
-      // } else if (tab === '2') {
-      //   progressValue = 66.66;
-      // } else if (tab === '3') {
-      //   progressValue = 100;
-      // }
-      this.setState({
-        activeTab: tab
-        // progressValue
-      });
-    }
+    this.setState({
+      activeTab: tab
+      // progressValue
+    });
+    // if (activeTab !== tab) {
+    //   let progressValue = 33.33;
+    //   if (tab === '1') {
+    //     progressValue = 33.33;
+    //   } else if (tab === '2') {
+    //     progressValue = 66.66;
+    //   } else if (tab === '3') {
+    //     progressValue = 100;
+    //   }
+    //   this.setState({
+    //     activeTab: tab
+    //     progressValue
+    //   });
+    // }
   }
 
   onRefresh = () => {
@@ -174,6 +184,9 @@ class Home extends Component {
           ) : null}
           {activeTab === '2' ? (
             <AccountInfo
+              ref={component => {
+                this.accountInfoRef = component;
+              }}
               activeTab={activeTab}
               toggle={this.toggle.bind(this)}
             />
