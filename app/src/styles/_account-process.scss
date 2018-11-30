@@ -47,7 +47,10 @@ $transition-time: 0.3s;
         }
       }
     }
-
+    &.c-2 {
+      h2 {
+      }
+    }
     &.c-3 {
       h2 {
         padding-right: 18px;

@@ -9,7 +9,9 @@ body {
   }
 }
 .bg-dark-light {
-  background-color: #313131 !important;
+  background: {
+    color: #313131 !important;
+  }
 }
 .page-title {
   padding: 60px 0;
@@ -21,17 +23,12 @@ body {
     }
     @media (max-width: 991px) {
       font: {
-        size: 32px;
+        size: 28px;
       }
     }
     @media (max-width: 767px) {
       font: {
-        size: 28px;
-      }
-    }
-    @media (max-width: 575px) {
-      font: {
-        size: 24px;
+        size: 22px;
       }
     }
   }
@@ -137,7 +134,8 @@ body {
 
 .no-capture {
   img {
-    margin-bottom: 30px;
+    margin-bottom: 24px;
+    width: 60px;
   }
   h2,
   p {
@@ -164,7 +162,7 @@ body {
 }
 .acc-footer {
   padding: {
-    top: 100px;
+    top: 40px;
     bottom: 0;
   }
   p {
@@ -232,4 +230,7 @@ body {
       }
     }
   }
+}
+.modal-dialog {
+  margin-top: 170px;
 }
