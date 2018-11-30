@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, FormGroup, Input } from 'reactstrap';
+import {
+  Container,
+  Row,
+  Col,
+  FormGroup,
+  Label,
+  Input,
+  Button
+} from 'reactstrap';
+
 import Bip39 from 'bip39';
 import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import { connect } from 'react-redux';
 // import Loader from 'react-spinners';
-import FooterButtons from '../../../general/footer/footer-buttons';
+// import FooterButtons from '../../../general/footer/footer-buttons';
 
 import AccountCreationCancelModal from './accountCreationCancelModal/index';
 import * as KeyAction from '../../../reducers/keys/action';
@@ -19,8 +28,8 @@ class ConfirmRecovery extends Component {
     this.state = {
       mnemonicPhrase: '',
       isLocked: true,
-      modal: false,
-      errorText: ''
+      modal: false
+      // errorText: ''
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -45,13 +54,13 @@ class ConfirmRecovery extends Component {
     const newMnemonic = mnemonic.trim();
     if (!this.isValidSeed(newMnemonic)) {
       this.setState({
-        errorText: 'Invalid Mnemonics!!',
+        // errorText: 'Invalid Mnemonics!!',
         isLocked: true
       });
       return;
     }
     this.setState({
-      errorText: '',
+      // errorText: '',
       isLocked: false
     });
     const seed = Bip39.mnemonicToSeed(newMnemonic); // creates seed buffer
@@ -102,8 +111,8 @@ class ConfirmRecovery extends Component {
 
   inputHandler = e => {
     this.setState({
-      mnemonicPhrase: e.target.value,
-      errorText: ''
+      mnemonicPhrase: e.target.value
+      // errorText: ''
     });
 
     if (e.target.value !== '') {
@@ -143,152 +152,194 @@ class ConfirmRecovery extends Component {
   }
 
   render() {
-    const { activeTab, isWaiting } = this.props;
-    const { errorText } = this.state;
+    // const { activeTab, isWaiting } = this.props;
+    // const { errorText, mnemonicPhrase } = this.state;
+    const { activeTab } = this.props;
+    const { mnemonicPhrase } = this.state;
     if (activeTab !== '2') {
       return null;
     }
 
-    let createWalletColor = 'gray';
-    if (isWaiting) {
-      createWalletColor = 'gray';
-    } else if (this.state.isLocked) {
-      createWalletColor = 'gray';
-    } else {
-      createWalletColor = '#00b1ff';
-    }
+    // let createWalletColor = 'gray';
+    // if (isWaiting) {
+    //   createWalletColor = 'gray';
+    // } else if (this.state.isLocked) {
+    //   createWalletColor = 'gray';
+    // } else {
+    //   createWalletColor = '#00b1ff';
+    // }
 
-    let cancelBtnColor = '#00b1ff';
-    if (isWaiting) {
-      cancelBtnColor = 'gray';
-    } else if (this.state.isLocked) {
-      cancelBtnColor = '#00b1ff';
-    } else {
-      cancelBtnColor = '#00b1ff';
-    }
+    // let cancelBtnColor = '#00b1ff';
+    // if (isWaiting) {
+    //   cancelBtnColor = 'gray';
+    // } else if (this.state.isLocked) {
+    //   cancelBtnColor = '#00b1ff';
+    // } else {
+    //   cancelBtnColor = '#00b1ff';
+    // }
 
     return (
-      <Row>
-        <Col sm="12" style={{ paddingTop: '52px', paddingBottom: '52px' }}>
-          <div className="cs-container forms-container theme-blue-shadow inner mb-4">
-            <Row className="mx-0">
-              <Col style={{ paddingTop: '46px', paddingBottom: '46px' }}>
-                <div className="m-auto" style={{ maxWidth: '488px' }}>
-                  <Row>
-                    <Col>
-                      <h2 className="title large text-center black-text">
-                        Enter Your Mnemonic
-                      </h2>
-                      <p className="text text-center black-text">
-                        Enter your mnemonic to recover your account below.
-                      </p>
-                      <p className="text text-center black-text">
-                        Please enter space separated values and note that it is
-                        case sensitive.
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Form>
-                        <FormGroup>
-                          <Input
-                            type="textarea"
-                            name="text"
-                            id="exampleText"
-                            placeholder="Enter Mnemonic Phrase"
-                            onChange={e => this.inputHandler(e)}
-                          />
-                          {errorText !== '' && (
-                            <small
-                              style={{
-                                fontFamily: 'Roboto',
-                                fontSize: '14px',
-                                color: 'red'
-                              }}
-                            >
-                              {errorText}
-                            </small>
-                          )}
-                        </FormGroup>
-                        <center>
-                          {!isWaiting && (
-                            <button
-                              type="button"
-                              style={{
-                                height: '30px',
-                                // width: '150px',
-                                padding: '0px 32px',
-                                fontFamily: 'SFCompactDisplay',
-                                fontSize: '15px',
-                                backgroundColor: `${createWalletColor}`,
-                                border: '0px',
-                                outline: '0px',
-                                color: '#fff',
-                                textAlign: 'center',
-                                cursor: 'pointer'
-                              }}
-                              onClick={this.onUnlock.bind(this)}
-                            >
-                              Recover Wallet
-                            </button>
-                          )}
-
-                          {isWaiting && (
-                            <button
-                              type="button"
-                              style={{
-                                height: '30px',
-                                // width: '150px',
-                                padding: '0px 32px',
-                                fontFamily: 'SFCompactDisplay',
-                                fontSize: '15px',
-                                backgroundColor: `transparent`,
-                                border: '0px',
-                                outline: '0px',
-                                color: '#fff',
-                                textAlign: 'center',
-                                cursor: 'pointer'
-                              }}
-                              onClick={this.onUnlock.bind(this)}
-                            >
-                              Recover Wallet
-                            </button>
-                          )}
-                        </center>
-                        <center>
-                          <button
-                            type="button"
-                            style={{
-                              width: '150px',
-                              marginTop: '10px',
-                              padding: '0px 32px',
-                              fontFamily: 'SFCompactDisplay',
-                              fontSize: '15px',
-                              color: `${cancelBtnColor}`,
-                              outline: '0px',
-                              backgroundColor: 'white',
-                              border: '0px',
-                              textDecoration: 'underline',
-                              textAlign: 'center',
-                              cursor: 'pointer'
-                            }}
-                            onClick={() => this.toggle()}
-                          >
-                            Cancel
-                          </button>
-                        </center>
-                      </Form>
-                    </Col>
-                  </Row>
+      <section className="bg-dark">
+        <Container>
+          <Row>
+            <Col>
+              <div className="restore-confirm">
+                <div className="wallet-bar">
+                  <h2 className="title">
+                    <span>Restore Wallet</span>
+                  </h2>
                 </div>
-              </Col>
-            </Row>
-            <FooterButtons onBack={this.onBack.bind(this)} isBackActive />
-          </div>
-        </Col>
-        {this.renderCancelAccountCreationModal()}
-      </Row>
+                <div className="vault-container bg-dark-light">
+                  {/* <input
+                    type="text"
+                    onChange={e => this.onUpdate('enteredMnemonic', e.currentTarget.value)}
+                    value={enteredMnemonic}
+                  /> */}
+                  <FormGroup>
+                    <Label for="wallet-seed">Wallet Seed</Label>
+                    <Input
+                      type="textarea"
+                      name="wallet-seed"
+                      id="wallet-seed"
+                      placeholder="Separate each word with a single space"
+                      onChange={e => this.inputHandler(e)}
+                      value={mnemonicPhrase}
+                    />
+                  </FormGroup>
+                  <div className="text-center">
+                    <p className="text-white">
+                      Enter your secret twelve word phrase here to restore your
+                      vault.
+                    </p>
+                    <p className="text-danger">
+                      Separate each word with a single space
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="mnemonic-btn">
+                <Button
+                  className="create-wallet"
+                  onClick={this.onUnlock.bind(this)}
+                >
+                  Create Wallet
+                </Button>
+                <Button className="cancel" onClick={() => this.toggle()}>
+                  Cancel
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      // <Row>
+      //   <Col sm="12" style={{ paddingTop: '52px', paddingBottom: '52px' }}>
+      //     <div className="cs-container forms-container theme-blue-shadow inner mb-4">
+      //       <Row className="mx-0">
+      //         <Col style={{ paddingTop: '46px', paddingBottom: '46px' }}>
+      //           <div className="m-auto" style={{ maxWidth: '488px' }}>
+      //             <Row>
+      //               <Col>
+      //                 <Form>
+      //                   <FormGroup>
+      //                     <Input
+      //                       type="textarea"
+      //                       name="text"
+      //                       id="exampleText"
+      //                       placeholder="Enter Mnemonic Phrase"
+      //                       onChange={e => this.inputHandler(e)}
+      //                     />
+      //                     {errorText !== '' && (
+      //                       <small
+      //                         style={{
+      //                           fontFamily: 'Roboto',
+      //                           fontSize: '14px',
+      //                           color: 'red'
+      //                         }}
+      //                       >
+      //                         {errorText}
+      //                       </small>
+      //                     )}
+      //                   </FormGroup>
+      //                   <center>
+      //                     {!isWaiting && (
+      //                       <button
+      //                         type="button"
+      //                         style={{
+      //                           height: '30px',
+      //                           // width: '150px',
+      //                           padding: '0px 32px',
+      //                           fontFamily: 'SFCompactDisplay',
+      //                           fontSize: '15px',
+      //                           backgroundColor: `${createWalletColor}`,
+      //                           border: '0px',
+      //                           outline: '0px',
+      //                           color: '#fff',
+      //                           textAlign: 'center',
+      //                           cursor: 'pointer'
+      //                         }}
+      //                         onClick={this.onUnlock.bind(this)}
+      //                       >
+      //                         Recover Wallet
+      //                       </button>
+      //                     )}
+
+      //                     {isWaiting && (
+      //                       <button
+      //                         type="button"
+      //                         style={{
+      //                           height: '30px',
+      //                           // width: '150px',
+      //                           padding: '0px 32px',
+      //                           fontFamily: 'SFCompactDisplay',
+      //                           fontSize: '15px',
+      //                           backgroundColor: `transparent`,
+      //                           border: '0px',
+      //                           outline: '0px',
+      //                           color: '#fff',
+      //                           textAlign: 'center',
+      //                           cursor: 'pointer'
+      //                         }}
+      //                         onClick={this.onUnlock.bind(this)}
+      //                       >
+      //                         Recover Wallet
+      //                       </button>
+      //                     )}
+      //                   </center>
+      //                   <center>
+      //                     <button
+      //                       type="button"
+      //                       style={{
+      //                         width: '150px',
+      //                         marginTop: '10px',
+      //                         padding: '0px 32px',
+      //                         fontFamily: 'SFCompactDisplay',
+      //                         fontSize: '15px',
+      //                         color: `${cancelBtnColor}`,
+      //                         outline: '0px',
+      //                         backgroundColor: 'white',
+      //                         border: '0px',
+      //                         textDecoration: 'underline',
+      //                         textAlign: 'center',
+      //                         cursor: 'pointer'
+      //                       }}
+      //                       onClick={() => this.toggle()}
+      //                     >
+      //                       Cancel
+      //                     </button>
+      //                   </center>
+      //                 </Form>
+      //               </Col>
+      //             </Row>
+      //           </div>
+      //         </Col>
+      //       </Row>
+      //       <FooterButtons onBack={this.onBack.bind(this)} isBackActive />
+      //     </div>
+      //   </Col>
+      //   {this.renderCancelAccountCreationModal()}
+      // </Row>
     );
   }
 }
@@ -319,5 +370,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
+  null,
+  { withRef: true }
 )(ConfirmRecovery);

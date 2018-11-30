@@ -1,23 +1,22 @@
 // @flow
 import React, { Component } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink
-} from 'reactstrap';
+import // Container,
+// Row,
+// Col,
+// TabContent,
+// TabPane,
+// Nav,
+// NavItem,
+// NavLink
+'reactstrap';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
-import { Progress } from '../../general/core/index';
+// import classnames from 'classnames';
+// import { Progress } from '../../general/core/index';
 import Header from '../../general/header/index';
 // import CreateAccountSteps from '../createAccountSteps/index';
 import CreateAccount from './createAccount/index';
 import ConfirmRecovery from './confirmRecovery/index';
-
+import CreateAccountSteps from '../createAccountSteps/index';
 import * as KeyAction from '../../reducers/keys/action';
 
 /**
@@ -28,7 +27,7 @@ class Home extends Component {
     super(props);
     this.state = {
       activeTab: '1',
-      progressValue: 50,
+      // progressValue: 50,
       date: new Date().getTime(),
       isOpenSetting: false
     };
@@ -40,18 +39,18 @@ class Home extends Component {
    * @param {*} tab : Set selected tab number.
    */
   toggle(tab) {
-    if (this.state.activeTab !== tab) {
-      let progressValue = 50;
-      if (tab === '1') {
-        progressValue = 50;
-      } else if (tab === '2') {
-        progressValue = 100;
-      }
-      this.setState({
-        activeTab: tab,
-        progressValue
-      });
-    }
+    // if (this.state.activeTab !== tab) {
+    //   let progressValue = 50;
+    //   if (tab === '1') {
+    //     progressValue = 50;
+    //   } else if (tab === '2') {
+    //     progressValue = 100;
+    //   }
+    this.setState({
+      activeTab: tab
+      // progressValue
+    });
+    // }
   }
 
   /**
@@ -99,8 +98,35 @@ class Home extends Component {
     }
   }
 
+  onNext = () => {
+    const { activeTab } = this.state;
+
+    if (activeTab === '1') {
+      this.accountRef.wrappedInstance.onNext();
+    }
+    //  else if (activeTab === '2') {
+    //   this.accountInfoRef.wrappedInstance.onNext();
+    // }
+  };
+
+  onPrev = () => {
+    const { activeTab } = this.state;
+    if (activeTab === '2') {
+      this.toggle('1');
+    }
+  };
+  // onPrev = () => {
+  //   console.log('clicked');
+  //   const { activeTab } = this.state;
+  //   if (activeTab === '2') {
+  //     this.toggle('1');
+  //   } else if (activeTab === '3') {
+  //     this.toggle('2');
+  //   }
+  // };
+
   render() {
-    const { isOpenSetting } = this.state;
+    const { isOpenSetting, activeTab } = this.state;
     const {
       accountIconId,
       loading,
@@ -108,7 +134,7 @@ class Home extends Component {
       password,
       passwordHint
     } = this.props;
-
+    const isRestoreAccount = true;
     return (
       <div>
         <Header
@@ -120,7 +146,46 @@ class Home extends Component {
           handleSettings={this.handleSettings.bind(this)}
           isOpenSetting={isOpenSetting}
         />
-        <section style={{ padding: '12px 0px 10px 0px' }}>
+        <CreateAccountSteps
+          onNext={this.onNext}
+          onPrev={this.onPrev}
+          stepNo={activeTab}
+          restoreAccount={isRestoreAccount}
+        >
+          {/*      <Row>
+                <Col>
+                  <TabContent activeTab={activeTab}>
+                    <TabPane tabId="1"> */}
+          {activeTab === '1' ? (
+            <CreateAccount
+              ref={component => {
+                this.accountRef = component;
+              }}
+              activeTab={this.state.activeTab}
+              date={this.state.date}
+              accountName={accountName}
+              // accountIcon={accountIcon}
+              password={password}
+              passwordHint={passwordHint}
+              toggle={this.toggle.bind(this)}
+              onRefresh={this.onRefresh.bind(this)}
+            />
+          ) : null}
+          {activeTab === '2' ? (
+            <ConfirmRecovery
+              ref={component => {
+                this.confirmRecoveryRef = component;
+              }}
+              isWaiting={loading}
+              activeTab={this.state.activeTab}
+              toggle={this.toggle.bind(this)}
+              onUnlockAccount={this.onUnlockAccount.bind(this)}
+              openAccountManagement={this.openAccountManagement.bind(this)}
+            />
+          ) : null}
+        </CreateAccountSteps>
+
+        {/* <section style={{ padding: '12px 0px 10px 0px' }}>
           <Container>
             <Row>
               <Col className="px-0">
@@ -178,7 +243,7 @@ class Home extends Component {
               </Col>
             </Row>
           </Container>
-        </section>
+        </section> */}
       </div>
     );
   }

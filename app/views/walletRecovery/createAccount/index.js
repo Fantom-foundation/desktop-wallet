@@ -2,22 +2,21 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-// import { Row, Col, Form, FormGroup, Input, Button } from 'reactstrap';
+import { Container, Row, Col, Form, FormGroup, Input } from 'reactstrap';
 
-import { Row, Col, Form } from 'reactstrap';
 import Store from '../../../store/userInfoStore/index';
 
 import { Progress } from '../../../general/core/index';
-import FooterButtons from '../../../general/footer/footer-buttons';
+// import FooterButtons from '../../../general/footer/footer-buttons';
 import DisplayIdenticons from '../../../general/identicons/index';
 
 import * as CreateAccountAction from '../../../reducers/createAccount/action';
 import { getValidAccounts } from '../../../KeystoreManager/index';
 import Loader from '../../../general/loader/index';
-// import cross from './cross.svg';
-// import check from './check.svg';
-// import user from './user.svg';
-// import lock from './lock.svg';
+import cross from './cross.svg';
+import check from './check.svg';
+import user from './user.svg';
+import lock from './lock.svg';
 /**
  * This component is meant from setting account details.
  */
@@ -126,6 +125,10 @@ class CreateAccount extends Component {
     } else if (value.length < 8) {
       errorObj.errorText =
         'Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.';
+    } else if (value.match(/[A-Z]/) === null) {
+      errorObj.errorText = 'Password field should contain one Capital letter';
+    } else if (value.match(/[0-9]/) === null) {
+      errorObj.errorText = 'Password field should contain one number';
     } else {
       errorObj.errorText = '';
     }
@@ -384,7 +387,7 @@ class CreateAccount extends Component {
   // }
 
   render() {
-    const { activeTab } = this.props;
+    const { activeTab, date } = this.props;
     if (activeTab !== '1') {
       return null;
     }
@@ -401,13 +404,16 @@ class CreateAccount extends Component {
       animateRefreshIcon
     } = this.state;
     return (
-      <Row>
-        <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
-          <div className="cs-container forms-container theme-blue-shadow inner mb-4">
-            <Row className="mx-0">
-              <Col sm="12" className="px-5 py-3">
-                <Form>
-                  <div className="form-element form-input">
+      <section className="bg-dark" style={{ padding: '88px 0px ' }}>
+        <Container>
+          <Row>
+            <Col sm="12">
+              {/* <div className="cs-container forms-container inner mb-4"> */}
+              {/* <section>
+              <Row className="mx-0">
+                <Col sm="12" className="px-5 py-3"> */}
+              <Form id="create-account-form">
+                {/* <div className="form-element form-input">
                     <input
                       id="AccountName"
                       className="form-element-field"
@@ -424,11 +430,21 @@ class CreateAccount extends Component {
                     <small className="form-element-hint">
                       {emailErrorText}
                     </small>
-                  </div>
-
-                  <Row>
-                    <Col sm={6}>
-                      <div className="form-element form-input">
+                  </div> */}
+                <FormGroup>
+                  <Input
+                    type="text"
+                    name="name"
+                    placeholder="Enter Account Name"
+                    value={accountName}
+                    onChange={this.setAccountName.bind(this)}
+                    style={{ backgroundImage: `url(${user})` }}
+                  />
+                  <small className="form-element-hint">{emailErrorText}</small>
+                </FormGroup>
+                <Row>
+                  <Col>
+                    {/* <div className="form-element form-input">
                         <input
                           id="Password"
                           className="form-element-field"
@@ -448,33 +464,70 @@ class CreateAccount extends Component {
                         <small className="form-element-hint">
                           {passwordErrorText}
                         </small>
-                      </div>
+											</div> */}
+                    <FormGroup>
+                      <Input
+                        type="password"
+                        name="pass"
+                        placeholder="Enter Password"
+                        value={password}
+                        onChange={this.setPassword.bind(this)}
+                        style={{ backgroundImage: `url(${lock})` }}
+                      />
+                      <small className="form-element-hint">
+                        {passwordErrorText}
+                      </small>
+                    </FormGroup>
+                    <FormGroup>
+                      <Input
+                        type="password"
+                        name="name"
+                        placeholder="Re-enterPassword"
+                        value={confirmPassword}
+                        onChange={this.setConfirmPassword.bind(this)}
+                        style={{ backgroundImage: `url(${lock})` }}
+                      />
+                      <small className="form-element-hint">
+                        {confirmPasswordErrorText}
+                      </small>
+                    </FormGroup>
+                  </Col>
+                  {password.length ? (
+                    <Col md={4} lg={3}>
+                      <ul className="pass-validator">
+                        <li className="correct">
+                          <img
+                            src={password.length >= 8 ? check : cross}
+                            alt="correct"
+                            className="ico"
+                          />
+                          8+ Characters
+                        </li>
+                        <li className="false">
+                          <img
+                            src={
+                              password.match(/[A-Z]/) !== null ? check : cross
+                            }
+                            alt="invalid"
+                            className="ico"
+                          />
+                          1+ Capilital Letter
+                        </li>
+                        <li className="false">
+                          <img
+                            src={
+                              password.match(/[0-9]/) !== null ? check : cross
+                            }
+                            alt="invalid"
+                            className="ico"
+                          />
+                          1+ Number
+                        </li>
+                      </ul>
                     </Col>
-                    <Col sm={6}>
-                      <div className="form-element form-input">
-                        <input
-                          id="Re-enterPassword"
-                          className="form-element-field"
-                          value={confirmPassword}
-                          placeholder=" "
-                          type="password"
-                          required=""
-                          onChange={this.setConfirmPassword.bind(this)}
-                        />
-                        <div className="form-element-bar" />
-                        <label
-                          className="form-element-label"
-                          htmlFor="Re-enterPassword"
-                        >
-                          Re- enter Password
-                        </label>
-                        <small className="form-element-hint">
-                          {confirmPasswordErrorText}
-                        </small>
-                      </div>
-                    </Col>
-                  </Row>
-                  <div className="form-element form-input">
+                  ) : null}
+                </Row>
+                {/* <div className="form-element form-input">
                     <input
                       id="PasswordHint"
                       className="form-element-field"
@@ -491,38 +544,173 @@ class CreateAccount extends Component {
                     >
                       Password hint
                     </label>
-                  </div>
-                  <Row className="mt-3">
+									</div> */}
+                <FormGroup>
+                  <Input
+                    type="text"
+                    name="name"
+                    placeholder="Password Hint"
+                    value={passwordHint}
+                    onChange={this.setPasswordHint.bind(this)}
+                    style={{ backgroundImage: `url(${lock})` }}
+                  />
+                </FormGroup>
+                {/* <Row className="mt-3">
                     <Col>{this.renderPasswordStrengthBar()}</Col>
-                  </Row>
-                  <Row>
+                  </Row> */}
+                {/* <Row>
                     <Col md={6}>
                       <p className="Form-Text mt-3">
                         Make your password with 8 characters or more. It can be
                         any combination of letters, numbers, and symbols.
                       </p>
                     </Col>
-                  </Row>
-                </Form>
-              </Col>
-            </Row>
-            <DisplayIdenticons
-              animateRefreshIcon={animateRefreshIcon}
-              date={this.props.date}
-              identiconsId={identiconsId}
-              onRefresh={this.onRefresh.bind(this)}
-              getRadioIconData={this.getRadioIconData.bind(this)}
-            />
-            {this.renderLoader()}
-            <FooterButtons
-              onNext={this.onNext.bind(this)}
-              isNextActive={this.isCreateAccount()}
-              // onClose={this.onClose.bind(this)}
-              // isCloseActive={this.isGoToAccountManagement()}
-            />
-          </div>
-        </Col>
-      </Row>
+                  </Row> */}
+              </Form>
+              {/* </Col>
+              </Row> */}
+              <DisplayIdenticons
+                animateRefreshIcon={animateRefreshIcon}
+                date={date}
+                identiconsId={identiconsId}
+                onRefresh={this.onRefresh.bind(this)}
+                getRadioIconData={this.getRadioIconData.bind(this)}
+              />
+              {this.renderLoader()}
+              {/* </section> */}
+              {/* <FooterButtons
+            onNext={this.onNext.bind(this)}
+            isNextActive={this.isCreateAccount()}
+            // onClose={this.onClose.bind(this)}
+            // isCloseActive={this.isGoToAccountManagement()}
+          />
+          </div> */}
+            </Col>
+          </Row>
+        </Container>
+      </section>
+      // <Row>
+      //   <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
+      //     <div className="cs-container forms-container theme-blue-shadow inner mb-4">
+      //       <Row className="mx-0">
+      //         <Col sm="12" className="px-5 py-3">
+      //           <Form>
+      //             <div className="form-element form-input">
+      //               <input
+      //                 id="AccountName"
+      //                 className="form-element-field"
+      //                 value={accountName}
+      //                 placeholder=" "
+      //                 type="text"
+      //                 required=""
+      //                 onChange={this.setAccountName.bind(this)}
+      //               />
+      //               <div className="form-element-bar" />
+      //               <label className="form-element-label" htmlFor="AccountName">
+      //                 Account Name
+      //               </label>
+      //               <small className="form-element-hint">
+      //                 {emailErrorText}
+      //               </small>
+      //             </div>
+
+      //             <Row>
+      //               <Col sm={6}>
+      //                 <div className="form-element form-input">
+      //                   <input
+      //                     id="Password"
+      //                     className="form-element-field"
+      //                     value={password}
+      //                     placeholder=" "
+      //                     type="password"
+      //                     required=""
+      //                     onChange={this.setPassword.bind(this)}
+      //                   />
+      //                   <div className="form-element-bar" />
+      //                   <label
+      //                     className="form-element-label"
+      //                     htmlFor="Password"
+      //                   >
+      //                     Password
+      //                   </label>
+      //                   <small className="form-element-hint">
+      //                     {passwordErrorText}
+      //                   </small>
+      //                 </div>
+      //               </Col>
+      //               <Col sm={6}>
+      //                 <div className="form-element form-input">
+      //                   <input
+      //                     id="Re-enterPassword"
+      //                     className="form-element-field"
+      //                     value={confirmPassword}
+      //                     placeholder=" "
+      //                     type="password"
+      //                     required=""
+      //                     onChange={this.setConfirmPassword.bind(this)}
+      //                   />
+      //                   <div className="form-element-bar" />
+      //                   <label
+      //                     className="form-element-label"
+      //                     htmlFor="Re-enterPassword"
+      //                   >
+      //                     Re- enter Password
+      //                   </label>
+      //                   <small className="form-element-hint">
+      //                     {confirmPasswordErrorText}
+      //                   </small>
+      //                 </div>
+      //               </Col>
+      //             </Row>
+      //             <div className="form-element form-input">
+      //               <input
+      //                 id="PasswordHint"
+      //                 className="form-element-field"
+      //                 value={passwordHint}
+      //                 placeholder="(optional) a hint to remebering the password "
+      //                 type="text"
+      //                 required=""
+      //                 onChange={this.setPasswordHint.bind(this)}
+      //               />
+      //               <div className="form-element-bar" />
+      //               <label
+      //                 className="form-element-label"
+      //                 htmlFor="PasswordHint"
+      //               >
+      //                 Password hint
+      //               </label>
+      //             </div>
+      //             <Row className="mt-3">
+      //               <Col>{this.renderPasswordStrengthBar()}</Col>
+      //             </Row>
+      //             <Row>
+      //               <Col md={6}>
+      //                 <p className="Form-Text mt-3">
+      //                   Make your password with 8 characters or more. It can be
+      //                   any combination of letters, numbers, and symbols.
+      //                 </p>
+      //               </Col>
+      //             </Row>
+      //           </Form>
+      //         </Col>
+      //       </Row>
+      //       <DisplayIdenticons
+      //         animateRefreshIcon={animateRefreshIcon}
+      //         date={this.props.date}
+      //         identiconsId={identiconsId}
+      //         onRefresh={this.onRefresh.bind(this)}
+      //         getRadioIconData={this.getRadioIconData.bind(this)}
+      //       />
+      //       {this.renderLoader()}
+      //       {/* <FooterButtons
+      //         onNext={this.onNext.bind(this)}
+      //         isNextActive={this.isCreateAccount()}
+      //         // onClose={this.onClose.bind(this)}
+      //         // isCloseActive={this.isGoToAccountManagement()}
+      //       /> */}
+      //     </div>
+      //   </Col>
+      // </Row>
     );
   }
 }
@@ -548,5 +736,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
+  null,
+  { withRef: true }
 )(CreateAccount);

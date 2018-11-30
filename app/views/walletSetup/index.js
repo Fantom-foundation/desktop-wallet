@@ -168,7 +168,11 @@ class Home extends Component {
           isOpenSetting={isOpenSetting}
           openWalletRecovery={this.openWalletRecovery.bind(this)}
         />
-        <CreateAccountSteps onNext={this.onNext} onPrev={this.onPrev}>
+        <CreateAccountSteps
+          onNext={this.onNext}
+          onPrev={this.onPrev}
+          stepNo={activeTab}
+        >
           {/*      <Row>
                 <Col>
                   <TabContent activeTab={activeTab}>
