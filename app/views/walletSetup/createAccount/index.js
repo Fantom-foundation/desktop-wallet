@@ -30,10 +30,7 @@ class CreateAccount extends Component {
       passwordErrorText: '',
       confirmPasswordErrorText: '',
       animateRefreshIcon: false,
-      passwordStrength: 0,
-      eightCharacterCheck: false,
-      capitalLetterCheck: false,
-      numberCheck: false
+      passwordStrength: 0
     };
     this.onNext = this.onNext.bind(this);
   }
@@ -65,10 +62,7 @@ class CreateAccount extends Component {
       emailErrorText,
       passwordErrorText,
       confirmPasswordErrorText,
-      identiconsId,
-      eightCharacterCheck,
-      capitalLetterCheck,
-      numberCheck
+      identiconsId
     } = this.state;
 
     let isConfirmed = true;
@@ -85,12 +79,6 @@ class CreateAccount extends Component {
     } else if (confirmPasswordErrorText !== '') {
       isConfirmed = false;
     } else if (identiconsId === '') {
-      isConfirmed = false;
-    } else if (eightCharacterCheck === false) {
-      isConfirmed = false;
-    } else if (capitalLetterCheck === false) {
-      isConfirmed = false;
-    } else if (numberCheck === false) {
       isConfirmed = false;
     }
 
@@ -131,6 +119,10 @@ class CreateAccount extends Component {
     } else if (value.length < 8) {
       errorObj.errorText =
         'Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.';
+    } else if (value.match(/[A-Z]/) === null) {
+      errorObj.errorText = 'Password field should contain one Capital letter';
+    } else if (value.match(/[0-9]/) === null) {
+      errorObj.errorText = 'Password field should contain one number';
     } else {
       errorObj.errorText = '';
     }
@@ -207,14 +199,6 @@ class CreateAccount extends Component {
 
   setPassword(e) {
     const password = e.target.value.trim();
-    const eightCharacterCheck = password.length >= 8;
-    const capitalLetterCheck = password.match(/[A-Z]/) !== null;
-    const numberCheck = password.match(/[0-9]/) !== null;
-    this.setState({
-      eightCharacterCheck,
-      capitalLetterCheck,
-      numberCheck
-    });
     const isValid = this.validateData(e, password, 'password');
     this.setState({
       password,
@@ -409,10 +393,7 @@ class CreateAccount extends Component {
       passwordHint,
       confirmPassword,
       animateRefreshIcon,
-      identiconsId,
-      eightCharacterCheck,
-      capitalLetterCheck,
-      numberCheck
+      identiconsId
     } = this.state;
     return (
       <section className="bg-dark" style={{ padding: '88px 0px ' }}>
@@ -508,7 +489,7 @@ class CreateAccount extends Component {
                       <ul className="pass-validator">
                         <li className="correct">
                           <img
-                            src={eightCharacterCheck ? check : cross}
+                            src={password.length >= 8 ? check : cross}
                             alt="correct"
                             className="ico"
                           />
@@ -516,7 +497,9 @@ class CreateAccount extends Component {
                         </li>
                         <li className="false">
                           <img
-                            src={capitalLetterCheck ? check : cross}
+                            src={
+                              password.match(/[A-Z]/) !== null ? check : cross
+                            }
                             alt="invalid"
                             className="ico"
                           />
@@ -524,7 +507,9 @@ class CreateAccount extends Component {
                         </li>
                         <li className="false">
                           <img
-                            src={numberCheck ? check : cross}
+                            src={
+                              password.match(/[0-9]/) !== null ? check : cross
+                            }
                             alt="invalid"
                             className="ico"
                           />
