@@ -26,7 +26,7 @@ class AccountInfo extends Component {
     if (generatedMnemonic && generatedMnemonic.length > 0) {
       // eslint-disable-next-line no-restricted-syntax
       for (const name of generatedMnemonic) {
-        mnemonicsList.push(<li>{name}</li>);
+        mnemonicsList.push(<li key={`${name}-1`}>{name}</li>);
       }
     }
 

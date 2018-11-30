@@ -229,6 +229,7 @@ class ConfirmRecovery extends Component {
                 </Button>
               </div>
             </Col>
+            {this.renderCancelAccountCreationModal()}
           </Row>
         </Container>
       </section>
