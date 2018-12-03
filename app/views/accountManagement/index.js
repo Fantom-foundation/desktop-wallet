@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Web3 from 'web3';
 import UserAccountsDetailCard from './userAccountsDetailCard/index';
 //	import avatar from '../../images/icons/icon.png';
+import AppFooter from '../../general/footer/app-footer';
 
 import arrowLeftRight from '../../images/icons/arrows-left-right.svg';
 import Header from '../../general/header/index';
@@ -766,6 +767,7 @@ class AccountManagement extends Component {
           style={{ padding: '12px 0px 50px ' }}
           onClick={this.handleCloseSettings.bind(this)}
         />
+        <AppFooter />
         {this.state.isSendFund && (
           <SendFunds
             isSendFund={this.state.isSendFund}
