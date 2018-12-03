@@ -29,7 +29,8 @@ class Home extends Component {
       activeTab: '1',
       // progressValue: 50,
       date: new Date().getTime(),
-      isOpenSetting: false
+      isOpenSetting: false,
+      nextButtonDisable: true
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -38,7 +39,17 @@ class Home extends Component {
    * toggle() : To toggle the account step number.
    * @param {*} tab : Set selected tab number.
    */
-  toggle(tab) {
+  toggle(tab, visited) {
+    let nextButtonDisable = true;
+    if (visited) {
+      nextButtonDisable = false;
+    } else {
+      nextButtonDisable = true;
+    }
+    this.setState({
+      activeTab: tab,
+      nextButtonDisable
+    });
     // if (this.state.activeTab !== tab) {
     //   let progressValue = 50;
     //   if (tab === '1') {
@@ -46,11 +57,6 @@ class Home extends Component {
     //   } else if (tab === '2') {
     //     progressValue = 100;
     //   }
-    this.setState({
-      activeTab: tab
-      // progressValue
-    });
-    // }
   }
 
   /**
@@ -98,6 +104,21 @@ class Home extends Component {
     }
   }
 
+  changeDisableButtons = () => {
+    const { activeTab } = this.state;
+    let nextButtonDisable = true;
+    if (activeTab === '1') {
+      const accountRefInstance = this.accountRef.wrappedInstance;
+      nextButtonDisable = accountRefInstance.isNextButtonDisable();
+    }
+    if (activeTab === '2') {
+      nextButtonDisable = true;
+    }
+    this.setState({
+      nextButtonDisable
+    });
+  };
+
   onNext = () => {
     const { activeTab } = this.state;
 
@@ -112,9 +133,10 @@ class Home extends Component {
   onPrev = () => {
     const { activeTab } = this.state;
     if (activeTab === '2') {
-      this.toggle('1');
+      this.toggle('1', 'visited');
     }
   };
+
   // onPrev = () => {
   //   console.log('clicked');
   //   const { activeTab } = this.state;
@@ -124,9 +146,28 @@ class Home extends Component {
   //     this.toggle('2');
   //   }
   // };
+  backButtonDisable = () => {
+    const { activeTab } = this.state;
+    if (activeTab === '1') {
+      return true;
+    }
+    if (activeTab === '2') {
+      return false;
+    }
+  };
+
+  // nextButtonDisable = () => {
+  //   const { activeTab } = this.state;
+  //   if (activeTab === '1') {
+  //     return false;
+  //   }
+  //   if (activeTab === '2') {
+  //     return true;
+  //   }
+  // };
 
   render() {
-    const { isOpenSetting, activeTab } = this.state;
+    const { isOpenSetting, activeTab, nextButtonDisable } = this.state;
     const {
       accountIconId,
       loading,
@@ -135,6 +176,7 @@ class Home extends Component {
       passwordHint
     } = this.props;
     const isRestoreAccount = true;
+    const backButtonDisable = this.backButtonDisable();
     return (
       <div>
         <Header
@@ -151,6 +193,8 @@ class Home extends Component {
           onPrev={this.onPrev}
           stepNo={activeTab}
           restoreAccount={isRestoreAccount}
+          backButtonDisable={backButtonDisable}
+          nextButtonDisable={nextButtonDisable}
         >
           {/*      <Row>
                 <Col>
@@ -169,6 +213,7 @@ class Home extends Component {
               passwordHint={passwordHint}
               toggle={this.toggle.bind(this)}
               onRefresh={this.onRefresh.bind(this)}
+              changeDisableButtons={this.changeDisableButtons.bind(this)}
             />
           ) : null}
           {activeTab === '2' ? (

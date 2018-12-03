@@ -14,6 +14,7 @@ class AccountInfo extends Component {
     this.state = {
       confirmText: 'I have written down the phrase',
       confirmationPhrase: 'I have written down the phrase'
+
       // isBackupConfirm: false,
       // errorText: ''
     };
@@ -121,12 +122,16 @@ class AccountInfo extends Component {
             <Col>
               {/* {this.printAccountData()} */}
               <AccountInfoCard
+                ref={component => {
+                  this.accountRef = component;
+                }}
                 accountName={accountName}
                 mnemonic={mnemonic}
                 address={address}
                 identiconsId={identiconsId}
                 copyAddress={this.copyAddress.bind(this)}
                 copyMnemonic={this.copyMnemonic.bind(this)}
+                changeDisableButtons={this.props.changeDisableButtons}
               />
               {/* <Row className="my-3 ">
                 <Col className="text-center">

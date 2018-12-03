@@ -8,12 +8,9 @@ import {
   Nav,
   NavItem,
   Container,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu
+  NavLink
 } from 'reactstrap';
 import Logo from '../../images/Logo/logo.png';
-import SettingIcon from '../../images/icons/setting.svg';
 // import CreateAccountSteps from '../../views/createAccountSteps/index';
 
 /**
@@ -103,68 +100,52 @@ export default class Header extends Component {
     }
   }
 
-  /**
-   * renderAccountSetting() :  This function is meant for rendering 'setting' tab on hander bar.
-   * isOpenSetting: isOpenSetting , a boolean value for handling setting tab render.
-   * isWalletSetup : isWalletSetup means 'Add Wallet' feature is enabled.
-   * isWalletRecover : isWalletRecover means 'Restore Wallet' feature is enabled.
-   */
-  renderAccountSetting() {
-    const { isOpenSetting, isWalletSetup, isWalletRecover } = this.props;
-    return (
-      <Dropdown
-        isOpen={isOpenSetting}
-        toggle={this.handleSettings.bind(this)}
-        className="h-100"
-      >
-        <DropdownToggle
-          className=" ml-3 my-3 px-0 border-0"
-          style={{ backgroundColor: 'transparent', boxShadow: 'none' }}
-        >
-          <img src={SettingIcon} alt="Setting" style={{ height: '16.6px' }} />
-        </DropdownToggle>
-        <DropdownMenu className="pt-0 " right>
-          <div className="add-wallet-dropdown-content">
-            {isWalletSetup && (
-              <option
-                className="add-wallet-dropdown-content-field"
-                onClick={this.handleUserSettings.bind(this)}
-              >
-                Add Wallet
-              </option>
-            )}
-            {isWalletRecover && (
-              <option
-                className="add-wallet-dropdown-content-field"
-                onClick={this.openWalletRecovery.bind(this)}
-              >
-                Restore Wallet
-              </option>
-            )}
-          </div>
-        </DropdownMenu>
-      </Dropdown>
-    );
-  }
-
   render() {
     const { isOpen } = this.state;
+    const { isWalletSetup, isWalletRecover } = this.props;
+
     return (
-      <Navbar color="dark" dark expand="md">
-        <Container>
-          <NavbarBrand href="#" onClick={() => this.openAccountManagement()}>
-            <img className="logo" src={Logo} alt={Logo} />
-          </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem className="add-wallet-dropdown">
-                {this.renderAccountSetting()}
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Container>
-      </Navbar>
+      <header id="header">
+        <div className="nav-holder">
+          <Navbar dark expand="md">
+            <Container>
+              <NavbarBrand
+                href="#"
+                onClick={() => this.openAccountManagement()}
+              >
+                <img className="logo" src={Logo} alt={Logo} />
+              </NavbarBrand>
+              <NavbarToggler onClick={this.toggle} />
+              <Collapse isOpen={isOpen} navbar>
+                <Nav className="ml-auto" navbar>
+                  {isWalletRecover && (
+                    <NavItem>
+                      <NavLink onClick={this.openWalletRecovery.bind(this)}>
+                        OPEN WALLET
+                      </NavLink>
+                    </NavItem>
+                  )}
+                  {isWalletSetup && (
+                    <NavItem>
+                      <NavLink onClick={this.handleUserSettings.bind(this)}>
+                        NEW WALLET
+                      </NavLink>
+                    </NavItem>
+                  )}
+                  <NavItem>
+                    <NavLink
+                      href="#"
+                      onClick={this.openAccountManagement.bind(this)}
+                    >
+                      VIEW ADDRESS
+                    </NavLink>
+                  </NavItem>
+                </Nav>
+              </Collapse>
+            </Container>
+          </Navbar>
+        </div>
+      </header>
     );
   }
 }

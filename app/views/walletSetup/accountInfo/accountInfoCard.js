@@ -47,9 +47,15 @@ class AccountInfo extends Component {
   revealSecret() {
     // const SELF = this;
     // const { setButtonStatus } = SELF.props;
-    this.setState({
-      revealSecret: true
-    });
+    this.setState(
+      {
+        revealSecret: true
+      },
+      () => {
+        this.props.changeDisableButtons();
+      }
+    );
+
     // const { confirmationPhrase } = this.state;
     // const data = {
     //   revealSecret: true,

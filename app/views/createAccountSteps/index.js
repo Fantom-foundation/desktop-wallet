@@ -26,7 +26,9 @@ export default class CreateAccountSteps extends Component {
 
   render() {
     const className = this.getClassName();
-    const { restoreAccount } = this.props;
+    const { restoreAccount, backButtonDisable, nextButtonDisable } = this.props;
+    const backButtonDisabled = backButtonDisable ? 'light' : null;
+    const nextButtonDisabled = nextButtonDisable ? 'light' : null;
     return (
       <React.Fragment>
         <section style={{ padding: '90px 0px ' }}>
@@ -116,13 +118,14 @@ export default class CreateAccountSteps extends Component {
                 <Button
                   // onClick={event => this.onBack(event, isBackActive)}
                   onClick={this.props.onPrev}
-                  className="light"
+                  className={backButtonDisabled}
                 >
                   <i className="fas fa-chevron-left" /> Back
                 </Button>
               </Col>
               <Col>
                 <Button
+                  className={nextButtonDisabled}
                   // onClick={event => this.onNext(event, isNextActive)}>
                   onClick={this.props.onNext}
                 >

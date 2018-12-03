@@ -29,6 +29,8 @@ class Home extends Component {
     super(props);
     this.state = {
       activeTab: '1',
+      backButtonDisable: true,
+      nextButtonDisable: true,
       // progressValue: 33.33,
       date: new Date().getTime(),
       isOpenSetting: false
@@ -55,12 +57,11 @@ class Home extends Component {
   };
 
   onPrev = () => {
-    console.log('clicked');
     const { activeTab } = this.state;
     if (activeTab === '2') {
-      this.toggle('1');
+      this.toggle('1', 'visited');
     } else if (activeTab === '3') {
-      this.toggle('2');
+      this.toggle('2', 'visited');
     }
   };
 
@@ -89,10 +90,31 @@ class Home extends Component {
     setMnemonicCode(mnemonic);
   }
 
-  toggle(tab) {
+  toggle(tab, visited) {
+    let backButtonDisable = true;
+    let nextButtonDisable = true;
+    if (visited) {
+      if (tab === '1') {
+        backButtonDisable = true;
+        nextButtonDisable = false;
+      } else if (tab === '2') {
+        backButtonDisable = false;
+        nextButtonDisable = false;
+      } else if (tab === '3') {
+        backButtonDisable = false;
+        nextButtonDisable = true;
+      }
+    } else if (tab === '2') {
+      backButtonDisable = false;
+      nextButtonDisable = true;
+    } else if (tab === '3') {
+      backButtonDisable = false;
+      nextButtonDisable = true;
+    }
     this.setState({
-      activeTab: tab
-      // progressValue
+      activeTab: tab,
+      backButtonDisable,
+      nextButtonDisable
     });
     // if (activeTab !== tab) {
     //   let progressValue = 33.33;
@@ -114,6 +136,59 @@ class Home extends Component {
     const newDate = new Date().getTime();
     this.setState({ date: newDate });
   };
+
+  changeDisableButtons = () => {
+    const { activeTab } = this.state;
+    let backButtonDisable = true;
+    let nextButtonDisable = true;
+    if (activeTab === '1') {
+      const accountRefInstance = this.accountRef.wrappedInstance;
+      backButtonDisable = true;
+      nextButtonDisable = accountRefInstance.isNextButtonDisable();
+    }
+    if (activeTab === '2') {
+      let disable = true;
+      if (this.accountInfoRef) {
+        disable = false;
+      }
+      backButtonDisable = false;
+      nextButtonDisable = disable;
+    }
+    if (activeTab === '3') {
+      backButtonDisable = false;
+      nextButtonDisable = true;
+    }
+    this.setState({
+      backButtonDisable,
+      nextButtonDisable
+    });
+  };
+
+  // nextButtonDisable = () => {
+  //   const { activeTab } = this.state;
+  //   if (activeTab === '1') {
+  //     return false;
+  //   }
+  //   if (activeTab === '2') {
+  //     return false;
+  //   }
+  //   if (activeTab === '3') {
+  //     return true;
+  //   }
+  // };
+
+  // backButtonDisable = () => {
+  //   const { activeTab } = this.state;
+  //   if (activeTab === '1') {
+  //     return true;
+  //   }
+  //   if (activeTab === '2') {
+  //     return false;
+  //   }
+  //   if (activeTab === '3') {
+  //     return false;
+  //   }
+  // };
 
   onUnlockAccount(isUnlock, privateKey, password) {
     const { onUnlockAccount, setAmountData } = this.props;
@@ -148,7 +223,13 @@ class Home extends Component {
   }
 
   render() {
-    const { isOpenSetting, activeTab, date } = this.state;
+    const {
+      isOpenSetting,
+      activeTab,
+      date,
+      backButtonDisable,
+      nextButtonDisable
+    } = this.state;
     const {
       accountIconId,
       loading,
@@ -156,7 +237,8 @@ class Home extends Component {
       password,
       passwordHint
     } = this.props;
-
+    // const backButtonDisable = this.backButtonDisable();
+    // const nextButtonDisable = this.nextButtonDisable();
     return (
       <div>
         <Header
@@ -172,6 +254,8 @@ class Home extends Component {
           onNext={this.onNext}
           onPrev={this.onPrev}
           stepNo={activeTab}
+          backButtonDisable={backButtonDisable}
+          nextButtonDisable={nextButtonDisable}
         >
           {/*      <Row>
                 <Col>
@@ -190,6 +274,7 @@ class Home extends Component {
               passwordHint={passwordHint}
               toggle={this.toggle.bind(this)}
               onRefresh={this.onRefresh.bind(this)}
+              changeDisableButtons={this.changeDisableButtons.bind(this)}
             />
           ) : null}
           {activeTab === '2' ? (
@@ -199,6 +284,7 @@ class Home extends Component {
               }}
               activeTab={activeTab}
               toggle={this.toggle.bind(this)}
+              changeDisableButtons={this.changeDisableButtons.bind(this)}
             />
           ) : null}
           {activeTab === '3' ? (
@@ -208,6 +294,7 @@ class Home extends Component {
               toggle={this.toggle.bind(this)}
               onUnlockAccount={this.onUnlockAccount.bind(this)}
               openAccountManagement={this.openAccountManagement.bind(this)}
+              changeDisableButtons={this.changeDisableButtons.bind(this)}
             />
           ) : null}
           {/* </TabPane>

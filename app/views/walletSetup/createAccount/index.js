@@ -85,6 +85,11 @@ class CreateAccount extends Component {
     return isConfirmed;
   }
 
+  isNextButtonDisable = () => {
+    const disable = !this.isCreateAccount();
+    return disable;
+  };
+
   validateData = (event, value, name) => {
     event.preventDefault();
     let validationResult = '';
@@ -191,42 +196,68 @@ class CreateAccount extends Component {
   setAccountName(e) {
     const accountName = e.target.value;
     const isValid = this.validateData(e, accountName, 'accountName');
-    this.setState({
-      accountName,
-      emailErrorText: isValid.errorText
-    });
+    this.setState(
+      {
+        accountName,
+        emailErrorText: isValid.errorText
+      },
+      () => {
+        this.props.changeDisableButtons();
+      }
+    );
   }
 
   setPassword(e) {
     const password = e.target.value.trim();
     const isValid = this.validateData(e, password, 'password');
-    this.setState({
-      password,
-      passwordErrorText: isValid.errorText
-    });
+    this.setState(
+      {
+        password,
+        passwordErrorText: isValid.errorText
+      },
+      () => {
+        this.props.changeDisableButtons();
+      }
+    );
   }
 
   setConfirmPassword(e) {
     const confirmPassword = e.target.value.trim();
     const isValid = this.validateData(e, confirmPassword, 'confirmPassword');
-    this.setState({
-      confirmPassword,
-      confirmPasswordErrorText: isValid.errorText
-    });
+    this.setState(
+      {
+        confirmPassword,
+        confirmPasswordErrorText: isValid.errorText
+      },
+      () => {
+        this.props.changeDisableButtons();
+      }
+    );
   }
 
   setPasswordHint(e) {
     const passwordHint = e.target.value.trim();
-    this.setState({
-      passwordHint
-    });
+    this.setState(
+      {
+        passwordHint
+      },
+      () => {
+        this.props.changeDisableButtons();
+      }
+    );
   }
 
   getRadioIconData(identiconsId) {
     // const { getRadioIconData } = this.props;
-    this.setState({
-      identiconsId
-    });
+    this.setState(
+      {
+        identiconsId
+      },
+      () => {
+        this.props.changeDisableButtons();
+      }
+    );
+
     // if(getRadioIconData){
     //     getRadioIconData(identiconsId)
     // }
@@ -432,7 +463,7 @@ class CreateAccount extends Component {
                     onChange={this.setAccountName.bind(this)}
                     style={{ backgroundImage: `url(${user})` }}
                   />
-                  <small className="form-element-hint">{emailErrorText}</small>
+                  <small className="text-danger">{emailErrorText}</small>
                 </FormGroup>
                 <Row>
                   <Col>
@@ -466,9 +497,7 @@ class CreateAccount extends Component {
                         onChange={this.setPassword.bind(this)}
                         style={{ backgroundImage: `url(${lock})` }}
                       />
-                      <small className="form-element-hint">
-                        {passwordErrorText}
-                      </small>
+                      <small className="text-danger">{passwordErrorText}</small>
                     </FormGroup>
                     <FormGroup>
                       <Input
@@ -479,7 +508,7 @@ class CreateAccount extends Component {
                         onChange={this.setConfirmPassword.bind(this)}
                         style={{ backgroundImage: `url(${lock})` }}
                       />
-                      <small className="form-element-hint">
+                      <small className="text-danger">
                         {confirmPasswordErrorText}
                       </small>
                     </FormGroup>
