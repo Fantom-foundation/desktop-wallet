@@ -470,7 +470,7 @@ class CreateAccount extends Component {
                     onChange={this.setAccountName.bind(this)}
                     style={{ backgroundImage: `url(${user})` }}
                   />
-                  <small className="form-element-hint">{emailErrorText}</small>
+                  <small className="text-danger">{emailErrorText}</small>
                 </FormGroup>
                 <Row>
                   <Col>
@@ -504,9 +504,7 @@ class CreateAccount extends Component {
                         onChange={this.setPassword.bind(this)}
                         style={{ backgroundImage: `url(${lock})` }}
                       />
-                      <small className="form-element-hint">
-                        {passwordErrorText}
-                      </small>
+                      <small className="text-danger">{passwordErrorText}</small>
                     </FormGroup>
                     <FormGroup>
                       <Input
@@ -517,7 +515,7 @@ class CreateAccount extends Component {
                         onChange={this.setConfirmPassword.bind(this)}
                         style={{ backgroundImage: `url(${lock})` }}
                       />
-                      <small className="form-element-hint">
+                      <small className="text-danger">
                         {confirmPasswordErrorText}
                       </small>
                     </FormGroup>

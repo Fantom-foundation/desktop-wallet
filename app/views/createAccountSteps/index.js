@@ -9,7 +9,6 @@ import {
   Button,
   Container
 } from 'reactstrap';
-import AppFooter from '../../general/footer/app-footer';
 
 export default class CreateAccountSteps extends Component {
   getClassName() {
@@ -136,7 +135,6 @@ export default class CreateAccountSteps extends Component {
             </Row>
           </Container>
         </section>
-        <AppFooter />
       </React.Fragment>
     );
   }
