@@ -649,47 +649,48 @@ class AccountManagement extends Component {
     const { accountName } = this.props;
 
     return (
-      <div>
-        <Header
-          isWalletSetup
-          isWalletRecover
-          openWalletRecovery={this.openWalletRecovery.bind(this)}
-          handleSettings={this.handleSettings.bind(this)}
-          handleCloseSettings={this.handleCloseSettings.bind(this)}
-          handleUserSettings={this.handleUserSettings.bind(this)}
-          isOpenSetting={isOpenSetting}
-          isOpenAccountDetail={isOpenAccountDetail}
-          accountIcon={identiconsId}
-          onCloseSendFunds={this.onCloseSendFunds.bind(this)}
-          openAccountManagement={this.openAccountManagement.bind(this)}
-        />
-        <section className="page-title">
-          <Container>
-            <Row>
-              <Col>
-                <h2 className="title text-white text-center text-uppercase m-0">
-                  <span>Account Management</span>
-                </h2>
-              </Col>
-            </Row>
-          </Container>
-        </section>
-        <section className="bg-dark" style={{ padding: '0 0 120px' }}>
-          <Container className="account-card-container">
-            <Row style={{ marginBottom: '90px' }}>
-              <Col>
-                <div className="add-wallet">
-                  <h2 className="title ">
-                    <span>Accounts</span>
+      <React.Fragment>
+        <div className={`${this.state.isSendFund && 'blur'}`}>
+          <Header
+            isWalletSetup
+            isWalletRecover
+            openWalletRecovery={this.openWalletRecovery.bind(this)}
+            handleSettings={this.handleSettings.bind(this)}
+            handleCloseSettings={this.handleCloseSettings.bind(this)}
+            handleUserSettings={this.handleUserSettings.bind(this)}
+            isOpenSetting={isOpenSetting}
+            isOpenAccountDetail={isOpenAccountDetail}
+            accountIcon={identiconsId}
+            onCloseSendFunds={this.onCloseSendFunds.bind(this)}
+            openAccountManagement={this.openAccountManagement.bind(this)}
+          />
+          <section className="page-title">
+            <Container>
+              <Row>
+                <Col>
+                  <h2 className="title text-white text-center text-uppercase m-0">
+                    <span>Account Management</span>
                   </h2>
-                  <Button>
-                    <i className="fas fa-plus" />
-                  </Button>
-                </div>
-              </Col>
-            </Row>
+                </Col>
+              </Row>
+            </Container>
+          </section>
+          <section className="bg-dark" style={{ padding: '0 0 120px' }}>
+            <Container className="account-card-container">
+              <Row style={{ marginBottom: '90px' }}>
+                <Col>
+                  <div className="add-wallet">
+                    <h2 className="title ">
+                      <span>Accounts</span>
+                    </h2>
+                    <Button>
+                      <i className="fas fa-plus" />
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
 
-            {/* 			 
+              {/* 			 
 
 							<Row id="account-card" className="text-center ">
                 <Col md={6} lg={3} className="main-col">
@@ -714,58 +715,60 @@ class AccountManagement extends Component {
                 </Col>
               </Row> */}
 
-            {this.renderAccountDetail()}
-            {this.renderAccountManagement()}
-          </Container>
+              {this.renderAccountDetail()}
+              {this.renderAccountManagement()}
+            </Container>
 
-          {/* <Col md={5} className="col text-white pl-4 text-uppercase">
+            {/* <Col md={5} className="col text-white pl-4 text-uppercase">
                 Account Management
               </Col> */}
-          {isOpenAccountDetail && (
-            <Container>
-              <Row>
-                <Col
-                  className="col text-white text-uppercase"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => this.handleSendFunds()}
-                >
-                  <img
-                    src={arrowLeftRight}
-                    className="mr-1"
-                    alt="Transfer fund"
-                  />{' '}
-                  Transfer
-                </Col>
+            {isOpenAccountDetail && (
+              <Container>
+                <Row>
+                  <Col
+                    className="col text-white text-uppercase"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => this.handleSendFunds()}
+                  >
+                    <img
+                      src={arrowLeftRight}
+                      className="mr-1"
+                      alt="Transfer fund"
+                    />{' '}
+                    Transfer
+                  </Col>
 
-                <Col
-                  className="text-right"
-                  style={{ cursor: 'pointer' }}
-                  onClick={this.onRefresh.bind(this)}
-                >
-                  <img
-                    aria-hidden
-                    src={refreshIcon}
-                    alt="Refresh"
-                    style={{ height: '16.6px' }}
-                    className={`${animateRefreshIcon && 'rotation anti-clock'}`}
-                  />{' '}
-                </Col>
-              </Row>
-            </Container>
-          )}
+                  <Col
+                    className="text-right"
+                    style={{ cursor: 'pointer' }}
+                    onClick={this.onRefresh.bind(this)}
+                  >
+                    <img
+                      aria-hidden
+                      src={refreshIcon}
+                      alt="Refresh"
+                      style={{ height: '16.6px' }}
+                      className={`${animateRefreshIcon &&
+                        'rotation anti-clock'}`}
+                    />{' '}
+                  </Col>
+                </Row>
+              </Container>
+            )}
 
-          {/* <Row>
+            {/* <Row>
               <Col className="px-5 py-4">
                 {this.renderAccountDetail()}
                 {this.renderAccountManagement()}
               </Col>
             </Row> */}
-        </section>
+          </section>
 
-        <section
-          style={{ padding: '12px 0px 50px ' }}
-          onClick={this.handleCloseSettings.bind(this)}
-        />
+          <section
+            style={{ padding: '12px 0px 50px ' }}
+            onClick={this.handleCloseSettings.bind(this)}
+          />
+        </div>
 
         {this.state.isSendFund && (
           <SendFunds
@@ -779,7 +782,7 @@ class AccountManagement extends Component {
             getWalletDetail={this.getWalletDetail.bind(this)}
           />
         )}
-      </div>
+      </React.Fragment>
     );
   }
 }
