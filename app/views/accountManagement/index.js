@@ -455,7 +455,7 @@ class AccountManagement extends Component {
    */
   copyToClipboard(copyText) {
     clipboard.writeText(copyText);
-    ToastStore.info('Copy to clipboard', 900);
+    ToastStore.info('Copied to clipboard', 200);
   }
 
   /**
