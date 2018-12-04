@@ -424,7 +424,7 @@ class CreateAccount extends Component {
 
     const {
       emailErrorText,
-      passwordErrorText,
+      // passwordErrorText,
       confirmPasswordErrorText,
       accountName,
       password,
@@ -504,7 +504,7 @@ class CreateAccount extends Component {
                         onChange={this.setPassword.bind(this)}
                         style={{ backgroundImage: `url(${lock})` }}
                       />
-                      <small className="text-danger">{passwordErrorText}</small>
+                      {/* <small className="text-danger">{passwordErrorText}</small> */}
                     </FormGroup>
                     <FormGroup>
                       <Input
