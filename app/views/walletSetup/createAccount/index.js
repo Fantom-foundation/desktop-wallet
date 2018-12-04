@@ -444,7 +444,7 @@ class CreateAccount extends Component {
       identiconsId
     } = this.state;
     return (
-      <section className="bg-dark" style={{ padding: '88px 0px ' }}>
+      <section className="bg-dark" style={{ padding: '60px 0px ' }}>
         <Container>
           <Row>
             <Col sm="12">
