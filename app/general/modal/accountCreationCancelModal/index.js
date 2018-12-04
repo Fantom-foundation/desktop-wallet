@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 class AccountCreationCancelModal extends Component {
   constructor(props) {
@@ -23,24 +23,17 @@ class AccountCreationCancelModal extends Component {
           isOpen={modal}
           toggle={this.toggle}
           backdrop
-          style={{ transition: 'transform 0.11s linear' }}
+          // style={{ transition: 'transform 0.11s linear' }}
         >
-          <ModalBody style={{ fontSize: '16px', fontFamily: 'Roboto' }}>
-            Are you sure you want to cancel the create wallet process?
+          <ModalHeader toggle={this.toggle}>Cancel Wallet </ModalHeader>
+          <ModalBody>
+            <p>Are you sure you want to cancel the create wallet process?</p>
           </ModalBody>
           <ModalFooter>
-            <Button
-              color="primary"
-              style={{ fontSize: '14px', fontFamily: 'Roboto' }}
-              onClick={() => openAccountManagement()}
-            >
+            <Button color="primary" onClick={() => openAccountManagement()}>
               Yes
             </Button>{' '}
-            <Button
-              color="danger"
-              style={{ fontSize: '14px', fontFamily: 'Roboto' }}
-              onClick={this.toggle}
-            >
+            <Button color="primary" onClick={this.toggle}>
               No
             </Button>
           </ModalFooter>

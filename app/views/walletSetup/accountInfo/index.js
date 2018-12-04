@@ -13,8 +13,8 @@ class AccountInfo extends Component {
     super(props);
     this.state = {
       confirmText: 'I have written down the phrase',
-      confirmationPhrase: 'I have written down the phrase'
-
+      confirmationPhrase: '',
+      revealSecret: ''
       // isBackupConfirm: false,
       // errorText: ''
     };
@@ -39,18 +39,23 @@ class AccountInfo extends Component {
     }
   }
 
-  onUpdate(key, value) {
-    const confirmText = value.trim();
-    this.setState({
-      confirmText
-    });
+  onUpdate(e) {
+    const text = e.target.value;
     this.setState(
       {
-        [key]: value
+        confirmationPhrase: text
+      },
+      () => {
+        this.props.changeDisableButtons();
       }
-      // () => this.disableNextButton(key, value)
     );
   }
+
+  changeSecret = () => {
+    this.setState({ revealSecret: true }, () =>
+      this.props.changeDisableButtons()
+    );
+  };
 
   confirmPhraseBackup(e) {
     const confirmText = e.target.value.trim();
@@ -97,7 +102,7 @@ class AccountInfo extends Component {
 
   render() {
     const CONFIRMATION_PHASE = 'I have written down the phrase';
-    const { confirmationPhrase } = this.state;
+    const { confirmationPhrase, revealSecret } = this.state;
     const {
       accountName,
       mnemonic,
@@ -114,26 +119,28 @@ class AccountInfo extends Component {
         className="bg-dark"
         style={{ padding: '40px 0 70px' }}
       >
-        <Container>
-          <Row
+        {/* <Container> */}
+        {/* <Row
             className="acc-details bg-dark-light"
             style={{ marginBottom: '30px' }}
-          >
-            <Col>
-              {/* {this.printAccountData()} */}
-              <AccountInfoCard
-                ref={component => {
-                  this.accountRef = component;
-                }}
-                accountName={accountName}
-                mnemonic={mnemonic}
-                address={address}
-                identiconsId={identiconsId}
-                copyAddress={this.copyAddress.bind(this)}
-                copyMnemonic={this.copyMnemonic.bind(this)}
-                changeDisableButtons={this.props.changeDisableButtons}
-              />
-              {/* <Row className="my-3 ">
+          > */}
+        {/* <Col> */}
+        {/* {this.printAccountData()} */}
+        <AccountInfoCard
+          ref={component => {
+            this.accountRef = component;
+          }}
+          accountName={accountName}
+          mnemonic={mnemonic}
+          address={address}
+          revealSecret={revealSecret}
+          identiconsId={identiconsId}
+          changeSecret={this.changeSecret}
+          copyAddress={this.copyAddress.bind(this)}
+          copyMnemonic={this.copyMnemonic.bind(this)}
+          changeDisableButtons={this.props.changeDisableButtons}
+        />
+        {/* <Row className="my-3 ">
                 <Col className="text-center">
                   <ReactToPrint
                     trigger={() => (
@@ -143,7 +150,7 @@ class AccountInfo extends Component {
                   />
                 </Col>
               </Row> */}
-              {/* <Row>
+        {/* <Row>
                 <Col>
                   <p className="text mb-3 black-text">
                     Please back up the recovery phase now. Make sure to keep it
@@ -171,9 +178,9 @@ class AccountInfo extends Component {
                           : 'form-text-line'
                       }`}
                     /> */}
-              {/* <div className="form-element-bar"></div> */}
-              {/* <label className="form-element-label" for="PasswordHint">Password hint</label> */}
-              {/* {!this.state.isBackupConfirm && (
+        {/* <div className="form-element-bar"></div> */}
+        {/* <label className="form-element-label" for="PasswordHint">Password hint</label> */}
+        {/* {!this.state.isBackupConfirm && (
                       <span className="form-element-hint form-element-backup-field">
                         {this.state.errorText}{' '}
                       </span>
@@ -181,15 +188,15 @@ class AccountInfo extends Component {
                   </div>
                 </Col>
               </Row> */}
-            </Col>
-          </Row>
-          {/* <FooterButtons
+        {/* </Col> */}
+        {/* </Row> */}
+        {/* <FooterButtons
                 onBack={this.onBack.bind(this)}
                 isBackActive
                 onNext={this.onNext.bind(this)}
                 isNextActive={this.state.isBackupConfirm}
               /> */}
-        </Container>
+        {/* </Container> */}
         <Container className="acc-footer">
           <Row>
             <Col>
@@ -213,9 +220,7 @@ class AccountInfo extends Component {
                     type="text"
                     name="msg"
                     required=""
-                    onChange={e =>
-                      this.onUpdate('confirmationPhrase', e.currentTarget.value)
-                    }
+                    onChange={e => this.onUpdate(e)}
                     id="msg"
                     value={confirmationPhrase}
                     autoFocus={false}

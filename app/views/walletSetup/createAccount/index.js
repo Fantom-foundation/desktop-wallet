@@ -48,7 +48,11 @@ class CreateAccount extends Component {
   }
 
   onNext() {
-    const { accountName } = this.state;
+    const { accountName, password, confirmPassword } = this.state;
+    if (password !== confirmPassword) {
+      console.log('password not matched');
+      return;
+    }
     if (accountName !== '') {
       this.getValidAccounts(accountName);
     }
@@ -216,7 +220,21 @@ class CreateAccount extends Component {
         passwordErrorText: isValid.errorText
       },
       () => {
-        this.props.changeDisableButtons();
+        if (this.state.confirmPassword) {
+          this.setConfirmPassword(
+            {
+              target: {
+                value: this.state.confirmPassword
+              },
+              preventDefault: () => console.log('fake prevent Default')
+            },
+            () => {
+              this.props.changeDisableButtons();
+            }
+          );
+        } else {
+          this.props.changeDisableButtons();
+        }
       }
     );
   }
@@ -236,7 +254,7 @@ class CreateAccount extends Component {
   }
 
   setPasswordHint(e) {
-    const passwordHint = e.target.value.trim();
+    const passwordHint = e.target.value;
     this.setState(
       {
         passwordHint
@@ -417,7 +435,6 @@ class CreateAccount extends Component {
 
     const {
       emailErrorText,
-      passwordErrorText,
       confirmPasswordErrorText,
       accountName,
       password,
@@ -497,7 +514,7 @@ class CreateAccount extends Component {
                         onChange={this.setPassword.bind(this)}
                         style={{ backgroundImage: `url(${lock})` }}
                       />
-                      <small className="text-danger">{passwordErrorText}</small>
+                      {/* <small className="text-danger">{passwordErrorText}</small> */}
                     </FormGroup>
                     <FormGroup>
                       <Input

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, Button, Container } from 'reactstrap';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import AccountCreationCancelModal from './accountCreationCancelModal/index';
+import AccountCreationCancelModal from '../../../general/modal/accountCreationCancelModal/index';
+import IncorrectMnemonicsModal from '../../../general/modal/incorrect-mnemonics/index';
 
 class ConfirmRecovery extends Component {
   // onBack(){
@@ -16,12 +17,16 @@ class ConfirmRecovery extends Component {
       // isLocked: true,
       modal: false,
       selectedMnemonicsArray: [],
-      mnemonicsArray: []
+      mnemonicsArray: [],
+      openIncorrectMnemonicsModal: false
     };
     this.selectMnemonic = this.selectMnemonic.bind(this);
     this.getMnemonics = this.getMnemonics.bind(this);
     this.getSelectedMnemonics = this.getSelectedMnemonics.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.toggleIncorrectMnemonicsModal = this.toggleIncorrectMnemonicsModal.bind(
+      this
+    );
   }
 
   componentWillMount() {
@@ -61,6 +66,7 @@ class ConfirmRecovery extends Component {
     const { onUnlockAccount, privateKey, password, mnemonic } = this.props;
     const { selectedMnemonicsArray } = this.state;
     if (selectedMnemonicsArray.join(' ') !== mnemonic) {
+      this.toggleIncorrectMnemonicsModal();
       return;
     }
 
@@ -179,10 +185,22 @@ class ConfirmRecovery extends Component {
     return mnemonicsList;
   }
 
+  /**
+   * This method will toggle the Incorrect Mnemonics modal
+   */
+  toggleIncorrectMnemonicsModal() {
+    const { openIncorrectMnemonicsModal } = this.state;
+    console.log('openIncorrectMnemonicsModal : ', openIncorrectMnemonicsModal);
+
+    this.setState({
+      openIncorrectMnemonicsModal: !openIncorrectMnemonicsModal
+    });
+  }
+
   render() {
     const { activeTab, mnemonic } = this.props;
     console.log('mnemonic', mnemonic);
-    const { mnemonicsArray } = this.state;
+    const { mnemonicsArray, openIncorrectMnemonicsModal } = this.state;
     const selectedMnemonics = this.getSelectedMnemonics();
     // const { isLocked } = this.state;
     if (activeTab !== '3') {
@@ -254,6 +272,7 @@ class ConfirmRecovery extends Component {
                 </div>
               </Col>
             </Row>
+            {/* {this.renderCancelAccountCreationModal()} */}
           </Container>
           {/* <CancelWalletModal
             toggleModal={toggleModal}
@@ -355,6 +374,10 @@ class ConfirmRecovery extends Component {
             </div> */}
           </Col>
           {this.renderCancelAccountCreationModal()}
+          <IncorrectMnemonicsModal
+            openIncorrectMnemonicsModal={openIncorrectMnemonicsModal}
+            toggleIncorrectMnemonicsModal={this.toggleIncorrectMnemonicsModal}
+          />
         </Row>
       </React.Fragment>
     );

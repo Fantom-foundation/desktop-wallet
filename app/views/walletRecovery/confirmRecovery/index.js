@@ -16,7 +16,8 @@ import { connect } from 'react-redux';
 // import Loader from 'react-spinners';
 // import FooterButtons from '../../../general/footer/footer-buttons';
 
-import AccountCreationCancelModal from './accountCreationCancelModal/index';
+import AccountCreationCancelModal from '../../../general/modal/accountCreationCancelModal/index';
+import IncorrectMnemonicsModal from '../../../general/modal/incorrect-mnemonics/index';
 import * as KeyAction from '../../../reducers/keys/action';
 
 /**
@@ -28,10 +29,14 @@ class ConfirmRecovery extends Component {
     this.state = {
       mnemonicPhrase: '',
       isLocked: true,
-      modal: false
+      modal: false,
+      openIncorrectMnemonicsModal: false
       // errorText: ''
     };
     this.toggle = this.toggle.bind(this);
+    this.toggleIncorrectMnemonicsModal = this.toggleIncorrectMnemonicsModal.bind(
+      this
+    );
   }
 
   /**
@@ -131,6 +136,7 @@ class ConfirmRecovery extends Component {
 
     const { isLocked } = this.state;
     if (isLocked) {
+      this.toggleIncorrectMnemonicsModal();
       return;
     }
     if (mnemonicPhrase !== '') {
@@ -151,11 +157,23 @@ class ConfirmRecovery extends Component {
     );
   }
 
+  /**
+   * This method will toggle the Incorrect Mnemonics modal
+   */
+  toggleIncorrectMnemonicsModal() {
+    const { openIncorrectMnemonicsModal } = this.state;
+    console.log('openIncorrectMnemonicsModal : ', openIncorrectMnemonicsModal);
+
+    this.setState({
+      openIncorrectMnemonicsModal: !openIncorrectMnemonicsModal
+    });
+  }
+
   render() {
     // const { activeTab, isWaiting } = this.props;
     // const { errorText, mnemonicPhrase } = this.state;
     const { activeTab } = this.props;
-    const { mnemonicPhrase } = this.state;
+    const { mnemonicPhrase, openIncorrectMnemonicsModal } = this.state;
     if (activeTab !== '2') {
       return null;
     }
@@ -230,6 +248,10 @@ class ConfirmRecovery extends Component {
               </div>
             </Col>
             {this.renderCancelAccountCreationModal()}
+            <IncorrectMnemonicsModal
+              openIncorrectMnemonicsModal={openIncorrectMnemonicsModal}
+              toggleIncorrectMnemonicsModal={this.toggleIncorrectMnemonicsModal}
+            />
           </Row>
         </Container>
       </section>

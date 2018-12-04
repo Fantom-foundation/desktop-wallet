@@ -33,7 +33,8 @@ class Home extends Component {
       nextButtonDisable: true,
       // progressValue: 33.33,
       date: new Date().getTime(),
-      isOpenSetting: false
+      isOpenSetting: false,
+      revealSecret: false
     };
     this.accountRef = null;
     this.accountInfoRef = null;
@@ -52,7 +53,16 @@ class Home extends Component {
     if (activeTab === '1') {
       this.accountRef.wrappedInstance.onNext();
     } else if (activeTab === '2') {
-      this.accountInfoRef.wrappedInstance.onNext();
+      if (this.accountInfoRef) {
+        const accountInfoRef = this.accountInfoRef.wrappedInstance;
+        if (
+          accountInfoRef.state.confirmationPhrase ===
+            'I have written down the phrase' &&
+          accountInfoRef.state.revealSecret
+        ) {
+          this.accountInfoRef.wrappedInstance.onNext();
+        }
+      }
     }
   };
 
@@ -99,7 +109,7 @@ class Home extends Component {
         nextButtonDisable = false;
       } else if (tab === '2') {
         backButtonDisable = false;
-        nextButtonDisable = false;
+        nextButtonDisable = true;
       } else if (tab === '3') {
         backButtonDisable = false;
         nextButtonDisable = true;
@@ -107,6 +117,9 @@ class Home extends Component {
     } else if (tab === '2') {
       backButtonDisable = false;
       nextButtonDisable = true;
+      if (this.state.revealSecret) {
+        nextButtonDisable = false;
+      }
     } else if (tab === '3') {
       backButtonDisable = false;
       nextButtonDisable = true;
@@ -149,7 +162,14 @@ class Home extends Component {
     if (activeTab === '2') {
       let disable = true;
       if (this.accountInfoRef) {
-        disable = false;
+        const accountInfoRef = this.accountInfoRef.wrappedInstance;
+        if (
+          accountInfoRef.state.confirmationPhrase ===
+            'I have written down the phrase' &&
+          accountInfoRef.state.revealSecret
+        ) {
+          disable = false;
+        }
       }
       backButtonDisable = false;
       nextButtonDisable = disable;
@@ -228,7 +248,8 @@ class Home extends Component {
       activeTab,
       date,
       backButtonDisable,
-      nextButtonDisable
+      nextButtonDisable,
+      revealSecret
     } = this.state;
     const {
       accountIconId,
@@ -283,7 +304,9 @@ class Home extends Component {
                 this.accountInfoRef = component;
               }}
               activeTab={activeTab}
+              revealSecret={revealSecret}
               toggle={this.toggle.bind(this)}
+              changeSecret={this.changeSecret}
               changeDisableButtons={this.changeDisableButtons.bind(this)}
             />
           ) : null}
