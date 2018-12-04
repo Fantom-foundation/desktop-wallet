@@ -7,10 +7,9 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  Container,
   NavLink
 } from 'reactstrap';
-import Logo from '../../images/Logo/logo.png';
+import Logo from '../../images/Logo/fantom.png';
 // import CreateAccountSteps from '../../views/createAccountSteps/index';
 
 /**
@@ -108,41 +107,36 @@ export default class Header extends Component {
       <header id="header">
         <div className="nav-holder">
           <Navbar dark expand="md">
-            <Container>
-              <NavbarBrand
-                href="#"
-                onClick={() => this.openAccountManagement()}
-              >
-                <img className="logo" src={Logo} alt={Logo} />
-              </NavbarBrand>
-              <NavbarToggler onClick={this.toggle} />
-              <Collapse isOpen={isOpen} navbar>
-                <Nav className="ml-auto" navbar>
-                  {isWalletRecover && (
-                    <NavItem>
-                      <NavLink onClick={this.openWalletRecovery.bind(this)}>
-                        OPEN WALLET
-                      </NavLink>
-                    </NavItem>
-                  )}
-                  {isWalletSetup && (
-                    <NavItem>
-                      <NavLink onClick={this.handleUserSettings.bind(this)}>
-                        NEW WALLET
-                      </NavLink>
-                    </NavItem>
-                  )}
+            <NavbarBrand href="#" onClick={() => this.openAccountManagement()}>
+              <img className="logo" src={Logo} alt={Logo} />
+            </NavbarBrand>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={isOpen} navbar>
+              <Nav className="ml-auto" navbar>
+                {isWalletRecover && (
                   <NavItem>
-                    <NavLink
-                      href="#"
-                      onClick={this.openAccountManagement.bind(this)}
-                    >
-                      VIEW ADDRESS
+                    <NavLink onClick={this.openWalletRecovery.bind(this)}>
+                      OPEN WALLET
                     </NavLink>
                   </NavItem>
-                </Nav>
-              </Collapse>
-            </Container>
+                )}
+                {isWalletSetup && (
+                  <NavItem>
+                    <NavLink onClick={this.handleUserSettings.bind(this)}>
+                      NEW WALLET
+                    </NavLink>
+                  </NavItem>
+                )}
+                <NavItem>
+                  <NavLink
+                    href="#"
+                    onClick={this.openAccountManagement.bind(this)}
+                  >
+                    VIEW ADDRESS
+                  </NavLink>
+                </NavItem>
+              </Nav>
+            </Collapse>
           </Navbar>
         </div>
       </header>
