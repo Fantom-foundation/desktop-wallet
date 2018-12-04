@@ -31,7 +31,7 @@ export default class CreateAccountSteps extends Component {
     const nextButtonDisabled = nextButtonDisable ? 'light' : null;
     return (
       <React.Fragment>
-        <section style={{ padding: '90px 0px ' }}>
+        <section style={{ padding: '30px 0px ' }}>
           <Container>
             <Row
               id="account-process"
