@@ -3,6 +3,8 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import { clipboard } from 'electron';
 import { connect } from 'react-redux';
 import Web3 from 'web3';
+import { ToastContainer, ToastStore } from 'react-toasts';
+
 import UserAccountsDetailCard from './userAccountsDetailCard/index';
 //	import avatar from '../../images/icons/icon.png';
 
@@ -453,6 +455,7 @@ class AccountManagement extends Component {
    */
   copyToClipboard(copyText) {
     clipboard.writeText(copyText);
+    ToastStore.info('Copy to clipboard', 900);
   }
 
   /**
@@ -688,6 +691,10 @@ class AccountManagement extends Component {
                 </div>
               </Col>
             </Row>
+            <ToastContainer
+              position={ToastContainer.POSITION.TOP_CENTER}
+              store={ToastStore}
+            />
 
             {/* 			 
 
