@@ -441,7 +441,7 @@ class CreateAccount extends Component {
                       <Input
                         type="password"
                         name="name"
-                        placeholder="Re-enterPassword"
+                        placeholder="Re-enter Password"
                         value={confirmPassword}
                         onChange={this.setConfirmPassword.bind(this)}
                         style={{ backgroundImage: `url(${lock})` }}
