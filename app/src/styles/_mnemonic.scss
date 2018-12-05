@@ -28,7 +28,7 @@ $border-radius: 8px;
       display: inline-block;
       color: map-get($color, mnemonic-collector-list);
       font: {
-        family: 'Roboto Condensed';
+        family: "Roboto Condensed";
         size: 26px;
       }
       @media (max-width: 767px) {
@@ -64,7 +64,7 @@ $border-radius: 8px;
         color: #fff;
         text-align: center;
         font: {
-          family: 'Roboto Condensed';
+          family: "Roboto Condensed";
           size: 26px;
         }
 
@@ -86,7 +86,7 @@ $border-radius: 8px;
   h2 {
     margin: 55px 0 40px;
     font: {
-      family: 'Noto Sans';
+      family: "Noto Sans";
       size: 24px;
     }
     @media (max-width: 767px) {
@@ -105,7 +105,7 @@ $border-radius: 8px;
     border-radius: $border-radius;
     padding: 4px 26px;
     font: {
-      family: 'Noto Sans';
+      family: "Noto Sans";
       size: 16px;
     }
   }

@@ -22,6 +22,9 @@ $color: (
   acc-info-copy-btn: $theme-blue,
   acc-info-acc-name: $white,
   acc-info-address-title: $theme-blue,
+  acc-details-copy-btn: $theme-blue,
+  acc-details-acc-no: $white,
+  acc-details-card-acc-no: $theme-blue,
   card-account-no: $theme-blue,
   add-wallet-title: #feffff,
   add-wallet-title-background: $theme-blue,
@@ -32,7 +35,7 @@ $color: (
   modal-footer-bg: #f7f5f4
 );
 
-$navlink-fontFamily: 'Noto Sans';
-$footerTitle-fontFamily: 'Noto Sans';
-$footerlink-fontFamily: 'Noto Sans';
+$navlink-fontFamily: "Noto Sans";
+$footerTitle-fontFamily: "Noto Sans";
+$footerlink-fontFamily: "Noto Sans";
 $navlink-textTransform: uppercase;

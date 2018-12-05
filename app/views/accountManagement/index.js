@@ -566,12 +566,18 @@ class AccountManagement extends Component {
     }
     if (Store.size > 0) {
       return (
-        <UserAccount
-          storeKeys={storeKeys}
-          address={publicKey}
-          handleSelectedAccount={this.handleSelectedAccount.bind(this)}
-          copyToClipboard={this.copyToClipboard.bind(this)}
-        />
+        <React.Fragment>
+          <section className="bg-dark" style={{ padding: '0 0 120px' }}>
+            <Container className="account-card-container">
+              <UserAccount
+                storeKeys={storeKeys}
+                address={publicKey}
+                handleSelectedAccount={this.handleSelectedAccount.bind(this)}
+                copyToClipboard={this.copyToClipboard.bind(this)}
+              />{' '}
+            </Container>
+          </section>
+        </React.Fragment>
       );
     }
     return null;
@@ -609,6 +615,9 @@ class AccountManagement extends Component {
         transactionLength={transactionLength}
         copyToClipboard={this.copyToClipboard.bind(this)}
         transactionData={transactionData}
+        onRefresh={this.onRefresh.bind(this)}
+        onTransferFund={this.handleSendFunds.bind(this)}
+        isTransferringMoney={this.state.isSendFund}
       />
     );
   }
@@ -643,7 +652,7 @@ class AccountManagement extends Component {
       storeKeys,
       identiconsId,
       publicKey,
-      animateRefreshIcon,
+      // animateRefreshIcon,
       isOpenSetting,
       maxFantomBalance,
       isOpenAccountDetail
@@ -666,108 +675,9 @@ class AccountManagement extends Component {
           onCloseSendFunds={this.onCloseSendFunds.bind(this)}
           openAccountManagement={this.openAccountManagement.bind(this)}
         />
-        <section className="page-title">
-          <Container>
-            <Row>
-              <Col>
-                <h2 className="title text-white text-center text-uppercase m-0">
-                  <span>Account Management</span>
-                </h2>
-              </Col>
-            </Row>
-          </Container>
-        </section>
-        <section className="bg-dark" style={{ padding: '0 0 120px' }}>
-          <Container className="account-card-container">
-            <Row style={{ marginBottom: '90px' }}>
-              <Col>
-                <div className="add-wallet">
-                  <h2 className="title ">
-                    <span>Accounts</span>
-                  </h2>
-                  <Button>
-                    <i className="fas fa-plus" />
-                  </Button>
-                </div>
-              </Col>
-            </Row>
-            <ToastContainer
-              position={ToastContainer.POSITION.TOP_CENTER}
-              store={ToastStore}
-            />
 
-            {/* 			 
-
-							<Row id="account-card" className="text-center ">
-                <Col md={6} lg={3} className="main-col">
-                  <div className="accounts-holder">
-                    <div className="avatar">
-                      <span className="avatar-icon">
-                        <img src={avatar} alt="TestAccount" />
-                      </span>
-                    </div>
-                    <h2 className="title ">
-                      <span>TestAccount</span>
-                    </h2>
-                    <div className="account-no">
-                      <p>
-                        <span>
-                          <i className="fas fa-clone" />
-                        </span>
-                        gfvgv
-                      </p>
-                    </div>
-                  </div>
-                </Col>
-              </Row> */}
-
-            {this.renderAccountDetail()}
-            {this.renderAccountManagement()}
-          </Container>
-
-          {/* <Col md={5} className="col text-white pl-4 text-uppercase">
-                Account Management
-              </Col> */}
-          {isOpenAccountDetail && (
-            <Container>
-              <Row>
-                <Col
-                  className="col text-white text-uppercase"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => this.handleSendFunds()}
-                >
-                  <img
-                    src={arrowLeftRight}
-                    className="mr-1"
-                    alt="Transfer fund"
-                  />{' '}
-                  Transfer
-                </Col>
-
-                <Col
-                  className="text-right"
-                  style={{ cursor: 'pointer' }}
-                  onClick={this.onRefresh.bind(this)}
-                >
-                  <img
-                    aria-hidden
-                    src={refreshIcon}
-                    alt="Refresh"
-                    style={{ height: '16.6px' }}
-                    className={`${animateRefreshIcon && 'rotation anti-clock'}`}
-                  />{' '}
-                </Col>
-              </Row>
-            </Container>
-          )}
-
-          {/* <Row>
-              <Col className="px-5 py-4">
-                {this.renderAccountDetail()}
-                {this.renderAccountManagement()}
-              </Col>
-            </Row> */}
-        </section>
+        {this.renderAccountDetail()}
+        {this.renderAccountManagement()}
 
         <section
           style={{ padding: '12px 0px 50px ' }}
@@ -786,6 +696,10 @@ class AccountManagement extends Component {
             getWalletDetail={this.getWalletDetail.bind(this)}
           />
         )}
+        <ToastContainer
+          position={ToastContainer.POSITION.TOP_CENTER}
+          store={ToastStore}
+        />
       </div>
     );
   }

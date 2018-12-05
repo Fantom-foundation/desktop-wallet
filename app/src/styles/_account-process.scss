@@ -66,23 +66,23 @@ $transition-time: 0.3s;
       }
       @media (max-width: 500px) {
         transform: scale(0.5);
-        // .ico {
-        //   transform: scale(0.9) !important;
-        // }
+        .ico {
+          transform: scale(0.9) !important;
+        }
       }
       height: 60px;
       width: 81px;
       fill: #8f8f8f;
-      // .ico {
-      //   transform: scale(0.7);
-      //   transform-origin: 50%;
-      // }
+      .ico {
+        transform: scale(0.7);
+        transform-origin: 50%;
+      }
     }
     h2 {
       color: #fff;
       margin-top: 10px;
       font: {
-        family: 'Roboto Condensed';
+        family: "Roboto Condensed";
         size: 16px;
       }
       @media (max-width: 767px) {
@@ -122,7 +122,7 @@ $transition-time: 0.3s;
         transform: skew(-35deg);
         &::before {
           transition: #{$transition-time} all;
-          content: '';
+          content: "";
           position: absolute;
           display: block;
           top: 0;

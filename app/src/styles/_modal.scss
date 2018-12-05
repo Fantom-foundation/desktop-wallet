@@ -16,7 +16,7 @@
         position: relative;
         border: 0px;
         &::before {
-          content: '';
+          content: "";
           position: absolute;
           height: 1px;
           bottom: 0;
@@ -30,7 +30,7 @@
           color: map-get($color, modal-title);
 
           font: {
-            family: 'Noto Sans';
+            family: "Noto Sans";
             weight: bold;
           }
         }
@@ -42,7 +42,7 @@
         padding: 30px 26px;
         p {
           font: {
-            family: 'Noto Sans';
+            family: "Noto Sans";
             weight: 400;
           }
         }
@@ -55,7 +55,7 @@
         .btn {
           text-transform: uppercase;
           font: {
-            family: 'Noto Sans';
+            family: "Noto Sans";
             weight: 300;
           }
         }

@@ -18,7 +18,7 @@ body {
   .title {
     letter-spacing: 4px;
     font: {
-      family: 'Roboto Condensed';
+      family: "Roboto Condensed";
       size: 36px;
     }
     @media (max-width: 991px) {
@@ -60,7 +60,7 @@ body {
               display: inline-block;
               margin: 0px 20px;
               input {
-                &[type='radio'] {
+                &[type="radio"] {
                   -webkit-box-sizing: border-box;
                   box-sizing: border-box;
                   padding: 0;
@@ -104,7 +104,7 @@ body {
                   }
                   & + span:before,
                   & + span:after {
-                    content: '';
+                    content: "";
                     border-radius: 100%;
                     position: absolute;
                     left: 0;
@@ -140,7 +140,7 @@ body {
   h2,
   p {
     font: {
-      family: 'Roboto Condensed';
+      family: "Roboto Condensed";
     }
   }
   h2 {
@@ -168,7 +168,7 @@ body {
   p {
     margin-bottom: 80px;
     font: {
-      family: 'Noto Sans';
+      family: "Noto Sans";
       size: 22px;
       weight: 300;
     }
@@ -182,7 +182,7 @@ body {
   label {
     margin-bottom: 30px;
     font: {
-      family: 'Noto Sans';
+      family: "Noto Sans";
       size: 24px;
     }
     @media (max-width: 767px) {

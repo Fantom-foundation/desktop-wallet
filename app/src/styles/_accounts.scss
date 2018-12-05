@@ -44,7 +44,7 @@
     .title,
     p {
       font: {
-        family: 'Roboto Condensed';
+        family: "Roboto Condensed";
       }
     }
     .title {
@@ -86,7 +86,7 @@
         padding-left: 30px;
         color: map-get($color, acc-info-acc-name);
         font: {
-          family: 'Roboto Condensed';
+          family: "Roboto Condensed";
           size: 26px;
         }
       }
@@ -96,7 +96,7 @@
       color: map-get($color, acc-info-address-title);
       margin-bottom: 22px;
       font: {
-        family: 'Roboto Condensed';
+        family: "Roboto Condensed";
         size: 24px;
       }
     }
@@ -109,7 +109,7 @@
       }
       p {
         font: {
-          family: 'Noto Sans';
+          family: "Noto Sans";
           weight: 200;
           size: 18px;
         }
@@ -166,7 +166,7 @@
       label {
         color: map-get($color, restore-vault-input-label);
         font: {
-          family: 'Noto Sans';
+          family: "Noto Sans";
           size: 16px;
         }
         @media (max-width: 768px) {
@@ -188,13 +188,161 @@
     p {
       margin-bottom: 4px;
       font: {
-        family: 'Noto Sans';
+        family: "Noto Sans";
         size: 16px;
       }
       @media (max-width: 768px) {
         font: {
           size: 14px;
         }
+      }
+    }
+  }
+}
+
+#acc-details {
+  padding: 30px 0;
+  font: {
+    family: "Noto Sans";
+  }
+  .avatar {
+    background: #fff;
+    border-radius: 100%;
+    height: 75px;
+    width: 75px;
+    margin-bottom: 14px;
+    display: inline-block;
+    position: relative;
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .acc-title {
+    text-align: center;
+    margin-bottom: 12px;
+    font: {
+      size: 22px;
+    }
+  }
+  .account-no {
+    padding: 0 10%;
+    text-align: left;
+    i {
+      color: map-get($color, acc-details-copy-btn);
+      cursor: pointer;
+      margin-right: 3px;
+    }
+    p {
+      font: {
+        size: 16px;
+        weight: 300;
+      }
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: map-get($color, acc-details-acc-no);
+      .btn {
+        margin-right: 6px;
+      }
+    }
+  }
+  .info {
+    text-align: center;
+    margin-bottom: 20px;
+    p {
+      font: {
+        weight: 300;
+      }
+      padding: 5px 0;
+      margin-bottom: 8px;
+      color: #fff;
+      background: #323232;
+    }
+  }
+  .qr {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .ftm-no {
+    p {
+      width: calc(100% - 20%);
+      text-align: center;
+      margin: auto;
+      color: #fff;
+      border: 1px solid #4a4a4a;
+      background: #323232;
+      padding: 2rem 2rem;
+      border-radius: 8px;
+      font: {
+        size: 22px;
+      }
+      span {
+        font: {
+          size: 80%;
+          weight: 300;
+        }
+      }
+    }
+  }
+}
+
+#acc-cards {
+  color: #fff;
+
+  font: {
+    family: "Noto Sans";
+  }
+  .card {
+    margin-top: 10px;
+    .row {
+      margin: 0;
+    }
+    .col {
+      padding: 0;
+    }
+  }
+  .date-col {
+    text-align: center;
+    max-width: 60px;
+    border-right: 1px solid #4a4a4a;
+  }
+  .acc-no-col {
+    p {
+      font: {
+        size: 16px;
+        weight: 300;
+      }
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: map-get($color, acc-details-card-acc-no);
+      span {
+        color: #fff;
+      }
+    }
+  }
+  .time-col {
+    p {
+      white-space: nowrap;
+      font: {
+        size: 14px;
+      }
+    }
+  }
+  .btn-col {
+    .btn {
+      color: #fff;
+      &.btn-green {
+        background: #6abb10;
+      }
+      &.btn-red {
+        background: #ff2627;
       }
     }
   }
