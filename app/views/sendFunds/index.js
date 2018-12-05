@@ -4,12 +4,17 @@ import Web3 from 'web3';
 import Loader from '../../general/loader/index';
 
 import successCheck from '../../images/icons/icon-success.svg';
-import smallLogo from '../../images/Logo/small-logo.svg';
+// import smallLogo from '../../images/Logo/fantom.png';
+import addressImage from '../../images/address.svg';
+import amountImage from '../../images/amount.svg';
+import passwordImage from '../../images/password.svg';
+
 import logo from '../../images/Logo/fantom-black-logo.png';
 import CheckSend from './checkSend/index';
 import AccountList from './accountList';
 import Store from '../../store/userInfoStore/index';
 import { getPrivateKeyOfAddress } from '../../KeystoreManager/index';
+import SideBar from '../../general/sidebar';
 
 /**
  * SendFunds: This component is meant for rendering send funds modal.
@@ -78,7 +83,7 @@ class SendFunds extends Component {
    */
   setAccountType(e) {
     const { accountStore } = this.state;
-    const accountType = e.target.value;
+    const accountType = e.target.innerText;
     const { length } = accountStore;
     let publicKey = '';
     for (let account = 0; account < length; account += 1) {
@@ -345,58 +350,39 @@ class SendFunds extends Component {
       loading
     } = this.state;
 
-    let continueBtnColor = 'primary';
-    if (loading) {
-      continueBtnColor = 'secondary';
-    }
+    // let continueBtnColor = 'primary';
+    // if (loading) {
+    //   continueBtnColor = 'secondary';
+    // }
 
-    if (
-      address === '' ||
-      ftmAmount === '' ||
-      Number(ftmAmount) <= 0 ||
-      password === ''
-    ) {
-      continueBtnColor = 'secondary';
-    }
+    // if (
+    //   address === '' ||
+    //   ftmAmount === '' ||
+    //   Number(ftmAmount) <= 0 ||
+    //   password === ''
+    // ) {
+    //   continueBtnColor = 'secondary';
+    // }
 
     return (
-      <div id="coin-overley">
-        <div
-          className="background-overley"
-          onClick={this.handleModalClose.bind(this)}
-          role="presentation"
-        />
-
-        <span
-          className="close-btn"
-          onClick={this.handleModalClose.bind(this)}
-          role="presentation"
-        >
-          &times;
-        </span>
-
-        <div
-          className="overley-body p-4 pt-md-5 pb-md-0 "
-          style={{ backgroundColor: 'black', fontColor: 'white' }}
-        >
-          <div>
-            {!isCheckSend ? (
-              <div>
-                <h2
-                  className="text-primary title"
-                  style={{ marginBottom: '20px' }}
-                >
-                  {' '}
-                  <span>
-                    <strong>Send Funds</strong>
-                  </span>
-                  <img src={smallLogo} className="logo" alt={smallLogo} />
-                  <span>FANTOM</span>
+      <SideBar handleModalClose={this.handleModalClose.bind(this)}>
+        <div id="transaction-form">
+          {!isCheckSend ? (
+            <div>
+              <h2 className="text-white text-center text-uppercase heading">
+                <span>Transfer</span>
+              </h2>
+              <div className="add-wallet">
+                <h2 className="title">
+                  <span>Send Funds</span>
                 </h2>
+                <Button className="btn">
+                  <i className="fas fa-sync-alt" />
+                </Button>
+              </div>
+              <div className="form">
                 <FormGroup>
-                  <Label for="to-address">
-                    <strong>To Address</strong>
-                  </Label>
+                  <Label for="to-address">To Address</Label>
                   <div
                     className={`success-check ${
                       isValidAddress ? 'success' : ''
@@ -408,6 +394,9 @@ class SendFunds extends Component {
                       type="text"
                       id="to-address"
                       placeholder="Enter Address"
+                      style={{
+                        backgroundImage: `url(${addressImage})`
+                      }}
                       value={address}
                       onChange={this.setAddress.bind(this)}
                     />
@@ -417,28 +406,30 @@ class SendFunds extends Component {
                 </FormGroup>
 
                 <FormGroup>
-                  <Label for="withdraw-from">
-                    <strong>Withdraw from</strong>
-                  </Label>
+                  <Label for="withdraw-from">Withdraw from</Label>
                   <div className="withdraw-holder">
                     <AccountList
                       accountType={accountType}
                       accountStore={accountStore}
                       setAccountType={this.setAccountType.bind(this)}
+                      maxFantomBalance={maxFantomBalance}
                     />
-                    <span className="value-1">{maxFantomBalance} FTM</span>
+                    {/* <span className="ftm text-white">
+                      {maxFantomBalance} FTM
+                    </span> */}
                   </div>
                 </FormGroup>
                 <Row className="change">
                   <Col>
                     <FormGroup>
-                      <Label for="Amount">
-                        <strong>Amount</strong>
-                      </Label>
+                      <Label for="Amount">Amount</Label>
                       <div className="input-holder">
                         <Input
                           type="text"
                           id="to-address"
+                          style={{
+                            backgroundImage: `url(${amountImage})`
+                          }}
                           className="text-right"
                           value={ftmAmount}
                           onChange={this.setFTMAmount.bind(this)}
@@ -450,16 +441,17 @@ class SendFunds extends Component {
                 </Row>
 
                 <FormGroup>
-                  <Label for="to-address">
-                    <strong>Enter password : </strong>
-                  </Label>
+                  <Label for="to-address">Enter Password</Label>
                   <div className="success-check">
                     {' '}
                     {/* add or remove --- success --- class  */}
                     <Input
+                      style={{
+                        backgroundImage: `url(${passwordImage})`
+                      }}
                       type="password"
                       id="to-password"
-                      placeholder="Enter password"
+                      placeholder="Password"
                       value={password}
                       onChange={this.setPassword.bind(this)}
                     />
@@ -468,9 +460,7 @@ class SendFunds extends Component {
                   {this.renderVerificationError()}
                 </FormGroup>
 
-                <Label for="OptionalMessage">
-                  <strong>Note</strong>
-                </Label>
+                <Label for="OptionalMessage">Note</Label>
                 <FormGroup className="mb-1">
                   <Input
                     type="textarea"
@@ -485,8 +475,9 @@ class SendFunds extends Component {
                 {!loading && (
                   <center>
                     <Button
-                      color={`${continueBtnColor}`}
-                      className="text-uppercase"
+                      // color={`${continueBtnColor}`}
+                      color="primary"
+                      className="text-uppercase bordered"
                       onClick={this.handleCheckSend.bind(this)}
                     >
                       Continue
@@ -513,24 +504,24 @@ class SendFunds extends Component {
                 </span> */}
                 {this.renderLoader()}
               </div>
-            ) : (
-              <div>
-                <img src={logo} height="25.05" alt={logo} />
-                <CheckSend
-                  handleGoBack={this.handleGoBack.bind(this)}
-                  address={address}
-                  amount={ftmAmount}
-                  memo={optionalMessage || 'none'}
-                  publicKey={publicKey}
-                  privateKey={privateKey}
-                  handleModalClose={this.handleModalClose.bind(this)}
-                  refreshWalletDetail={this.props.refreshWalletDetail}
-                />
-              </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div>
+              <img src={logo} height="25.05" alt={logo} />
+              <CheckSend
+                handleGoBack={this.handleGoBack.bind(this)}
+                address={address}
+                amount={ftmAmount}
+                memo={optionalMessage || 'none'}
+                publicKey={publicKey}
+                privateKey={privateKey}
+                handleModalClose={this.handleModalClose.bind(this)}
+                refreshWalletDetail={this.props.refreshWalletDetail}
+              />
+            </div>
+          )}
         </div>
-      </div>
+      </SideBar>
     );
   }
 }
