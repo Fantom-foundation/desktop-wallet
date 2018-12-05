@@ -574,6 +574,7 @@ class AccountManagement extends Component {
                 address={publicKey}
                 handleSelectedAccount={this.handleSelectedAccount.bind(this)}
                 copyToClipboard={this.copyToClipboard.bind(this)}
+                handleUserSettings={this.handleUserSettings.bind(this)}
               />{' '}
             </Container>
           </section>

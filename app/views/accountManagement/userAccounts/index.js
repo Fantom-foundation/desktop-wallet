@@ -58,6 +58,7 @@ class UserAccounts extends Component {
   }
 
   render() {
+    const { handleUserSettings } = this.props;
     return (
       <React.Fragment>
         <Row style={{ marginBottom: '90px' }}>
@@ -66,7 +67,7 @@ class UserAccounts extends Component {
               <h2 className="title ">
                 <span>Accounts</span>
               </h2>
-              <Button>
+              <Button onClick={() => handleUserSettings()}>
                 <i className="fas fa-plus" />
               </Button>
             </div>

@@ -114,20 +114,20 @@ export default class Header extends Component {
             <Collapse isOpen={isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 {isWalletRecover && (
-                  <NavItem>
+                  <NavItem style={{ cursor: 'pointer' }}>
                     <NavLink onClick={this.openWalletRecovery.bind(this)}>
                       OPEN WALLET
                     </NavLink>
                   </NavItem>
                 )}
                 {isWalletSetup && (
-                  <NavItem>
+                  <NavItem style={{ cursor: 'pointer' }}>
                     <NavLink onClick={this.handleUserSettings.bind(this)}>
                       NEW WALLET
                     </NavLink>
                   </NavItem>
                 )}
-                <NavItem>
+                <NavItem style={{ cursor: 'pointer' }}>
                   <NavLink
                     href="#"
                     onClick={this.openAccountManagement.bind(this)}
