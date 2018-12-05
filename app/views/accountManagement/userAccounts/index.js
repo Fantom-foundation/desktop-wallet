@@ -61,7 +61,7 @@ class UserAccounts extends Component {
     const { handleUserSettings } = this.props;
     return (
       <React.Fragment>
-        <Row style={{ marginBottom: '90px' }}>
+        <Row style={{ marginBottom: '30px' }}>
           <Col>
             <div className="add-wallet">
               <h2 className="title ">
