@@ -108,12 +108,10 @@ class MainPage extends Component {
     });
     const accountName = '';
     const password = '';
-    const passwordHint = '';
     const accountIcon = '';
     this.props.setNewAccountDetail(
       accountName,
       password,
-      passwordHint,
       accountIcon
     );
   }
@@ -153,12 +151,10 @@ class MainPage extends Component {
 
     const accountName = '';
     const password = '';
-    const passwordHint = '';
     const accountIcon = '';
     this.props.setNewAccountDetail(
       accountName,
       password,
-      passwordHint,
       accountIcon
     );
   }
@@ -252,12 +248,11 @@ const mapDispatchToProps = dispatch => ({
       address
     });
   },
-  setNewAccountDetail: (accountName, password, passwordHint, accountIcon) => {
+  setNewAccountDetail: (accountName, password, accountIcon) => {
     dispatch({
       type: CreateAccountAction.CREATE_NEW_ACCOUNT,
       accountName,
       password,
-      passwordHint,
       accountIcon
     });
   }
