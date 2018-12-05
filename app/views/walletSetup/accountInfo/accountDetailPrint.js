@@ -82,7 +82,7 @@ class AccountDetailPrint extends Component {
                   <img src={smallLogoWhite} alt="" />
                   Fantom
                 </p>
-                <a htef={`${url}`} className="link">
+                <a href={`${url}`} className="link">
                   {url}
                 </a>
               </div>

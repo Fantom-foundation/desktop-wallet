@@ -3,7 +3,7 @@ import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import Web3 from 'web3';
 import Loader from '../../general/loader/index';
 
-import successCheck from '../../images/icons/icon-success.svg';
+// import successCheck from '../../images/icons/icon-success.svg';
 // import smallLogo from '../../images/Logo/fantom.png';
 import addressImage from '../../images/address.svg';
 import amountImage from '../../images/amount.svg';
@@ -400,7 +400,7 @@ class SendFunds extends Component {
                       value={address}
                       onChange={this.setAddress.bind(this)}
                     />
-                    <img src={successCheck} alt={successCheck} />
+                    {/* <img src={successCheck} alt={successCheck} /> */}
                   </div>
                   {this.renderAddressErrText()}
                 </FormGroup>
