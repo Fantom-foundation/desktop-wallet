@@ -364,6 +364,9 @@ class CreateAccount extends Component {
                 }
               } else {
                 console.log('some error occured');
+                this.setState({
+                  isUsernameVerified: 3
+                });
               }
             }
             return storeKeys.result;

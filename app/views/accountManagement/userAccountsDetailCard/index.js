@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Col, Row } from 'reactstrap';
+import { Row, Container } from 'reactstrap';
 
 import UserAccountDetail from '../userAccountDetail/index';
-import QRCodeIcon from '../../../general/qr/index';
+// import QRCodeIcon from '../../../general/qr/index';
 import TransactionCard from '../transactionCard/index';
 import TransactionStore from '../../../store/transactionStore';
+// import DropDown from '../../../general/dropdown/transaction-filter-dropdown';
+// import Identicons from '../../../general/identicons/identicons';
+
 /**
  * UserAccountsDetailCard: This component is meant for rendering selected account from list of account shown in account management screen.
  */
@@ -43,34 +46,41 @@ class UserAccountsDetailCard extends Component {
       // transactionLength,
       copyToClipboard,
       // transactionData,
-      isLoading
+      onRefresh,
+      isLoading,
+      onTransferFund,
+      isTransferringMoney
     } = this.props;
+    // onRefresh={this.onRefresh.bind(this)}
+    // onTransferFund={this.handleSendFunds.bind(this)}
 
     const sentTransactionDetail = this.getTransactionsData();
     return (
-      <Row>
-        <Col className="px-5 py-4">
-          <Row className="bg-dark-light ">
-            <UserAccountDetail
-              identiconsId={identiconsId}
-              name={name}
-              address={publicKey}
-              balance={balance}
-              transactionLength={sentTransactionDetail.length}
-              copyToClipboard={copyToClipboard}
-            />
-            <Col className="text-right gray-column large qr">
-              <QRCodeIcon address={publicKey} text="FANTOM" />
-            </Col>
-          </Row>
-          <TransactionCard
-            isLoading={isLoading}
-            // transactionData={transactionData}
-            address={publicKey}
-            transactionData={sentTransactionDetail}
-          />
-        </Col>
-      </Row>
+      <div id="account-datails" className="account-datails">
+        <section style={{ padding: '30px 0' }}>
+          <Container className="bg-dark acc-details-container">
+            <Row>
+              <UserAccountDetail
+                identiconsId={identiconsId}
+                name={name}
+                address={publicKey}
+                balance={balance}
+                transactionLength={sentTransactionDetail.length}
+                copyToClipboard={copyToClipboard}
+                isTransferringMoney={isTransferringMoney}
+                onRefresh={onRefresh}
+                onTransferFund={onTransferFund}
+              />
+              <TransactionCard
+                isLoading={isLoading}
+                // transactionData={transactionData}
+                address={publicKey}
+                transactionData={sentTransactionDetail}
+              />
+            </Row>
+          </Container>
+        </section>
+      </div>
     );
   }
 }

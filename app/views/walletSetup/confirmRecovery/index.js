@@ -65,7 +65,9 @@ class ConfirmRecovery extends Component {
   onUnlock() {
     const { onUnlockAccount, privateKey, password, mnemonic } = this.props;
     const { selectedMnemonicsArray } = this.state;
-    if (selectedMnemonicsArray.join(' ') !== mnemonic) {
+
+    const mnemonicArr = selectedMnemonicsArray.map(val => val.name);
+    if (mnemonicArr.join(' ') !== mnemonic) {
       this.toggleIncorrectMnemonicsModal();
       return;
     }
@@ -85,30 +87,34 @@ class ConfirmRecovery extends Component {
     );
   }
 
-  unselectMnemonic(name) {
+  unselectMnemonic(name, index) {
     const SELF = this;
-    const { mnemonic } = this.props;
+    // const { mnemonic } = this.props;
     const { selectedMnemonicsArray } = SELF.state;
     const clonedArray = selectedMnemonicsArray.slice();
-    const index = _.findIndex(
-      mnemonic.split(' '),
-      mnemonicName => mnemonicName === name
-    );
+    // const index = _.findIndex(
+    //   mnemonic.split(' '),
+    //   mnemonicName => mnemonicName === name
+    // );
     const selectedIndex = _.findIndex(
       selectedMnemonicsArray,
-      mnemonicName => mnemonicName === name
+      mnemonicName => mnemonicName.index === index
     );
     // eslint-disable-next-line no-undef
     const findSelectedMnemonic = document.getElementsByClassName(
       `${name}_${index}`
     );
-    if (findSelectedMnemonic) {
+    console.log(index, 'index');
+    const hasSelectedClass = findSelectedMnemonic[0].classList.contains(
+      'selected'
+    );
+    if (hasSelectedClass) {
       findSelectedMnemonic[0].classList.remove('selected');
+      clonedArray.splice(selectedIndex, 1);
+      SELF.setState({
+        selectedMnemonicsArray: clonedArray
+      });
     }
-    clonedArray.splice(selectedIndex, 1);
-    SELF.setState({
-      selectedMnemonicsArray: clonedArray
-    });
   }
 
   getMnemonics() {
@@ -118,15 +124,18 @@ class ConfirmRecovery extends Component {
     const generatedMnemonic = mnemonic ? mnemonic.split(' ') : mnemonic;
     if (generatedMnemonic && generatedMnemonic.length > 0) {
       // eslint-disable-next-line no-restricted-syntax
-      for (const name of generatedMnemonic) {
-        const index = _.findIndex(
-          generatedMnemonic,
-          mnemonicName => mnemonicName === name
-        );
+      for (let i = 0; i < generatedMnemonic.length; i += 1) {
+        // const index = _.findIndex(
+        //   generatedMnemonic,
+        //   mnemonicName => mnemonicName === name
+        // );
         mnemonicsList.push(
-          <li className={`${name}_${index}`}>
-            <Button color="primary" onClick={() => SELF.selectMnemonic(name)}>
-              {name}
+          <li className={`${generatedMnemonic[i]}_${i}`}>
+            <Button
+              color="primary"
+              onClick={() => SELF.selectMnemonic(generatedMnemonic[i], i)}
+            >
+              {generatedMnemonic[i]}
             </Button>
           </li>
         );
@@ -137,32 +146,32 @@ class ConfirmRecovery extends Component {
     return mnemonicsList;
   }
 
-  selectMnemonic(name) {
+  selectMnemonic(name, index) {
     const SELF = this;
-    const { mnemonic } = SELF.props;
+    // const { mnemonic } = SELF.props;
     const { selectedMnemonicsArray } = SELF.state;
     const clonedArray = selectedMnemonicsArray.slice();
-    const index = _.findIndex(
-      mnemonic.split(' '),
-      mnemonicName => mnemonicName === name
-    );
-    const selectedIndex = _.findIndex(
-      selectedMnemonicsArray,
-      mnemonicName => mnemonicName === name
-    );
+    // const index = _.findIndex(
+    //   mnemonic.split(' '),
+    //   mnemonicName => mnemonicName === name
+    // );
+    // const selectedIndex = _.findIndex(
+    //   selectedMnemonicsArray,
+    //   mnemonicName => mnemonicName === name
+    // );
     // eslint-disable-next-line no-undef
     const findSelectedMnemonic = document.getElementsByClassName(
       `${name}_${index}`
     );
     if (findSelectedMnemonic) {
       findSelectedMnemonic[0].classList.add('selected');
-    }
-    if (selectedIndex === -1) {
-      clonedArray.push(name);
+      clonedArray.push({ name, index });
       SELF.setState({
         selectedMnemonicsArray: clonedArray
       });
     }
+    // if (selectedIndex === -1) {
+    // }
   }
 
   getSelectedMnemonics() {
@@ -171,11 +180,19 @@ class ConfirmRecovery extends Component {
     const mnemonicsList = [];
     if (selectedMnemonicsArray && selectedMnemonicsArray.length > 0) {
       // eslint-disable-next-line no-restricted-syntax
-      for (const name of selectedMnemonicsArray) {
+      for (let i = 0; i < selectedMnemonicsArray.length; i += 1) {
         mnemonicsList.push(
           <li>
-            <Button color="primary" onClick={() => SELF.unselectMnemonic(name)}>
-              {name}
+            <Button
+              color="primary"
+              onClick={() =>
+                SELF.unselectMnemonic(
+                  selectedMnemonicsArray[i].name,
+                  selectedMnemonicsArray[i].index
+                )
+              }
+            >
+              {selectedMnemonicsArray[i].name}
             </Button>
           </li>
         );

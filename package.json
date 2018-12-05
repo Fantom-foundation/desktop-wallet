@@ -1,7 +1,7 @@
 {
   "name": "fantom-foundation",
   "productName": "Fantom",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Beyond Blockchain, A fast, scalable and secure DAG based smart contract platform.",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -212,6 +212,7 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "react-spinners": "^0.4.5",
     "react-to-print": "^2.0.0-alpha-3",
+    "react-toasts": "^2.0.14",
     "reactstrap": "^6.4.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",

@@ -4,10 +4,10 @@ import { Container, Row, Col, FormGroup, Label, Input } from 'reactstrap';
 import { clipboard } from 'electron';
 import { connect } from 'react-redux';
 
+import { ToastContainer, ToastStore } from 'react-toasts';
 import AccountInfoCard from './accountInfoCard';
 // import FooterButtons from '../../../general/footer/footer-buttons';
 // import AccountDetailPrint from './accountDetailPrint';
-
 class AccountInfo extends Component {
   constructor(props) {
     super(props);
@@ -79,6 +79,7 @@ class AccountInfo extends Component {
 
   copyToClipboard(copyText) {
     clipboard.writeText(copyText);
+    ToastStore.info('Copied to clipboard', 200);
   }
 
   copyMnemonic(copyText) {
@@ -139,6 +140,10 @@ class AccountInfo extends Component {
           copyAddress={this.copyAddress.bind(this)}
           copyMnemonic={this.copyMnemonic.bind(this)}
           changeDisableButtons={this.props.changeDisableButtons}
+        />
+        <ToastContainer
+          position={ToastContainer.POSITION.TOP_CENTER}
+          store={ToastStore}
         />
         {/* <Row className="my-3 ">
                 <Col className="text-center">
