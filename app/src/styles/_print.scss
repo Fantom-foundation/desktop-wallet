@@ -1,0 +1,58 @@
+#print-screen {
+  background: #fff;
+  max-width: 750px;
+  margin: 200px auto 0;
+  .row {
+    margin: 0;
+    .col {
+      padding: 0;
+      &.info {
+        @include responsive-width(calc(100% - 105px));
+        h2 {
+          margin-bottom: 8px;
+          font: {
+            family: 'Roboto';
+            size: 18px;
+            weight: 700;
+          }
+        }
+        p {
+          margin-bottom: 1rem;
+          font: {
+            family: 'Lato';
+            size: 16px;
+          }
+        }
+        .qr {
+          padding-top: 10px;
+          margin-bottom: -7px;
+        }
+      }
+      &.brand {
+        background: {
+          color: $theme-blue;
+        }
+        @include responsive-width(105px);
+        .brand-holder {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: rotate(-90deg) translate(-50%, -50%);
+          transform-origin: 0 0;
+          img {
+            height: 37px;
+          }
+          p {
+            padding-left: 38px;
+            margin: 0;
+            color: #fff;
+            font: {
+              family: 'Lato';
+              size: 13px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
