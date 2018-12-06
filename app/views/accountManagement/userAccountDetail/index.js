@@ -36,7 +36,7 @@ class UserAccountDetail extends Component {
     }
 
     return (
-      <Col md={5} lg={4}>
+      <Col md={12} lg={4} className="mb-4 mb-lg-0">
         <div className="bg-dark-light">
           <div className="add-wallet">
             <h2 className="title ">
@@ -47,7 +47,7 @@ class UserAccountDetail extends Component {
             </Button>
           </div>
           <div id="acc-details">
-            <div className="text-center">
+            <div className="avatar-container">
               <span className="avatar">
                 <Identicons id={identiconsId} width={40} size={3} />
               </span>
