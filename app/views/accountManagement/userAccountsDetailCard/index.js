@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { Row, Container } from 'reactstrap';
 
 import UserAccountDetail from '../userAccountDetail/index';
-// import QRCodeIcon from '../../../general/qr/index';
+
 import TransactionCard from '../transactionCard/index';
 import TransactionStore from '../../../store/transactionStore';
-// import DropDown from '../../../general/dropdown/transaction-filter-dropdown';
-// import Identicons from '../../../general/identicons/identicons';
 
 /**
  * UserAccountsDetailCard: This component is meant for rendering selected account from list of account shown in account management screen.

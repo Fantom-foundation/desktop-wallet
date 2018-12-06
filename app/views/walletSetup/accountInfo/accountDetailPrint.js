@@ -24,7 +24,12 @@ class AccountDetailPrint extends Component {
             <h2>Mnemonic Phrase</h2>
             <p className="mnemonic">{mnemonic}</p>
             <div className="qr">
-              <QRCodeIcon address={address} text="FANTOM" />
+              <QRCodeIcon
+                address={address}
+                text="FANTOM"
+                bgColor="white"
+                fgColor="black"
+              />
             </div>
           </Col>
           <Col className="brand">

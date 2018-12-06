@@ -441,6 +441,7 @@ class AccountManagement extends Component {
       balance: '-',
       isLoading: true
     });
+    this.setCursorToScreenTop = true;
     setTimeout(() => {
       if (address) {
         this.getWalletBalance(address);
@@ -614,8 +615,12 @@ class AccountManagement extends Component {
       transactionLength = transactionData.length;
     }
 
-    // document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+    // To UserAccountsDetailCard scroll screen to top position
+    if (this.setCursorToScreenTop) {
+      this.setCursorToScreenTop = false;
+      document.documentElement.scrollTop = 0;
+    }
+
     return (
       <UserAccountsDetailCard
         publicKey={publicKey}
