@@ -94,18 +94,18 @@
       }
     }
   }
-}
-.dropdown {
-  position: relative;
-  width: 100px;
-  color: map-get($color, btn-add-wallet);
-  border-radius: 0;
-  background: {
-    color: map-get($color, btn-add-wallet-background);
-  }
-  .toggle-btn {
-    width: 100%;
-    height: 100%;
-    padding: 0;
+  .dropdown {
+    position: relative;
+    width: 100px;
+    color: map-get($color, btn-add-wallet);
+    border-radius: 0;
+    background: {
+      color: map-get($color, btn-add-wallet-background);
+    }
+    .toggle-btn {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+    }
   }
 }
