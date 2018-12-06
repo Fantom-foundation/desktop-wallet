@@ -26,9 +26,10 @@ class UserAccountsDetailCard extends Component {
     const { publicKey } = this.props;
     for (const transaction of objArr) {
       if (
-        transaction.to &&
-        transaction.from &&
-        transaction.from === publicKey
+        (transaction.to &&
+          transaction.from &&
+          transaction.from === publicKey) ||
+        transaction.to === publicKey
       ) {
         arrToRet.push(transaction);
       }
@@ -54,7 +55,9 @@ class UserAccountsDetailCard extends Component {
     // onRefresh={this.onRefresh.bind(this)}
     // onTransferFund={this.handleSendFunds.bind(this)}
 
-    const sentTransactionDetail = this.getTransactionsData();
+    // const sentTransactionDetail = this.getTransactionsData();
+    const allTransactionDetail = this.getTransactionsData();
+
     return (
       <div id="account-datails" className="account-datails">
         <section style={{ padding: '30px 0' }}>
@@ -65,7 +68,7 @@ class UserAccountsDetailCard extends Component {
                 name={name}
                 address={publicKey}
                 balance={balance}
-                transactionLength={sentTransactionDetail.length}
+                transactionLength={allTransactionDetail.length}
                 copyToClipboard={copyToClipboard}
                 isTransferringMoney={isTransferringMoney}
                 onRefresh={onRefresh}
@@ -75,7 +78,7 @@ class UserAccountsDetailCard extends Component {
                 isLoading={isLoading}
                 // transactionData={transactionData}
                 address={publicKey}
-                transactionData={sentTransactionDetail}
+                transactionData={allTransactionDetail}
               />
             </Row>
           </Container>
