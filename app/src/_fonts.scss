@@ -66,7 +66,18 @@
   font-style: normal;
   font-weight: 700;
 }
-
+@font-face {
+  font-family: 'Roboto';
+  src: url('./fonts/roboto/Roboto-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('./fonts/roboto/Roboto-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+}
 @font-face {
   font-family: 'Roboto Condensed';
   src: url('./fonts/roboto_condensed/RobotoCondensed-Light.ttf')
@@ -90,6 +101,18 @@
   font-weight: 700;
 }
 
+@font-face {
+  font-family: 'Lato';
+  src: url('./fonts/lato/Lato-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Lato';
+  src: url('./fonts/lato/Lato-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+}
 @font-face {
   font-family: 'Roboto';
   font-style: normal;

@@ -109,11 +109,7 @@ class MainPage extends Component {
     const accountName = '';
     const password = '';
     const accountIcon = '';
-    this.props.setNewAccountDetail(
-      accountName,
-      password,
-      accountIcon
-    );
+    this.props.setNewAccountDetail(accountName, password, accountIcon);
   }
 
   renderLoader() {
@@ -152,11 +148,7 @@ class MainPage extends Component {
     const accountName = '';
     const password = '';
     const accountIcon = '';
-    this.props.setNewAccountDetail(
-      accountName,
-      password,
-      accountIcon
-    );
+    this.props.setNewAccountDetail(accountName, password, accountIcon);
   }
 
   renderWalletRecovery() {

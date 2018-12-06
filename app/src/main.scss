@@ -20,9 +20,9 @@
 // // @import 'styles-p/identicon';
 // @import 'styles-p/account-information';
 // // @import 'styles-p/matrial';
-// @import 'styles-p/print';
 
 @import './styles/gloable_variables';
+
 @import './styles/mixin';
 @import './styles/container';
 @import './styles/button';
@@ -37,3 +37,4 @@
 @import './styles/form';
 @import './styles/sidebar';
 @import './styles/modal';
+@import 'styles/print';
