@@ -9,8 +9,7 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
-import Logo from '../../images/Logo/fantom.png';
-// import CreateAccountSteps from '../../views/createAccountSteps/index';
+import Logo from '../../images/Logo/FANTOM_LOGO_White.svg';
 
 /**
  * Header : This component is meant for rendering header bar in application.
@@ -102,37 +101,59 @@ export default class Header extends Component {
   render() {
     const { isOpen } = this.state;
     const { isWalletSetup, isWalletRecover } = this.props;
+    const selectedTabColor = '#549aec';
+    const createWalletTabColor = !isWalletSetup ? selectedTabColor : null;
+    const restoreWalletTabColor = !isWalletRecover ? selectedTabColor : null;
+    const accountTabColor =
+      isWalletSetup && isWalletRecover ? selectedTabColor : null;
 
     return (
       <header id="header">
         <div className="nav-holder">
           <Navbar dark expand="md">
             <NavbarBrand href="#" onClick={() => this.openAccountManagement()}>
-              <img className="logo" src={Logo} alt={Logo} />
+              <img className="logo" src={Logo} alt="Logo" />
             </NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={isOpen} navbar>
               <Nav className="ml-auto" navbar>
-                {isWalletRecover && (
-                  <NavItem>
-                    <NavLink onClick={this.openWalletRecovery.bind(this)}>
-                      OPEN WALLET
-                    </NavLink>
-                  </NavItem>
-                )}
-                {isWalletSetup && (
-                  <NavItem>
-                    <NavLink onClick={this.handleUserSettings.bind(this)}>
-                      NEW WALLET
-                    </NavLink>
-                  </NavItem>
-                )}
-                <NavItem>
+                <NavItem
+                  style={{
+                    cursor: 'pointer'
+                  }}
+                >
+                  <NavLink
+                    onClick={this.handleUserSettings.bind(this)}
+                    style={{
+                      color: createWalletTabColor
+                    }}
+                  >
+                    CREATE WALLET
+                  </NavLink>
+                </NavItem>
+                <NavItem
+                  style={{
+                    cursor: 'pointer'
+                  }}
+                >
+                  <NavLink
+                    onClick={this.openWalletRecovery.bind(this)}
+                    style={{
+                      color: restoreWalletTabColor
+                    }}
+                  >
+                    RESTORE WALLET
+                  </NavLink>
+                </NavItem>
+                <NavItem style={{ cursor: 'pointer' }}>
                   <NavLink
                     href="#"
                     onClick={this.openAccountManagement.bind(this)}
+                    style={{
+                      color: accountTabColor
+                    }}
                   >
-                    VIEW ADDRESS
+                    ACCOUNTS
                   </NavLink>
                 </NavItem>
               </Nav>

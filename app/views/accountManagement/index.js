@@ -455,7 +455,7 @@ class AccountManagement extends Component {
    */
   copyToClipboard(copyText) {
     clipboard.writeText(copyText);
-    ToastStore.info('Copied to clipboard', 200);
+    ToastStore.info('Copied to clipboard', 500);
   }
 
   /**
@@ -574,6 +574,7 @@ class AccountManagement extends Component {
                 address={publicKey}
                 handleSelectedAccount={this.handleSelectedAccount.bind(this)}
                 copyToClipboard={this.copyToClipboard.bind(this)}
+                handleUserSettings={this.handleUserSettings.bind(this)}
               />{' '}
             </Container>
           </section>
