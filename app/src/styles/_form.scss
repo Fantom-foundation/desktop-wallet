@@ -87,12 +87,20 @@
   $form-input-border: #4a4a4a;
   $form-input-background: #292929;
   $form-input-color: #fff;
+  .add-wallet {
+    .title {
+      padding: 8px 30px;
+      font: {
+        size: 22px;
+      }
+    }
+  }
   .heading {
     font: {
       family: 'Roboto Condensed';
       size: 30px;
     }
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
   .form {
     padding: 24px 0 0;
@@ -170,6 +178,23 @@
       border: 1px solid $form-input-border;
       background: {
         color: $form-input-background;
+      }
+    }
+  }
+}
+#transfer-confirm {
+  label {
+    color: #fff;
+    font: {
+      family: 'Lato';
+      size: 16px;
+      weight: 400;
+    }
+    &.title {
+      font: {
+        family: 'Roboto';
+        size: 18px;
+        weight: 500;
       }
     }
   }
