@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
-import TextField from './textField';
-
+import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+// import TextField from './textField';
+import warningImg from './warning.svg';
 import TransactionStore from '../../../store/transactionStore';
 import { transferMoney } from './transfer';
+import addressImage from '../../../images/addressDisable.svg';
+import coinImage from '../../../images/coin.svg';
+// import memoImage from '../../../images/memo.svg';
+import fantomLogo from '../../../images/Logo/small-logo-white.svg';
 
 /**
  * SendMoney: This component is meant for rendering modal for Check send.
@@ -13,20 +17,20 @@ export default class SendMoney extends Component {
     super(props);
     this.state = {
       coin: 'FTM',
-      errorMessage: '',
+      errorMessage: ''
     };
   }
 
   /**
-     * transferMoney() :  This function is meant for sending funds to some wallet account.
-     * @param {*} from : Address of account from which to transfer.
-     * @param {*} to : Address of account to whom to transfer.
-     * @param {*} value : Amount to be transfered.
-     * @param {*} memo : : Message text for transaction.
-     * @param {*} privateKey : Private key of account from which to transfer.
-     * 
-     * If the transfer done successfully then , modal is closed and wallet balance and transaction details is updated.
-     */
+   * transferMoney() :  This function is meant for sending funds to some wallet account.
+   * @param {*} from : Address of account from which to transfer.
+   * @param {*} to : Address of account to whom to transfer.
+   * @param {*} value : Amount to be transfered.
+   * @param {*} memo : : Message text for transaction.
+   * @param {*} privateKey : Private key of account from which to transfer.
+   *
+   * If the transfer done successfully then , modal is closed and wallet balance and transaction details is updated.
+   */
   transferMoney(from, to, value, memo, privateKey) {
     const { handleModalClose, refreshWalletDetail } = this.props;
     transferMoney(from, to, value, memo, privateKey)
@@ -80,66 +84,159 @@ export default class SendMoney extends Component {
     TransactionStore.set(key, objArr);
   }
 
-    /**
-     * confirmSendFunds() :  A function for transfering funds on click on continue.
-     */
-    confirmSendFunds() {
-        const { publicKey, address, amount, memo, privateKey,  } = this.props;
-        this.transferMoney(publicKey, address, amount, memo, privateKey);
-    }
+  /**
+   * confirmSendFunds() :  A function for transfering funds on click on continue.
+   */
+  confirmSendFunds() {
+    const { publicKey, address, amount, memo, privateKey } = this.props;
+    this.transferMoney(publicKey, address, amount, memo, privateKey);
+  }
 
   render() {
     const { address, amount, memo } = this.props;
     const { errorMessage, coin } = this.state;
     return (
-      <div>
-        <div>
+      <React.Fragment>
+        <div id="transaction-form">
           <div>
-            <TextField
-              isTextPresent
-              rightTextValue={coin}
-              placeHolderText="Coin"
-            />
-          </div>
-          <div>
-            <TextField
-              placeHolderText="Address to send"
-              isTextPresent
-              rightTextValue={address}
-            />
-          </div>
-          <div>
-            <TextField
-              placeHolderText="Number of coin"
-              isTextPresent
-              rightTextValue={amount}
-            />
-          </div>
-          <div>
-            <TextField
-              placeHolderText="Memo"
-              isTextPresent
-              rightTextValue={memo}
-            />
-          </div>
+            <h2 className="text-white text-center text-uppercase heading">
+              <span>CONFIRM</span>
+            </h2>
+            <div className="add-wallet">
+              <h2 className="title">
+                <span>Send Funds - Confirm</span>
+              </h2>
+              <Button className="btn">
+                <i className="fas fa-sync-alt" />
+              </Button>
+            </div>
 
-          <Button
-            color="primary"
-            className="text-uppercase w-100"
-            style={{ marginTop: '18px' }}
-            onClick={() => this.confirmSendFunds()}
-          >
-            Continue
-          </Button>
-          {errorMessage !== '' && (
-            <p style={{ color: 'red' }}>Funds transfer unsuccessful!</p>
-          )}
-          <br />
-          <br />
+            <div className="form">
+              {/* <TextField
+                isTextPresent
+                rightTextValue={coin}
+                placeHolderText="Coin"
+              /> */}
+              <FormGroup>
+                <Label for="to-address">Coin</Label>
+                <div className="success-check success">
+                  {' '}
+                  {/* add or remove --- success --- class  */}
+                  <Input
+                    type="text"
+                    id="to-address"
+                    placeholder="Coin"
+                    style={{
+                      backgroundImage: `url(${coinImage})`
+                    }}
+                    value={coin}
+                    readOnly
+                  />
+                  {/* <img src={successCheck} alt={successCheck} /> */}
+                </div>
+              </FormGroup>
+              <Row className="change">
+                <Col>
+                  <FormGroup>
+                    <Label for="Amount">Address to send</Label>
+                    <div className="input-holder">
+                      <Input
+                        type="text"
+                        id="to-address"
+                        placeholder="Address"
+                        style={{
+                          backgroundImage: `url(${addressImage})`
+                        }}
+                        value={address}
+                        readOnly
+                      />
+                    </div>
+                  </FormGroup>
+                </Col>
+              </Row>
+              {/* <TextField
+                placeHolderText="Address to send"
+                isTextPresent
+                rightTextValue={address}
+              /> */}
 
-          <p
+              {/* <TextField
+                placeHolderText="Number of coin"
+                isTextPresent
+                rightTextValue={amount}
+              /> */}
+              <FormGroup>
+                <Label for="to-address">Price</Label>
+                <div className="success-check success">
+                  {' '}
+                  {/* add or remove --- success --- class  */}
+                  <Input
+                    type="text"
+                    id="to-address"
+                    placeholder="Amount"
+                    style={{
+                      backgroundImage: `url(${fantomLogo})`
+                    }}
+                    value={amount}
+                    readOnly
+                  />
+                  {/* <img src={successCheck} alt={successCheck} /> */}
+                </div>
+              </FormGroup>
+              {/* <TextField
+                placeHolderText="Memo"
+                isTextPresent
+                rightTextValue={memo}
+              /> */}
+              <Label for="OptionalMessage">Memo</Label>
+              <FormGroup className="mb-1">
+                <Input
+                  type="textarea"
+                  name="text"
+                  id="exampleText"
+                  placeholder="Text..."
+                  // style={{
+                  //   backgroundImage: `url(${memoImage})`
+                  // }}
+                  value={memo}
+                  readOnly
+                />
+              </FormGroup>
+              <br />
+              <div className="warning-msg mt-3">
+                <img src={warningImg} alt="warning" />
+                <h2>Attention</h2>
+                <p>Please make sure the above information is correct.</p>
+              </div>
+
+              <center>
+                <div>
+                  <Button
+                    color="primary"
+                    className="text-uppercase bordered "
+                    style={{ marginTop: '18px' }}
+                    onClick={() => this.confirmSendFunds()}
+                  >
+                    Continue
+                  </Button>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    className="text-uppercase bordered "
+                    style={{ marginTop: '18px' }}
+                    onClick={() => this.props.handleGoBack()}
+                  >
+                    Back
+                  </Button>
+                </div>
+              </center>
+              {errorMessage !== '' && (
+                <p style={{ color: 'red' }}>Funds transfer unsuccessful!</p>
+              )}
+              {/* <p
             aria-hidden
-            className="text-center"
+            className="text-center mt-3"
             onClick={() => this.props.handleGoBack()}
           >
             <span
@@ -154,22 +251,22 @@ export default class SendMoney extends Component {
             >
               <span>BACK</span>
             </span>
-          </p>
-          <hr
-            style={{
-              borderStyle: 'dashed',
-              borderColor: '#707070',
-              opacity: 0.33,
-              marginBottom: '14px'
-            }}
-          />
-          <p className="error-msg">
-            Please check if the above information is correct.
-          </p>
-          <div />
+          </p> */}
+              <hr
+                style={{
+                  borderStyle: 'dashed',
+                  borderColor: '#707070',
+                  opacity: 0.33,
+                  marginBottom: '14px'
+                }}
+              />
+              <p className="error-msg">
+                Please check if the above information is correct.
+              </p>
+            </div>
+          </div>
         </div>
-        <div />
-      </div>
+      </React.Fragment>
     );
   }
 }

@@ -9,7 +9,6 @@ import addressImage from '../../images/address.svg';
 import amountImage from '../../images/amount.svg';
 import passwordImage from '../../images/password.svg';
 
-import logo from '../../images/Logo/fantom-black-logo.png';
 import CheckSend from './checkSend/index';
 import AccountList from './accountList';
 import Store from '../../store/userInfoStore/index';
@@ -430,7 +429,6 @@ class SendFunds extends Component {
                           style={{
                             backgroundImage: `url(${amountImage})`
                           }}
-                          className="text-right"
                           value={ftmAmount}
                           onChange={this.setFTMAmount.bind(this)}
                         />
@@ -507,7 +505,6 @@ class SendFunds extends Component {
             </div>
           ) : (
             <div>
-              <img src={logo} height="25.05" alt={logo} />
               <CheckSend
                 handleGoBack={this.handleGoBack.bind(this)}
                 address={address}

@@ -237,3 +237,26 @@ body {
 .modal-dialog {
   margin-top: 170px;
 }
+
+.warning-msg {
+  text-align: center;
+  img {
+    height: 20px;
+    margin-bottom: 10px;
+  }
+  h2 {
+    color: #ffcc4d;
+    font: {
+      family: 'Roboto';
+      size: 20px;
+      weight: 500;
+    }
+  }
+  p {
+    color: #fff;
+    font: {
+      family: 'Lato';
+      size: 14px;
+    }
+  }
+}
