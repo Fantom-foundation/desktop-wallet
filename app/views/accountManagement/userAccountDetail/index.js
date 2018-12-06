@@ -69,7 +69,7 @@ class UserAccountDetail extends Component {
             </div>
             <div className="info">
               <p>Ledger {name}</p>
-              <p>{transactionLength} Outgoing transaction</p>
+              {/* <p>{transactionLength} Outgoing transaction</p> */}
             </div>
             <div className="qr">
               <QRCodeIcon address={address} text="FANTOM" />

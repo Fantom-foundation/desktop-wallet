@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import { clipboard } from 'electron';
 import { connect } from 'react-redux';
 import Web3 from 'web3';
@@ -567,6 +567,17 @@ class AccountManagement extends Component {
     if (Store.size > 0) {
       return (
         <React.Fragment>
+          <section className="page-title">
+            <Container>
+              <Row>
+                <Col>
+                  <h2 className="title text-white text-center text-uppercase m-0">
+                    <span>Account Management</span>
+                  </h2>
+                </Col>
+              </Row>
+            </Container>
+          </section>
           <section className="bg-dark" style={{ padding: '0 0 120px' }}>
             <Container className="account-card-container">
               <UserAccount
@@ -574,7 +585,6 @@ class AccountManagement extends Component {
                 address={publicKey}
                 handleSelectedAccount={this.handleSelectedAccount.bind(this)}
                 copyToClipboard={this.copyToClipboard.bind(this)}
-                handleUserSettings={this.handleUserSettings.bind(this)}
               />{' '}
             </Container>
           </section>

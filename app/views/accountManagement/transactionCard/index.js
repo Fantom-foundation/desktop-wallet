@@ -34,15 +34,17 @@ class TransactionCard extends Component {
    * renderTransactions() :  A function to render transaction cards based on transaction data fetched from file on system.
    */
   renderTransactions() {
-    const { transactionData } = this.props;
+    const { transactionData, address } = this.props;
     const { txType } = this.state;
-    let allTransaction = (
+
+    const allTransaction = (
       <center>
         <p className="r-title text-gray mb-2">
-          (Your recent sent transactions will be displayed here)
+          (Your recent transactions will be displayed here)
         </p>
       </center>
     );
+    const transactionsHistory = [];
 
     // const transactionData = this.getTransactionsData();
 
@@ -51,43 +53,57 @@ class TransactionCard extends Component {
       transactionData.length &&
       transactionData.length > 0
     ) {
-      allTransaction = transactionData.map(data => (
-        <div className="card bg-dark-light">
-          <Row className="">
-            <Col className="date-col">
-              <div
-                style={{
-                  backgroundImage: `url(${
-                    txType === RECEIVED_TX ? received : send
-                  })`
-                }}
-              >
-                <p>{moment(data.time).date()}</p>
-                <p>{moment(data.time).format('MMM')}</p>
-              </div>
-            </Col>
-            <Col className="acc-no-col">
-              <div className="">
-                <p>
-                  <span>TX#</span> {data.hash}
-                </p>
-                <p>
-                  <span>To:</span>{' '}
-                  {txType === RECEIVED_TX ? data.from : data.to}
-                </p>
-              </div>
-            </Col>
-            <Col className="time-col">
-              <p>{moment(data.time).fromNow()}</p>
-            </Col>
-            <Col className="btn-col">
-              <Button color={`${txType === RECEIVED_TX ? 'green' : 'red'}`}>
-                {data.amount} <span>FTM</span>
-              </Button>
-            </Col>
-          </Row>
-        </div>
-      ));
+      for (let i = 0; i < transactionData.length; i += 1) {
+        const data = transactionData[i];
+        const date = moment(data.time);
+        const isReceived =
+          transactionData[i].to === address &&
+          (txType === RECEIVED_TX || txType === ALL_TX);
+        const isSend =
+          transactionData[i].from === address &&
+          (txType === SENT_TX || txType === ALL_TX);
+
+        if (isReceived || isSend || txType === ALL_TX) {
+          transactionsHistory.push(
+            <div key={`${i}_${date}`} className="card bg-dark-light">
+              <Row className="">
+                <Col className="date-col">
+                  <div
+                    style={{
+                      backgroundImage: `url(${isReceived ? received : send})`
+                    }}
+                  >
+                    <p>{date.date()}</p>
+                    <p>{date.format('MMM')}</p>
+                  </div>
+                </Col>
+                <Col className="acc-no-col">
+                  <div className="">
+                    <p>
+                      <span>TX#</span> {data.hash}
+                    </p>
+                    <p>
+                      <span>{isReceived ? 'From:' : 'To:'}</span>{' '}
+                      {isReceived ? data.from : data.to}
+                    </p>
+                  </div>
+                </Col>
+                <Col className="time-col">
+                  <p>{date.fromNow()}</p>
+                </Col>
+                <Col className="btn-col">
+                  <Button color={`${isReceived ? 'green' : 'red'}`}>
+                    {data.amount} <span>FTM</span>
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+          );
+        }
+      }
+    }
+    if (transactionsHistory.length) {
+      return transactionsHistory;
     }
     return allTransaction;
   }
@@ -100,7 +116,6 @@ class TransactionCard extends Component {
   }
 
   render() {
-    const isReceived = false;
     const { txType } = this.state;
     return (
       <Col md={12} lg={8}>
