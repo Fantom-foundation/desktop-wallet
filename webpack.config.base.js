@@ -59,7 +59,7 @@ export default {
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.js', '.jsx', '.json', '.mjs'],
     modules: [path.join(__dirname, 'app'), 'node_modules']
   },
 

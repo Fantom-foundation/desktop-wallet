@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Row, Col, Button } from 'reactstrap';
 import moment from 'moment';
 
+import HttpDataProvider from './httpProvider';
 import DropDown from '../../../general/dropdown/transaction-filter-dropdown';
-import received from '../../../images/transaction-list-filter/received.svg';
-import send from '../../../images/transaction-list-filter/send.svg';
+// import received from '../../../images/transaction-list-filter/received.svg';
+// import send from '../../../images/transaction-list-filter/send.svg';
 import { ALL_TX, SENT_TX, RECEIVED_TX } from '../../../constants/index';
 
 /**
@@ -19,9 +20,11 @@ class TransactionCard extends Component {
 
     this.state = {
       isShowTransaction: false,
-      txType: ALL_TX
+      txType: ALL_TX,
+      transactionData: []
     };
     this.filterTransaction = this.filterTransaction.bind(this);
+    this.fetchTransactionList();
   }
 
   filterTransaction(txType) {
@@ -30,12 +33,69 @@ class TransactionCard extends Component {
     });
   }
 
+  fetchTransactionList() {
+    const { address } = this.props;
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+        {
+          transactions(from: "${address}", to: "${address}") {
+            pageInfo {
+              hasNextPage
+            }
+            edges {
+              cursor
+              node {
+                hash
+                from
+                to
+                block
+                value
+              }
+            }
+          }
+        }`
+    })
+      .then(
+        res => {
+          console.log(res, 'graphql');
+          if (res && res.data) {
+            this.formatTransactionList(res.data);
+          }
+          return null;
+        },
+        () => {
+          console.log('1');
+        }
+      )
+      .catch(err => {
+        console.log(err, 'err in graphql');
+      });
+  }
+
+  formatTransactionList(data) {
+    if (
+      data &&
+      data.transactions &&
+      data.transactions.edges &&
+      data.transactions.edges.length
+    ) {
+      const edgesArray = data.transactions.edges;
+      const transactionArr = [];
+      for (const edge of edgesArray) {
+        if (edge && edge.node) {
+          transactionArr.push(edge.node);
+        }
+      }
+      this.setState({ transactionData: transactionArr });
+    }
+  }
+
   /**
    * renderTransactions() :  A function to render transaction cards based on transaction data fetched from file on system.
    */
   renderTransactions() {
-    const { transactionData, address } = this.props;
-    const { txType } = this.state;
+    const { address } = this.props;
+    const { transactionData, txType } = this.state;
 
     const allTransaction = (
       <center>
@@ -55,7 +115,7 @@ class TransactionCard extends Component {
     ) {
       for (let i = 0; i < transactionData.length; i += 1) {
         const data = transactionData[i];
-        const date = moment(data.time);
+        const hash = moment(data.hash);
         const isReceived =
           transactionData[i].to === address &&
           (txType === RECEIVED_TX || txType === ALL_TX);
@@ -65,9 +125,9 @@ class TransactionCard extends Component {
 
         if (isReceived || isSend || txType === ALL_TX) {
           transactionsHistory.push(
-            <div key={`${i}_${date}`} className="card bg-dark-light">
+            <div key={`${i}_${hash}`} className="card bg-dark-light">
               <Row className="">
-                <Col className="date-col">
+                {/* <Col className="date-col">
                   <div
                     style={{
                       backgroundImage: `url(${isReceived ? received : send})`
@@ -76,7 +136,7 @@ class TransactionCard extends Component {
                     <p>{date.date()}</p>
                     <p>{date.format('MMM')}</p>
                   </div>
-                </Col>
+                </Col> */}
                 <Col className="acc-no-col">
                   <div className="">
                     <p>
@@ -88,12 +148,12 @@ class TransactionCard extends Component {
                     </p>
                   </div>
                 </Col>
-                <Col className="time-col">
+                {/* <Col className="time-col">
                   <p>{date.fromNow()}</p>
-                </Col>
+                </Col> */}
                 <Col className="btn-col">
                   <Button color={`${isReceived ? 'green' : 'red'}`}>
-                    {data.amount} <span>FTM</span>
+                    {data.value} <span>FTM</span>
                   </Button>
                 </Col>
               </Row>
