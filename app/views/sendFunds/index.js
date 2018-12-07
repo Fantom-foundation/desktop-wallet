@@ -15,7 +15,7 @@ import Store from '../../store/userInfoStore/index';
 import { getPrivateKeyOfAddress } from '../../KeystoreManager/index';
 import SideBar from '../../general/sidebar';
 
-import { SAME_ACCOUNT_ERROR_TEXT } from '../../constants/index';
+import { SAME_ACCOUNT_ERROR_TEXT, LOADER_COLOR } from '../../constants/index';
 
 /**
  * SendFunds: This component is meant for rendering send funds modal.
@@ -297,8 +297,13 @@ class SendFunds extends Component {
     const { loading } = this.state;
     if (loading) {
       return (
-        <div className="loader-holder">
-          <Loader sizeUnit="px" size={25} color="#000" loading={loading} />
+        <div className="loader-holder loader-center-align">
+          <Loader
+            sizeUnit="px"
+            size={25}
+            color={LOADER_COLOR}
+            loading={loading}
+          />
         </div>
       );
     }
@@ -500,6 +505,8 @@ class SendFunds extends Component {
           ) : (
             <div>
               <CheckSend
+                onRefresh={() => this.onRefresh(publicKey)}
+                rotate={rotate}
                 handleGoBack={this.handleGoBack.bind(this)}
                 address={address}
                 amount={ftmAmount}

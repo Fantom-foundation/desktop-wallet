@@ -14,6 +14,7 @@ import cross from './cross.svg';
 import check from './check.svg';
 import user from './user.svg';
 import lock from './lock.svg';
+import { LOADER_COLOR } from '../../../constants/index';
 
 import * as CreateAccountAction from '../../../reducers/createAccount/action';
 
@@ -394,7 +395,7 @@ class CreateAccount extends Component {
           <Loader
             sizeUnit="px"
             size={25}
-            color="#000"
+            color={LOADER_COLOR}
             loading={isUsernameVerified === 2}
           />
         </div>

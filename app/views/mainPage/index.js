@@ -7,6 +7,8 @@ import WalletRecovery from '../walletRecovery/index';
 import Store from '../../store/userInfoStore/index';
 import { savePrivateKey, getValidAccounts } from '../../KeystoreManager/index';
 import Loader from '../../general/loader/index';
+import { LOADER_COLOR } from '../../constants/index';
+
 
 import * as KeyStoreAction from '../../reducers/keyStore/action';
 import * as KeyStoreDetailAction from '../../reducers/keyStoreDetail/action';
@@ -117,7 +119,7 @@ class MainPage extends Component {
     if (loading && !isUnlock) {
       return (
         <div className="unlock-loader-holder">
-          <Loader sizeUnit="px" size={25} color="#000" loading={loading} />
+          <Loader sizeUnit="px" size={25} color={LOADER_COLOR} loading={loading} />
         </div>
       );
     }

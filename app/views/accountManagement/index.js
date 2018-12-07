@@ -23,6 +23,7 @@ import config from '../../store/config/index';
 // import refreshIcon from '../../images/icons/refreshIcon_2.svg';
 import { scientificToDecimal } from '../../general/util/index';
 import { toFixed } from '../../constants/index';
+import TransactionStatusModal from '../../general/modal/transaction-status-modal/index';
 
 const configHelper = config();
 
@@ -52,8 +53,10 @@ class AccountManagement extends Component {
       gasPrice: 0x000000000001,
       maxFantomBalance: 0,
       balance: 0,
-      isOpenAccountDetail: false
+      isOpenAccountDetail: false,
+      openTxnStatusModal: false
     };
+    this.toggleTxnStatusModal = this.toggleTxnStatusModal.bind(this);
   }
 
   /**
@@ -549,7 +552,8 @@ class AccountManagement extends Component {
     const { publicKey } = this.props;
 
     this.setState({
-      isLoading: true
+      isLoading: true,
+      openTxnStatusModal: true
     });
 
     this.forceUpdate();
@@ -561,6 +565,15 @@ class AccountManagement extends Component {
       this.getWalletBalance(publicKey);
       // this.getWalletTransaction(publicKey);
     }
+  }
+
+  /**
+   * This method will toggle the Transaction Status modal
+   */
+  toggleTxnStatusModal() {
+    this.setState({
+      openTxnStatusModal: false
+    });
   }
 
   /**
@@ -707,7 +720,8 @@ class AccountManagement extends Component {
       // animateRefreshIcon,
       isOpenSetting,
       maxFantomBalance,
-      isOpenAccountDetail
+      isOpenAccountDetail,
+      openTxnStatusModal
     } = this.state;
 
     const { accountName } = this.props;
@@ -753,6 +767,12 @@ class AccountManagement extends Component {
         <ToastContainer
           position={ToastContainer.POSITION.TOP_CENTER}
           store={ToastStore}
+        />
+        <TransactionStatusModal
+          openTxnStatusModal={openTxnStatusModal}
+          toggleTxnStatusModal={this.toggleTxnStatusModal}
+          statusTextHeader="Transfer Status"
+          statusTextBody="Funds transfered successfully"
         />
       </div>
     );

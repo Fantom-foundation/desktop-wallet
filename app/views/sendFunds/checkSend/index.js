@@ -8,6 +8,8 @@ import addressImage from '../../../images/addressDisable.svg';
 import coinImage from '../../../images/coin.svg';
 // import memoImage from '../../../images/memo.svg';
 import fantomLogo from '../../../images/Logo/small-logo-white.svg';
+import Loader from '../../../general/loader/index';
+import { LOADER_COLOR } from '../../../constants/index';
 
 /**
  * SendMoney: This component is meant for rendering modal for Check send.
@@ -17,7 +19,8 @@ export default class SendMoney extends Component {
     super(props);
     this.state = {
       coin: 'FTM',
-      errorMessage: ''
+      errorMessage: '',
+      loading: false
     };
   }
 
@@ -40,10 +43,14 @@ export default class SendMoney extends Component {
           console.log(
             `Transfer successful with transaction hash: ${data.hash}`
           );
-          if (handleModalClose) {
-            handleModalClose();
-          }
+          this.setState({
+            loading: false
+          });
+
           setTimeout(() => {
+            if (handleModalClose) {
+              handleModalClose();
+            }
             if (refreshWalletDetail) {
               refreshWalletDetail(from, to);
             }
@@ -84,16 +91,36 @@ export default class SendMoney extends Component {
     TransactionStore.set(key, objArr);
   }
 
+  renderLoader() {
+    const { loading } = this.state;
+    if (loading) {
+      return (
+        <div className="loader-holder loader-center-align">
+          <Loader
+            sizeUnit="px"
+            size={25}
+            color={LOADER_COLOR}
+            loading={loading}
+          />
+        </div>
+      );
+    }
+    return null;
+  }
+
   /**
    * confirmSendFunds() :  A function for transfering funds on click on continue.
    */
   confirmSendFunds() {
     const { publicKey, address, amount, memo, privateKey } = this.props;
+    this.setState({
+      loading: true
+    });
     this.transferMoney(publicKey, address, amount, memo, privateKey);
   }
 
   render() {
-    const { address, amount, memo } = this.props;
+    const { address, amount, memo, rotate, onRefresh } = this.props;
     const { errorMessage, coin } = this.state;
     return (
       <React.Fragment>
@@ -106,22 +133,16 @@ export default class SendMoney extends Component {
               <h2 className="title">
                 <span>Send Funds - Confirm</span>
               </h2>
-              <Button className="btn">
-                <i className="fas fa-sync-alt" />
+              <Button className="btn" onClick={onRefresh}>
+                <i className={`fas fa-sync-alt ${rotate}`} />
               </Button>
             </div>
 
             <div className="form">
-              {/* <TextField
-                isTextPresent
-                rightTextValue={coin}
-                placeHolderText="Coin"
-              /> */}
               <FormGroup>
                 <Label for="to-address">Coin</Label>
                 <div className="success-check success">
                   {' '}
-                  {/* add or remove --- success --- class  */}
                   <Input
                     type="text"
                     id="to-address"
@@ -132,7 +153,6 @@ export default class SendMoney extends Component {
                     value={coin}
                     readOnly
                   />
-                  {/* <img src={successCheck} alt={successCheck} /> */}
                 </div>
               </FormGroup>
               <Row className="change">
@@ -154,22 +174,11 @@ export default class SendMoney extends Component {
                   </FormGroup>
                 </Col>
               </Row>
-              {/* <TextField
-                placeHolderText="Address to send"
-                isTextPresent
-                rightTextValue={address}
-              /> */}
 
-              {/* <TextField
-                placeHolderText="Number of coin"
-                isTextPresent
-                rightTextValue={amount}
-              /> */}
               <FormGroup>
                 <Label for="to-address">Price</Label>
                 <div className="success-check success">
                   {' '}
-                  {/* add or remove --- success --- class  */}
                   <Input
                     type="text"
                     id="to-address"
@@ -180,14 +189,9 @@ export default class SendMoney extends Component {
                     value={amount}
                     readOnly
                   />
-                  {/* <img src={successCheck} alt={successCheck} /> */}
                 </div>
               </FormGroup>
-              {/* <TextField
-                placeHolderText="Memo"
-                isTextPresent
-                rightTextValue={memo}
-              /> */}
+
               <Label for="OptionalMessage">Memo</Label>
               <FormGroup className="mb-1">
                 <Input
@@ -195,9 +199,6 @@ export default class SendMoney extends Component {
                   name="text"
                   id="exampleText"
                   placeholder="Text..."
-                  // style={{
-                  //   backgroundImage: `url(${memoImage})`
-                  // }}
                   value={memo}
                   readOnly
                 />
@@ -208,7 +209,7 @@ export default class SendMoney extends Component {
                 <h2>Attention</h2>
                 <p>Please make sure the above information is correct.</p>
               </div>
-
+              {this.renderLoader()}
               <center>
                 <div>
                   <Button
@@ -234,35 +235,6 @@ export default class SendMoney extends Component {
               {errorMessage !== '' && (
                 <p style={{ color: 'red' }}>Funds transfer unsuccessful!</p>
               )}
-              {/* <p
-            aria-hidden
-            className="text-center mt-3"
-            onClick={() => this.props.handleGoBack()}
-          >
-            <span
-              style={{
-                cursor: 'pointer',
-                fontSize: '12px',
-                fontFamily: 'SFCompactDisplay',
-                fontWeight: 'bold',
-                color: '#00b1ff',
-                textDecoration: 'underline'
-              }}
-            >
-              <span>BACK</span>
-            </span>
-          </p> */}
-              {/* <hr
-                style={{
-                  borderStyle: 'dashed',
-                  borderColor: '#707070',
-                  opacity: 0.33,
-                  marginBottom: '14px'
-                }}
-              />
-              <p className="error-msg">
-                Please check if the above information is correct.
-              </p> */}
             </div>
           </div>
         </div>
