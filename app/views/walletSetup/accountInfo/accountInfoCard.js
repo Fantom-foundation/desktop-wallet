@@ -101,6 +101,8 @@ class AccountInfo extends Component {
                   address={address}
                   icon={fantomIcon}
                   text="FANTOM"
+                  bgColor="black"
+                  fgColor="white"
                 />
               </div>
               <div className="acc-name-holder">
@@ -135,6 +137,8 @@ class AccountInfo extends Component {
                 address={address}
                 icon={fantomIcon}
                 text="FANTOM"
+                bgColor="black"
+                fgColor="white"
               />
             </Col>
           </Row>

@@ -262,6 +262,9 @@
       @media (max-width: 991px) {
         margin-bottom: 5px;
       }
+      @media (max-width: 767px) {
+        text-align: center;
+      }
       .btn {
         margin-right: 6px;
       }
@@ -302,12 +305,12 @@
     @media (max-width: 991px) {
       margin-bottom: 10px;
     }
-    canvas {
-      @media (max-width: 991px) {
-        width: 130px !important;
-        height: 130px !important;
-      }
-    }
+    // canvas {
+    //   @media (max-width: 991px) {
+    //     width: 130px !important;
+    //     height: 130px !important;
+    //   }
+    // }
   }
   .ftm-no {
     p {

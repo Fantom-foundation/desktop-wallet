@@ -1,7 +1,7 @@
 #print-screen {
-  transform: scale(1.4);
+  transform: scale(1.2);
   background: #fff;
-  max-width: 750px;
+  max-width: 900px;
   margin: 200px auto 0;
   .row {
     margin: 0;
@@ -13,7 +13,7 @@
           margin-bottom: 8px;
           font: {
             family: 'Roboto';
-            size: 18px;
+            size: 22px;
             weight: 700;
           }
         }
@@ -21,12 +21,11 @@
           margin-bottom: 1rem;
           font: {
             family: 'Lato';
-            size: 16px;
+            size: 18px;
           }
         }
         .qr {
           padding-top: 10px;
-          margin-bottom: -7px;
         }
       }
       &.brand {

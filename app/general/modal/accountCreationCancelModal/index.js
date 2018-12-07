@@ -30,11 +30,11 @@ class AccountCreationCancelModal extends Component {
             <p>Are you sure you want to cancel the create wallet process?</p>
           </ModalBody>
           <ModalFooter>
+            <Button color="secondary" onClick={this.toggle}>
+              No
+            </Button>
             <Button color="primary" onClick={() => openAccountManagement()}>
               Yes
-            </Button>{' '}
-            <Button color="primary" onClick={this.toggle}>
-              No
             </Button>
           </ModalFooter>
         </Modal>

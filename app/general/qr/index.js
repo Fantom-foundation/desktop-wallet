@@ -31,14 +31,15 @@ class QRCodeIcon extends Component {
   }
 
   render() {
-    const { address } = this.props;
+    const { address, bgColor, fgColor } = this.props;
     return (
       <div style={{ position: 'relative', display: 'inline-block' }}>
         {this.renderLogo()}
         <QRCode
-          bgColor="black"
-          fgColor="white"
+          bgColor={bgColor}
+          fgColor={fgColor}
           value={`${address}`}
+          renderAs="svg"
           level="H"
           size={158}
         />

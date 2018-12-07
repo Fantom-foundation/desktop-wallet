@@ -72,7 +72,12 @@ class UserAccountDetail extends Component {
               {/* <p>{transactionLength} Outgoing transaction</p> */}
             </div>
             <div className="qr">
-              <QRCodeIcon address={address} text="FANTOM" />
+              <QRCodeIcon
+                address={address}
+                text="FANTOM"
+                bgColor="black"
+                fgColor="white"
+              />
             </div>
             <div className="ftm-no">
               <p>
