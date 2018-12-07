@@ -252,7 +252,7 @@ export default class SendMoney extends Component {
               <span>BACK</span>
             </span>
           </p> */}
-              <hr
+              {/* <hr
                 style={{
                   borderStyle: 'dashed',
                   borderColor: '#707070',
@@ -262,7 +262,7 @@ export default class SendMoney extends Component {
               />
               <p className="error-msg">
                 Please check if the above information is correct.
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
