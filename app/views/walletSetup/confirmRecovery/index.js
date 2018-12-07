@@ -13,7 +13,8 @@ class ConfirmRecovery extends Component {
       modal: false,
       selectedMnemonicsArray: [],
       mnemonicsArray: [],
-      openIncorrectMnemonicsModal: false
+      openIncorrectMnemonicsModal: false,
+      isRefreshing: false
     };
     this.selectMnemonic = this.selectMnemonic.bind(this);
     this.getMnemonics = this.getMnemonics.bind(this);
@@ -22,6 +23,7 @@ class ConfirmRecovery extends Component {
     this.toggleIncorrectMnemonicsModal = this.toggleIncorrectMnemonicsModal.bind(
       this
     );
+    this.onRefresh = this.onRefresh.bind(this);
   }
 
   componentWillMount() {
@@ -98,11 +100,16 @@ class ConfirmRecovery extends Component {
   getMnemonics() {
     const SELF = this;
     const { mnemonic } = SELF.props;
+    const { selectedMnemonicsArray } = SELF.state;
     let mnemonicsList = [];
     const generatedMnemonic = mnemonic ? mnemonic.split(' ') : mnemonic;
     if (generatedMnemonic && generatedMnemonic.length > 0) {
       // eslint-disable-next-line no-restricted-syntax
       for (let i = 0; i < generatedMnemonic.length; i += 1) {
+        const selectedIndex = _.findIndex(
+          selectedMnemonicsArray,
+          mnemonicName => mnemonicName === generatedMnemonic[i]
+        );
         mnemonicsList.push(
           <li
             key={`${i}_${generatedMnemonic[i]}`}
@@ -110,6 +117,7 @@ class ConfirmRecovery extends Component {
           >
             <Button
               color="primary"
+              disabled={selectedIndex !== -1}
               onClick={() => SELF.selectMnemonic(generatedMnemonic[i], i)}
             >
               {generatedMnemonic[i]}
@@ -132,7 +140,10 @@ class ConfirmRecovery extends Component {
     const findSelectedMnemonic = document.getElementsByClassName(
       `${name}_${index}`
     );
-    if (findSelectedMnemonic) {
+    const hasSelectedClass = findSelectedMnemonic[0].classList.contains(
+      'selected'
+    );
+    if (!hasSelectedClass) {
       findSelectedMnemonic[0].classList.add('selected');
       clonedArray.push({ name, index });
       SELF.setState({
@@ -170,6 +181,45 @@ class ConfirmRecovery extends Component {
   }
 
   /**
+   * @method onRefresh : To reset state of mnemonic pharse holder.
+   */
+  onRefresh() {
+    this.setState({
+      isRefreshing: true
+    });
+
+    const SELF = this;
+    const { mnemonic } = SELF.props;
+    const generatedMnemonic = mnemonic ? mnemonic.split(' ') : mnemonic;
+
+    const mnemonics = this.getMnemonics();
+    const mnemonicsLength = generatedMnemonic.length;
+    if (generatedMnemonic && mnemonicsLength) {
+      for (let i = 0; i < mnemonicsLength; i += 1) {
+        const findSelectedMnemonic = document.getElementsByClassName(
+          `${generatedMnemonic[i]}_${i}`
+        );
+
+        const hasSelectedClass = findSelectedMnemonic[0].classList.contains(
+          'selected'
+        );
+        if (hasSelectedClass) {
+          findSelectedMnemonic[0].classList.remove('selected');
+        }
+      }
+    }
+    this.setState({
+      mnemonicsArray: mnemonics,
+      selectedMnemonicsArray: []
+    });
+    setTimeout(() => {
+      this.setState({
+        isRefreshing: false
+      });
+    }, 1000);
+  }
+
+  /**
    * This method will toggle the Incorrect Mnemonics modal
    */
   toggleIncorrectMnemonicsModal() {
@@ -182,9 +232,18 @@ class ConfirmRecovery extends Component {
   render() {
     const { activeTab, mnemonic } = this.props;
     console.log('mnemonic', mnemonic);
-    const { mnemonicsArray, openIncorrectMnemonicsModal } = this.state;
+
+    const {
+      mnemonicsArray,
+      openIncorrectMnemonicsModal,
+      isRefreshing
+    } = this.state;
     const selectedMnemonics = this.getSelectedMnemonics();
 
+    let rotate = '';
+    if (isRefreshing) {
+      rotate = 'rotate';
+    }
     if (activeTab !== '3') {
       return null;
     }
@@ -198,8 +257,8 @@ class ConfirmRecovery extends Component {
                   <h2 className="title ">
                     <span>Enter Your Mnemonic</span>
                   </h2>
-                  <Button>
-                    <i className="fas fa-sync-alt" />
+                  <Button onClick={this.onRefresh}>
+                    <i className={`fas fa-sync-alt ${rotate}`} />
                   </Button>
                 </div>
               </Col>

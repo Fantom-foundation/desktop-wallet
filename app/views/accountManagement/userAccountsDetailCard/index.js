@@ -48,10 +48,9 @@ class UserAccountsDetailCard extends Component {
       onRefresh,
       isLoading,
       onTransferFund,
-      isTransferringMoney
+      isTransferringMoney,
+      animateRefreshIcon
     } = this.props;
-    // onRefresh={this.onRefresh.bind(this)}
-    // onTransferFund={this.handleSendFunds.bind(this)}
 
     // const sentTransactionDetail = this.getTransactionsData();
     const allTransactionDetail = this.getTransactionsData();
@@ -71,6 +70,7 @@ class UserAccountsDetailCard extends Component {
                 isTransferringMoney={isTransferringMoney}
                 onRefresh={onRefresh}
                 onTransferFund={onTransferFund}
+                animateRefreshIcon={animateRefreshIcon}
               />
               <TransactionCard
                 isLoading={isLoading}

@@ -39,6 +39,8 @@ class SendFunds extends Component {
       addressErrText: '',
       ammountErrText: ''
     };
+
+    this.onRefresh = this.onRefresh.bind(this);
   }
 
   // componentWillReceiveProps(nextProps){
@@ -276,6 +278,17 @@ class SendFunds extends Component {
       });
   }
 
+  /**
+   * @method onRefresh: To refresh balance of selected wallet from account-list
+   * @param {*} address: Address of wallet to be refreshed
+   */
+  onRefresh(address) {
+    const { onRefresh } = this.props;
+    if (onRefresh) {
+      onRefresh(address);
+    }
+  }
+
   renderLoader() {
     const { loading } = this.state;
     if (loading) {
@@ -334,7 +347,7 @@ class SendFunds extends Component {
   }
 
   render() {
-    const { maxFantomBalance } = this.props;
+    const { maxFantomBalance, refreshWalletDetail, isRefreshing } = this.props;
     const {
       address,
       accountType,
@@ -349,19 +362,10 @@ class SendFunds extends Component {
       loading
     } = this.state;
 
-    // let continueBtnColor = 'primary';
-    // if (loading) {
-    //   continueBtnColor = 'secondary';
-    // }
-
-    // if (
-    //   address === '' ||
-    //   ftmAmount === '' ||
-    //   Number(ftmAmount) <= 0 ||
-    //   password === ''
-    // ) {
-    //   continueBtnColor = 'secondary';
-    // }
+    let rotate = '';
+    if (isRefreshing) {
+      rotate = 'rotate';
+    }
 
     return (
       <SideBar handleModalClose={this.handleModalClose.bind(this)}>
@@ -375,8 +379,11 @@ class SendFunds extends Component {
                 <h2 className="title">
                   <span>Send Funds</span>
                 </h2>
-                <Button className="btn">
-                  <i className="fas fa-sync-alt" />
+                <Button
+                  className="btn"
+                  onClick={() => this.onRefresh(publicKey)}
+                >
+                  <i className={`fas fa-sync-alt ${rotate}`} />
                 </Button>
               </div>
               <div className="form">
@@ -482,24 +489,6 @@ class SendFunds extends Component {
                     </Button>
                   </center>
                 )}
-
-                {/* <span
-                  aria-hidden
-                  className="pointer"
-                  style={{
-                    position: 'absolute',
-                    top: '20px',
-                    right: '42px',
-                    fontSize: '25px',
-                    lineHeight: '55%',
-                    fontWeight: 100,
-                    fontFamily: 'Robotos',
-                    color: '#8D9BAE'
-                  }}
-                  onClick={this.handleModalClose.bind(this)}
-                >
-                  &times;
-                </span> */}
                 {this.renderLoader()}
               </div>
             </div>
@@ -513,7 +502,7 @@ class SendFunds extends Component {
                 publicKey={publicKey}
                 privateKey={privateKey}
                 handleModalClose={this.handleModalClose.bind(this)}
-                refreshWalletDetail={this.props.refreshWalletDetail}
+                refreshWalletDetail={refreshWalletDetail}
               />
             </div>
           )}

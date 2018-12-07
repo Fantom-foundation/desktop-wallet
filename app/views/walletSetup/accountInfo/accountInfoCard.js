@@ -94,17 +94,6 @@ class AccountInfo extends Component {
             style={{ marginBottom: accDetailsYSpaces }}
           >
             <Col className="acc-left-col">
-              <div className="acc-qr">
-                {/* <QR /> */}
-                <QRCodeIcon
-                  className="text-right"
-                  address={address}
-                  icon={fantomIcon}
-                  text="FANTOM"
-                  bgColor="black"
-                  fgColor="white"
-                />
-              </div>
               <div className="acc-name-holder">
                 <Identicons
                   id={identiconsId}
@@ -133,7 +122,7 @@ class AccountInfo extends Component {
 
             <Col className="qr-col">
               <QRCodeIcon
-                className="text-right"
+                className=""
                 address={address}
                 icon={fantomIcon}
                 text="FANTOM"

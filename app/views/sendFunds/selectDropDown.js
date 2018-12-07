@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import withdrawImage from '../../images/withdraw.svg';
+import { toFixed } from '../../constants/index';
 
 export default class Select extends React.Component {
   constructor(props) {
@@ -19,6 +20,8 @@ export default class Select extends React.Component {
   };
 
   render() {
+    let { maxFantomBalance } = this.props;
+    maxFantomBalance = toFixed(Number(maxFantomBalance), 4);
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle
@@ -28,9 +31,7 @@ export default class Select extends React.Component {
           }}
         >
           {this.props.value}
-          <span className="ftm text-white">
-            {this.props.maxFantomBalance} FTM
-          </span>
+          <span className="ftm text-white">{maxFantomBalance} FTM</span>
         </DropdownToggle>
         <DropdownMenu>{this.props.accountDetailList}</DropdownMenu>
       </Dropdown>

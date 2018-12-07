@@ -18,6 +18,21 @@ import QRCodeIcon from '../../../general/qr/index';
  * copyToClipboard: To Copy the address text to clipboard.
  */
 class UserAccountDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.onRefresh = this.onRefresh.bind(this);
+  }
+
+  /**
+   * @method onRefresh: To refresh balance of selected wallet
+   */
+  onRefresh() {
+    const { onRefresh } = this.props;
+    if (onRefresh) {
+      onRefresh();
+    }
+  }
+
   render() {
     const {
       identiconsId,
@@ -28,11 +43,17 @@ class UserAccountDetail extends Component {
       isTransferringMoney,
       transactionLength,
       onTransferFund,
-      onRefresh
+      animateRefreshIcon
     } = this.props;
+
     let { balance } = this.props;
     if (balance) {
       balance = addCommasToNumber(balance);
+    }
+
+    let rotate = '';
+    if (animateRefreshIcon) {
+      rotate = 'rotate';
     }
 
     return (
@@ -42,8 +63,8 @@ class UserAccountDetail extends Component {
             <h2 className="title ">
               <span>Account Management</span>
             </h2>
-            <Button onClick={() => onRefresh()}>
-              <i className="fas fa-sync-alt" />
+            <Button onClick={this.onRefresh}>
+              <i className={`fas fa-sync-alt ${rotate}`} />
             </Button>
           </div>
           <div id="acc-details">

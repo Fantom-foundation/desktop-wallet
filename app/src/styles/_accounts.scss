@@ -143,8 +143,9 @@
         text-align: right;
         max-width: 190px;
 
-        @media (max-width: 767px) {
-          display: none;
+        @media (max-width: 991px) {
+          text-align: center;
+          max-width: 100%;
         }
       }
     }
@@ -349,13 +350,26 @@
   }
 }
 #acc-cards {
-  color: #fff;
-
   font: {
     family: 'Roboto';
   }
+
+  color: #fff;
+
+  position: relative;
+  min-height: 200px;
+  height: calc(100% - 50px);
+  .m-msg {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+  }
   .card {
     margin-top: 10px;
+    &:nth-last-child(1) {
+      margin-bottom: 10px;
+    }
     @media (max-width: 767px) {
       margin-top: 20px;
     }

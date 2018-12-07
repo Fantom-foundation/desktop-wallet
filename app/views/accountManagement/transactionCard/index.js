@@ -38,11 +38,9 @@ class TransactionCard extends Component {
     const { txType } = this.state;
 
     const allTransaction = (
-      <center>
-        <p className="r-title text-gray mb-2">
-          (Your recent transactions will be displayed here)
-        </p>
-      </center>
+      <p className="m-msg text-white  text-center mb-0">
+        (Your recent transactions will be displayed here)
+      </p>
     );
     const transactionsHistory = [];
 
@@ -105,6 +103,7 @@ class TransactionCard extends Component {
     if (transactionsHistory.length) {
       return transactionsHistory;
     }
+
     return allTransaction;
   }
 
@@ -117,6 +116,7 @@ class TransactionCard extends Component {
 
   render() {
     const { txType } = this.state;
+
     return (
       <Col md={12} lg={8}>
         <div className="bg-dark-light">
@@ -130,11 +130,8 @@ class TransactionCard extends Component {
             />
           </div>
         </div>
-        <div id="acc-cards" className="">
-          <Row>
-            <Col>{this.renderTransactions()}</Col>
-          </Row>
-        </div>
+
+        <div id="acc-cards">{this.renderTransactions()}</div>
       </Col>
     );
   }

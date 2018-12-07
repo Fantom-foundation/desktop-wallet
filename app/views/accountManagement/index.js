@@ -22,6 +22,7 @@ import * as UserAccountAction from '../../reducers/userDetail/action';
 import config from '../../store/config/index';
 // import refreshIcon from '../../images/icons/refreshIcon_2.svg';
 import { scientificToDecimal } from '../../general/util/index';
+import { toFixed } from '../../constants/index';
 
 const configHelper = config();
 
@@ -197,8 +198,11 @@ class AccountManagement extends Component {
       .then(responseJson => {
         if (responseJson && responseJson.balance) {
           const balance = scientificToDecimal(responseJson.balance);
+
           const valInEther = Web3.utils.fromWei(`${balance}`, 'ether');
-          const walletBalance = Number(valInEther).toFixed(4);
+
+          const walletBalance = toFixed(Number(valInEther), 4);
+
           if (publicKey === address) {
             this.setState({
               balance: walletBalance
@@ -207,11 +211,15 @@ class AccountManagement extends Component {
           }
 
           const { gasPrice } = this.state;
+
           const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
-          let maxFantomBalance = valInEther - gasPriceEther;
-          maxFantomBalance = Number(maxFantomBalance).toFixed(4);
+
+          const maxFantomBalance = valInEther - gasPriceEther;
+
           this.setState({
-            maxFantomBalance
+            maxFantomBalance,
+            isRefreshing: false,
+            animateRefreshIcon: false
           });
         } else {
           if (publicKey === address) {
@@ -220,12 +228,16 @@ class AccountManagement extends Component {
             });
           }
           this.setState({
-            maxFantomBalance: 0
+            maxFantomBalance: 0,
+            isRefreshing: false,
+            animateRefreshIcon: false
           });
         }
 
         this.setState({
-          isLoading: false
+          isLoading: false,
+          isRefreshing: false,
+          animateRefreshIcon: false
           // animateRefreshIcon: false
         });
 
@@ -233,13 +245,14 @@ class AccountManagement extends Component {
       })
       .catch(() => {
         this.setState({
-          maxFantomBalance: 0
+          maxFantomBalance: 0,
+          isRefreshing: false,
+          animateRefreshIcon: false
         });
         if (publicKey === address) {
           this.setState({
             balance: 0,
             isLoading: false
-            // animateRefreshIcon: false
           });
         }
       });
@@ -518,7 +531,7 @@ class AccountManagement extends Component {
   onRefresh() {
     const { publicKey } = this.props;
     this.setState({
-      // animateRefreshIcon: true
+      animateRefreshIcon: true
     });
 
     if (publicKey) {
@@ -548,6 +561,26 @@ class AccountManagement extends Component {
       this.getWalletBalance(publicKey);
       // this.getWalletTransaction(publicKey);
     }
+  }
+
+  /**
+   * refreshSelectedWalletDetail() : Refresh details of selected wallet from list in send funds screen.
+   * @param {*} address : Address of account from which funds are transfered.
+   */
+  refreshSelectedWalletDetail(address) {
+    // const { publicKey } = this.props;
+
+    this.setState({
+      isRefreshing: true
+    });
+
+    this.forceUpdate();
+    this.getWalletDetail(address);
+    // if (
+    // publicKey.toLowerCase() === address.toLowerCase()
+    // ) {
+    // this.getWalletBalance(address);
+    // }
   }
 
   getWalletDetail(address) {
@@ -605,7 +638,8 @@ class AccountManagement extends Component {
       identiconsId,
       name,
       publicKey,
-      isOpenAccountDetail
+      isOpenAccountDetail,
+      animateRefreshIcon
     } = this.state;
     if (!isOpenAccountDetail) {
       return null;
@@ -623,6 +657,7 @@ class AccountManagement extends Component {
 
     return (
       <UserAccountsDetailCard
+        animateRefreshIcon={animateRefreshIcon}
         publicKey={publicKey}
         identiconsId={identiconsId}
         name={name}
@@ -665,6 +700,7 @@ class AccountManagement extends Component {
 
   render() {
     const {
+      isRefreshing,
       storeKeys,
       identiconsId,
       publicKey,
@@ -702,6 +738,7 @@ class AccountManagement extends Component {
 
         {this.state.isSendFund && (
           <SendFunds
+            isRefreshing={isRefreshing}
             isSendFund={this.state.isSendFund}
             onClose={this.onCloseSendFunds.bind(this)}
             accountName={accountName}
@@ -710,6 +747,7 @@ class AccountManagement extends Component {
             storeKeys={storeKeys}
             refreshWalletDetail={this.refreshWalletDetail.bind(this)}
             getWalletDetail={this.getWalletDetail.bind(this)}
+            onRefresh={this.refreshSelectedWalletDetail.bind(this)}
           />
         )}
         <ToastContainer
