@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
-import {
-  Button,
-  ModalBody,
-  FormGroup,
-  Label,
-  Input,
-  Row,
-  Col
-} from 'reactstrap';
+import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import Web3 from 'web3';
 import Loader from '../../general/loader/index';
 
-import successCheck from '../../images/icons/icon-success.svg';
-import smallLogo from '../../images/Logo/small-logo.svg';
-import logo from '../../images/Logo/fantom-black-logo.png';
+// import successCheck from '../../images/icons/icon-success.svg';
+// import smallLogo from '../../images/Logo/fantom.png';
+import addressImage from '../../images/address.svg';
+import amountImage from '../../images/amount.svg';
+import passwordImage from '../../images/password.svg';
+
 import CheckSend from './checkSend/index';
 import AccountList from './accountList';
 import Store from '../../store/userInfoStore/index';
 import { getPrivateKeyOfAddress } from '../../KeystoreManager/index';
+import SideBar from '../../general/sidebar';
+
+import { SAME_ACCOUNT_ERROR_TEXT, LOADER_COLOR } from '../../constants/index';
 
 /**
  * SendFunds: This component is meant for rendering send funds modal.
@@ -27,6 +25,7 @@ import { getPrivateKeyOfAddress } from '../../KeystoreManager/index';
 class SendFunds extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       address: '',
       accountType: this.props.accountName,
@@ -37,27 +36,15 @@ class SendFunds extends Component {
       accountStore: [],
       password: '',
       privateKey: '',
-      publicKey: '',
+      publicKey: this.props.publicKey,
       loading: false,
       verificationError: '',
       addressErrText: '',
       ammountErrText: ''
     };
-  }
 
-  // componentWillReceiveProps(nextProps){
-  //     const { storeKeys,  publicKey, accountName  } = nextProps;
-  //     const userAccountStore = Store.store;
-  //     const accountDetailList = [];
-  //     for(const key of storeKeys){
-  //         accountDetailList.push(userAccountStore[key]);
-  //     }
-  //     this.setState({
-  //         accountStore: accountDetailList,
-  //         publicKey,
-  //         accountType: accountName,
-  //     });
-  // }
+    this.onRefresh = this.onRefresh.bind(this);
+  }
 
   componentDidMount() {
     const { storeKeys, publicKey, accountName } = this.props;
@@ -85,8 +72,8 @@ class SendFunds extends Component {
    * setAccountType() :  To set public key of selected account, and fetch balance for it.
    */
   setAccountType(e) {
-    const { accountStore } = this.state;
-    const accountType = e.target.value;
+    const { accountStore, address } = this.state;
+    const accountType = e.target.innerText;
     const { length } = accountStore;
     let publicKey = '';
     for (let account = 0; account < length; account += 1) {
@@ -102,6 +89,18 @@ class SendFunds extends Component {
       accountType,
       publicKey
     });
+
+    if (address !== publicKey) {
+      this.setState({
+        addressErrText: '',
+        isValidAddress: true
+      });
+    } else {
+      this.setState({
+        addressErrText: SAME_ACCOUNT_ERROR_TEXT,
+        isValidAddress: false
+      });
+    }
   }
 
   setFTMAmount(e) {
@@ -200,11 +199,14 @@ class SendFunds extends Component {
    * addressVerification() : To check address entered is valid address or not, if valid address then display green tick. Otherwise render error message.
    */
   addressVerification(address) {
+    const { publicKey } = this.state;
     let message = '';
     if (address === '') {
       message = 'An address must be specified.';
     } else if (!Web3.utils.isAddress(address)) {
       message = 'Must be valid address.';
+    } else if (address === publicKey) {
+      message = SAME_ACCOUNT_ERROR_TEXT;
     }
     if (message === '') {
       this.setState({
@@ -280,12 +282,28 @@ class SendFunds extends Component {
       });
   }
 
+  /**
+   * @method onRefresh: To refresh balance of selected wallet from account-list
+   * @param {*} address: Address of wallet to be refreshed
+   */
+  onRefresh(address) {
+    const { onRefresh } = this.props;
+    if (onRefresh) {
+      onRefresh(address);
+    }
+  }
+
   renderLoader() {
     const { loading } = this.state;
     if (loading) {
       return (
-        <div className="loader-holder">
-          <Loader sizeUnit="px" size={25} color="#000" loading={loading} />
+        <div className="loader-holder loader-center-align">
+          <Loader
+            sizeUnit="px"
+            size={25}
+            color={LOADER_COLOR}
+            loading={loading}
+          />
         </div>
       );
     }
@@ -309,6 +327,7 @@ class SendFunds extends Component {
 
   renderAddressErrText() {
     const { isValidAddress, addressErrText } = this.state;
+
     if (!isValidAddress && addressErrText !== '') {
       return (
         <small
@@ -338,7 +357,7 @@ class SendFunds extends Component {
   }
 
   render() {
-    const { maxFantomBalance } = this.props;
+    const { maxFantomBalance, refreshWalletDetail, isRefreshing } = this.props;
     const {
       address,
       accountType,
@@ -353,206 +372,154 @@ class SendFunds extends Component {
       loading
     } = this.state;
 
-    let continueBtnColor = 'primary';
-    if (loading) {
-      continueBtnColor = 'secondary';
-    }
-
-    if (
-      address === '' ||
-      ftmAmount === '' ||
-      Number(ftmAmount) <= 0 ||
-      password === ''
-    ) {
-      continueBtnColor = 'secondary';
+    let rotate = '';
+    if (isRefreshing) {
+      rotate = 'rotate';
     }
 
     return (
-      <div>
-        <div
-          className="modal fade show"
-          role="dialog"
-          tabIndex="-1"
-          style={{ display: 'block' }}
-        >
-          <div className="modal-dialog send-funds" role="document">
-            <div className="modal-content">
-              <ModalBody className="p-4">
-                <div>
-                  {!isCheckSend ? (
-                    <div>
-                      <h2
-                        className="text-primary title"
-                        style={{ marginBottom: '20px' }}
-                      >
-                        <span>
-                          <strong>Send Funds</strong>
-                        </span>
-                      </h2>
-                      <FormGroup>
-                        <Label for="to-address">
-                          <strong>To Address</strong>
-                        </Label>
-                        <div
-                          className={`success-check ${
-                            isValidAddress ? 'success' : ''
-                          }`}
-                        >
-                          {' '}
-                          {/* add or remove --- success --- class  */}
-                          <Input
-                            type="text"
-                            id="to-address"
-                            placeholder="Enter Address"
-                            value={address}
-                            onChange={this.setAddress.bind(this)}
-                          />
-                          <img src={successCheck} alt={successCheck} />
-                        </div>
-                        {this.renderAddressErrText()}
-                      </FormGroup>
+      <SideBar handleModalClose={this.handleModalClose.bind(this)}>
+        <div id="transaction-form">
+          {!isCheckSend ? (
+            <div>
+              <h2 className="text-white text-center text-uppercase heading">
+                <span>Transfer</span>
+              </h2>
+              <div className="add-wallet">
+                <h2 className="title">
+                  <span>Send Funds</span>
+                </h2>
+                <Button
+                  className="btn"
+                  onClick={() => this.onRefresh(publicKey)}
+                >
+                  <i className={`fas fa-sync-alt ${rotate}`} />
+                </Button>
+              </div>
+              <div className="form">
+                <FormGroup>
+                  <Label for="to-address">To Address</Label>
+                  <div
+                    className={`success-check ${
+                      isValidAddress ? 'success' : ''
+                    }`}
+                  >
+                    {' '}
+                    {/* add or remove --- success --- class  */}
+                    <Input
+                      type="text"
+                      id="to-address"
+                      placeholder="Enter Address"
+                      style={{
+                        backgroundImage: `url(${addressImage})`
+                      }}
+                      value={address}
+                      onChange={this.setAddress.bind(this)}
+                    />
+                    {/* <img src={successCheck} alt={successCheck} /> */}
+                  </div>
+                  {this.renderAddressErrText()}
+                </FormGroup>
 
-                      <FormGroup>
-                        <Label for="withdraw-from">
-                          <strong>Withdraw from</strong>
-                        </Label>
-                        <div className="withdraw-holder">
-                          <AccountList
-                            accountType={accountType}
-                            accountStore={accountStore}
-                            setAccountType={this.setAccountType.bind(this)}
-                          />
-                          <span className="value-1">
-                            {maxFantomBalance} FTM
-                          </span>
-                        </div>
-                      </FormGroup>
-                      <Row className="change">
-                        <Col>
-                          <FormGroup>
-                            <Label for="Amount">
-                              <strong>Amount</strong>
-                            </Label>
-                            <div className="input-holder">
-                              <Input
-                                type="text"
-                                id="to-address"
-                                className="text-right"
-                                value={ftmAmount}
-                                onChange={this.setFTMAmount.bind(this)}
-                              />
-                              <span>FTM</span>
-                              <img
-                                src={smallLogo}
-                                className="logo"
-                                alt={smallLogo}
-                              />
-                            </div>
-                            {this.renderAmmountErrText()}
-                          </FormGroup>
-                        </Col>
-                      </Row>
-
-                      <FormGroup>
-                        <Label for="to-address">
-                          <strong>Enter password : </strong>
-                        </Label>
-                        <div className="success-check">
-                          {' '}
-                          {/* add or remove --- success --- class  */}
-                          <Input
-                            type="password"
-                            id="to-password"
-                            placeholder="Enter password"
-                            value={password}
-                            onChange={this.setPassword.bind(this)}
-                          />
-                          {/* <img src={successCheck} alt={successCheck} /> */}
-                        </div>
-                        {this.renderVerificationError()}
-                      </FormGroup>
-
-                      <Label for="OptionalMessage">
-                        <strong>Note</strong>
-                      </Label>
-                      <FormGroup className="mb-1">
+                <FormGroup>
+                  <Label for="withdraw-from">Withdraw from</Label>
+                  <div className="withdraw-holder">
+                    <AccountList
+                      accountType={accountType}
+                      accountStore={accountStore}
+                      setAccountType={this.setAccountType.bind(this)}
+                      maxFantomBalance={maxFantomBalance}
+                    />
+                    {/* <span className="ftm text-white">
+                      {maxFantomBalance} FTM
+                    </span> */}
+                  </div>
+                </FormGroup>
+                <Row className="change">
+                  <Col>
+                    <FormGroup>
+                      <Label for="Amount">Amount</Label>
+                      <div className="input-holder">
                         <Input
-                          type="textarea"
-                          name="text"
-                          id="exampleText"
-                          placeholder="Optional Message"
-                          value={optionalMessage}
-                          onChange={this.setMessage.bind(this)}
+                          type="text"
+                          id="to-address"
+                          style={{
+                            backgroundImage: `url(${amountImage})`
+                          }}
+                          value={ftmAmount}
+                          onChange={this.setFTMAmount.bind(this)}
                         />
-                      </FormGroup>
-                      <br />
-                      {!loading && (
-                        <center>
-                          <Button
-                            color={`${continueBtnColor}`}
-                            className="text-uppercase"
-                            onClick={this.handleCheckSend.bind(this)}
-                          >
-                            Continue
-                          </Button>
-                        </center>
-                      )}
+                      </div>
+                      {this.renderAmmountErrText()}
+                    </FormGroup>
+                  </Col>
+                </Row>
 
-                      <span
-                        aria-hidden
-                        className="pointer"
-                        style={{
-                          position: 'absolute',
-                          top: '20px',
-                          right: '42px',
-                          fontSize: '25px',
-                          lineHeight: '55%',
-                          fontWeight: 100,
-                          fontFamily: 'Robotos',
-                          color: '#8D9BAE'
-                        }}
-                        onClick={this.handleModalClose.bind(this)}
-                      >
-                        &times;
-                      </span>
-                      {this.renderLoader()}
-                    </div>
-                  ) : (
-                    <div>
-                      <img src={logo} height="25.05" alt={logo} />
-                      <CheckSend
-                        handleGoBack={this.handleGoBack.bind(this)}
-                        address={address}
-                        amount={ftmAmount}
-                        memo={optionalMessage || 'none'}
-                        publicKey={publicKey}
-                        privateKey={privateKey}
-                        handleModalClose={this.handleModalClose.bind(this)}
-                        refreshWalletDetail={this.props.refreshWalletDetail}
-                      />
-                    </div>
-                  )}
-                </div>
-              </ModalBody>
+                <FormGroup>
+                  <Label for="to-address">Enter Password</Label>
+                  <div className="success-check">
+                    {' '}
+                    {/* add or remove --- success --- class  */}
+                    <Input
+                      style={{
+                        backgroundImage: `url(${passwordImage})`
+                      }}
+                      type="password"
+                      id="to-password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={this.setPassword.bind(this)}
+                    />
+                    {/* <img src={successCheck} alt={successCheck} /> */}
+                  </div>
+                  {this.renderVerificationError()}
+                </FormGroup>
+
+                <Label for="OptionalMessage">Note</Label>
+                <FormGroup className="mb-1">
+                  <Input
+                    type="textarea"
+                    name="text"
+                    id="exampleText"
+                    placeholder="Optional Message"
+                    value={optionalMessage}
+                    onChange={this.setMessage.bind(this)}
+                  />
+                </FormGroup>
+                <br />
+                {!loading && (
+                  <center>
+                    <Button
+                      // color={`${continueBtnColor}`}
+                      color="primary"
+                      className="text-uppercase bordered"
+                      onClick={this.handleCheckSend.bind(this)}
+                    >
+                      Continue
+                    </Button>
+                  </center>
+                )}
+                {this.renderLoader()}
+              </div>
             </div>
-          </div>
-          <div
-            className="modal-backdrop fade show"
-            role="dialog"
-            aria-hidden
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              display: 'block',
-              bottom: 0,
-              zIndex: -1
-            }}
-            onClick={this.handleModalClose.bind(this)}
-          />
+          ) : (
+            <div>
+              <CheckSend
+                onRefresh={() => this.onRefresh(publicKey)}
+                rotate={rotate}
+                handleGoBack={this.handleGoBack.bind(this)}
+                address={address}
+                amount={ftmAmount}
+                memo={optionalMessage || 'none'}
+                publicKey={publicKey}
+                privateKey={privateKey}
+                handleModalClose={this.handleModalClose.bind(this)}
+                refreshWalletDetail={refreshWalletDetail}
+              />
+            </div>
+          )}
         </div>
-      </div>
+      </SideBar>
     );
   }
 }

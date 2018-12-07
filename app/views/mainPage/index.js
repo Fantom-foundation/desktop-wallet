@@ -7,6 +7,8 @@ import WalletRecovery from '../walletRecovery/index';
 import Store from '../../store/userInfoStore/index';
 import { savePrivateKey, getValidAccounts } from '../../KeystoreManager/index';
 import Loader from '../../general/loader/index';
+import { LOADER_COLOR } from '../../constants/index';
+
 
 import * as KeyStoreAction from '../../reducers/keyStore/action';
 import * as KeyStoreDetailAction from '../../reducers/keyStoreDetail/action';
@@ -108,14 +110,8 @@ class MainPage extends Component {
     });
     const accountName = '';
     const password = '';
-    const passwordHint = '';
     const accountIcon = '';
-    this.props.setNewAccountDetail(
-      accountName,
-      password,
-      passwordHint,
-      accountIcon
-    );
+    this.props.setNewAccountDetail(accountName, password, accountIcon);
   }
 
   renderLoader() {
@@ -123,7 +119,7 @@ class MainPage extends Component {
     if (loading && !isUnlock) {
       return (
         <div className="unlock-loader-holder">
-          <Loader sizeUnit="px" size={25} color="#000" loading={loading} />
+          <Loader sizeUnit="px" size={25} color={LOADER_COLOR} loading={loading} />
         </div>
       );
     }
@@ -142,6 +138,10 @@ class MainPage extends Component {
         isUnlock: false,
         isWalletRecovery: false
       });
+      const accountName = '';
+      const password = '';
+      const accountIcon = '';
+      this.props.setNewAccountDetail(accountName, password, accountIcon);
     }
   }
 
@@ -153,14 +153,8 @@ class MainPage extends Component {
 
     const accountName = '';
     const password = '';
-    const passwordHint = '';
     const accountIcon = '';
-    this.props.setNewAccountDetail(
-      accountName,
-      password,
-      passwordHint,
-      accountIcon
-    );
+    this.props.setNewAccountDetail(accountName, password, accountIcon);
   }
 
   renderWalletRecovery() {
@@ -252,12 +246,11 @@ const mapDispatchToProps = dispatch => ({
       address
     });
   },
-  setNewAccountDetail: (accountName, password, passwordHint, accountIcon) => {
+  setNewAccountDetail: (accountName, password, accountIcon) => {
     dispatch({
       type: CreateAccountAction.CREATE_NEW_ACCOUNT,
       accountName,
       password,
-      passwordHint,
       accountIcon
     });
   }

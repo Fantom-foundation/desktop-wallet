@@ -1,91 +1,58 @@
-.print-screen {
-  $min-block-height: 225px;
-  max-width: 541px;
-  width: 100%;
-  margin: auto;
+#print-screen {
+  transform: scale(1.2);
   background: #fff;
-  min-height: $min-block-height;
-  transform: scale(2);
-  margin-top: 300px;
-  box-shadow: 8px 8px 20px 0px rgba(0, 0, 0, 0.06);
-
-  .brand {
-    min-height: $min-block-height;
-    @include responsive-width(83px);
-    &.blue {
-      background: {
-        color: map-get($color, blue);
-      }
-      color: white;
-      .link {
-        opacity: 0.75;
-      }
-    }
-    .brand-body {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: rotate(-90deg) translate(-50%, -50%);
-      transform-origin: 0 0;
-      .logo {
-        img {
-          height: 27.75px;
-          margin-right: 6px;
+  max-width: 900px;
+  margin: 200px auto 0;
+  .row {
+    margin: 0;
+    .col {
+      padding: 0;
+      &.info {
+        @include responsive-width(calc(100% - 105px));
+        h2 {
+          margin-bottom: 8px;
+          font: {
+            family: 'Roboto';
+            size: 22px;
+            weight: 700;
+          }
         }
-        font-weight: bold;
-        font-size: 32px;
-        margin-bottom: 0px;
-      }
-      .link {
-        font: {
-          family: SFCompactDisplay;
-          size: 12px;
-          weight: 500;
+        p {
+          margin-bottom: 1rem;
+          font: {
+            family: 'Lato';
+            size: 18px;
+          }
         }
-        padding-left: 23px;
+        .qr {
+          padding-top: 10px;
+        }
       }
-    }
-  }
-  p {
-    font-size: 10px;
-    &.address {
-      font: {
-        font-family: SFCompactDisplay;
-        size: 10px;
-        weight: 500;
-      }
-      &.large {
-        font: {
-          size: 12px;
-          weight: 400;
+      &.brand {
+        background: {
+          color: $theme-blue;
+        }
+        @include responsive-width(105px);
+        .brand-holder {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: rotate(-90deg) translate(-50%, -50%);
+          transform-origin: 0 0;
+          img {
+            height: 37px;
+          }
+          p {
+            padding-left: 38px;
+            margin: 0;
+            color: #fff;
+            font: {
+              family: 'Lato';
+              size: 13px;
+            }
+          }
         }
       }
     }
-    &.account-no {
-      font-family: SFCompactDisplay;
-      font-weight: 300;
-      &.roboto {
-        font-family: Roboto;
-      }
-    }
-  }
-  .light-text {
-    p {
-      color: #9b9b9b;
-      margin-bottom: 0px;
-      font: {
-        family: Roboto;
-        size: 8px;
-      }
-    }
-  }
-  .qr-with-rotated-text {
-  }
-  .rotate-anti {
-    transform: rotate(-90deg) translateY(-44%);
-    position: absolute;
-    top: 44%;
-    right: -33px;
-    margin-bottom: 0;
   }
 }

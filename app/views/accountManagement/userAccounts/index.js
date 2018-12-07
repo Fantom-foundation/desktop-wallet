@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Button, Col } from 'reactstrap';
 
 import AccountCard from '../accountCard/index';
 import Store from '../../../store/userInfoStore/index';
@@ -12,8 +12,8 @@ class UserAccounts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userAccountStore: Store.store,
-      storeKeys: props.storeKeys
+      userAccountStore: Store.store
+      // storeKeys: props.storeKeys
     };
   }
 
@@ -22,8 +22,8 @@ class UserAccounts extends Component {
     const userAccountStore = Store.store;
     if (storeKeys.length > 0) {
       this.setState({
-        userAccountStore,
-        storeKeys
+        userAccountStore
+        // storeKeys
       });
     }
   }
@@ -59,20 +59,11 @@ class UserAccounts extends Component {
 
   render() {
     return (
-      <div>
-        <Row className="mt-5">
-          <Col>
-            <h2 className="title large roboto">
-              <span>Accounts</span>
-            </h2>
-          </Col>
+      <React.Fragment>
+        <Row id="account-card" className="text-center ">
+          {this.renderAccountCard()}
         </Row>
-        <Row>
-          <Col>
-            <Row> {this.renderAccountCard()}</Row>
-          </Col>
-        </Row>
-      </div>
+      </React.Fragment>
     );
   }
 }

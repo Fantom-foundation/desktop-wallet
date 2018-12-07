@@ -3,9 +3,12 @@ import { Container, Row, Col } from 'reactstrap';
 import { clipboard } from 'electron';
 import { connect } from 'react-redux';
 import Web3 from 'web3';
-import UserAccountsDetailCard from './userAccountsDetailCard/index';
+import { ToastContainer, ToastStore } from 'react-toasts';
 
-import arrowLeftRight from '../../images/icons/arrows-left-right.svg';
+import UserAccountsDetailCard from './userAccountsDetailCard/index';
+//	import avatar from '../../images/icons/icon.png';
+
+// import arrowLeftRight from '../../images/icons/arrows-left-right.svg';
 import Header from '../../general/header/index';
 
 import UserAccount from './userAccounts/index';
@@ -17,8 +20,10 @@ import * as KeyStoreAction from '../../reducers/keyStore/action';
 import * as KeyStoreDetailAction from '../../reducers/keyStoreDetail/action';
 import * as UserAccountAction from '../../reducers/userDetail/action';
 import config from '../../store/config/index';
-import refreshIcon from '../../images/icons/refreshIcon_2.svg';
+// import refreshIcon from '../../images/icons/refreshIcon_2.svg';
 import { scientificToDecimal } from '../../general/util/index';
+import { toFixed } from '../../constants/index';
+import TransactionStatusModal from '../../general/modal/transaction-status-modal/index';
 
 const configHelper = config();
 
@@ -42,14 +47,16 @@ class AccountManagement extends Component {
       name: userDetail.accountName,
       publicKey: userDetail.publicKey,
       storeKeys: [],
-      animateRefreshIcon: false,
+      // animateRefreshIcon: false,
       isLoading: false,
       isOpenSetting: false,
       gasPrice: 0x000000000001,
       maxFantomBalance: 0,
       balance: 0,
-      isOpenAccountDetail: false
+      isOpenAccountDetail: false,
+      openTxnStatusModal: false
     };
+    this.toggleTxnStatusModal = this.toggleTxnStatusModal.bind(this);
   }
 
   /**
@@ -194,8 +201,11 @@ class AccountManagement extends Component {
       .then(responseJson => {
         if (responseJson && responseJson.balance) {
           const balance = scientificToDecimal(responseJson.balance);
+
           const valInEther = Web3.utils.fromWei(`${balance}`, 'ether');
-          const walletBalance = Number(valInEther).toFixed(4);
+
+          const walletBalance = toFixed(Number(valInEther), 4);
+
           if (publicKey === address) {
             this.setState({
               balance: walletBalance
@@ -204,11 +214,15 @@ class AccountManagement extends Component {
           }
 
           const { gasPrice } = this.state;
+
           const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
-          let maxFantomBalance = valInEther - gasPriceEther;
-          maxFantomBalance = Number(maxFantomBalance).toFixed(4);
+
+          const maxFantomBalance = valInEther - gasPriceEther;
+
           this.setState({
-            maxFantomBalance
+            maxFantomBalance,
+            isRefreshing: false,
+            animateRefreshIcon: false
           });
         } else {
           if (publicKey === address) {
@@ -217,26 +231,31 @@ class AccountManagement extends Component {
             });
           }
           this.setState({
-            maxFantomBalance: 0
+            maxFantomBalance: 0,
+            isRefreshing: false,
+            animateRefreshIcon: false
           });
         }
 
         this.setState({
           isLoading: false,
+          isRefreshing: false,
           animateRefreshIcon: false
+          // animateRefreshIcon: false
         });
 
         return responseJson;
       })
       .catch(() => {
         this.setState({
-          maxFantomBalance: 0
+          maxFantomBalance: 0,
+          isRefreshing: false,
+          animateRefreshIcon: false
         });
         if (publicKey === address) {
           this.setState({
             balance: 0,
-            isLoading: false,
-            animateRefreshIcon: false
+            isLoading: false
           });
         }
       });
@@ -263,15 +282,15 @@ class AccountManagement extends Component {
           responseJson
         );
         this.setState({
-          isLoading: false,
-          animateRefreshIcon: false
+          isLoading: false
+          // animateRefreshIcon: false
         });
         return responseJson;
       })
       .catch(() => {
         this.setState({
-          isLoading: false,
-          animateRefreshIcon: false
+          isLoading: false
+          // animateRefreshIcon: false
         });
       });
   }
@@ -315,8 +334,8 @@ class AccountManagement extends Component {
     transactionData = transactionData.reverse();
     this.setState({
       transactionData,
-      isLoading: false,
-      animateRefreshIcon: false
+      isLoading: false
+      // animateRefreshIcon: false
     });
   }
 
@@ -362,16 +381,16 @@ class AccountManagement extends Component {
           this.loadTransactionData(responseJson);
         } else {
           this.setState({
-            isLoading: false,
-            animateRefreshIcon: false
+            isLoading: false
+            // animateRefreshIcon: false
           });
         }
         return responseJson;
       })
       .catch(() => {
         this.setState({
-          isLoading: false,
-          animateRefreshIcon: false
+          isLoading: false
+          // animateRefreshIcon: false
         });
       });
   }
@@ -416,8 +435,8 @@ class AccountManagement extends Component {
     transactionData = transactionData.reverse();
     this.setState({
       transactionData,
-      isLoading: false,
-      animateRefreshIcon: false
+      isLoading: false
+      // animateRefreshIcon: false
     });
   }
 
@@ -438,6 +457,7 @@ class AccountManagement extends Component {
       balance: '-',
       isLoading: true
     });
+    this.setCursorToScreenTop = true;
     setTimeout(() => {
       if (address) {
         this.getWalletBalance(address);
@@ -452,6 +472,7 @@ class AccountManagement extends Component {
    */
   copyToClipboard(copyText) {
     clipboard.writeText(copyText);
+    ToastStore.info('Copied to clipboard', 500);
   }
 
   /**
@@ -531,7 +552,8 @@ class AccountManagement extends Component {
     const { publicKey } = this.props;
 
     this.setState({
-      isLoading: true
+      isLoading: true,
+      openTxnStatusModal: true
     });
 
     this.forceUpdate();
@@ -543,6 +565,35 @@ class AccountManagement extends Component {
       this.getWalletBalance(publicKey);
       // this.getWalletTransaction(publicKey);
     }
+  }
+
+  /**
+   * This method will toggle the Transaction Status modal
+   */
+  toggleTxnStatusModal() {
+    this.setState({
+      openTxnStatusModal: false
+    });
+  }
+
+  /**
+   * refreshSelectedWalletDetail() : Refresh details of selected wallet from list in send funds screen.
+   * @param {*} address : Address of account from which funds are transfered.
+   */
+  refreshSelectedWalletDetail(address) {
+    // const { publicKey } = this.props;
+
+    this.setState({
+      isRefreshing: true
+    });
+
+    this.forceUpdate();
+    this.getWalletDetail(address);
+    // if (
+    // publicKey.toLowerCase() === address.toLowerCase()
+    // ) {
+    // this.getWalletBalance(address);
+    // }
   }
 
   getWalletDetail(address) {
@@ -562,12 +613,29 @@ class AccountManagement extends Component {
     }
     if (Store.size > 0) {
       return (
-        <UserAccount
-          storeKeys={storeKeys}
-          address={publicKey}
-          handleSelectedAccount={this.handleSelectedAccount.bind(this)}
-          copyToClipboard={this.copyToClipboard.bind(this)}
-        />
+        <React.Fragment>
+          <section className="page-title">
+            <Container>
+              <Row>
+                <Col>
+                  <h2 className="title text-white text-center text-uppercase m-0">
+                    <span>Account Management</span>
+                  </h2>
+                </Col>
+              </Row>
+            </Container>
+          </section>
+          <section className="bg-dark" style={{ padding: '0 0 120px' }}>
+            <Container className="account-card-container">
+              <UserAccount
+                storeKeys={storeKeys}
+                address={publicKey}
+                handleSelectedAccount={this.handleSelectedAccount.bind(this)}
+                copyToClipboard={this.copyToClipboard.bind(this)}
+              />{' '}
+            </Container>
+          </section>
+        </React.Fragment>
       );
     }
     return null;
@@ -583,7 +651,8 @@ class AccountManagement extends Component {
       identiconsId,
       name,
       publicKey,
-      isOpenAccountDetail
+      isOpenAccountDetail,
+      animateRefreshIcon
     } = this.state;
     if (!isOpenAccountDetail) {
       return null;
@@ -593,10 +662,15 @@ class AccountManagement extends Component {
       transactionLength = transactionData.length;
     }
 
-    // document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+    // To UserAccountsDetailCard scroll screen to top position
+    if (this.setCursorToScreenTop) {
+      this.setCursorToScreenTop = false;
+      document.documentElement.scrollTop = 0;
+    }
+
     return (
       <UserAccountsDetailCard
+        animateRefreshIcon={animateRefreshIcon}
         publicKey={publicKey}
         identiconsId={identiconsId}
         name={name}
@@ -605,6 +679,9 @@ class AccountManagement extends Component {
         transactionLength={transactionLength}
         copyToClipboard={this.copyToClipboard.bind(this)}
         transactionData={transactionData}
+        onRefresh={this.onRefresh.bind(this)}
+        onTransferFund={this.handleSendFunds.bind(this)}
+        isTransferringMoney={this.state.isSendFund}
       />
     );
   }
@@ -636,13 +713,15 @@ class AccountManagement extends Component {
 
   render() {
     const {
+      isRefreshing,
       storeKeys,
       identiconsId,
       publicKey,
-      animateRefreshIcon,
+      // animateRefreshIcon,
       isOpenSetting,
       maxFantomBalance,
-      isOpenAccountDetail
+      isOpenAccountDetail,
+      openTxnStatusModal
     } = this.state;
 
     const { accountName } = this.props;
@@ -662,55 +741,18 @@ class AccountManagement extends Component {
           onCloseSendFunds={this.onCloseSendFunds.bind(this)}
           openAccountManagement={this.openAccountManagement.bind(this)}
         />
+
+        {this.renderAccountDetail()}
+        {this.renderAccountManagement()}
+
         <section
           style={{ padding: '12px 0px 50px ' }}
           onClick={this.handleCloseSettings.bind(this)}
-        >
-          <Container className="bg-white">
-            <Row className="bg-primary py-1 account-management-header">
-              <Col md={5} className="col text-white pl-4 text-uppercase">
-                Account Management
-              </Col>
-              {isOpenAccountDetail && (
-                <Col
-                  className="col text-white text-uppercase"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => this.handleSendFunds()}
-                >
-                  <img
-                    src={arrowLeftRight}
-                    className="mr-1"
-                    alt="Transfer fund"
-                  />{' '}
-                  Transfer
-                </Col>
-              )}
-              {isOpenAccountDetail && (
-                <Col
-                  className="text-right"
-                  style={{ cursor: 'pointer' }}
-                  onClick={this.onRefresh.bind(this)}
-                >
-                  <img
-                    aria-hidden
-                    src={refreshIcon}
-                    alt="Refresh"
-                    style={{ height: '16.6px' }}
-                    className={`${animateRefreshIcon && 'rotation anti-clock'}`}
-                  />{' '}
-                </Col>
-              )}
-            </Row>
-            <Row>
-              <Col className="px-5 py-4">
-                {this.renderAccountDetail()}
-                {this.renderAccountManagement()}
-              </Col>
-            </Row>
-          </Container>
-        </section>
+        />
+
         {this.state.isSendFund && (
           <SendFunds
+            isRefreshing={isRefreshing}
             isSendFund={this.state.isSendFund}
             onClose={this.onCloseSendFunds.bind(this)}
             accountName={accountName}
@@ -719,8 +761,19 @@ class AccountManagement extends Component {
             storeKeys={storeKeys}
             refreshWalletDetail={this.refreshWalletDetail.bind(this)}
             getWalletDetail={this.getWalletDetail.bind(this)}
+            onRefresh={this.refreshSelectedWalletDetail.bind(this)}
           />
         )}
+        <ToastContainer
+          position={ToastContainer.POSITION.TOP_CENTER}
+          store={ToastStore}
+        />
+        <TransactionStatusModal
+          openTxnStatusModal={openTxnStatusModal}
+          toggleTxnStatusModal={this.toggleTxnStatusModal}
+          statusTextHeader="Transfer Status"
+          statusTextBody="Funds transfered successfully"
+        />
       </div>
     );
   }

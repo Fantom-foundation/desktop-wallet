@@ -1,90 +1,140 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import moment from 'moment';
+
+import DropDown from '../../../general/dropdown/transaction-filter-dropdown';
+import received from '../../../images/transaction-list-filter/received.svg';
+import send from '../../../images/transaction-list-filter/send.svg';
+import { ALL_TX, SENT_TX, RECEIVED_TX } from '../../../constants/index';
 
 /**
  * TransactionCard: This component is meant for rendering transactions for selected account.
  * Only transaction that are sent from that account are displayed in list.Otherwise no transaction is displayed.
- * 
+ *
  */
 
 class TransactionCard extends Component {
-    constructor(props){
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state= {
-            isShowTransaction: false,
-        }
-    }
-    
-    /**
-     * renderTransactions() :  A function to render transaction cards based on transaction data fetched from file on system.
-     */
-    renderTransactions() {
-        const { transactionData } = this.props;
-        let allTransaction =<center><p className="r-title text-gray mb-2">(Your recent sent transactions will be displayed here)</p></center> 
-        
-        // const transactionData = this.getTransactionsData();
+    this.state = {
+      isShowTransaction: false,
+      txType: ALL_TX
+    };
+    this.filterTransaction = this.filterTransaction.bind(this);
+  }
 
-        
-        if (transactionData && transactionData.length && transactionData.length > 0) {
-            allTransaction = transactionData.map((data, index) => (
-                <Row key={index} className="bg-gray mt-2">
-                    <Col className="gray-column transactions-details small">
-                        <Row>
-                            <Col className="blank-88 hide-at-991"/>
-                            <Col className="">
-                                <Row>
-                                    <Col ><h4 className="text-ellipsis  w-208"><span>TX# <a href="#">{data.hash}</a></span></h4></Col>
-                                    <Col><h4 className=" text-right text-primary"><span>{moment(data.time).fromNow()}</span></h4></Col>
-                                </Row>
-                                <Row>
-                                    <Col className="blank-184"><h4 className="text-gray text-ellipsis  w-148"><span >From <a href="#">{data.from}</a></span></h4></Col>
-                                    <Col ><h4 className="text-gray text-ellipsis  w-185"><span>to <a href="#">{data.to}</a></span></h4></Col>
-                                </Row>
-                                <Row>
-                                    <Col><h4 className="text-gray"><span>Amount {data.amount} <a href="#"><strong>Fantom</strong></a></span></h4></Col>
-                                </Row>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            ));
-        }
-        return allTransaction;
-    }
+  filterTransaction(txType) {
+    this.setState({
+      txType
+    });
+  }
 
-    handleShowTransaction(){
-        const { isShowTransaction } = this.state;
-        this.setState({
-            isShowTransaction: !isShowTransaction,
-        })
-    }
+  /**
+   * renderTransactions() :  A function to render transaction cards based on transaction data fetched from file on system.
+   */
+  renderTransactions() {
+    const { transactionData, address } = this.props;
+    const { txType } = this.state;
 
-    render() {
-        // const { isShowTransaction } = this.state;
-        // let transition ='scaleY(1)';
-        // if(isShowTransaction){
-        //     transition = 'scaleY(-1)';
-        // }
-        return (
-            <div>
-                <Row className="bg-gray mt-4">
-                    <Col className="pl-5 py-2">
-                        <h2 className="r-title text-gray mb-0"><span>Sent Transactions</span></h2>
-                    </Col>
-                    {/* <Col className="pr-5 py-2 text-right" onClick={this.handleShowTransaction.bind(this)}>
-                    <img src={downArrowIcon} alt="Down Arrow " style={{ cursor: 'pointer', height: '16.6px', transition: '1s all', transform: `${transition}` }} />
-                    </Col> */}
-                </Row>
-                {this.renderTransactions()}
+    const allTransaction = (
+      <p className="m-msg text-white  text-center mb-0">
+        (Your recent transactions will be displayed here)
+      </p>
+    );
+    const transactionsHistory = [];
+
+    // const transactionData = this.getTransactionsData();
+
+    if (
+      transactionData &&
+      transactionData.length &&
+      transactionData.length > 0
+    ) {
+      for (let i = 0; i < transactionData.length; i += 1) {
+        const data = transactionData[i];
+        const date = moment(data.time);
+        const isReceived =
+          transactionData[i].to === address &&
+          (txType === RECEIVED_TX || txType === ALL_TX);
+        const isSend =
+          transactionData[i].from === address &&
+          (txType === SENT_TX || txType === ALL_TX);
+
+        if (isReceived || isSend || txType === ALL_TX) {
+          transactionsHistory.push(
+            <div key={`${i}_${date}`} className="card bg-dark-light">
+              <Row className="">
+                <Col className="date-col">
+                  <div
+                    style={{
+                      backgroundImage: `url(${isReceived ? received : send})`
+                    }}
+                  >
+                    <p>{date.date()}</p>
+                    <p>{date.format('MMM')}</p>
+                  </div>
+                </Col>
+                <Col className="acc-no-col">
+                  <div className="">
+                    <p>
+                      <span>TX#</span> {data.hash}
+                    </p>
+                    <p>
+                      <span>{isReceived ? 'From:' : 'To:'}</span>{' '}
+                      {isReceived ? data.from : data.to}
+                    </p>
+                  </div>
+                </Col>
+                <Col className="time-col">
+                  <p>{date.fromNow()}</p>
+                </Col>
+                <Col className="btn-col">
+                  <Button color={`${isReceived ? 'green' : 'red'}`}>
+                    {data.amount} <span>FTM</span>
+                  </Button>
+                </Col>
+              </Row>
             </div>
-
-        )
+          );
+        }
+      }
     }
+    if (transactionsHistory.length) {
+      return transactionsHistory;
+    }
+
+    return allTransaction;
+  }
+
+  handleShowTransaction() {
+    const { isShowTransaction } = this.state;
+    this.setState({
+      isShowTransaction: !isShowTransaction
+    });
+  }
+
+  render() {
+    const { txType } = this.state;
+
+    return (
+      <Col md={12} lg={8}>
+        <div className="bg-dark-light">
+          <div className="add-wallet">
+            <h2 className="title ">
+              <span>Transactions</span>
+            </h2>
+            <DropDown
+              txType={txType}
+              filterTransaction={this.filterTransaction}
+            />
+          </div>
+        </div>
+
+        <div id="acc-cards">{this.renderTransactions()}</div>
+      </Col>
+    );
+  }
 }
 
-
-
-  
-  export default TransactionCard;
+export default TransactionCard;

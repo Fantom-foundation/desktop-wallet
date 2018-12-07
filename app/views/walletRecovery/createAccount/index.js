@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 
-import { Row, Col, Form } from 'reactstrap';
 import { connect } from 'react-redux';
+
+import { Container, Row, Col, Form, FormGroup, Input } from 'reactstrap';
 
 import Store from '../../../store/userInfoStore/index';
 
 import { Progress } from '../../../general/core/index';
-import FooterButtons from '../../../general/footer/footer-buttons';
+// import FooterButtons from '../../../general/footer/footer-buttons';
 import DisplayIdenticons from '../../../general/identicons/index';
 
 import * as CreateAccountAction from '../../../reducers/createAccount/action';
 import { getValidAccounts } from '../../../KeystoreManager/index';
 import Loader from '../../../general/loader/index';
+import cross from './cross.svg';
+import check from './check.svg';
+import user from './user.svg';
+import lock from './lock.svg';
+import { LOADER_COLOR } from '../../../constants/index';
+
 /**
  * This component is meant from setting account details.
  */
@@ -22,7 +29,6 @@ class CreateAccount extends Component {
       accountName: '',
       password: '',
       confirmPassword: '',
-      passwordHint: '',
       identiconsId: '',
       emailErrorText: '',
       passwordErrorText: '',
@@ -33,12 +39,11 @@ class CreateAccount extends Component {
   }
 
   componentWillMount() {
-    const { accountName, accountIcon, password, passwordHint } = this.props;
+    const { accountName, accountIcon, password } = this.props;
     this.setState({
       accountName,
       password,
       confirmPassword: password,
-      passwordHint,
       identiconsId: accountIcon
     });
   }
@@ -83,6 +88,11 @@ class CreateAccount extends Component {
     return isConfirmed;
   }
 
+  isNextButtonDisable = () => {
+    const disable = !this.isCreateAccount();
+    return disable;
+  };
+
   validateData = (event, value, name) => {
     event.preventDefault();
     let validationResult = '';
@@ -120,6 +130,10 @@ class CreateAccount extends Component {
     } else if (value.length < 8) {
       errorObj.errorText =
         'Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.';
+    } else if (value.match(/[A-Z]/) === null) {
+      errorObj.errorText = 'Password field should contain one Capital letter';
+    } else if (value.match(/[0-9]/) === null) {
+      errorObj.errorText = 'Password field should contain one number';
     } else {
       errorObj.errorText = '';
     }
@@ -190,42 +204,55 @@ class CreateAccount extends Component {
   setAccountName(e) {
     const accountName = e.target.value;
     const isValid = this.validateData(e, accountName, 'accountName');
-    this.setState({
-      accountName,
-      emailErrorText: isValid.errorText
-    });
+    this.setState(
+      {
+        accountName,
+        emailErrorText: isValid.errorText
+      },
+      () => {
+        this.props.changeDisableButtons();
+      }
+    );
   }
 
   setPassword(e) {
     const password = e.target.value.trim();
     const isValid = this.validateData(e, password, 'password');
-    this.setState({
-      password,
-      passwordErrorText: isValid.errorText
-    });
+    this.setState(
+      {
+        password,
+        passwordErrorText: isValid.errorText
+      },
+      () => {
+        this.props.changeDisableButtons();
+      }
+    );
   }
 
   setConfirmPassword(e) {
     const confirmPassword = e.target.value.trim();
     const isValid = this.validateData(e, confirmPassword, 'confirmPassword');
-    this.setState({
-      confirmPassword,
-      confirmPasswordErrorText: isValid.errorText
-    });
-  }
-
-  setPasswordHint(e) {
-    const passwordHint = e.target.value.trim();
-    this.setState({
-      passwordHint
-    });
+    this.setState(
+      {
+        confirmPassword,
+        confirmPasswordErrorText: isValid.errorText
+      },
+      () => {
+        this.props.changeDisableButtons();
+      }
+    );
   }
 
   getRadioIconData(identiconsId) {
     // const { getRadioIconData } = this.props;
-    this.setState({
-      identiconsId
-    });
+    this.setState(
+      {
+        identiconsId
+      },
+      () => {
+        this.props.changeDisableButtons();
+      }
+    );
     // if(getRadioIconData){
     //     getRadioIconData(identiconsId)
     // }
@@ -267,7 +294,7 @@ class CreateAccount extends Component {
    */
   getValidAccounts(accountName) {
     const { toggle, setNewAccountDetail } = this.props;
-    const { password, passwordHint, identiconsId } = this.state;
+    const { password, identiconsId } = this.state;
 
     this.setState({
       isUsernameVerified: 2
@@ -300,12 +327,7 @@ class CreateAccount extends Component {
             }
             if (isValidUser) {
               if (this.isCreateAccount()) {
-                setNewAccountDetail(
-                  accountName.trim(),
-                  password,
-                  passwordHint,
-                  identiconsId
-                );
+                setNewAccountDetail(accountName.trim(), password, identiconsId);
                 this.setState({
                   isUsernameVerified: 1
                 });
@@ -314,6 +336,9 @@ class CreateAccount extends Component {
                 }
               } else {
                 console.log('some error occured');
+                this.setState({
+                  isUsernameVerified: 3
+                });
               }
             }
             return storeKeys.result;
@@ -360,7 +385,7 @@ class CreateAccount extends Component {
           <Loader
             sizeUnit="px"
             size={25}
-            color="#000"
+            color={LOADER_COLOR}
             loading={isUsernameVerified === 2}
           />
         </div>
@@ -369,154 +394,114 @@ class CreateAccount extends Component {
     return null;
   };
 
-  // isGoToAccountManagement(){
-
-  // }
-
-  // onClose(){
-
-  // }
-
   render() {
-    const { activeTab } = this.props;
+    const { activeTab, date } = this.props;
     if (activeTab !== '1') {
       return null;
     }
 
     const {
       emailErrorText,
-      passwordErrorText,
+      // passwordErrorText,
       confirmPasswordErrorText,
       accountName,
       password,
-      passwordHint,
       confirmPassword,
       identiconsId,
       animateRefreshIcon
     } = this.state;
     return (
-      <Row>
-        <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
-          <div className="cs-container forms-container theme-blue-shadow inner mb-4">
-            <Row className="mx-0">
-              <Col sm="12" className="px-5 py-3">
-                <Form>
-                  <div className="form-element form-input">
-                    <input
-                      id="AccountName"
-                      className="form-element-field"
-                      value={accountName}
-                      placeholder=" "
-                      type="text"
-                      required=""
-                      onChange={this.setAccountName.bind(this)}
-                    />
-                    <div className="form-element-bar" />
-                    <label className="form-element-label" htmlFor="AccountName">
-                      Account Name
-                    </label>
-                    <small className="form-element-hint">
-                      {emailErrorText}
-                    </small>
-                  </div>
+      <section className="bg-dark" style={{ padding: '60px 0px ' }}>
+        <Container>
+          <Row>
+            <Col sm="12">
+              <Form id="create-account-form">
+                <FormGroup>
+                  <Input
+                    type="text"
+                    name="name"
+                    placeholder="Enter Account Name"
+                    value={accountName}
+                    onChange={this.setAccountName.bind(this)}
+                    style={{ backgroundImage: `url(${user})` }}
+                  />
+                  <small className="text-danger">{emailErrorText}</small>
+                </FormGroup>
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Input
+                        type="password"
+                        name="pass"
+                        placeholder="Enter Password"
+                        value={password}
+                        onChange={this.setPassword.bind(this)}
+                        style={{ backgroundImage: `url(${lock})` }}
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <Input
+                        type="password"
+                        name="name"
+                        placeholder="Re-enter Password"
+                        value={confirmPassword}
+                        onChange={this.setConfirmPassword.bind(this)}
+                        style={{ backgroundImage: `url(${lock})` }}
+                      />
+                      <small className="text-danger">
+                        {confirmPasswordErrorText}
+                      </small>
+                    </FormGroup>
+                  </Col>
+                  {password.length ? (
+                    <Col md={4} lg={3}>
+                      <ul className="pass-validator">
+                        <li className="correct">
+                          <img
+                            src={password.length >= 8 ? check : cross}
+                            alt="correct"
+                            className="ico"
+                          />
+                          8+ Characters
+                        </li>
+                        <li className="false">
+                          <img
+                            src={
+                              password.match(/[A-Z]/) !== null ? check : cross
+                            }
+                            alt="invalid"
+                            className="ico"
+                          />
+                          1 Upper Case Letter
+                        </li>
+                        <li className="false">
+                          <img
+                            src={
+                              password.match(/[0-9]/) !== null ? check : cross
+                            }
+                            alt="invalid"
+                            className="ico"
+                          />
+                          1+ Number
+                        </li>
+                      </ul>
+                    </Col>
+                  ) : null}
+                </Row>
+              </Form>
 
-                  <Row>
-                    <Col sm={6}>
-                      <div className="form-element form-input">
-                        <input
-                          id="Password"
-                          className="form-element-field"
-                          value={password}
-                          placeholder=" "
-                          type="password"
-                          required=""
-                          onChange={this.setPassword.bind(this)}
-                        />
-                        <div className="form-element-bar" />
-                        <label
-                          className="form-element-label"
-                          htmlFor="Password"
-                        >
-                          Password
-                        </label>
-                        <small className="form-element-hint">
-                          {passwordErrorText}
-                        </small>
-                      </div>
-                    </Col>
-                    <Col sm={6}>
-                      <div className="form-element form-input">
-                        <input
-                          id="Re-enterPassword"
-                          className="form-element-field"
-                          value={confirmPassword}
-                          placeholder=" "
-                          type="password"
-                          required=""
-                          onChange={this.setConfirmPassword.bind(this)}
-                        />
-                        <div className="form-element-bar" />
-                        <label
-                          className="form-element-label"
-                          htmlFor="Re-enterPassword"
-                        >
-                          Re- enter Password
-                        </label>
-                        <small className="form-element-hint">
-                          {confirmPasswordErrorText}
-                        </small>
-                      </div>
-                    </Col>
-                  </Row>
-                  <div className="form-element form-input">
-                    <input
-                      id="PasswordHint"
-                      className="form-element-field"
-                      value={passwordHint}
-                      placeholder="(optional) a hint to remebering the password "
-                      type="text"
-                      required=""
-                      onChange={this.setPasswordHint.bind(this)}
-                    />
-                    <div className="form-element-bar" />
-                    <label
-                      className="form-element-label"
-                      htmlFor="PasswordHint"
-                    >
-                      Password hint
-                    </label>
-                  </div>
-                  <Row className="mt-3">
-                    <Col>{this.renderPasswordStrengthBar()}</Col>
-                  </Row>
-                  <Row>
-                    <Col md={6}>
-                      <p className="Form-Text mt-3">
-                        Make your password with 8 characters or more. It can be
-                        any combination of letters, numbers, and symbols.
-                      </p>
-                    </Col>
-                  </Row>
-                </Form>
-              </Col>
-            </Row>
-            <DisplayIdenticons
-              animateRefreshIcon={animateRefreshIcon}
-              date={this.props.date}
-              identiconsId={identiconsId}
-              onRefresh={this.onRefresh.bind(this)}
-              getRadioIconData={this.getRadioIconData.bind(this)}
-            />
-            {this.renderLoader()}
-            <FooterButtons
-              onNext={this.onNext.bind(this)}
-              isNextActive={this.isCreateAccount()}
-              // onClose={this.onClose.bind(this)}
-              // isCloseActive={this.isGoToAccountManagement()}
-            />
-          </div>
-        </Col>
-      </Row>
+              <DisplayIdenticons
+                animateRefreshIcon={animateRefreshIcon}
+                date={date}
+                identiconsId={identiconsId}
+                onRefresh={this.onRefresh.bind(this)}
+                getRadioIconData={this.getRadioIconData.bind(this)}
+              />
+              {this.renderLoader()}
+            </Col>
+          </Row>
+        </Container>
+      </section>
     );
   }
 }
@@ -524,17 +509,15 @@ class CreateAccount extends Component {
 const mapStateToProps = state => ({
   accountName: state.createAccountReducer.accountName,
   accountIcon: state.createAccountReducer.accountIcon,
-  password: state.createAccountReducer.password,
-  passwordHint: state.createAccountReducer.passwordHint
+  password: state.createAccountReducer.password
 });
 
 const mapDispatchToProps = dispatch => ({
-  setNewAccountDetail: (accountName, password, passwordHint, accountIcon) => {
+  setNewAccountDetail: (accountName, password, accountIcon) => {
     dispatch({
       type: CreateAccountAction.CREATE_NEW_ACCOUNT,
       accountName,
       password,
-      passwordHint,
       accountIcon
     });
   }
@@ -542,5 +525,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
+  null,
+  { withRef: true }
 )(CreateAccount);

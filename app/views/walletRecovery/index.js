@@ -1,179 +1,306 @@
 // @flow
-import React,{Component} from 'react';
-import {
-    Container,
-    Row,
-    Col,
-    TabContent, TabPane, Nav, NavItem, NavLink,
-} from 'reactstrap';
+import React, { Component } from 'react';
+import // Container,
+// Row,
+// Col,
+// TabContent,
+// TabPane,
+// Nav,
+// NavItem,
+// NavLink
+'reactstrap';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
-import { Progress } from '../../general/core/index';
+// import classnames from 'classnames';
+// import { Progress } from '../../general/core/index';
 import Header from '../../general/header/index';
-
+// import CreateAccountSteps from '../createAccountSteps/index';
 import CreateAccount from './createAccount/index';
 import ConfirmRecovery from './confirmRecovery/index';
-
+import CreateAccountSteps from '../createAccountSteps/index';
 import * as KeyAction from '../../reducers/keys/action';
 
 /**
  * Screen to  recover wallet.
  */
 class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            activeTab: '1',
-            progressValue: 50,
-            date: new Date().getTime(),
-            isOpenSetting: false,
-        };
-        this.toggle = this.toggle.bind(this);
- 
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: '1',
+      // progressValue: 50,
+      date: new Date().getTime(),
+      isOpenSetting: false,
+      nextButtonDisable: true
+    };
+    this.toggle = this.toggle.bind(this);
+  }
 
-/**
- * toggle() : To toggle the account step number.
- * @param {*} tab : Set selected tab number.
- */
-    toggle(tab) {
-        if (this.state.activeTab !== tab) {
+  /**
+   * toggle() : To toggle the account step number.
+   * @param {*} tab : Set selected tab number.
+   */
+  toggle(tab, visited) {
+    let nextButtonDisable = true;
+    if (visited) {
+      nextButtonDisable = false;
+    } else {
+      nextButtonDisable = true;
+    }
+    this.setState({
+      activeTab: tab,
+      nextButtonDisable
+    });
+    // if (this.state.activeTab !== tab) {
+    //   let progressValue = 50;
+    //   if (tab === '1') {
+    //     progressValue = 50;
+    //   } else if (tab === '2') {
+    //     progressValue = 100;
+    //   }
+  }
 
-            let progressValue = 50;
-            if (tab === '1') {
-                progressValue = 50;
-            } else if (tab === '2') {
-                progressValue = 100;
-            }
-            this.setState({
-                activeTab: tab,
-                progressValue,
-            });
-        }
-    }
+  /**
+   * onRefresh() : To refresh the identicon list.
+   */
+  onRefresh = () => {
+    const newDate = new Date().getTime();
+    this.setState({ date: newDate });
+  };
 
-    /**
-     * onRefresh() : To refresh the identicon list.
-     */
-    onRefresh = () => {
-        const newDate = new Date().getTime();
-        this.setState({ date: newDate, });
+  /**
+   * onUnlockAccount() :  This is meant for unlocking the  account .
+   */
+  onUnlockAccount(isUnlock, privateKey, password, address) {
+    if (this.props.onUnlockAccount) {
+      this.props.onUnlockAccount(isUnlock, privateKey, password);
     }
-    
-    /**
-     * onUnlockAccount() :  This is meant for unlocking the  account .
-     */
-    onUnlockAccount(isUnlock, privateKey, password, address){
-        if(this.props.onUnlockAccount){
-            this.props.onUnlockAccount(isUnlock, privateKey, password);
-        }
-        if(this.props.setAmountData){
-            const { accountIcon, accountName} = this.props;
-            this.props.setAmountData(accountName,accountIcon,address)
-        }
+    if (this.props.setAmountData) {
+      const { accountIcon, accountName } = this.props;
+      this.props.setAmountData(accountName, accountIcon, address);
     }
+  }
 
-    openAccountManagement(){
-        const {openAccountManagement} = this.props;
-        if(openAccountManagement){
-            openAccountManagement();
-        }
+  openAccountManagement() {
+    const { openAccountManagement } = this.props;
+    if (openAccountManagement) {
+      openAccountManagement();
     }
+  }
 
-    handleSettings(){
-        const { isOpenSetting } = this.state;
-        this.setState({
-            isOpenSetting: !isOpenSetting,
-        })
-    }
+  handleSettings() {
+    const { isOpenSetting } = this.state;
+    this.setState({
+      isOpenSetting: !isOpenSetting
+    });
+  }
 
-    handleUserSettings() {
-        const { handleUserSettings } = this.props;
-        if (handleUserSettings) {
-            handleUserSettings();
-            this.setState({
-                isOpenSetting: false,
-            })
-        }
+  handleUserSettings() {
+    const { handleUserSettings } = this.props;
+    if (handleUserSettings) {
+      handleUserSettings();
+      this.setState({
+        isOpenSetting: false
+      });
     }
-    
-    
-    render() {
-       const {  isOpenSetting } = this.state;
-       const { accountIconId, loading, accountName, password, passwordHint } = this.props;
-       
-        return (
-            <div >
-                <Header accountIcon={accountIconId} isWalletSetup
-                handleUserSettings={this.handleUserSettings.bind(this)}
-                openAccountManagement={() => this.openAccountManagement()} 
-                openAccount={() => this.openAccountManagement()}
-                handleSettings={this.handleSettings.bind(this)}
-                isOpenSetting={isOpenSetting}
-                />
-                <section style={{ padding: '12px 0px 10px 0px' }}>
-                    <Container className="bg-white theme-blue-shadow">
-                        <Row>
-                            <Col className="px-0">
-                                <Nav tabs className="tab-full tab-theme text-center">
-                                    
-                                    <NavItem>
-                                        <NavLink className={classnames({ active: this.state.activeTab === '1' })} >
-                                            Create account
-                                        </NavLink>
-                                    </NavItem>
+  }
 
-                                    <NavItem>
-                                        <NavLink className={classnames({ active: this.state.activeTab === '2' })}>
-                                            Confirm
-                                        </NavLink>
-                                    </NavItem>
-                                </Nav>
-                                <Progress type="theme-blue" value={this.state.progressValue} />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <TabContent activeTab={this.state.activeTab}>
-                                    <TabPane tabId="1">
-                                        <CreateAccount 
-                                            activeTab={this.state.activeTab}
-                                            date={this.state.date}
-                                            accountName={accountName}
-                                            // accountIcon={accountIcon} 
-                                            password={password}
-                                            passwordHint={passwordHint}
-                                            toggle={this.toggle.bind(this)} 
-                                            onRefresh={this.onRefresh.bind(this)}
-                                        />
-                                    </TabPane>
-                                    <TabPane tabId="2">
-                                        <ConfirmRecovery 
-                                            isWaiting={loading} 
-                                            activeTab={this.state.activeTab} 
-                                            toggle={this.toggle.bind(this)} 
-                                            onUnlockAccount={this.onUnlockAccount.bind(this)}
-                                            openAccountManagement={this.openAccountManagement.bind(this)}
-                                        />
-                                    </TabPane>
-                                </TabContent>
-                            </Col>
-                        </Row>
-                    </Container>
-                </section>
-            </div>
-        );
+  changeDisableButtons = () => {
+    const { activeTab } = this.state;
+    let nextButtonDisable = true;
+    if (activeTab === '1') {
+      const accountRefInstance = this.accountRef.wrappedInstance;
+      nextButtonDisable = accountRefInstance.isNextButtonDisable();
     }
+    if (activeTab === '2') {
+      nextButtonDisable = true;
+    }
+    this.setState({
+      nextButtonDisable
+    });
+  };
+
+  onNext = () => {
+    const { activeTab } = this.state;
+
+    if (activeTab === '1') {
+      this.accountRef.wrappedInstance.onNext();
+    }
+    //  else if (activeTab === '2') {
+    //   this.accountInfoRef.wrappedInstance.onNext();
+    // }
+  };
+
+  onPrev = () => {
+    const { activeTab } = this.state;
+    if (activeTab === '2') {
+      this.toggle('1', 'visited');
+    }
+  };
+
+  // onPrev = () => {
+  //   console.log('clicked');
+  //   const { activeTab } = this.state;
+  //   if (activeTab === '2') {
+  //     this.toggle('1');
+  //   } else if (activeTab === '3') {
+  //     this.toggle('2');
+  //   }
+  // };
+  backButtonDisable = () => {
+    const { activeTab } = this.state;
+    if (activeTab === '1') {
+      return true;
+    }
+    if (activeTab === '2') {
+      return false;
+    }
+  };
+
+  // nextButtonDisable = () => {
+  //   const { activeTab } = this.state;
+  //   if (activeTab === '1') {
+  //     return false;
+  //   }
+  //   if (activeTab === '2') {
+  //     return true;
+  //   }
+  // };
+
+  render() {
+    const { isOpenSetting, activeTab, nextButtonDisable } = this.state;
+    const {
+      accountIconId,
+      loading,
+      accountName,
+      password,
+      passwordHint
+    } = this.props;
+    const isRestoreAccount = true;
+    const backButtonDisable = this.backButtonDisable();
+    return (
+      <div>
+        <Header
+          accountIcon={accountIconId}
+          isWalletSetup
+          handleUserSettings={this.handleUserSettings.bind(this)}
+          openAccountManagement={() => this.openAccountManagement()}
+          openAccount={() => this.openAccountManagement()}
+          handleSettings={this.handleSettings.bind(this)}
+          isOpenSetting={isOpenSetting}
+        />
+        <CreateAccountSteps
+          onNext={this.onNext}
+          onPrev={this.onPrev}
+          stepNo={activeTab}
+          restoreAccount={isRestoreAccount}
+          backButtonDisable={backButtonDisable}
+          nextButtonDisable={nextButtonDisable}
+        >
+          {/*      <Row>
+                <Col>
+                  <TabContent activeTab={activeTab}>
+                    <TabPane tabId="1"> */}
+          {activeTab === '1' ? (
+            <CreateAccount
+              ref={component => {
+                this.accountRef = component;
+              }}
+              activeTab={this.state.activeTab}
+              date={this.state.date}
+              accountName={accountName}
+              // accountIcon={accountIcon}
+              password={password}
+              passwordHint={passwordHint}
+              toggle={this.toggle.bind(this)}
+              onRefresh={this.onRefresh.bind(this)}
+              changeDisableButtons={this.changeDisableButtons.bind(this)}
+            />
+          ) : null}
+          {activeTab === '2' ? (
+            <ConfirmRecovery
+              ref={component => {
+                this.confirmRecoveryRef = component;
+              }}
+              isWaiting={loading}
+              activeTab={this.state.activeTab}
+              toggle={this.toggle.bind(this)}
+              onUnlockAccount={this.onUnlockAccount.bind(this)}
+              openAccountManagement={this.openAccountManagement.bind(this)}
+            />
+          ) : null}
+        </CreateAccountSteps>
+
+        {/* <section style={{ padding: '12px 0px 10px 0px' }}>
+          <Container>
+            <Row>
+              <Col className="px-0">
+                <Nav tabs className="tab-full tab-theme text-center">
+                  <NavItem>
+                    <NavLink
+                      className={classnames({
+                        active: this.state.activeTab === '1'
+                      })}
+                    >
+                      Create account
+                    </NavLink>
+                  </NavItem>
+
+                  <NavItem>
+                    <NavLink
+                      className={classnames({
+                        active: this.state.activeTab === '2'
+                      })}
+                    >
+                      Confirm
+                    </NavLink>
+                  </NavItem>
+                </Nav>
+                <Progress type="theme-blue" value={this.state.progressValue} />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <TabContent activeTab={this.state.activeTab}>
+                  <TabPane tabId="1">
+                    <CreateAccount
+                      activeTab={this.state.activeTab}
+                      date={this.state.date}
+                      accountName={accountName}
+                      // accountIcon={accountIcon}
+                      password={password}
+                      passwordHint={passwordHint}
+                      toggle={this.toggle.bind(this)}
+                      onRefresh={this.onRefresh.bind(this)}
+                    />
+                  </TabPane>
+                  <TabPane tabId="2">
+                    <ConfirmRecovery
+                      isWaiting={loading}
+                      activeTab={this.state.activeTab}
+                      toggle={this.toggle.bind(this)}
+                      onUnlockAccount={this.onUnlockAccount.bind(this)}
+                      openAccountManagement={this.openAccountManagement.bind(
+                        this
+                      )}
+                    />
+                  </TabPane>
+                </TabContent>
+              </Col>
+            </Row>
+          </Container>
+        </section> */}
+      </div>
+    );
+  }
 }
 
-
-const mapStateToProps = (state) => ({
-    accountName: state.createAccountReducer.accountName,
-    accountIcon: state.createAccountReducer.accountIcon,
-    accountIconId: state.userAccountReducer.accountIcon,
-    address: state.keyReducer.publicKey,
-    password:state.createAccountReducer.password,
-    passwordHint: state.createAccountReducer.passwordHint,
+const mapStateToProps = state => ({
+  accountName: state.createAccountReducer.accountName,
+  accountIcon: state.createAccountReducer.accountIcon,
+  accountIconId: state.userAccountReducer.accountIcon,
+  address: state.keyReducer.publicKey,
+  password: state.createAccountReducer.password,
+  passwordHint: state.createAccountReducer.passwordHint
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -184,10 +311,15 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: KeyAction.PUBLIC_KEY, key });
   },
   setKeys: (masterKey, publicKey, privateKey) => {
-    dispatch({ type: KeyAction.MASTER_PUBLIC_PRIVATE_KEY, masterKey, publicKey, privateKey });
+    dispatch({
+      type: KeyAction.MASTER_PUBLIC_PRIVATE_KEY,
+      masterKey,
+      publicKey,
+      privateKey
+    });
   },
-  setMnemonicCode: (mnemonic) => {
-      dispatch({ type: KeyAction.MNEMONIC_CODE, mnemonic});
+  setMnemonicCode: mnemonic => {
+    dispatch({ type: KeyAction.MNEMONIC_CODE, mnemonic });
   }
 });
 
@@ -195,4 +327,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Home);
-

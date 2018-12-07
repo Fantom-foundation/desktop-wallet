@@ -1,25 +1,61 @@
 .btn {
-  height: 25px;
-  padding: 0px 32px;
-  border-radius: 0px;
-  font: {
-    family: SFCompactDisplay;
-    size: 15px;
+  font-family: 'Roboto';
+  padding: {
+    left: 30px;
+    right: 30px;
+  }
+  &.bordered {
+    border-radius: 8px;
+    padding: 4px 26px;
+    font-size: 16px;
+    height: 50px;
+    font-family: 'Roboto';
+    font-size: 16px;
+    border-width: 1px !important;
+    border-style: solid !important;
+    background: transparent !important;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  &.rounded {
+    border-radius: 50px !important;
   }
   &.btn-primary {
-    background: {
-      color: map-get($color, blue);
-    }
-    font-weight: 500;
-    border: 0px;
     box-shadow: none !important;
+    outline: none;
+    border: 1px solid map-get($color, btn-primary);
+    &.bordered {
+      color: map-get($color, btn-primary) !important;
+    }
+    background: {
+      color: map-get($color, btn-primary);
+    }
     &:hover {
       background: {
-        color: map-get($color, blue-hover);
+        color: map-get($color, btn-primary-hover);
+      }
+    }
+  }
+  &.btn-dark {
+    border: 2px solid map-get($color, btn-dark-outline);
+    background: {
+      color: map-get($color, btn-dark);
+    }
+    &:hover {
+      background: {
+        color: map-get($color, btn-dark-hover);
       }
     }
   }
 }
-a {
-  color: map-get($color, blue);
+
+.clipboard-btn {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  padding: 0px;
+  background: none;
+  border: 0;
+  box-shadow: none !important;
 }
