@@ -4,8 +4,8 @@ import moment from 'moment';
 
 import HttpDataProvider from './httpProvider';
 import DropDown from '../../../general/dropdown/transaction-filter-dropdown';
-// import received from '../../../images/transaction-list-filter/received.svg';
-// import send from '../../../images/transaction-list-filter/send.svg';
+import received from '../../../images/transaction-list-filter/received.svg';
+import send from '../../../images/transaction-list-filter/send.svg';
 import { ALL_TX, SENT_TX, RECEIVED_TX } from '../../../constants/index';
 
 /**
@@ -24,7 +24,7 @@ class TransactionCard extends Component {
       transactionData: []
     };
     this.filterTransaction = this.filterTransaction.bind(this);
-    this.fetchTransactionList();
+    // this.fetchTransactionList();
   }
 
   filterTransaction(txType) {
@@ -90,10 +90,7 @@ class TransactionCard extends Component {
     }
   }
 
-  /**
-   * renderTransactions() :  A function to render transaction cards based on transaction data fetched from file on system.
-   */
-  renderTransactions() {
+  renderLocalTransactions() {
     const { address } = this.props;
     const { transactionData, txType } = this.state;
 
@@ -168,6 +165,84 @@ class TransactionCard extends Component {
     return allTransaction;
   }
 
+  /**
+   * renderTransactions() :  A function to render transaction cards based on transaction data fetched from file on system.
+   */
+  renderApiTransactions() {
+    const { address } = this.props;
+    const { transactionData, txType } = this.state;
+
+    const allTransaction = (
+      <center>
+        <p className="r-title text-gray mb-2">
+          (Your recent transactions will be displayed here)
+        </p>
+      </center>
+    );
+    const transactionsHistory = [];
+
+    // const transactionData = this.getTransactionsData();
+
+    if (
+      transactionData &&
+      transactionData.length &&
+      transactionData.length > 0
+    ) {
+      for (let i = 0; i < transactionData.length; i += 1) {
+        const data = transactionData[i];
+        const date = moment(data.date);
+        const isReceived =
+          transactionData[i].to === address &&
+          (txType === RECEIVED_TX || txType === ALL_TX);
+        const isSend =
+          transactionData[i].from === address &&
+          (txType === SENT_TX || txType === ALL_TX);
+
+        if (isReceived || isSend || txType === ALL_TX) {
+          transactionsHistory.push(
+            <div key={`${i}_${date}`} className="card bg-dark-light">
+              <Row className="">
+                <Col className="date-col">
+                  <div
+                    style={{
+                      backgroundImage: `url(${isReceived ? received : send})`
+                    }}
+                  >
+                    <p>{date.date()}</p>
+                    <p>{date.format('MMM')}</p>
+                  </div>
+                </Col>
+                <Col className="acc-no-col">
+                  <div className="">
+                    <p>
+                      <span>TX#</span> {data.hash}
+                    </p>
+                    <p>
+                      <span>{isReceived ? 'From:' : 'To:'}</span>{' '}
+                      {isReceived ? data.from : data.to}
+                    </p>
+                  </div>
+                </Col>
+                <Col className="time-col">
+                  <p>{date.fromNow()}</p>
+                </Col>
+                <Col className="btn-col">
+                  <Button color={`${isReceived ? 'green' : 'red'}`}>
+                    {data.value} <span>FTM</span>
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+          );
+        }
+      }
+    }
+    if (transactionsHistory.length) {
+      return transactionsHistory;
+    }
+    return allTransaction;
+  }
+
   handleShowTransaction() {
     const { isShowTransaction } = this.state;
     this.setState({
@@ -192,7 +267,7 @@ class TransactionCard extends Component {
         </div>
         <div id="acc-cards" className="">
           <Row>
-            <Col>{this.renderTransactions()}</Col>
+            <Col>{this.renderLocalTransactions()}</Col>
           </Row>
         </div>
       </Col>
