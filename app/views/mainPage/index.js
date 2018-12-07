@@ -136,6 +136,10 @@ class MainPage extends Component {
         isUnlock: false,
         isWalletRecovery: false
       });
+      const accountName = '';
+      const password = '';
+      const accountIcon = '';
+      this.props.setNewAccountDetail(accountName, password, accountIcon);
     }
   }
 

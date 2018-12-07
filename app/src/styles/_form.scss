@@ -6,7 +6,7 @@
     }
     li {
       font: {
-        family: 'Roboto Condensed';
+        family: 'Lato';
         size: 16px;
       }
       color: #fff;
@@ -28,7 +28,7 @@
   }
   input {
     font: {
-      family: 'Roboto Condensed';
+      family: 'Lato';
     }
     background: {
       color: transparent;
@@ -68,8 +68,8 @@
     background: transparent !important;
     color: map-get($color, back-next-btn);
     font: {
-      family: 'Roboto Condensed';
-      size: 26px;
+      family: 'Roboto';
+      size: 24px;
     }
     @media (max-width: 767px) {
       font: {
@@ -97,7 +97,7 @@
   }
   .heading {
     font: {
-      family: 'Roboto Condensed';
+      family: 'Roboto';
       size: 30px;
     }
     margin-bottom: 2rem;
@@ -107,7 +107,7 @@
     label {
       color: #fff;
       font: {
-        family: 'Roboto Condensed';
+        family: 'Roboto';
         size: 14px;
         weight: 300;
       }
@@ -123,7 +123,7 @@
         border: 1px solid $form-input-border;
         padding-left: 42px;
         font: {
-          family: 'Roboto Condensed';
+          family: 'Roboto';
           size: 16px;
         }
         background: {
@@ -139,7 +139,7 @@
       .toggle-btn {
         position: relative;
         font: {
-          family: 'Roboto Condensed';
+          family: 'Roboto';
           size: 16px;
         }
         padding-left: 42px;

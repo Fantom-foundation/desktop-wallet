@@ -82,8 +82,9 @@ $transition-time: 0.3s;
       color: #fff;
       margin-top: 10px;
       font: {
-        family: 'Roboto Condensed';
+        family: 'Roboto';
         size: 16px;
+        weight: 400;
       }
       @media (max-width: 767px) {
         font: {

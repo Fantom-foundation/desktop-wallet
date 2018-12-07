@@ -21,8 +21,8 @@ body {
   .title {
     letter-spacing: 4px;
     font: {
-      family: 'Roboto Condensed';
-      size: 36px;
+      family: 'Roboto';
+      size: 34px;
     }
     @media (max-width: 991px) {
       font: {
@@ -140,10 +140,14 @@ body {
     margin-bottom: 24px;
     width: 60px;
   }
-  h2,
+  h2 {
+    font: {
+      family: 'Roboto';
+    }
+  }
   p {
     font: {
-      family: 'Roboto Condensed';
+      family: 'Lato';
     }
   }
   h2 {
@@ -158,7 +162,7 @@ body {
       size: 20px;
       weight: 300;
     }
-    line-height: 38px;
+    line-height: 35px;
     max-width: 560px;
     margin: auto;
   }
@@ -171,7 +175,7 @@ body {
   p {
     margin-bottom: 80px;
     font: {
-      family: 'Noto Sans';
+      family: 'Lato';
       size: 22px;
       weight: 300;
     }
@@ -185,7 +189,7 @@ body {
   label {
     margin-bottom: 30px;
     font: {
-      family: 'Noto Sans';
+      family: 'Roboto';
       size: 24px;
     }
     @media (max-width: 767px) {

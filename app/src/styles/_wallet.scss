@@ -17,9 +17,9 @@
       color: map-get($color, add-wallet-title-background);
     }
     font: {
-      family: 'Noto Sans';
+      family: 'Roboto';
       size: 22px;
-      weight: 300;
+      weight: 400;
     }
     @media (max-width: 991px) {
       font: {
@@ -46,8 +46,9 @@
     flex-grow: 1;
     max-width: 100%;
     font: {
-      family: 'Roboto Condensed';
-      size: 24px;
+      family: 'Roboto';
+      size: 22px;
+      weight: 400;
     }
     padding: 12px 30px;
     margin: 0;

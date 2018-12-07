@@ -114,6 +114,9 @@ class Home extends Component {
         backButtonDisable = false;
         nextButtonDisable = true;
       }
+    } else if (tab === '1') {
+      backButtonDisable = true;
+      nextButtonDisable = true;
     } else if (tab === '2') {
       backButtonDisable = false;
       nextButtonDisable = true;
@@ -222,6 +225,7 @@ class Home extends Component {
   }
 
   openAccountManagement() {
+    this.toggle('1');
     const { openAccountManagement } = this.props;
     if (openAccountManagement) {
       openAccountManagement();
