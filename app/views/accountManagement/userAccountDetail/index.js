@@ -111,11 +111,9 @@ class UserAccountDetail extends Component {
                 color="primary"
                 onClick={() => onTransferFund()}
                 // disabled={isTransferringMoney}
-                className={
-                  isTransferringMoney ? 'bordered mt-3 light' : 'bordered mt-3'
-                }
+                className="bordered mt-3"
               >
-                {isTransferringMoney ? 'Transferring....' : 'Transfer'}
+                Transfer
               </Button>
             </center>
           </div>

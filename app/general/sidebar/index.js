@@ -1,6 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import smallLogo from '../../images/Logo/fantom.png';
+import smallLogo from '../../images/Logo/FANTOM_LOGO_White.svg';
 
 export class index extends React.PureComponent {
   render() {
@@ -13,17 +13,16 @@ export class index extends React.PureComponent {
           role="presentation"
         />
 
-        <span
-          className="close-btn text-white"
-          onClick={this.props.handleModalClose}
-          role="presentation"
-        >
-          &times;
-        </span>
-
         <div className="overley-body  bg-dark">
           <div className="main-header">
-            <img src={smallLogo} className="logo" alt="Fantom" />
+            <span
+              className="close-btn text-white"
+              onClick={this.props.handleModalClose}
+              role="presentation"
+            >
+              &times;
+            </span>
+            <img src={smallLogo} className="logo height-30" alt="Fantom" />
           </div>
           <div className="main-body">{children}</div>
         </div>

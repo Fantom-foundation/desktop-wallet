@@ -44,6 +44,7 @@ class SendFunds extends Component {
     };
 
     this.onRefresh = this.onRefresh.bind(this);
+    document.body.className += 'blur-parent';
   }
 
   componentDidMount() {
@@ -58,6 +59,13 @@ class SendFunds extends Component {
       publicKey,
       accountType: accountName
     });
+  }
+
+  componentWillUnmount() {
+    document.body.className = document.body.className.replace(
+      'blur-parent',
+      ''
+    );
   }
 
   setAddress(e) {
