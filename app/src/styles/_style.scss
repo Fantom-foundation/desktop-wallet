@@ -278,3 +278,15 @@ body {
   display: flex;
   justify-content: center;
 }
+
+.blur-parent {
+  overflow: hidden;
+  header,
+  footer,
+  .cryptocurrency-heighlight,
+  .top-corrency,
+  .currencency-table-tabs,
+  #main-currency-view {
+    filter: blur(2px);
+  }
+}
