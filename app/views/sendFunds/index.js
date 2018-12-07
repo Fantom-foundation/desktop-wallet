@@ -15,6 +15,8 @@ import Store from '../../store/userInfoStore/index';
 import { getPrivateKeyOfAddress } from '../../KeystoreManager/index';
 import SideBar from '../../general/sidebar';
 
+import { SAME_ACCOUNT_ERROR_TEXT } from '../../constants/index';
+
 /**
  * SendFunds: This component is meant for rendering send funds modal.
  * User can transfer funds only if , password of selected account, from which to transfer is filled.
@@ -23,6 +25,7 @@ import SideBar from '../../general/sidebar';
 class SendFunds extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       address: '',
       accountType: this.props.accountName,
@@ -33,7 +36,7 @@ class SendFunds extends Component {
       accountStore: [],
       password: '',
       privateKey: '',
-      publicKey: '',
+      publicKey: this.props.publicKey,
       loading: false,
       verificationError: '',
       addressErrText: '',
@@ -42,20 +45,6 @@ class SendFunds extends Component {
 
     this.onRefresh = this.onRefresh.bind(this);
   }
-
-  // componentWillReceiveProps(nextProps){
-  //     const { storeKeys,  publicKey, accountName  } = nextProps;
-  //     const userAccountStore = Store.store;
-  //     const accountDetailList = [];
-  //     for(const key of storeKeys){
-  //         accountDetailList.push(userAccountStore[key]);
-  //     }
-  //     this.setState({
-  //         accountStore: accountDetailList,
-  //         publicKey,
-  //         accountType: accountName,
-  //     });
-  // }
 
   componentDidMount() {
     const { storeKeys, publicKey, accountName } = this.props;
@@ -83,7 +72,7 @@ class SendFunds extends Component {
    * setAccountType() :  To set public key of selected account, and fetch balance for it.
    */
   setAccountType(e) {
-    const { accountStore } = this.state;
+    const { accountStore, address } = this.state;
     const accountType = e.target.innerText;
     const { length } = accountStore;
     let publicKey = '';
@@ -100,6 +89,18 @@ class SendFunds extends Component {
       accountType,
       publicKey
     });
+
+    if (address !== publicKey) {
+      this.setState({
+        addressErrText: '',
+        isValidAddress: true
+      });
+    } else {
+      this.setState({
+        addressErrText: SAME_ACCOUNT_ERROR_TEXT,
+        isValidAddress: false
+      });
+    }
   }
 
   setFTMAmount(e) {
@@ -198,11 +199,14 @@ class SendFunds extends Component {
    * addressVerification() : To check address entered is valid address or not, if valid address then display green tick. Otherwise render error message.
    */
   addressVerification(address) {
+    const { publicKey } = this.state;
     let message = '';
     if (address === '') {
       message = 'An address must be specified.';
     } else if (!Web3.utils.isAddress(address)) {
       message = 'Must be valid address.';
+    } else if (address === publicKey) {
+      message = SAME_ACCOUNT_ERROR_TEXT;
     }
     if (message === '') {
       this.setState({
@@ -318,6 +322,7 @@ class SendFunds extends Component {
 
   renderAddressErrText() {
     const { isValidAddress, addressErrText } = this.state;
+
     if (!isValidAddress && addressErrText !== '') {
       return (
         <small
