@@ -3,8 +3,8 @@ import { Container, Row, Col } from 'reactstrap';
 import { clipboard } from 'electron';
 import { connect } from 'react-redux';
 import Web3 from 'web3';
-import { ToastContainer, ToastStore } from 'react-toasts';
-
+// import { ToastContainer, ToastStore } from 'react-toasts';
+import { toastr } from 'react-redux-toastr';
 import UserAccountsDetailCard from './userAccountsDetailCard/index';
 //	import avatar from '../../images/icons/icon.png';
 
@@ -472,7 +472,8 @@ class AccountManagement extends Component {
    */
   copyToClipboard(copyText) {
     clipboard.writeText(copyText);
-    ToastStore.info('Copied to clipboard', 500);
+    // ToastStore.info('Copied to clipboard', 500);
+    toastr.success('Copied to clipboard', '', { timeOut: 3000 });
   }
 
   /**
@@ -764,10 +765,10 @@ class AccountManagement extends Component {
             onRefresh={this.refreshSelectedWalletDetail.bind(this)}
           />
         )}
-        <ToastContainer
+        {/* <ToastContainer
           position={ToastContainer.POSITION.TOP_CENTER}
           store={ToastStore}
-        />
+        /> */}
         <TransactionStatusModal
           openTxnStatusModal={openTxnStatusModal}
           toggleTxnStatusModal={this.toggleTxnStatusModal}
