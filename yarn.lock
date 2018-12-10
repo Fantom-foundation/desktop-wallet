@@ -4204,6 +4204,11 @@ eventemitter3@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-1.1.1.tgz#47786bdaa087caf7b1b75e73abc5c7d540158cd0"
 
+eventemitter3@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
+  integrity sha1-teEHm1n7XhuidxwKmTvgYKWMmbo=
+
 eventemitter3@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.0.tgz#090b4d6cdbd645ed10bf750d4b5407942d7ba163"
@@ -8507,6 +8512,14 @@ react-reconciler@^0.7.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+react-redux-toastr@^7.4.4:
+  version "7.4.4"
+  resolved "https://registry.yarnpkg.com/react-redux-toastr/-/react-redux-toastr-7.4.4.tgz#620817deb7892568bda3a769182df165596a59fa"
+  integrity sha512-wTbGZokqbV317gmwOOO4eL24oXdVtwXydMAK14cEo85shgKFWrcQv0rH0Z8pWtIFSROxWFqy1UYrbLPdFxaEjw==
+  dependencies:
+    classnames "^2.2.3"
+    eventemitter3 "^2.0.3"
+
 react-redux@^5.0.7:
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.7.tgz#0dc1076d9afb4670f993ffaef44b8f8c1155a4c8"
@@ -8573,6 +8586,14 @@ react-to-print@^2.0.0-alpha-3:
   dependencies:
     prop-types "^15.6.0"
     react "^16.2.0"
+
+react-toasts@^2.0.14:
+  version "2.0.14"
+  resolved "https://registry.yarnpkg.com/react-toasts/-/react-toasts-2.0.14.tgz#f7104f4822d2a5571eb134b0edfddf27b65cd8fe"
+  integrity sha512-Y5Pvhy65nU8D24YPgi/vNXwHnZoWNqpTkTgCdLoZnnmPBuCRkphuZdcOLJNPSbI4GO2cXzYllBFLYexT7ynWNA==
+  dependencies:
+    styled-components "^3.2.6"
+    watchable-stores "^1.0.1"
 
 react-transition-group@^2.3.1:
   version "2.4.0"
@@ -9900,6 +9921,21 @@ style-search@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/style-search/-/style-search-0.1.0.tgz#7958c793e47e32e07d2b5cafe5c0bf8e12e77902"
 
+styled-components@^3.2.6:
+  version "3.4.10"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-3.4.10.tgz#9a654c50ea2b516c36ade57ddcfa296bf85c96e1"
+  integrity sha512-TA8ip8LoILgmSAFd3r326pKtXytUUGu5YWuqZcOQVwVVwB6XqUMn4MHW2IuYJ/HAD81jLrdQed8YWfLSG1LX4Q==
+  dependencies:
+    buffer "^5.0.3"
+    css-to-react-native "^2.0.3"
+    fbjs "^0.8.16"
+    hoist-non-react-statics "^2.5.0"
+    prop-types "^15.5.4"
+    react-is "^16.3.1"
+    stylis "^3.5.0"
+    stylis-rule-sheet "^0.0.10"
+    supports-color "^3.2.3"
+
 styled-components@^3.4.9:
   version "3.4.9"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-3.4.9.tgz#519abeb351b37be5b7de6a15ff9e4efeb9d772da"
@@ -10783,6 +10819,11 @@ watch@~0.18.0:
   dependencies:
     exec-sh "^0.2.0"
     minimist "^1.2.0"
+
+watchable-stores@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/watchable-stores/-/watchable-stores-1.0.1.tgz#633a0e673ecbbb181abc600f3ae92c1738a5387b"
+  integrity sha512-9Y30T4KXtbxCckOPXUlvYjSiOfoiZhNF/H7T+CClrdmPo8hgZf+d+ME/5DHG4wvAilnNOS5kzaUo8eX2mfCf8w==
 
 watchpack@^1.5.0:
   version "1.6.0"

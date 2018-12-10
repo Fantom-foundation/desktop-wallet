@@ -13,8 +13,7 @@ class ConfirmRecovery extends Component {
       modal: false,
       selectedMnemonicsArray: [],
       mnemonicsArray: [],
-      openIncorrectMnemonicsModal: false,
-      isRefreshing: false
+      openIncorrectMnemonicsModal: false
     };
     this.selectMnemonic = this.selectMnemonic.bind(this);
     this.getMnemonics = this.getMnemonics.bind(this);
@@ -23,7 +22,6 @@ class ConfirmRecovery extends Component {
     this.toggleIncorrectMnemonicsModal = this.toggleIncorrectMnemonicsModal.bind(
       this
     );
-    this.onRefresh = this.onRefresh.bind(this);
   }
 
   componentWillMount() {
@@ -181,45 +179,6 @@ class ConfirmRecovery extends Component {
   }
 
   /**
-   * @method onRefresh : To reset state of mnemonic pharse holder.
-   */
-  onRefresh() {
-    this.setState({
-      isRefreshing: true
-    });
-
-    const SELF = this;
-    const { mnemonic } = SELF.props;
-    const generatedMnemonic = mnemonic ? mnemonic.split(' ') : mnemonic;
-
-    const mnemonics = this.getMnemonics();
-    const mnemonicsLength = generatedMnemonic.length;
-    if (generatedMnemonic && mnemonicsLength) {
-      for (let i = 0; i < mnemonicsLength; i += 1) {
-        const findSelectedMnemonic = document.getElementsByClassName(
-          `${generatedMnemonic[i]}_${i}`
-        );
-
-        const hasSelectedClass = findSelectedMnemonic[0].classList.contains(
-          'selected'
-        );
-        if (hasSelectedClass) {
-          findSelectedMnemonic[0].classList.remove('selected');
-        }
-      }
-    }
-    this.setState({
-      mnemonicsArray: mnemonics,
-      selectedMnemonicsArray: []
-    });
-    setTimeout(() => {
-      this.setState({
-        isRefreshing: false
-      });
-    }, 1000);
-  }
-
-  /**
    * This method will toggle the Incorrect Mnemonics modal
    */
   toggleIncorrectMnemonicsModal() {
@@ -233,17 +192,9 @@ class ConfirmRecovery extends Component {
     const { activeTab, mnemonic } = this.props;
     console.log('mnemonic', mnemonic);
 
-    const {
-      mnemonicsArray,
-      openIncorrectMnemonicsModal,
-      isRefreshing
-    } = this.state;
+    const { mnemonicsArray, openIncorrectMnemonicsModal } = this.state;
     const selectedMnemonics = this.getSelectedMnemonics();
 
-    let rotate = '';
-    if (isRefreshing) {
-      rotate = 'rotate';
-    }
     if (activeTab !== '3') {
       return null;
     }
@@ -252,23 +203,11 @@ class ConfirmRecovery extends Component {
         <section className="bg-dark">
           <Container>
             <Row>
-              <Col className="px-0">
-                <div className="add-wallet">
-                  <h2 className="title ">
-                    <span>Enter Your Mnemonic</span>
-                  </h2>
-                  <Button onClick={this.onRefresh}>
-                    <i className={`fas fa-sync-alt ${rotate}`} />
-                  </Button>
-                </div>
-              </Col>
-            </Row>
-
-            <Row>
               <Col>
                 <div id="mnemonic-selector">
                   <h2 className="text-white">
-                    Enter Your Mnemonic to create your account below
+                    Enter your mnemonics in the correct order to create your
+                    account below
                   </h2>
                   <Row className="bg-dark-light">
                     <Col>

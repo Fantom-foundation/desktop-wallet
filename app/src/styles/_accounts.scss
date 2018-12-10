@@ -327,6 +327,7 @@
         size: 22px;
       }
       @media (max-width: 991px) {
+        margin-top: 20px;
         padding: 1rem 1rem;
       }
       span {
@@ -359,6 +360,22 @@
   position: relative;
   min-height: 200px;
   height: calc(100% - 50px);
+
+  @media (min-width: 992px) {
+    height: 587px;
+    overflow-y: auto;
+    padding-right: 7px;
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 0;
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #797979;
+      border-radius: 30px;
+    }
+  }
+
   .m-msg {
     position: absolute;
     top: 50%;
