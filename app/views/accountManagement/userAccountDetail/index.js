@@ -89,7 +89,7 @@ class UserAccountDetail extends Component {
               </p>
             </div>
             <div className="info">
-              <p>Ledger {name}</p>
+              <p>{name}</p>
               {/* <p>{transactionLength} Outgoing transaction</p> */}
             </div>
             <div className="qr">

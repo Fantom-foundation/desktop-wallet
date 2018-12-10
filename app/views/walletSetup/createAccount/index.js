@@ -489,7 +489,7 @@ class CreateAccount extends Component {
                             alt="invalid"
                             className="ico"
                           />
-                          1 Upper Case Letter
+                          1+ Upper Case Letter
                         </li>
                         <li className="false">
                           <img

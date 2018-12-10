@@ -251,7 +251,7 @@ class ConfirmRecovery extends Component {
       <React.Fragment>
         <section className="bg-dark">
           <Container>
-            <Row>
+            {/* <Row>
               <Col className="px-0">
                 <div className="add-wallet">
                   <h2 className="title ">
@@ -262,13 +262,14 @@ class ConfirmRecovery extends Component {
                   </Button>
                 </div>
               </Col>
-            </Row>
+            </Row> */}
 
             <Row>
               <Col>
                 <div id="mnemonic-selector">
                   <h2 className="text-white">
-                    Enter Your Mnemonic to create your account below
+                    Enter your mnemonics in the correct order to create your
+                    account below
                   </h2>
                   <Row className="bg-dark-light">
                     <Col>

@@ -208,7 +208,7 @@ class AccountInfo extends Component {
               <p className="text-white">
                 Please back up the recovery phrase now. Make sure to keep it
                 private and secure, it allows full and unlimited access to your
-                account and help you to restore your wallet.
+                account and can be used to restore your wallet.
               </p>
               <FormGroup>
                 <Label for="msg" className="text-white">
