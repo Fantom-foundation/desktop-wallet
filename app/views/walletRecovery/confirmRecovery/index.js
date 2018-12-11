@@ -13,8 +13,6 @@ import Bip39 from 'bip39';
 import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import { connect } from 'react-redux';
-// import Loader from 'react-spinners';
-// import FooterButtons from '../../../general/footer/footer-buttons';
 
 import AccountCreationCancelModal from '../../../general/modal/accountCreationCancelModal/index';
 import IncorrectMnemonicsModal from '../../../general/modal/incorrect-mnemonics/index';
@@ -31,7 +29,6 @@ class ConfirmRecovery extends Component {
       isLocked: true,
       modal: false,
       openIncorrectMnemonicsModal: false
-      // errorText: ''
     };
     this.toggle = this.toggle.bind(this);
     this.toggleIncorrectMnemonicsModal = this.toggleIncorrectMnemonicsModal.bind(
@@ -59,13 +56,11 @@ class ConfirmRecovery extends Component {
     const newMnemonic = mnemonic.trim();
     if (!this.isValidSeed(newMnemonic)) {
       this.setState({
-        // errorText: 'Invalid Mnemonics!!',
         isLocked: true
       });
       return;
     }
     this.setState({
-      // errorText: '',
       isLocked: false
     });
     const seed = Bip39.mnemonicToSeed(newMnemonic); // creates seed buffer
@@ -117,7 +112,6 @@ class ConfirmRecovery extends Component {
   inputHandler = e => {
     this.setState({
       mnemonicPhrase: e.target.value
-      // errorText: ''
     });
 
     if (e.target.value !== '') {
@@ -162,7 +156,6 @@ class ConfirmRecovery extends Component {
    */
   toggleIncorrectMnemonicsModal() {
     const { openIncorrectMnemonicsModal } = this.state;
-    console.log('openIncorrectMnemonicsModal : ', openIncorrectMnemonicsModal);
 
     this.setState({
       openIncorrectMnemonicsModal: !openIncorrectMnemonicsModal
@@ -170,31 +163,11 @@ class ConfirmRecovery extends Component {
   }
 
   render() {
-    // const { activeTab, isWaiting } = this.props;
-    // const { errorText, mnemonicPhrase } = this.state;
     const { activeTab } = this.props;
     const { mnemonicPhrase, openIncorrectMnemonicsModal } = this.state;
     if (activeTab !== '2') {
       return null;
     }
-
-    // let createWalletColor = 'gray';
-    // if (isWaiting) {
-    //   createWalletColor = 'gray';
-    // } else if (this.state.isLocked) {
-    //   createWalletColor = 'gray';
-    // } else {
-    //   createWalletColor = '#00b1ff';
-    // }
-
-    // let cancelBtnColor = '#00b1ff';
-    // if (isWaiting) {
-    //   cancelBtnColor = 'gray';
-    // } else if (this.state.isLocked) {
-    //   cancelBtnColor = '#00b1ff';
-    // } else {
-    //   cancelBtnColor = '#00b1ff';
-    // }
 
     return (
       <section className="bg-dark">
@@ -208,11 +181,6 @@ class ConfirmRecovery extends Component {
                   </h2>
                 </div>
                 <div className="vault-container bg-dark-light">
-                  {/* <input
-                    type="text"
-                    onChange={e => this.onUpdate('enteredMnemonic', e.currentTarget.value)}
-                    value={enteredMnemonic}
-                  /> */}
                   <FormGroup>
                     <Label for="wallet-seed">Wallet Seed</Label>
                     <Input
@@ -255,114 +223,6 @@ class ConfirmRecovery extends Component {
           </Row>
         </Container>
       </section>
-
-      // <Row>
-      //   <Col sm="12" style={{ paddingTop: '52px', paddingBottom: '52px' }}>
-      //     <div className="cs-container forms-container theme-blue-shadow inner mb-4">
-      //       <Row className="mx-0">
-      //         <Col style={{ paddingTop: '46px', paddingBottom: '46px' }}>
-      //           <div className="m-auto" style={{ maxWidth: '488px' }}>
-      //             <Row>
-      //               <Col>
-      //                 <Form>
-      //                   <FormGroup>
-      //                     <Input
-      //                       type="textarea"
-      //                       name="text"
-      //                       id="exampleText"
-      //                       placeholder="Enter Mnemonic Phrase"
-      //                       onChange={e => this.inputHandler(e)}
-      //                     />
-      //                     {errorText !== '' && (
-      //                       <small
-      //                         style={{
-      //                           fontFamily: 'Roboto',
-      //                           fontSize: '14px',
-      //                           color: 'red'
-      //                         }}
-      //                       >
-      //                         {errorText}
-      //                       </small>
-      //                     )}
-      //                   </FormGroup>
-      //                   <center>
-      //                     {!isWaiting && (
-      //                       <button
-      //                         type="button"
-      //                         style={{
-      //                           height: '30px',
-      //                           // width: '150px',
-      //                           padding: '0px 32px',
-      //                           fontFamily: 'SFCompactDisplay',
-      //                           fontSize: '15px',
-      //                           backgroundColor: `${createWalletColor}`,
-      //                           border: '0px',
-      //                           outline: '0px',
-      //                           color: '#fff',
-      //                           textAlign: 'center',
-      //                           cursor: 'pointer'
-      //                         }}
-      //                         onClick={this.onUnlock.bind(this)}
-      //                       >
-      //                         Recover Wallet
-      //                       </button>
-      //                     )}
-
-      //                     {isWaiting && (
-      //                       <button
-      //                         type="button"
-      //                         style={{
-      //                           height: '30px',
-      //                           // width: '150px',
-      //                           padding: '0px 32px',
-      //                           fontFamily: 'SFCompactDisplay',
-      //                           fontSize: '15px',
-      //                           backgroundColor: `transparent`,
-      //                           border: '0px',
-      //                           outline: '0px',
-      //                           color: '#fff',
-      //                           textAlign: 'center',
-      //                           cursor: 'pointer'
-      //                         }}
-      //                         onClick={this.onUnlock.bind(this)}
-      //                       >
-      //                         Recover Wallet
-      //                       </button>
-      //                     )}
-      //                   </center>
-      //                   <center>
-      //                     <button
-      //                       type="button"
-      //                       style={{
-      //                         width: '150px',
-      //                         marginTop: '10px',
-      //                         padding: '0px 32px',
-      //                         fontFamily: 'SFCompactDisplay',
-      //                         fontSize: '15px',
-      //                         color: `${cancelBtnColor}`,
-      //                         outline: '0px',
-      //                         backgroundColor: 'white',
-      //                         border: '0px',
-      //                         textDecoration: 'underline',
-      //                         textAlign: 'center',
-      //                         cursor: 'pointer'
-      //                       }}
-      //                       onClick={() => this.toggle()}
-      //                     >
-      //                       Cancel
-      //                     </button>
-      //                   </center>
-      //                 </Form>
-      //               </Col>
-      //             </Row>
-      //           </div>
-      //         </Col>
-      //       </Row>
-      //       <FooterButtons onBack={this.onBack.bind(this)} isBackActive />
-      //     </div>
-      //   </Col>
-      //   {this.renderCancelAccountCreationModal()}
-      // </Row>
     );
   }
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Col } from 'reactstrap';
-// import copyImage from '../../../images/icons/copy.svg';
 import Identicons from '../../../general/identicons/identicons';
 
 /**
@@ -44,7 +43,6 @@ class AccountCard extends Component {
           >
             <div className="avatar">
               <span className="avatar-icon">
-                {/* <img src={avatar} alt="TestAccount" /> */}
                 <Identicons
                   id={accountInfo.accountIcon}
                   className="person-image theme-blue-shadow"

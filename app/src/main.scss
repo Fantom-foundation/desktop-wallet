@@ -1,26 +1,6 @@
 @import 'fonts';
-// @import 'styles-p/colors';
-// @import 'styles-p/typography';
 
-// @import 'styles-p/mixin';
-
-// @import 'styles-p/nav';
-// // @import 'styles-p/button';
-// @import 'styles-p/style';
-// @import 'styles-p/modal';
-// @import 'styles-p/form';
-// // @import 'styles-p/progress';
-
-// @import 'styles-p/overlay';
-// @import 'styles-p/animations';
-// @import 'styles-p/accordion';
-// @import 'styles-p/footer';
-
-// // @import 'styles-p/matrial';
-// // @import 'styles-p/identicon';
-// @import 'styles-p/account-information';
-// // @import 'styles-p/matrial';
-@import 'react-redux-toastr/src/styles/index';
+@import './styles/react-redux-toaster/index';
 @import './styles/gloable_variables';
 
 @import './styles/mixin';

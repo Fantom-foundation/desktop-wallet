@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button, Col } from 'reactstrap';
+import { Row } from 'reactstrap';
 
 import AccountCard from '../accountCard/index';
 import Store from '../../../store/userInfoStore/index';

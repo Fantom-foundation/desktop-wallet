@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Col, Button } from 'reactstrap';
 
 import Identicons from '../../../general/identicons/identicons';
-// import copyImage from '../../../images/icons/copy.svg';
 import { addCommasToNumber } from '../../../general/util/index';
 import QRCodeIcon from '../../../general/qr/index';
 
@@ -12,7 +11,6 @@ import QRCodeIcon from '../../../general/qr/index';
  * identiconsId: Icon for that account,
  * name: Name of account,
  * address: Public key address for that account,
- * transactionLength: Count of sent transactions.
  *
  * Functions for each account are:-
  * copyToClipboard: To Copy the address text to clipboard.
@@ -40,8 +38,6 @@ class UserAccountDetail extends Component {
       address,
       copyToClipboard,
       // transactionCount,
-      isTransferringMoney,
-      transactionLength,
       onTransferFund,
       animateRefreshIcon
     } = this.props;
@@ -107,7 +103,6 @@ class UserAccountDetail extends Component {
               <Button
                 color="primary"
                 onClick={() => onTransferFund()}
-                // disabled={isTransferringMoney}
                 className="bordered mt-3"
               >
                 Transfer

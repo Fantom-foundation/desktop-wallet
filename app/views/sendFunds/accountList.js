@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DropdownItem } from 'reactstrap';
-// import withdrawImage from '../../images/withdraw.svg';
+
 import SelectDropDown from './selectDropDown';
 /**
  * AccountList: This component is meant for rendering list of valid account in ' Withrom From ' type field in send funds screen.
@@ -55,18 +55,6 @@ class AccountList extends Component {
     const renderList = this.renderAccountList();
     return (
       <React.Fragment>
-        {/* <Input
-          type="select"
-          name="select"
-          id="accountSelect"
-          value={renderList.accountName}
-          style={{
-            backgroundImage: `url(${withdrawImage})`
-          }}
-          onChange={this.setAccountType.bind(this)}
-        >
-          {renderList.accountDetailList}
-        </Input> */}
         <SelectDropDown
           value={renderList.accountName}
           accountDetailList={renderList.accountDetailList}

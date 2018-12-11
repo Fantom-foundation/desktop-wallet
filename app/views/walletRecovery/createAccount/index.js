@@ -6,8 +6,6 @@ import { Container, Row, Col, Form, FormGroup, Input } from 'reactstrap';
 
 import Store from '../../../store/userInfoStore/index';
 
-import { Progress } from '../../../general/core/index';
-// import FooterButtons from '../../../general/footer/footer-buttons';
 import DisplayIdenticons from '../../../general/identicons/index';
 
 import * as CreateAccountAction from '../../../reducers/createAccount/action';
@@ -33,8 +31,7 @@ class CreateAccount extends Component {
       emailErrorText: '',
       passwordErrorText: '',
       confirmPasswordErrorText: '',
-      animateRefreshIcon: false,
-      passwordStrength: 0
+      animateRefreshIcon: false
     };
   }
 
@@ -104,16 +101,8 @@ class CreateAccount extends Component {
       } else {
         validationResult = { errorText: 'Enter a valid name' };
       }
-
-      // if (value.includes('@')) {
-      //     validationResult = this.validEmail(value);
-      // }
-      // else{
-      //     validationResult = {errorText: ''}
-      // }
     } else if (name === 'password') {
       validationResult = this.validPass(value);
-      this.passwordStrengthChecker(value);
     } else if (name === 'confirmPassword') {
       validationResult = this.validRepass(value);
     }
@@ -139,41 +128,6 @@ class CreateAccount extends Component {
     }
     return errorObj;
   };
-
-  /**
-   * To render strength bar along with password text changes.
-   *   */
-  passwordStrengthChecker(value) {
-    const enoughRegex = new RegExp('(?=.{8,}).*', 'g');
-    const strongRegex = new RegExp(
-      '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{12,})'
-    );
-    const mediumRegex = new RegExp(
-      '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{10,})'
-    );
-
-    if (value.length === 0) {
-      this.setState({
-        passwordStrength: 0
-      });
-    } else if (enoughRegex.test(value) === false) {
-      this.setState({
-        passwordStrength: 10
-      });
-    } else if (strongRegex.test(value)) {
-      this.setState({
-        passwordStrength: 100
-      });
-    } else if (mediumRegex.test(value)) {
-      this.setState({
-        passwordStrength: 60
-      });
-    } else {
-      this.setState({
-        passwordStrength: 30
-      });
-    }
-  }
 
   validEmail = value => {
     const errorObj = {};
@@ -267,26 +221,6 @@ class CreateAccount extends Component {
       onRefresh();
     }
     setTimeout(() => this.setState({ animateRefreshIcon: false }), 1000);
-  }
-
-  renderPasswordStrengthBar() {
-    const { passwordStrength } = this.state;
-    let strength = 0;
-    let type = 'theme-red-Yellow-green';
-    if (passwordStrength === 10) {
-      strength = 10;
-      type = 'theme-red-Yellow-green';
-    } else if (passwordStrength === 30) {
-      strength = 30;
-      type = 'theme-red-Yellow-green';
-    } else if (passwordStrength === 60) {
-      strength = 60;
-      type = 'theme-red-Yellow-green';
-    } else if (passwordStrength === 100) {
-      strength = 100;
-      type = 'strong-password-bar';
-    }
-    return <Progress type={type} value={strength} />;
   }
 
   /**

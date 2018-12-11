@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 import { Row, Col, Button, Container } from 'reactstrap';
 import ReactToPrint from 'react-to-print';
+
 import noView from '../../../images/icons/no-view.png';
-// import copyImage from '../../../images/icons/copy.svg';
 import fantomIcon from '../../../images/icons/fantom_Icon.png';
 import Identicons from '../../../general/identicons/identicons';
 import QRCodeIcon from '../../../general/qr/index';
@@ -13,9 +13,7 @@ import AccountDetailPrint from './accountDetailPrint';
 class AccountInfo extends Component {
   constructor() {
     super();
-    // this.state = {
-    //   revealSecret: false
-    // };
+
     this.revealSecret = this.revealSecret.bind(this);
   }
 
@@ -45,31 +43,7 @@ class AccountInfo extends Component {
   }
 
   revealSecret() {
-    // const SELF = this;
-    // const { setButtonStatus } = SELF.props;
     this.props.changeSecret();
-    // this.setState(
-    //   {
-    //     revealSecret: true
-    //   },
-    //   () => {
-
-    //   }
-    // );
-
-    // const { confirmationPhrase } = this.state;
-    // const data = {
-    //   revealSecret: true,
-    //   confirmationPhrase: confirmationPhrase === CONFIRMATION_PHASE,
-    // };
-    // const isAnyFieldEmpty = _.includes(data, '');
-    // const isAnyFieldUndefined = _.includes(data, undefined);
-    // const isPasswordIncorrect = _.includes(data, false);
-    // if (!isAnyFieldEmpty && !isPasswordIncorrect && !isAnyFieldUndefined) {
-    //   setButtonStatus({ isDisable: false });
-    // } else {
-    //   setButtonStatus({ isDisable: true });
-    // }
   }
 
   render() {
@@ -84,7 +58,7 @@ class AccountInfo extends Component {
     } = this.props;
     const getMnemonics = this.getMnemonics();
     const accDetailsYSpaces = '26px';
-    // const { revealSecret } = this.state;
+
     return (
       <React.Fragment>
         {this.printAccountData()}
@@ -186,20 +160,6 @@ class AccountInfo extends Component {
             </Col>
           </Row>
         </Container>
-        {/* <Row>
-          <Col className="person-copy-info">
-            <div className="info-description-box ">
-              <span className="mr-3">
-                <img
-                  src={copyImage}
-                  className="copy"
-                  onClick={() => copyMnemonic(mnemonic)}
-                />
-              </span>
-              <span id="mnemonic"> {mnemonic} </span>
-            </div>
-          </Col>
-        </Row> */}
       </React.Fragment>
     );
   }

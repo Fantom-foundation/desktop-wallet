@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
+/**
+ * TxnStatusModal : Component to render modal for displaying status of fund transfer.
+ */
 export default class TxnStatusModal extends React.PureComponent {
   render() {
     const {

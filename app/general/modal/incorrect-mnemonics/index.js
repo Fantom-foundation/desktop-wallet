@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
+/**
+ * IncorrectMnemonicsModal : Component to render warning modal in new wallet creation process for incorrect mnemonics.
+ */
 export default class IncorrectMnemonicsModal extends React.PureComponent {
   constructor(props) {
     super(props);

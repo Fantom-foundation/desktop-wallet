@@ -1,22 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import // Container
-// Row,
-// Col,
-// TabContent,
-// TabPane,
-// Nav,
-// NavItem,
-// NavLink
-'reactstrap';
+
 import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import { connect } from 'react-redux';
-// import classnames from 'classnames';
-// import { Progress } from '../../general/core/index';
-import Header from '../../general/header/index';
 
+import Header from '../../general/header/index';
 import CreateAccount from './createAccount/index';
 import AccountInfo from './accountInfo/index';
 import ConfirmRecovery from './confirmRecovery/index';
@@ -31,7 +21,6 @@ class Home extends Component {
       activeTab: '1',
       backButtonDisable: true,
       nextButtonDisable: true,
-      // progressValue: 33.33,
       date: new Date().getTime(),
       isOpenSetting: false,
       revealSecret: false
@@ -84,18 +73,6 @@ class Home extends Component {
     const addr = EthUtil.publicToAddress(pubKey).toString('hex');
     const address = EthUtil.toChecksumAddress(addr);
     const hexPrivateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
-    // const object = {
-    //   user: this.props.userDetails.user,
-    //   icon: this.props.userDetails.icon,
-    //   seed,
-    //   address,
-    //   mnemonic,
-    //   pubKey,
-    //   hexPrivateKey,
-    //   masterPrivateKey
-    // };
-    // this.props.updateUserDetails(object);
-
     setKeys(masterPrivateKey, address, hexPrivateKey);
     setMnemonicCode(mnemonic);
   }
@@ -132,20 +109,6 @@ class Home extends Component {
       backButtonDisable,
       nextButtonDisable
     });
-    // if (activeTab !== tab) {
-    //   let progressValue = 33.33;
-    //   if (tab === '1') {
-    //     progressValue = 33.33;
-    //   } else if (tab === '2') {
-    //     progressValue = 66.66;
-    //   } else if (tab === '3') {
-    //     progressValue = 100;
-    //   }
-    //   this.setState({
-    //     activeTab: tab
-    //     progressValue
-    //   });
-    // }
   }
 
   onRefresh = () => {
@@ -186,32 +149,6 @@ class Home extends Component {
       nextButtonDisable
     });
   };
-
-  // nextButtonDisable = () => {
-  //   const { activeTab } = this.state;
-  //   if (activeTab === '1') {
-  //     return false;
-  //   }
-  //   if (activeTab === '2') {
-  //     return false;
-  //   }
-  //   if (activeTab === '3') {
-  //     return true;
-  //   }
-  // };
-
-  // backButtonDisable = () => {
-  //   const { activeTab } = this.state;
-  //   if (activeTab === '1') {
-  //     return true;
-  //   }
-  //   if (activeTab === '2') {
-  //     return false;
-  //   }
-  //   if (activeTab === '3') {
-  //     return false;
-  //   }
-  // };
 
   onUnlockAccount(isUnlock, privateKey, password) {
     const { onUnlockAccount, setAmountData } = this.props;
@@ -262,8 +199,7 @@ class Home extends Component {
       password,
       passwordHint
     } = this.props;
-    // const backButtonDisable = this.backButtonDisable();
-    // const nextButtonDisable = this.nextButtonDisable();
+
     return (
       <div>
         <Header
@@ -282,10 +218,6 @@ class Home extends Component {
           backButtonDisable={backButtonDisable}
           nextButtonDisable={nextButtonDisable}
         >
-          {/*      <Row>
-                <Col>
-                  <TabContent activeTab={activeTab}>
-                    <TabPane tabId="1"> */}
           {activeTab === '1' ? (
             <CreateAccount
               ref={component => {
@@ -324,27 +256,6 @@ class Home extends Component {
               changeDisableButtons={this.changeDisableButtons.bind(this)}
             />
           ) : null}
-          {/* </TabPane>
-                    <TabPane tabId="2">
-                      <AccountInfo
-                        activeTab={activeTab}
-                        toggle={this.toggle.bind(this)}
-                      />
-                    </TabPane>
-                    <TabPane tabId="3">
-                      <ConfirmRecovery
-                        isWaiting={loading}
-                        activeTab={activeTab}
-                        toggle={this.toggle.bind(this)}
-                        onUnlockAccount={this.onUnlockAccount.bind(this)}
-                        openAccountManagement={this.openAccountManagement.bind(
-                          this
-                        )}
-                      />
-                    </TabPane>
-                  </TabContent>
-                </Col>
-              </Row> */}
         </CreateAccountSteps>
       </div>
     );

@@ -1,7 +1,9 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import smallLogo from '../../images/Logo/FANTOM_LOGO_White.svg';
 
+/**
+ * Component to render sidebar for send fund and confirm send fund screen.
+ */
 export class index extends React.PureComponent {
   render() {
     const { children } = this.props;

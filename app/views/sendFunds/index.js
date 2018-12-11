@@ -3,8 +3,6 @@ import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import Web3 from 'web3';
 import Loader from '../../general/loader/index';
 
-// import successCheck from '../../images/icons/icon-success.svg';
-// import smallLogo from '../../images/Logo/fantom.png';
 import addressImage from '../../images/address.svg';
 import amountImage from '../../images/amount.svg';
 import passwordImage from '../../images/password.svg';
@@ -413,7 +411,6 @@ class SendFunds extends Component {
                     }`}
                   >
                     {' '}
-                    {/* add or remove --- success --- class  */}
                     <Input
                       type="text"
                       id="to-address"
@@ -424,7 +421,6 @@ class SendFunds extends Component {
                       value={address}
                       onChange={this.setAddress.bind(this)}
                     />
-                    {/* <img src={successCheck} alt={successCheck} /> */}
                   </div>
                   {this.renderAddressErrText()}
                 </FormGroup>
@@ -438,9 +434,6 @@ class SendFunds extends Component {
                       setAccountType={this.setAccountType.bind(this)}
                       maxFantomBalance={maxFantomBalance}
                     />
-                    {/* <span className="ftm text-white">
-                      {maxFantomBalance} FTM
-                    </span> */}
                   </div>
                 </FormGroup>
                 <Row className="change">
@@ -467,7 +460,6 @@ class SendFunds extends Component {
                   <Label for="to-address">Enter Password</Label>
                   <div className="success-check">
                     {' '}
-                    {/* add or remove --- success --- class  */}
                     <Input
                       style={{
                         backgroundImage: `url(${passwordImage})`
@@ -478,7 +470,6 @@ class SendFunds extends Component {
                       value={password}
                       onChange={this.setPassword.bind(this)}
                     />
-                    {/* <img src={successCheck} alt={successCheck} /> */}
                   </div>
                   {this.renderVerificationError()}
                 </FormGroup>
@@ -498,7 +489,6 @@ class SendFunds extends Component {
                 {!loading && (
                   <center>
                     <Button
-                      // color={`${continueBtnColor}`}
                       color="primary"
                       className="text-uppercase bordered"
                       onClick={this.handleCheckSend.bind(this)}
