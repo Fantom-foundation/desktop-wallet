@@ -3,6 +3,9 @@ import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import withdrawImage from '../../images/withdraw.svg';
 import { toFixed } from '../../constants/index';
 
+/**
+ * Select : Component for displaying dropdown of wallets in 'withdraw from' field in send funds screen.
+ */
 export default class Select extends React.Component {
   constructor(props) {
     super(props);

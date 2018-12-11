@@ -8,6 +8,12 @@ import {
 
 import { ALL_TX, SENT_TX, RECEIVED_TX } from '../../constants/index';
 
+/*
+ * DropDown : Component for displaying filter dropdown on transaction view card.
+ * 
+ * @method filterTransaction :  To set value of transaction filter.
+ * @method toggle : To toggle dropdown.
+ */
 export default class DropDown extends React.Component {
   constructor(props) {
     super(props);

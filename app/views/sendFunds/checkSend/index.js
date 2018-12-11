@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
-// import TextField from './textField';
+
 import warningImg from './warning.svg';
 import TransactionStore from '../../../store/transactionStore';
 import { transferMoney } from './transfer';
 import addressImage from '../../../images/addressDisable.svg';
 import coinImage from '../../../images/coin.svg';
-// import memoImage from '../../../images/memo.svg';
 import fantomLogo from '../../../images/Logo/small-logo-white.svg';
 import Loader from '../../../general/loader/index';
 import { LOADER_COLOR } from '../../../constants/index';

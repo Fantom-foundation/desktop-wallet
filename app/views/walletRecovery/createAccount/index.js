@@ -6,8 +6,6 @@ import { Container, Row, Col, Form, FormGroup, Input } from 'reactstrap';
 
 import Store from '../../../store/userInfoStore/index';
 
-import { Progress } from '../../../general/core/index';
-// import FooterButtons from '../../../general/footer/footer-buttons';
 import DisplayIdenticons from '../../../general/identicons/index';
 
 import * as CreateAccountAction from '../../../reducers/createAccount/action';
@@ -18,6 +16,7 @@ import check from './check.svg';
 import user from './user.svg';
 import lock from './lock.svg';
 import { LOADER_COLOR } from '../../../constants/index';
+import { validateData } from '../../../general/validations/index';
 
 /**
  * This component is meant from setting account details.
@@ -33,8 +32,7 @@ class CreateAccount extends Component {
       emailErrorText: '',
       passwordErrorText: '',
       confirmPasswordErrorText: '',
-      animateRefreshIcon: false,
-      passwordStrength: 0
+      animateRefreshIcon: false
     };
   }
 
@@ -93,117 +91,9 @@ class CreateAccount extends Component {
     return disable;
   };
 
-  validateData = (event, value, name) => {
-    event.preventDefault();
-    let validationResult = '';
-    if (name === 'accountName') {
-      const regex = /^[a-zA-Z ]{2,30}$/;
-      const result = regex.test(value);
-      if (result) {
-        validationResult = { errorText: '' };
-      } else {
-        validationResult = { errorText: 'Enter a valid name' };
-      }
-
-      // if (value.includes('@')) {
-      //     validationResult = this.validEmail(value);
-      // }
-      // else{
-      //     validationResult = {errorText: ''}
-      // }
-    } else if (name === 'password') {
-      validationResult = this.validPass(value);
-      this.passwordStrengthChecker(value);
-    } else if (name === 'confirmPassword') {
-      validationResult = this.validRepass(value);
-    }
-    return validationResult;
-  };
-
-  /**
-   * Password must be atleast of 8 characters
-   */
-  validPass = value => {
-    const errorObj = {};
-    if (value === '') {
-      errorObj.errorText = "Password field can't be empty";
-    } else if (value.length < 8) {
-      errorObj.errorText =
-        'Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.';
-    } else if (value.match(/[A-Z]/) === null) {
-      errorObj.errorText = 'Password field should contain one Capital letter';
-    } else if (value.match(/[0-9]/) === null) {
-      errorObj.errorText = 'Password field should contain one number';
-    } else {
-      errorObj.errorText = '';
-    }
-    return errorObj;
-  };
-
-  /**
-   * To render strength bar along with password text changes.
-   *   */
-  passwordStrengthChecker(value) {
-    const enoughRegex = new RegExp('(?=.{8,}).*', 'g');
-    const strongRegex = new RegExp(
-      '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{12,})'
-    );
-    const mediumRegex = new RegExp(
-      '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{10,})'
-    );
-
-    if (value.length === 0) {
-      this.setState({
-        passwordStrength: 0
-      });
-    } else if (enoughRegex.test(value) === false) {
-      this.setState({
-        passwordStrength: 10
-      });
-    } else if (strongRegex.test(value)) {
-      this.setState({
-        passwordStrength: 100
-      });
-    } else if (mediumRegex.test(value)) {
-      this.setState({
-        passwordStrength: 60
-      });
-    } else {
-      this.setState({
-        passwordStrength: 30
-      });
-    }
-  }
-
-  validEmail = value => {
-    const errorObj = {};
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (value === '') {
-      errorObj.errorText = "Account Name field can't be empty";
-    } else if (re.test(String(value).toLowerCase())) {
-      errorObj.errorText = '';
-    } else {
-      errorObj.errorText = 'You need to specify a valid account name';
-    }
-    return errorObj;
-  };
-
-  validRepass = value => {
-    const errorObj = {};
-    if (value === '') {
-      errorObj.errorText = "Re-enter password field can't be empty";
-    } else if (value !== this.state.password) {
-      errorObj.errorText =
-        'Password and re-enter password fields must be the same.';
-    } else {
-      errorObj.errorText = '';
-    }
-    return errorObj;
-  };
-
   setAccountName(e) {
     const accountName = e.target.value;
-    const isValid = this.validateData(e, accountName, 'accountName');
+    const isValid = validateData(e, accountName, 'accountName', '');
     this.setState(
       {
         accountName,
@@ -217,7 +107,7 @@ class CreateAccount extends Component {
 
   setPassword(e) {
     const password = e.target.value.trim();
-    const isValid = this.validateData(e, password, 'password');
+    const isValid = validateData(e, password, 'password', '');
     this.setState(
       {
         password,
@@ -231,7 +121,12 @@ class CreateAccount extends Component {
 
   setConfirmPassword(e) {
     const confirmPassword = e.target.value.trim();
-    const isValid = this.validateData(e, confirmPassword, 'confirmPassword');
+    const isValid = validateData(
+      e,
+      confirmPassword,
+      'confirmPassword',
+      this.state.password
+    );
     this.setState(
       {
         confirmPassword,
@@ -267,26 +162,6 @@ class CreateAccount extends Component {
       onRefresh();
     }
     setTimeout(() => this.setState({ animateRefreshIcon: false }), 1000);
-  }
-
-  renderPasswordStrengthBar() {
-    const { passwordStrength } = this.state;
-    let strength = 0;
-    let type = 'theme-red-Yellow-green';
-    if (passwordStrength === 10) {
-      strength = 10;
-      type = 'theme-red-Yellow-green';
-    } else if (passwordStrength === 30) {
-      strength = 30;
-      type = 'theme-red-Yellow-green';
-    } else if (passwordStrength === 60) {
-      strength = 60;
-      type = 'theme-red-Yellow-green';
-    } else if (passwordStrength === 100) {
-      strength = 100;
-      type = 'strong-password-bar';
-    }
-    return <Progress type={type} value={strength} />;
   }
 
   /**

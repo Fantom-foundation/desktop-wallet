@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Row,
-  Col,
-  // Form,
-  // FormGroup,
-  // Input,
-  Button,
-  Container
-} from 'reactstrap';
+import { Row, Col, Button, Container } from 'reactstrap';
 
+/**
+ * CreateAccountSteps  : Layout component for restore wallet and create new wallet screens.
+ */
 export default class CreateAccountSteps extends Component {
   getClassName() {
     const SELF = this;
@@ -39,7 +34,6 @@ export default class CreateAccountSteps extends Component {
                 restoreAccount ? 'restore-account' : null
               }`}
             >
-              {/* add classes here t-1 t-2 t-3 */}
               <Col className="c-1">
                 <svg viewBox="0 0 929.93 683.19" width="929.93" height="683.19">
                   <path d="M726.32,683.19H56.63c-41.66,0-69-43.51-51-81.06l113.42-236a56.55,56.55,0,0,0,0-49L5.65,81.05c-18-37.54,9.32-81,51-81H726.32A76,76,0,0,1,794.8,43.07L922.44,308.69a76,76,0,0,1,0,65.81L794.8,640.12A76,76,0,0,1,726.32,683.19Z" />

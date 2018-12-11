@@ -3,12 +3,8 @@ import { Container, Row, Col } from 'reactstrap';
 import { clipboard } from 'electron';
 import { connect } from 'react-redux';
 import Web3 from 'web3';
-// import { ToastContainer, ToastStore } from 'react-toasts';
 import { toastr } from 'react-redux-toastr';
 import UserAccountsDetailCard from './userAccountsDetailCard/index';
-//	import avatar from '../../images/icons/icon.png';
-
-// import arrowLeftRight from '../../images/icons/arrows-left-right.svg';
 import Header from '../../general/header/index';
 
 import UserAccount from './userAccounts/index';
@@ -20,7 +16,6 @@ import * as KeyStoreAction from '../../reducers/keyStore/action';
 import * as KeyStoreDetailAction from '../../reducers/keyStoreDetail/action';
 import * as UserAccountAction from '../../reducers/userDetail/action';
 import config from '../../store/config/index';
-// import refreshIcon from '../../images/icons/refreshIcon_2.svg';
 import { scientificToDecimal } from '../../general/util/index';
 import { toFixed } from '../../constants/index';
 import TransactionStatusModal from '../../general/modal/transaction-status-modal/index';
@@ -472,7 +467,6 @@ class AccountManagement extends Component {
    */
   copyToClipboard(copyText) {
     clipboard.writeText(copyText);
-    // ToastStore.info('Copied to clipboard', 500);
     toastr.success('Copied to clipboard', '', { timeOut: 3000 });
   }
 
@@ -582,19 +576,11 @@ class AccountManagement extends Component {
    * @param {*} address : Address of account from which funds are transfered.
    */
   refreshSelectedWalletDetail(address) {
-    // const { publicKey } = this.props;
-
     this.setState({
       isRefreshing: true
     });
-
     this.forceUpdate();
     this.getWalletDetail(address);
-    // if (
-    // publicKey.toLowerCase() === address.toLowerCase()
-    // ) {
-    // this.getWalletBalance(address);
-    // }
   }
 
   getWalletDetail(address) {
@@ -765,10 +751,7 @@ class AccountManagement extends Component {
             onRefresh={this.refreshSelectedWalletDetail.bind(this)}
           />
         )}
-        {/* <ToastContainer
-          position={ToastContainer.POSITION.TOP_CENTER}
-          store={ToastStore}
-        /> */}
+
         <TransactionStatusModal
           openTxnStatusModal={openTxnStatusModal}
           toggleTxnStatusModal={this.toggleTxnStatusModal}
