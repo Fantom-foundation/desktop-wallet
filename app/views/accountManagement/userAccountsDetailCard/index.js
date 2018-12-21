@@ -77,6 +77,7 @@ class UserAccountsDetailCard extends Component {
                 // transactionData={transactionData}
                 address={publicKey}
                 transactionData={allTransactionDetail}
+                copyToClipboard={copyToClipboard}
               />
             </Row>
           </Container>

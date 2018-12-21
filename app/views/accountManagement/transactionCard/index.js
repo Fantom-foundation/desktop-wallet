@@ -7,6 +7,8 @@ import received from '../../../images/transaction-list-filter/received.svg';
 import send from '../../../images/transaction-list-filter/send.svg';
 import { ALL_TX, SENT_TX, RECEIVED_TX } from '../../../constants/index';
 
+import TxHashTooltip from './txHashTooltip';
+
 /**
  * TransactionCard: This component is meant for rendering transactions for selected account.
  * Only transaction that are sent from that account are displayed in list.Otherwise no transaction is displayed.
@@ -34,7 +36,7 @@ class TransactionCard extends Component {
    * renderTransactions() :  A function to render transaction cards based on transaction data fetched from file on system.
    */
   renderTransactions() {
-    const { transactionData, address } = this.props;
+    const { transactionData, address, copyToClipboard } = this.props;
     const { txType } = this.state;
 
     const allTransaction = (
@@ -77,9 +79,12 @@ class TransactionCard extends Component {
                 </Col>
                 <Col className="acc-no-col">
                   <div className="">
-                    <p>
-                      <span>TX#</span> {data.hash}
-                    </p>
+                    <TxHashTooltip
+                      index={i}
+                      hash={data.hash}
+                      copyToClipboard={copyToClipboard}
+                    />
+
                     <p>
                       <span>{isReceived ? 'From:' : 'To:'}</span>{' '}
                       {isReceived ? data.from : data.to}

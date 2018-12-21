@@ -9,7 +9,7 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
-import Logo from '../../images/Logo/FANTOM_LOGO_White.svg';
+import Logo from '../../images/Logo/updatedLogo/fantom_wallet_logo_white.svg';
 
 /**
  * Header : This component is meant for rendering header bar in application.

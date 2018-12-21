@@ -33,7 +33,13 @@ class QRCodeIcon extends Component {
   render() {
     const { address, bgColor, fgColor } = this.props;
     return (
-      <div style={{ position: 'relative', display: 'inline-block' }}>
+      <div
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          border: '5px solid white'
+        }}
+      >
         {this.renderLogo()}
         <QRCode
           bgColor={bgColor}
