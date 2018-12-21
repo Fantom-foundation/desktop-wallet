@@ -89,8 +89,8 @@ class UserAccountDetail extends Component {
               <QRCodeIcon
                 address={address}
                 text="FANTOM"
-                bgColor="black"
-                fgColor="white"
+                bgColor="white"
+                fgColor="black"
               />
             </div>
             <div className="ftm-no">

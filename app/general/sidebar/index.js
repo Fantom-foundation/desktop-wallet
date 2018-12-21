@@ -1,5 +1,5 @@
 import React from 'react';
-import smallLogo from '../../images/Logo/FANTOM_LOGO_White.svg';
+import smallLogo from '../../images/Logo/updatedLogo/fantom_wallet_logo_white.svg';
 
 /**
  * Component to render sidebar for send fund and confirm send fund screen.

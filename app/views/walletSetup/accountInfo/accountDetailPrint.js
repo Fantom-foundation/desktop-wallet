@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
 import QRCodeIcon from '../../../general/qr/index';
-import logo from '../../../images/Logo/FANTOM_LOGO_White.svg';
+import logo from '../../../images/Logo/updatedLogo/fantom_wallet_logo_white.svg';
 
 class AccountDetailPrint extends Component {
   constructor(props) {

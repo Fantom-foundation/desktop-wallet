@@ -100,8 +100,8 @@ class AccountInfo extends Component {
                 address={address}
                 icon={fantomIcon}
                 text="FANTOM"
-                bgColor="black"
-                fgColor="white"
+                bgColor="white"
+                fgColor="black"
               />
             </Col>
           </Row>

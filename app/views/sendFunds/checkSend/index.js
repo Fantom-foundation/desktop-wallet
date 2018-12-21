@@ -7,6 +7,7 @@ import { transferMoney } from './transfer';
 import addressImage from '../../../images/addressDisable.svg';
 import coinImage from '../../../images/coin.svg';
 import fantomLogo from '../../../images/Logo/small-logo-white.svg';
+// import fantomLogo from '../../../images/Logo/updatedLogo/fantom_wallet_logo_white.svg';
 import Loader from '../../../general/loader/index';
 import { LOADER_COLOR } from '../../../constants/index';
 
@@ -65,7 +66,7 @@ export default class SendMoney extends Component {
         const message =
           err.message || 'Invalid error. Please check the data and try again.';
         console.log(`Transfer error message: `, message);
-        this.addTransactionLocally(value, from, to, '', true);
+        // this.addTransactionLocally(value, from, to, '', true);
         this.setState({ errorMessage: message });
       });
   }
