@@ -1,7 +1,7 @@
 {
   "name": "fantom-foundation",
   "productName": "Fantom",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Beyond Blockchain, A fast, scalable and secure DAG based smart contract platform.",
   "main": "./main.prod.js",
   "scripts": {
