@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'reactstrap';
-import moment from 'moment';
 
+import Web3 from 'web3';
 import DropDown from '../../../general/dropdown/transaction-filter-dropdown';
-import received from '../../../images/transaction-list-filter/received.svg';
-import send from '../../../images/transaction-list-filter/send.svg';
 import { ALL_TX, SENT_TX, RECEIVED_TX } from '../../../constants/index';
 
 import TxHashTooltip from './txHashTooltip';
-
+import HttpDataProvider from '../../../store/httpProvider';
+import Loader from '../../../general/loader';
 /**
  * TransactionCard: This component is meant for rendering transactions for selected account.
  * Only transaction that are sent from that account are displayed in list.Otherwise no transaction is displayed.
@@ -21,9 +20,25 @@ class TransactionCard extends Component {
 
     this.state = {
       isShowTransaction: false,
-      txType: ALL_TX
+      txType: ALL_TX,
+      isLoading: false,
+      transactions: []
     };
     this.filterTransaction = this.filterTransaction.bind(this);
+  }
+
+  componentDidMount() {
+    const { address } = this.props;
+    if (address) {
+      this.setState({
+        isLoading: true
+      });
+      this.fetchTransactionList(address);
+
+      this.txnInterval = setInterval(() => {
+        this.fetchTransactionList(address);
+      }, 4000);
+    }
   }
 
   filterTransaction(txType) {
@@ -32,12 +47,77 @@ class TransactionCard extends Component {
     });
   }
 
+  // eslint-disable-next-line react/sort-comp
+  fetchTransactionList(address) {
+    // eslint-disable-next-line no-param-reassign
+    HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
+      query: `
+      {
+        transactions(first: 100,from: "${address}", to: "${address}", byDirection: "desc") {
+          pageInfo {
+            hasNextPage
+          }
+          edges {
+            cursor
+            node {
+              hash
+              from
+              to
+              block
+              value
+            }
+          }
+        }
+      }`
+    })
+      .then(
+        res => {
+          if (res && res.data && res.data.data) {
+            this.formatTransactionList(res.data.data);
+          }
+          this.setState({
+            isLoading: false
+          });
+          return null;
+        },
+        () => {
+          console.log('1');
+        }
+      )
+      .catch(err => {
+        this.setState({
+          isLoading: false
+        });
+        console.log(err, 'err in graphql');
+      });
+  }
+
+  formatTransactionList(data) {
+    if (
+      data &&
+      data.transactions &&
+      data.transactions.edges &&
+      data.transactions.edges.length
+    ) {
+      const edgesArray = data.transactions.edges;
+      const transactionArr = [];
+      // eslint-disable-next-line no-restricted-syntax
+      for (const edge of edgesArray) {
+        if (edge && edge.node) {
+          transactionArr.push(edge.node);
+        }
+      }
+      this.setState({ transactions: transactionArr });
+    }
+  }
+
   /**
    * renderTransactions() :  A function to render transaction cards based on transaction data fetched from file on system.
    */
   renderTransactions() {
-    const { transactionData, address, copyToClipboard } = this.props;
-    const { txType } = this.state;
+    const { address, copyToClipboard } = this.props;
+    const { txType, transactions } = this.state;
+    const transactionData = transactions;
 
     const allTransaction = (
       <p className="m-msg text-white  text-center mb-0">
@@ -55,7 +135,7 @@ class TransactionCard extends Component {
     ) {
       for (let i = 0; i < transactionData.length; i += 1) {
         const data = transactionData[i];
-        const date = moment(data.time);
+
         const isReceived =
           transactionData[i].to === address &&
           (txType === RECEIVED_TX || txType === ALL_TX);
@@ -65,18 +145,8 @@ class TransactionCard extends Component {
 
         if (isReceived || isSend || txType === ALL_TX) {
           transactionsHistory.push(
-            <div key={`${i}_${date}`} className="card bg-dark-light">
+            <div key={`${i}`} className="card bg-dark-light">
               <Row className="">
-                <Col className="date-col">
-                  <div
-                    style={{
-                      backgroundImage: `url(${isReceived ? received : send})`
-                    }}
-                  >
-                    <p>{date.date()}</p>
-                    <p>{date.format('MMM')}</p>
-                  </div>
-                </Col>
                 <Col className="acc-no-col">
                   <div className="">
                     <TxHashTooltip
@@ -91,12 +161,13 @@ class TransactionCard extends Component {
                     </p>
                   </div>
                 </Col>
-                <Col className="time-col">
-                  <p>{date.fromNow()}</p>
-                </Col>
+
                 <Col className="btn-col">
                   <Button color={`${isReceived ? 'green' : 'red'}`}>
-                    {data.amount} <span>FTM</span>
+                    {data.value
+                      ? Web3.utils.fromWei(`${data.value}`, 'ether')
+                      : '--'}
+                    <span>FTM</span>
                   </Button>
                 </Col>
               </Row>
@@ -119,8 +190,19 @@ class TransactionCard extends Component {
     });
   }
 
+  renderLoader() {
+    const { isLoading } = this.state;
+    return (
+      <div className="loader">
+        <div className="loader-holder loader-center-align">
+          <Loader sizeUnit="px" size={25} color="white" loading={isLoading} />
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    const { txType } = this.state;
+    const { txType, isLoading } = this.state;
 
     return (
       <Col md={12} lg={8}>
@@ -136,7 +218,9 @@ class TransactionCard extends Component {
           </div>
         </div>
 
-        <div id="acc-cards">{this.renderTransactions()}</div>
+        <div id="acc-cards">
+          {isLoading ? this.renderLoader() : this.renderTransactions()}
+        </div>
       </Col>
     );
   }
