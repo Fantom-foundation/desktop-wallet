@@ -2,6 +2,10 @@
 
 This is Fantom's desktop wallet application, built in ElectronJS.
 
+## Code Quality
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/336ee5e109fc475493f74e22f21b6fa1)](https://www.codacy.com/app/Fantom/desktop-wallet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Fantom-foundation/desktop-wallet&amp;utm_campaign=Badge_Grade)
+
 
 ## Installation
 
