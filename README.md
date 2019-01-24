@@ -39,3 +39,9 @@ $ yarn package
 ```bash
 DEBUG_PROD=true yarn package
 ```
+
+## Code Quality
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/336ee5e109fc475493f74e22f21b6fa1)](https://www.codacy.com/app/Fantom/desktop-wallet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Fantom-foundation/desktop-wallet&amp;utm_campaign=Badge_Grade)
+[![cii best practices](https://bestpractices.coreinfrastructure.org/en/projects/2480.svg?style=flat-square&logo=cci)](https://bestpractices.coreinfrastructure.org/en/projects/2480)  
+[![cii percentage](https://bestpractices.coreinfrastructure.org/en/projects/2480.svg?style=flat-square&logo=cci)](https://bestpractices.coreinfrastructure.org/en/projects/2480)
